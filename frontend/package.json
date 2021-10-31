@@ -1,0 +1,22 @@
+{
+    "name": "frontend",
+    "version": "1.0.0",
+    "description": "Temporary site for the MAA",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Muslim-Athletic-Association/temporary-site.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Muslim-Athletic-Association/temporary-site/issues"
+    },
+    "homepage": "https://github.com/Muslim-Athletic-Association/temporary-site#readme",
+    "prettier": {
+        "tabWidth": 4
+    }
+}

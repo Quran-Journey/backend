@@ -1,0 +1,196 @@
+iframe {
+    width: 100%;
+    height: 500px;
+}
+
+.list-icon {
+    color: #294936;
+}
+
+.ball-icon-header {
+    color: white;
+}
+
+.info-li {
+    columns: 2;
+}
+
+.faq {
+    margin: 10px;
+}
+
+.faq .section-title {
+    margin: 10px;
+}
+
+.faq .section-title h2 {
+    color: #294936;
+}
+
+.collab-logo {
+    max-height: 150px;
+    min-height: 150px;
+    max-width: 150px;
+    min-width: 150px;
+    object-fit: scale-down;
+}
+
+.collaborations {
+    padding-bottom: 0;
+}
+
+.section-title h2 {
+    line-height: unset;
+}
+
+.payment-iframe {
+    border: 0px;
+}
+
+.payment-button {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    list-style: none;
+    white-space: nowrap;
+    box-sizing: border-box;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 5px;
+    border: 0px;
+    color: #eeeeee;
+    background: #002350;
+    /* margin: 0px 0px 20px 0px; */
+}
+
+@media (max-width: 992px) {
+    .payment-button {
+        white-space: normal;
+    }
+}
+
+.payment-button:hover {
+    background: #eeeeee;
+    color: #002350;
+}
+
+.league-hero {
+    /* margin-top: 80px; */
+    margin-bottom: 20px;
+    background: linear-gradient(rgba(0, 0, 0, 0.151), rgba(0, 0, 0, 0.76)),
+        url("../../assets/img/basketball/tipOff.png") center center;
+    background-size: cover;
+    position: relative;
+    height: 100vh;
+    border-bottom: solid 0.5px #000000;
+}
+
+/* Style the video: 100% width and height to cover the entire window */
+#guardUpTournament_video {
+    /* position: fixed; */
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    position: absolute;
+    height: 75vh;
+    border-bottom: solid 0.5px #000000;
+    margin-top: 80px;
+    object-fit: cover;
+}
+
+/* Add some content at the bottom of the video/page */
+.video-content {
+    position: fixed;
+    bottom: 0;
+    /* background: rgba(0, 0, 0, 0.5); */
+    text-transform: capitalize;
+    color: #f1f1f1;
+    width: 100%;
+}
+
+h2,
+h4 {
+    font-family: "Open Sans", sans-serif;
+    text-transform: capitalize;
+}
+h4 {
+    color: #002350;
+    padding: 10px;
+    border-bottom: 1px solid #002350;
+}
+
+.video_bkg {
+    position: relative;
+}
+
+.collaborations {
+    padding-top: 0px;
+}
+
+@media (max-width: 992px) {
+    .league-hero {
+        background-size: auto;
+    }
+    #guardUpTournament_video {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        min-width: 100%;
+        position: absolute;
+        border-bottom: solid 0.5px #000000;
+        margin-top: 50px;
+        border-bottom: 1px solid black;
+        object-fit: cover;
+    }
+    .img-text-subheader {
+        display: none;
+    }
+
+    .arrows {
+        display: none;
+    }
+}
+
+.captain-alert,
+.player-alert {
+    opacity: 1;
+    transition: opacity 0.6s; /* 600ms to fade out */
+}
+
+/* The alert message box */
+.captain-alert,
+.player-alert {
+    padding: 20px;
+    background-color: #294936; /* Red */
+    color: white;
+    margin: 15px 0;
+}
+
+/* The close button */
+.player-closebtn,
+.captain-closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.player-closebtn:hover,
+.captain-closebtn:hover {
+    color: black;
+}
+
+.spots-fetched {
+    width: fit-content;
+    padding: 5px;
+    background-color: #f1f1f1;
+    color: #524d9f;
+    float: right;
+    font-weight: 600;
+}

@@ -10,3 +10,9 @@ services:
             - "3001:3001"
         networks:
             - default
+    frontend:
+        build: ./frontend
+        ports:
+            - "80:80"
+        networks:
+            - default
