@@ -1,0 +1,22 @@
+{
+  "name": "quran-journey",
+  "version": "1.0.0",
+  "description": "Contains all of the back-end server code for the Muslim Athletic Association.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/osamaramihafez/QuranJourney.git"
+  },
+  "author": "Osama Hafez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/osamaramihafez/QuranJourney/issues"
+  },
+  "homepage": "https://github.com/osamaramihafez/QuranJourney#readme"
+}

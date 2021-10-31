@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+    qj:
+        build: .
+        environment: 
+            NODE_ENV: development
+        depends_on:
+            - docker_postgres
+        ports:
+            - "3001:3001"
+        networks:
+            - default
