@@ -1,7 +1,7 @@
 {
   "name": "quran-journey",
   "version": "1.0.0",
-  "description": "Contains all of the back-end server code for the Muslim Athletic Association.",
+  "description": "Contains all of the back-end server code for the Quran Journey.",
   "main": "index.js",
   "directories": {
     "test": "tests"
