@@ -26,7 +26,7 @@ CREATE TABLE Notes{
 -- This will store the locations for the video and audio file for a class
 CREATE TABLE Class {
     class_number INTEGER NOT NULL PRIMARY KEY, -- This column only exists in the case that the serial primary key loses sync.
-    source TEXT NOT NULL, -- The url from which we will fetch the video
+    source TEXT NOT NULL, -- The host from which we will fetch the video (i.e. youtube or facebook)
     audio_file VARCHAR(200), -- This is the name of the audio file
 
     UNIQUE class_number
