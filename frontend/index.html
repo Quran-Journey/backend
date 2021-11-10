@@ -49,6 +49,7 @@
         <a href="index.html" class="logo mr-auto"
           ><img src="assets/img/qjLogo.png" alt="" class="img-fluid"
         /></a>
+        <h5 style="font-style: italic">From the cave to the grave</h5>
       </div>
     </header>
     <div id="header-buffer"></div>
@@ -75,7 +76,7 @@
                 </div>
               </div>
               <div class="col-lg-6 pt-4 pt-lg-0 order-lg-1 content">
-                <h3>Contextualize the Quran and truly understand it</h3>
+                <h5>Contextualize the Quran and truly understand it</h5>
                 <br />
                 <p
                   id="quran-39:23"
@@ -85,11 +86,12 @@
                   style="color: #000000; font-size: 20px"
                 ></p>
                 <script>
+                  // Get arabic uthmani script for verse in quran.
                   fetch(
-                    "https://api.quran.com/api/v4/quran/verses/uthmani?verse_key=39:23"
+                    "https://api.quran.com/api/v4/quran/verses/uthmani_simple?verse_key=39:23"
                   ).then(async (resp) => {
                     let data = await resp.json();
-                    let verse = data.verses[0].text_uthmani;
+                    let verse = data.verses[0].text_uthmani_simple;
                     let p = document.getElementById("quran-39:23");
                     p.innerHTML = verse;
                   });
@@ -107,11 +109,9 @@
             </div>
           </div>
         </section>
+        <hr />
         <section id="videos" class="videos">
-          <script>
-            // We want to insert all of the videos inside of the "surahs folder".
-            // We will use the file name as the video title. This is just a temporary solution.
-          </script>
+          <div class="videos-container container"></div>
         </section>
       </main>
     </div>
@@ -145,5 +145,31 @@
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
     <script src="assets/js/contact.js"></script>
+
+    <script>
+      // We want to fetch the lessons from the backend, rather than hardcoding them as is done below.
+      // This is just a temporary solution.
+      const lessons_nums = [1, 2, 3, 4, 5];
+      let video;
+      let button;
+      let lesson;
+      let lessons = {};
+      // Check out webm file extensions (video sizes are smaller, google uses this to store videos according to omar)
+      for (var l = 0; l < lessons_nums.length; l++) {
+        lesson = lessons_nums[l];
+        video = `<video src="localhost:3001/video/${lesson}" controls autoplay muted type="video/mp4"></video>`;
+        button = document.createElement("button");
+        button.innerHTML = `<div class="lesson-card-number">${l+1}</div>${lesson}`;
+        lessons[lesson] = { video: video, button: button };
+        button.setAttribute("onclick", getVideo(lessons[lesson]));
+        button.setAttribute("class", "lesson-video");
+        button.setAttribute("id", `lesson-${lesson}`);
+        $(".videos-container").append(button);
+      }
+      function getVideo(lesson) {
+        // $("button").hide()
+        // $("video").hide()
+      }
+    </script>
   </body>
 </html>
