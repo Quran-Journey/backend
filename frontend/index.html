@@ -114,23 +114,23 @@
           <div class="videos-container container"></div>
         </section>
       </main>
-    </div>
 
-    <!-- ======= Footer ======= -->
-    <footer id="footer">
-      <div class="footer-top">
-        <div class="container">
-          <div class="justify-content-md-center">
-            <div class="footer-info">
-              <div class="copyright">
-                <strong><span>Quran Journey</span></strong>
+      <!-- ======= Footer ======= -->
+      <footer id="footer">
+        <div class="footer-top">
+          <div class="container">
+            <div class="justify-content-md-center">
+              <div class="footer-info">
+                <div class="copyright">
+                  <strong><span>Quran Journey</span></strong>
+                </div>
+                <div class="credits"></div>
               </div>
-              <div class="credits"></div>
             </div>
           </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+    </div>
     <!-- End Footer -->
     <!-- Vendor JS Files -->
     <script src="assets/vendor/jquery/jquery.min.js"></script>
@@ -153,15 +153,51 @@
       let video;
       let button;
       let lesson;
-      let lessons = {};
+      let notes_loc = "./assets/notes";
+      let lessons = [
+        {
+          title: "An-Naba",
+          url: "https://fb.watch/9aSafKsOsJ/",
+          notes: [`${notes_loc}/QJ-79-Surat al-Naba.pdf`],
+        },
+        {
+          title: "An-Naziat",
+          url: "https://fb.watch/9aSbzuAuBP/",
+          notes: [`${notes_loc}/QJ-80-Surat al-Nazi'at.pdf`],
+        },
+        {
+          title: "An-Naziat/Abasa",
+          url: "https://fb.watch/9aSc73-k1N/",
+          notes: [
+            `${notes_loc}/QJ-80-Surat al-Nazi'at.pdf`,
+            `${notes_loc}/QJ-081-'Abasa - full .pdf`,
+          ],
+        },
+        {
+          title: "Abasa/Takweer",
+          url: "https://fb.watch/9aSc_GuVUO/",
+          notes: [
+            `${notes_loc}/QJ-081-'Abasa - full .pdf`,
+            `${notes_loc}/QJ-Class-4-Post-Class-Notes-Surat-At-Takweer.pdf`,
+          ],
+        },
+        {
+          title: "Takweer",
+          url: "https://fb.watch/9aSg8LpHaA/",
+          notes: [
+            `${notes_loc}/QJ-Class-4-Post-Class-Notes-Surat-At-Takweer.pdf`,
+          ],
+        },
+      ];
       // Check out webm file extensions (video sizes are smaller, google uses this to store videos according to omar)
       for (var l = 0; l < lessons_nums.length; l++) {
-        lesson = lessons_nums[l];
-        video = `<video src="localhost:3001/video/${lesson}" controls autoplay muted type="video/mp4"></video>`;
-        button = document.createElement("button");
-        button.innerHTML = `<div class="lesson-card-number">${l+1}</div>${lesson}`;
-        lessons[lesson] = { video: video, button: button };
-        button.setAttribute("onclick", getVideo(lessons[lesson]));
+        lesson = lessons[l].title;
+        button = document.createElement("a");
+        button.innerHTML = `<div class="lesson-card-number">${
+          l + 1
+        }</div>${lesson}`;
+        // lessons[lesson] = { video: video, button: button };
+        button.setAttribute("href", lessons[l].url);
         button.setAttribute("class", "lesson-video");
         button.setAttribute("id", `lesson-${lesson}`);
         $(".videos-container").append(button);

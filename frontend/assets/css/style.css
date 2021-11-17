@@ -13,7 +13,7 @@
 
 html,
 body {
-  /* height: 100%; */
+  min-height: 100%;
   margin: 0;
 }
 
@@ -22,6 +22,15 @@ body {
   background: #ffffff;
   color: #000000;
   display: flex;
+  /* min-height: 100vh; */
+  /* justify-content: space-between; */
+  flex-direction: column;
+}
+
+#wrap{
+  display: flex;
+  min-height: 92vh;
+  justify-content: space-between;
   flex-direction: column;
 }
 
@@ -40,7 +49,7 @@ body {
   color: white !important;
   padding: 10px;
   border-radius: 3px;
-  background: #5C442C;
+  background: #5c442c;
 }
 
 button:hover {
@@ -55,7 +64,7 @@ h4,
 h5,
 h6 {
   font-family: "Playfair Display", serif;
-  color: #5C442C;
+  color: #5c442c;
 }
 
 /*--------------------------------------------------------------
@@ -182,11 +191,11 @@ h6 {
   top: 0;
   background: #eeeeee;
   border-bottom: 1px solid #294936;
-  color: #5C442C;
+  color: #5c442c;
 }
 
 .header-scrolled .nav-btn {
-  color: #5C442C;
+  color: #5c442c;
 }
 
 #header .logo {
@@ -205,7 +214,7 @@ h6 {
 }
 
 #header-buffer {
-  margin-top: 50px;
+  margin-top: 8vh;
 }
 
 #header .logo img {
@@ -413,7 +422,7 @@ h6 {
 .mobile-nav a {
   display: block;
   position: relative;
-  color: #5C442C;
+  color: #5c442c;
   padding: 10px 20px;
   font-weight: 500;
   outline: none;
@@ -426,7 +435,7 @@ h6 {
 .mobile-nav .active > a,
 .mobile-nav li:hover > a {
   color: #fff;
-  background: #5C442C;
+  background: #5c442c;
   text-decoration: none;
 }
 
@@ -566,7 +575,7 @@ h6 {
   color: white;
   border: 0px;
   /* background: radial-gradient(#294936 50%, #29493610); */
-  background: #5C442C;
+  background: #5c442c;
 }
 
 .btn-menu:hover {
@@ -747,7 +756,7 @@ section {
   font-size: 36px;
   font-weight: 700;
   font-family: "Playfair Display", serif;
-  color: #5C442C;
+  color: #5c442c;
 }
 
 .breadcrumbs {
@@ -867,7 +876,7 @@ section {
   max-width: 100%;
   position: relative;
   border-radius: 5px;
-  border: 3px solid #5C442C;
+  border: 3px solid #5c442c;
 }
 
 .about-img:hover {
@@ -992,6 +1001,18 @@ input[type="email"] {
 # Footer
 --------------------------------------------------------------*/
 
+#footer {
+  /* position: absolute; */
+  left: 0;
+  bottom: 0;
+  height: 100px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  background: #5c442c;
+  color: #ffffff;
+}
+
 #footer,
 #push {
   height: 50px;
@@ -999,28 +1020,9 @@ input[type="email"] {
 }
 
 #footer .footer-top {
-  background: #5C442C;
+  background: #5c442c;
   padding: 0px 0px 30px 0px;
   color: #ffffff;
-}
-
-#footer .footer-top .footer-info h4 {
-  font-size: 24px;
-  margin: 0 0 20px 0;
-  padding: 2px 0 2px 0;
-  line-height: 1;
-  font-weight: 300;
-  text-transform: uppercase;
-  font-family: "Poppins", sans-serif;
-  flex: 1;
-}
-
-#footer .footer-top .footer-info p {
-  font-size: 14px;
-  line-height: 24px;
-  margin-bottom: 0;
-  font-family: "Playfair Display", serif;
-  color: #00aeef;
 }
 
 .social-links a {
@@ -1047,72 +1049,6 @@ input[type="email"] {
   text-decoration: none;
 }
 
-#footer .footer-top h4 {
-  font-size: 16px;
-  font-weight: 600;
-  color: #294936;
-  position: relative;
-  padding-bottom: 12px;
-}
-
-#footer .footer-top .footer-links {
-  margin-bottom: 30px;
-}
-
-#footer .footer-top .footer-links ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-#footer .footer-top .footer-links ul i {
-  padding-right: 2px;
-  color: #8dc63f;
-  font-size: 18px;
-  line-height: 1;
-}
-
-#footer .footer-top .footer-links ul li {
-  padding: 10px 0;
-  display: flex;
-  align-items: center;
-}
-
-#footer .footer-top .footer-links ul li:first-child {
-  padding-top: 0;
-}
-
-#footer .footer-top .footer-links ul button {
-  color: #fff;
-  transition: 0.3s;
-  display: inline-block;
-  line-height: 1;
-}
-
-#footer .footer-top .footer-links ul button:hover {
-  color: #8dc63f;
-}
-
-#footer .footer-top .container .row {
-  display: flex;
-}
-
-.footer-newsletter form {
-  margin-top: 10px;
-  width: 100%;
-  background: #28251f;
-  padding: 6px 10px;
-  position: relative;
-  border-radius: 50px;
-  right: 0px;
-  border: 1px solid #454035;
-  flex-grow: 1;
-}
-
-.footer-newsletter {
-  flex-grow: 1;
-}
-
 .footer-newsletter form input[type="email"] {
   border: 0;
   padding: 4px;
@@ -1122,35 +1058,10 @@ input[type="email"] {
   color: white;
 }
 
-.footer-newsletter form input[type="submit"] {
-  position: absolute;
-  top: -1px;
-  right: -1px;
-  bottom: -1px;
-  border: 0;
-  background: none;
-  font-size: 16px;
-  padding: 0 20px 2px 20px;
-  background: #8dc63f;
-  color: #fff;
-  transition: 0.3s;
-  border-radius: 50px;
-}
-
-.footer-newsletter form input[type="submit"]:hover {
-  background: #00aeef;
-}
-
 #footer .copyright {
   text-align: center;
   padding-top: 30px;
   font-size: 14px;
-}
-
-#footer .credits {
-  text-align: center;
-  font-size: 13px;
-  color: #294936;
 }
 
 /* Added by Osama */
@@ -1166,7 +1077,7 @@ input[type="email"] {
 }
 
 hr {
-  background: #5C442C;
+  background: #5c442c;
   padding: 2px;
   width: 50px;
 }
@@ -1187,7 +1098,7 @@ hr {
 .img-text-subheader {
   color: #eeeeee;
   display: inline-block;
-  background: #5C442C;
+  background: #5c442c;
   padding: 5px;
   /* border-bottom-right-radius: 5px; */
   /* border-bottom-left-radius: 5px; */
@@ -1366,6 +1277,16 @@ ul {
   text-align: right;
 }
 
+.videos-container a:hover {
+  color: #eeeeee;
+  text-decoration: none;
+}
+
+a:hover > .lesson-card-number {
+  background-color: #577399;
+  color: #eeeeee;
+}
+
 .lesson-video {
   font-size: 1rem;
   font-weight: 400;
@@ -1378,15 +1299,26 @@ ul {
   border-radius: 5px;
   border: 0px;
   color: #eeeeee;
-  background: #5C442C;
+  background: #5c442c;
   margin: 10px;
   align-items: center;
   display: flex;
 }
 
+.lesson-video:hover{
+  background: #0B132B;
+}
+
 .videos-container {
   display: grid;
   grid-template-columns: auto auto auto;
+}
+
+@media (max-width: 768px) {
+  .videos-container {
+    display: grid;
+    grid-template-columns: auto;
+  }
 }
 
 .videos {
@@ -1402,5 +1334,7 @@ ul {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #5C442C;
+  color: #5c442c;
 }
+
+/* Potential gold color: #af9a3c; */
