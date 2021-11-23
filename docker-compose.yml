@@ -4,6 +4,11 @@ services:
         build: .
         environment: 
             NODE_ENV: development
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: Yatathakar123!
+            POSTGRES_HOST: localhost
+            POSTGRES_PORT: 5432
+            POSTGRES_DB: quranJourney
         depends_on:
             - docker_postgres
         ports:
@@ -11,7 +16,7 @@ services:
         networks:
             - default
     frontend:
-        build: ./frontend
+        build: ./html
         ports:
             - "80:80"
         networks:
