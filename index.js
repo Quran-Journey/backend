@@ -10,6 +10,7 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
 app.use((req, res, next) => {
   console.log(`\nEndpoint Hit: ${req.originalUrl}\n`);
   next();
@@ -23,9 +24,13 @@ if (process.env.NODE_ENV == "production") {
   var certificate = fs.readFileSync(
     "/etc/letsencrypt/live/offlinequran.org-0001/cert.pem"
   );
+  var chain = fs.readFileSync(
+    "/etc/letsencrypt/live/offlinequran.org-0001/fullchain.pem"
+  );
   const httpsOptions = {
     cert: certificate,
     key: privateKey,
+    ca: chain,
   };
 
   var httpsServer = https.createServer(httpsOptions, app).listen(port, () => {
