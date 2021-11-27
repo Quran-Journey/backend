@@ -1,27 +1,33 @@
 {
-  "name": "quran-journey",
-  "version": "1.0.0",
-  "description": "Contains all of the back-end server code for the Quran Journey.",
-  "main": "index.js",
-  "directories": {
-    "test": "tests"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js",
-    "start": "node index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/osamaramihafez/QuranJourney.git"
-  },
-  "author": "Osama Hafez",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/osamaramihafez/QuranJourney/issues"
-  },
-  "homepage": "https://github.com/osamaramihafez/QuranJourney#readme",
-  "dependencies": {
-    "express": "^4.17.1"
-  }
+    "name": "quran-journey",
+    "version": "1.0.0",
+    "description": "Contains all of the back-end server code for the Quran Journey.",
+    "main": "index.js",
+    "directories": {
+        "test": "tests"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "nodemon index.js",
+        "start": "node index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/osamaramihafez/QuranJourney.git"
+    },
+    "author": "Osama Hafez",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/osamaramihafez/QuranJourney/issues"
+    },
+    "homepage": "https://github.com/osamaramihafez/QuranJourney#readme",
+    "dependencies": {
+        "express": "^4.17.1"
+    },
+    "devDependencies": {
+        "swagger-inline": "^5.0.1"
+    },
+    "prettier": {
+        "tabWidth": 4
+    }
 }
