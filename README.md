@@ -11,3 +11,5 @@ It's recommended to install nodemon globally and just use that for
 
 We currently use pm2 with the regular production environment to serve the project on both our production and development server.
 Don't forget to do npm install
+
+You can find more info in [this google doc](https://docs.google.com/document/d/1etpJXnfR6HdE4orYqiEjL678yQtYyru4K99wQufqMGg/edit?usp=sharing). Feel free to leave comments.
