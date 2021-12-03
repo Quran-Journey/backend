@@ -2,7 +2,6 @@ const https = require("https");
 const fs = require("fs");
 const express = require("express");
 const bodyParser = require("body-parser");
-const cors = require("cors");
 const lesson = require("./routes/lesson");
 
 var port = 3001;

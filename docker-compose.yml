@@ -1,23 +1,40 @@
 version: "3.8"
 services:
+    docker_postgres:
+        image: postgres
+        environment:
+            POSTGRES_PASSWORD: Yatathakar123!
+            POSTGRES_USER: qj
+            POSTGRES_DB: quranJourney
+            PGDATA: pgdata
+        volumes:
+            - ./pgdata:/var/lib/postgresql/qj:z
+            - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql:z
+            - ./db/views.sql:/docker-entrypoint-initdb.d/views.sql:z
+            # Note that the file extensions need to be sql files, not ddl files.
+        command: -p 5433
+        ports:
+            - "5433:5432"
+        networks:
+            - default
     qj:
         build: .
         environment: 
             NODE_ENV: development
-            POSTGRES_USER: admin
-            POSTGRES_PASSWORD: Yatathakar123!
-            POSTGRES_HOST: localhost
-            POSTGRES_PORT: 5432
-            POSTGRES_DB: quranJourney
         depends_on:
             - docker_postgres
         ports:
             - "3001:3001"
         networks:
             - default
-    frontend:
+    qj_html:
         build: ./html
         ports:
             - "80:80"
         networks:
             - default
+    # qj_react:
+    #     build: ./qj_react
+    #     ports: "80:80"
+    #     networks:
+    #         - "default"

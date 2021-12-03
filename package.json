@@ -22,7 +22,9 @@
     },
     "homepage": "https://github.com/osamaramihafez/QuranJourney#readme",
     "dependencies": {
-        "express": "^4.17.1"
+        "dotenv": "^10.0.0",
+        "express": "^4.17.1",
+        "pg": "^8.7.1"
     },
     "devDependencies": {
         "swagger-inline": "^5.0.1"
