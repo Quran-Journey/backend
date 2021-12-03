@@ -3,17 +3,18 @@ services:
     docker_postgres:
         image: postgres
         environment:
-            POSTGRES_PASSWORD: VeryG00dPassword
-            POSTGRES_USER: maadmin
-            POSTGRES_DB: maadmin
+            POSTGRES_PASSWORD: Yatathakar123!
+            POSTGRES_USER: qj
+            POSTGRES_DB: quranJourney
+            PGDATA: pgdata
         volumes:
-            - ./pgdata:/var/lib/postgresql/data:z
+            - ./pgdata:/var/lib/postgresql/qj:z
             - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql:z
             - ./db/views.sql:/docker-entrypoint-initdb.d/views.sql:z
             # Note that the file extensions need to be sql files, not ddl files.
         command: -p 5433
         ports:
-            - "5433:5433"
+            - "5433:5432"
         networks:
             - default
     qj:

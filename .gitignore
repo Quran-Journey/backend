@@ -2,3 +2,4 @@
 .env
 secretKey.json
 *package-lock.json
+**/pgdata

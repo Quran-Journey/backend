@@ -16,7 +16,7 @@ const c = require("./routingConstants");
  *      description: No lessons found.
  *
  */
-router.get("/lessons", (request, response) => {
+router.get("/lessons", async (request, response) => {
     await l.getLessons(request.body).then(async function (result) {
         return c.simpleResponse(result, response);
     });
@@ -38,7 +38,7 @@ router.get("/lessons", (request, response) => {
  *      description: No lessons found.
  *
  */
-router.get("/lessons", (request, response) => {
+router.get("/lessons", async (request, response) => {
   await l.createLesson(request.body).then(async function (result) {
       return c.simpleResponse(result, response);
   });
