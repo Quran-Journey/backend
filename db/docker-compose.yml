@@ -11,7 +11,6 @@ services:
             - ./pgdata:/var/lib/postgresql/qj:z
             - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:z
             - ./views.sql:/docker-entrypoint-initdb.d/views.sql:z
-            # Note that the file extensions need to be sql files, not ddl files.
         ports:
             - "5434:5432"
         networks:
