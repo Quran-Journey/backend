@@ -3,3 +3,4 @@
 secretKey.json
 *package-lock.json
 **/pgdata
+testOutput.txt

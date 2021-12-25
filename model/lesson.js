@@ -22,7 +22,6 @@ async function getLessons() {
  *      lesson_number: integer
  *      lesson_date: string
  *      source: string
- *      audio_file: string
  *  tags: Falafel
  */
 async function createLesson(data) {
@@ -37,7 +36,7 @@ async function createLesson(data) {
         return invalid;
     }
     var sql =
-        "INSERT INTO lesson (lesson_number, source, lesson_date) VALUES ($1, $2, $3) RETURNING *;";
+        "INSERT INTO Lesson (lesson_number, source, lesson_date) VALUES ($1, $2, $3) RETURNING *;";
     var params = [data.lesson_number, data.source, data.lesson_date];
     return await c.create(
         sql,
