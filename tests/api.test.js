@@ -7,10 +7,6 @@ const utils = require("./utils.js");
 describe("Set up", () => {
     test("setup database", async () => {
         let db = await utils.connect_to_db();
-        if (!db) {
-            console.log("Could not connect to the db.\nCanceling Tests.");
-            return;
-        }
         await setup.seedDatabase(db);
     }, 30000);
 });
