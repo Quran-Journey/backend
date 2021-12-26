@@ -9,7 +9,8 @@
     "scripts": {
         "test": "jest --detectOpenHandles",
         "dev": "nodemon index.js",
-        "start": "node index.js"
+        "start": "node index.js",
+        "ci-test": "sh run_tests.sh"
     },
     "repository": {
         "type": "git",
