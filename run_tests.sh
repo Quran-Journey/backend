@@ -1,6 +1,6 @@
 # We will use a test db server on firebase.
 # rm testOutput.txt
-cd db; docker-compose up -d > ../testOutput.txt; cd ..; sleep 5;
+cd db; docker-compose up -d > ../testOutput.txt; cd ..; sleep 30;
 node index.js >> ./testOutput.txt 2>> ./testOutput.txt &
 backend=$!
 npm test
