@@ -31,7 +31,7 @@ function lessonTests() {
 }
 
 function checkMatch(lessonA, lessonB) {
-    expect(lessonA.lesson_number).toEqual("Falafel");
+    expect(lessonA.lesson_number).toEqual(lessonB.lesson_number);
     expect(lessonA.source).toEqual(lessonB.source);
     expect(new moment(lessonA.lesson_date).format("YYYY-MM-DD")).toEqual(
         new moment(lessonB.lesson_date).format("YYYY-MM-DD")
