@@ -14,6 +14,4 @@ jobs:
       - name: Cleanup Test env
         run: npm ci # same as npm i, but also cleans the env
       - name: Backend Test
-        run: |
-          npm run ci-test
-          echo "Exited with '$?'"
+        run: npm run ci-test
