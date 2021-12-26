@@ -1,0 +1,17 @@
+# Based on this tutorial: https://www.youtube.com/watch?v=eB0nUzAI7M8
+name: Backend Continuous Integration
+
+on: push
+
+jobs:
+  test_pull_request:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Node Backend
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+        run: npm ci # same as npm i, but also cleans the env
+      - name: run test script
+        run: ./run_tests.sh
