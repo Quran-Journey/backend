@@ -14,4 +14,4 @@ jobs:
       - name: Cleanup Test env
         run: npm ci # same as npm i, but also cleans the env
       - name: Backend Test
-        run: npm ci-test
+        run: npm run ci-test
