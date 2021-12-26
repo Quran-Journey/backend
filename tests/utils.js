@@ -2,13 +2,12 @@ require("dotenv").config();
 const Client = require("pg").Client;
 const axios = require("axios");
 
-
 const config = {
-    user: "qj",
-    password: "Yatathakar123!",
-    host: "localhost",
-    port: 5434,
-    database: "quranJourney",
+    user: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
+    host: process.env.POSTGRES_HOST,
+    port: process.env.POSTGRES_PORT,
+    database: process.env.POSTGRES_DB,
 };
 let db = new Client(config);
 
@@ -25,10 +24,12 @@ async function connect_to_db() {
             })
             .catch(async (err) => {
                 if (retries == 0) {
-                    console.log(err)
+                    console.log(err);
                 }
                 retries--;
-                console.log(`Tests could not connect to db.\nretries left: ${retries}\nretrying.`);
+                console.log(
+                    `Tests could not connect to db.\nretries left: ${retries}\nretrying.`
+                );
 
                 // wait 3 seconds
                 await new Promise((res) => setTimeout(() => res(), 3000));
