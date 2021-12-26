@@ -12,12 +12,12 @@ db.connect();
 const seedData = {
     lesson: [
         {
-            lesson_number: "1",
+            lesson_number: 1,
             lesson_date: new moment(faker.date.past(100)).format("YYYY-MM-DD"),
             source: "youtube.com/url_to_video",
         },
         {
-            lesson_number: "2",
+            lesson_number: 2,
             lesson_date: new moment(faker.date.past(100)).format("YYYY-MM-DD"),
             source: "facebook.com/url_to_video"
         },
