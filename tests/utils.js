@@ -2,12 +2,13 @@ require("dotenv").config();
 const Client = require("pg").Client;
 const axios = require("axios");
 
+
 const config = {
-    user: process.env.POSTGRES_USER,
-    password: process.env.POSTGRES_PASSWORD,
-    host: process.env.POSTGRES_HOST,
-    port: process.env.POSTGRES_PORT,
-    database: process.env.POSTGRES_DB,
+    user: "qj",
+    password: "Yatathakar123!",
+    host: "localhost",
+    port: 5434,
+    database: "quranJourney",
 };
 let db = new Client(config);
 
