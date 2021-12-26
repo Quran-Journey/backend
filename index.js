@@ -10,12 +10,12 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/api", lesson);
-
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
     console.log(`\nEndpoint Hit: ${req.originalUrl}\n`);
     next();
 });
+
+app.use("/api", lesson);
 
 if (process.env.NODE_ENV == "production") {
     // This sets the options for https so that it finds the ssl certificates
