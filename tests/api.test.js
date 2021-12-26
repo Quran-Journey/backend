@@ -2,11 +2,17 @@ const lessonTests = require("./lesson-tests.js").lessonTests;
 // const registrationTests = require("./registration-tests.js").registrationTests;
 // const teamTests = require("./team-tests.js").teamTests;
 const setup = require("./setup.js");
+const utils = require("./utils.js");
 
 describe("Set up", () => {
     test("setup database", async () => {
-        await setup.seedDatabase();
-    });
+        let db = await utils.connect_to_db();
+        if (!db) {
+            console.log("Could not connect to the db.\nCanceling Tests.");
+            return;
+        }
+        await setup.seedDatabase(db);
+    }, 30000);
 });
 
 describe("Test Lesson", () => {

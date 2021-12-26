@@ -1,9 +1,6 @@
 const faker = require("faker");
 const moment = require("moment");
-const utils = require("./utils");
-const Client = require("pg").Client;
-let db = new Client(utils.dbConfig);
-db.connect();
+
 
 /**
  * In this seeded database there is:
@@ -27,7 +24,7 @@ const seedData = {
 /**
  * Before we start testing, we should wipe the database clean.
  */
-async function clearDatabase() {
+async function clearDatabase(db) {
     tables = Object.keys(seedData);
     tables.forEach(async (table) => {
         sql = `Delete from ${table} *`;
@@ -67,8 +64,8 @@ function prepareTableSQL(table) {
 /**
  * This is where we actually put all of the mock data above into the database
  */
-async function seedDatabase() {
-    await clearDatabase();
+async function seedDatabase(db) {
+    await clearDatabase(db);
     let tables = Object.keys(seedData);
     let table;
     for (let t = 0; t < tables.length; t++) {
