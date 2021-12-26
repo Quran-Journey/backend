@@ -20,14 +20,16 @@ async function connect_to_db() {
             .then(() => {
                 console.log("Tests have connected to db successfully");
                 retries = 0;
-                return false;
+                return;
             })
             .catch(async (err) => {
                 if (retries == 0) {
-                    console.log(err)
+                    console.log(err);
                 }
                 retries--;
-                console.log(`Tests could not connect to db.\nretries left: ${retries}\nretrying.`);
+                console.log(
+                    `Tests could not connect to db.\nretries left: ${retries}\nretrying.`
+                );
 
                 // wait 3 seconds
                 await new Promise((res) => setTimeout(() => res(), 3000));
@@ -39,7 +41,6 @@ async function connect_to_db() {
 const API_URL = "http://localhost:3001/api"; // This should be an env variable.
 
 async function apiPOST(path, body = {}) {
-    console.log(API_URL + path)
     return await axios
         .post(API_URL + path, body, { validateStatus: false })
         .catch((e) => {
@@ -48,7 +49,6 @@ async function apiPOST(path, body = {}) {
 }
 
 async function apiGET(path) {
-    console.log(API_URL + path)
     return await axios
         .get(API_URL + path, { validateStatus: false })
         .catch((e) => {

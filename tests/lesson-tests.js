@@ -9,7 +9,6 @@ const seedData = setup.seedData;
 function lessonTests() {
 
     it("getting a lesson's information", async () => {
-        console.log("Falafel");
         let lessonA = seedData.lesson[0];
 
         const resp1 = await apiGET(`/lessons`);
