@@ -7,9 +7,10 @@
         "test": "tests"
     },
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "jest --detectOpenHandles",
         "dev": "nodemon index.js",
-        "start": "node index.js"
+        "start": "node index.js",
+        "test-ci": "sh run_tests.sh"
     },
     "repository": {
         "type": "git",
@@ -22,8 +23,12 @@
     },
     "homepage": "https://github.com/osamaramihafez/QuranJourney#readme",
     "dependencies": {
+        "axios": "^0.24.0",
         "dotenv": "^10.0.0",
         "express": "^4.17.1",
+        "faker": "^5.5.3",
+        "jest": "^27.4.5",
+        "moment": "^2.29.1",
         "pg": "^8.7.1"
     },
     "devDependencies": {

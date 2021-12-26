@@ -38,7 +38,7 @@ router.get("/lessons", async (request, response) => {
  *      description: No lessons found.
  *
  */
-router.post("/lessons", async (request, response) => {
+router.post("/lesson", async (request, response) => {
   await l.createLesson(request.body).then(async function (result) {
       return c.simpleResponse(result, response);
   });
