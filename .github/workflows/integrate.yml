@@ -8,9 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Backend Test
+      - name: Cleanup Test env
         uses: actions/setup-node@v1
         with:
           node-version: 14
         run: npm ci # same as npm i, but also cleans the env
+      - name: Cleanup Test env
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
         run: npm ci-test
