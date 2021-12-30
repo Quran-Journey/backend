@@ -1,4 +1,4 @@
 *node_modules
 secretKey.json
 **/pgdata
-testOutput.txt
+output.txt
