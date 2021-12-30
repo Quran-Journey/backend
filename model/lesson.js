@@ -15,7 +15,7 @@ async function getLessons() {
  *  @schema Lesson
  *  type: object
  *  required:
- *      - lesson_number
+ *      - lesson_id
  *      - lesson_date
  *      - source
  *  properties:
@@ -28,7 +28,7 @@ async function createLesson(data) {
     // Frontend note: also add a feature where we guess that the
     //  lesson's date is the next saturday after the last lesson's date
     var invalid = c.simpleValidation(data, {
-        lesson_number: "string",
+        lesson_id: "integer",
         lesson_date: "date",
         source: "string",
     });
@@ -36,7 +36,7 @@ async function createLesson(data) {
         return invalid;
     }
     var sql =
-        "INSERT INTO Lesson (lesson_number, source, lesson_date) VALUES ($1, $2, $3) RETURNING *;";
+        "INSERT INTO Lesson (lesson_integer, source, lesson_date) VALUES ($1, $2, $3) RETURNING *;";
     var params = [data.lesson_number, data.source, data.lesson_date];
     return await c.create(
         sql,

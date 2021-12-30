@@ -7,7 +7,6 @@ const moment = require("moment");
 const seedData = setup.seedData;
 
 function lessonTests() {
-
     it("getting a lesson's information", async () => {
         let lessonA = seedData.lesson[0];
 
@@ -19,7 +18,7 @@ function lessonTests() {
 
     it("creating a lesson", async () => {
         let newlesson = {
-            lesson_number: 3,
+            lesson_id: 3,
             lesson_date: new moment(faker.date.past(100)).format("YYYY-MM-DD"),
             source: "randomWebsite.com/url_to_video",
         };
@@ -31,7 +30,7 @@ function lessonTests() {
 }
 
 function checkMatch(lessonA, lessonB) {
-    expect(lessonA.lesson_number).toEqual(lessonB.lesson_number);
+    expect(lessonA.lesson_id).toEqual(lessonB.lesson_id);
     expect(lessonA.source).toEqual(lessonB.source);
     expect(new moment(lessonA.lesson_date).format("YYYY-MM-DD")).toEqual(
         new moment(lessonB.lesson_date).format("YYYY-MM-DD")
