@@ -24,7 +24,7 @@ CREATE TABLE Notes(
 
 -- This will store the locations for the video and audio file for a lesson
 CREATE TABLE Lesson (
-    lesson_id INTEGER NOT NULL PRIMARY KEY, -- This implies we will need to add the lesson number ourselves.
+    lesson_id SERIAL PRIMARY KEY, -- This implies we will need to add the lesson number ourselves.
     lesson_date DATE NOT NULL, 
     source TEXT NOT NULL -- The host from which we will fetch the video (i.e. youtube or facebook)
 );
