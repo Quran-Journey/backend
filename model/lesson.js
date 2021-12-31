@@ -1,4 +1,4 @@
-import c from './constants';
+import c from './constants.js';
 
 /**
  *  @schema AllLessons
@@ -7,7 +7,7 @@ import c from './constants';
  *      $ref: '#/definitions/Lesson'
  *  tags: Falafel
  */
-async function getLessons() {
+export const getLessons = async () => {
     return await c.retrieve("SELECT * FROM Lesson;");
 }
 
@@ -24,7 +24,7 @@ async function getLessons() {
  *      source: string
  *  tags: Falafel
  */
-async function createLesson(data) {
+export const createLesson = async (data) => {
     // Frontend note: also add a feature where we guess that the
     //  lesson's date is the next saturday after the last lesson's date
     var invalid = c.simpleValidation(data, {
@@ -43,8 +43,3 @@ async function createLesson(data) {
         new c.Message({ success: "Successfully created a lesson." })
     );
 }
-
-export default {
-    getLessons: getLessons,
-    createLesson: createLesson,
-};

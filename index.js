@@ -2,7 +2,7 @@ import https from 'https';
 import fs from 'fs';
 import express from 'express';
 import bodyParser from 'body-parser';
-import lesson from './routes/lesson';
+import lesson from './routes/lesson.js';
 
 var port = 3001;
 

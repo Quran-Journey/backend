@@ -1,9 +1,7 @@
-import c from '../model/constants';
+import c from '../model/constants.js';
 
 function simpleResponse(result, response) {
     // A result takes the following format: { data: d, error: msg, success: pass, ecode: code }
-    var data = result.data;
-    var message = result.error;
     var success = result.success;
     var ecode = result.ecode;
 

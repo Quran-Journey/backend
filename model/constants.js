@@ -1,7 +1,7 @@
-import db from './db';
+import db from './db.js';
 
 // Error codes
-const errorEnum = {
+export const errorEnum = {
   NONE: 0,
   UNIQUE: 1,
   SERVER: 2,
@@ -10,13 +10,8 @@ const errorEnum = {
   FOREIGN: 5
 }
 
-// Check if f is a function.
-function isFunction(f) {
-  return f && {}.toString.call(f) === '[object Function]';
-}
-
 // This is a constant response return format so that all of our responses have the same format.
-function setResult(d, pass, msg, code) {
+export const setResult = (d, pass, msg, code) => {
   return { data: d, error: msg, success: pass, ecode: code };
 }
 
@@ -24,7 +19,7 @@ function setResult(d, pass, msg, code) {
  * This class represents messages that will be returned as errors or to the user.
  * Either the values are passed into the options object, or they are set to the default values
  */
-class Message {
+export class Message {
   constructor(options) {
     this.success = options.success || "Successfully fetched rows.";
     this.none = options.none || "No rows found.";
@@ -40,7 +35,7 @@ const defaultMsg = new Message({});
  * Check to see if the values of a request body are empty.
  * This is a helper function for checkBody
  */
-function checkEmptyBody(data) {
+const checkEmptyBody = (data) => {
   var keys = Object.keys(data);
   if (keys.length == 0) {
     console.log("Request body is empty")
@@ -59,9 +54,9 @@ function checkEmptyBody(data) {
 // Regex for the different data types that can be stored
 const dataTypeRegex = {
   time: /^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$/,
-  date: /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/,
-  datetime: /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01]) (?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$/,
-  email: /^[\w-\.]+@([\w-]+\.)+[\w-]+$/,
+  date: /^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$/,
+  datetime: /^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01]) (?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$/,
+  email: /^[\w-.]+@([\w-]+\.)+[\w-]+$/,
   phone: /(\+\d{1,3}\s?)?((\(\d{3}\)\s?)|(\d{3})(\s|-?||.?))(\d{3}(\s|-?|.?))(\d{4})(\s?(([E|e]xt[:|.|]?)|x|X)(\s?\d+))?/,
   string: /.*/,
   bool: /([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee])/, //I made this one myself, tested it as well.
@@ -74,7 +69,7 @@ const dataTypeRegex = {
  * 
  * @param {Object[key, type]} required
  */
-function checkBodyTypes(data, required) {
+const checkBodyTypes = (data, required) => {
   var keys = Object.keys(required);
   for (var i = 0; i < Object.keys(required).length; i++) {
     var key = keys[i];
@@ -100,7 +95,7 @@ function checkBodyTypes(data, required) {
  * @param {bool} print 
  */
 
-function checkBodyKeys(data, required, p=true) {
+const checkBodyKeys = (data, required, p=true) => {
   var keys = Object.keys(data);
   var requiredKeys = Object.keys(required);
   for (var i = 0; i < Object.keys(requiredKeys).length; i++) {
@@ -126,16 +121,16 @@ function checkBodyKeys(data, required, p=true) {
  * @param {List[String]} types
  * The types of the values that should be in the parameters
  */
-function checkBody(data, required, p=true) {
+export const checkBody = (data, required, p=true) => {
   var empty = checkEmptyBody(data);
   if (empty) {
     return empty;
   }
-  var empty = checkBodyKeys(data, required, p);
+  empty = checkBodyKeys(data, required, p);
   if (empty) {
     return empty;
   }
-  var empty = checkBodyTypes(data, required);
+  empty = checkBodyTypes(data, required);
   if (empty) {
     return empty;
   }
@@ -159,7 +154,7 @@ function checkBody(data, required, p=true) {
  * @param {List[String]} params 
  * @param {Message} message 
  */
-async function retrieve(sql, params=[], message=defaultMsg) {
+export const retrieve = async (sql, params=[], message=defaultMsg) => {
   console.log("-- The following query is being executed --\n sql: " + sql + "\n params: " + params);
   return await db.query(sql, params).then(result => {
     if (result.rows[0] == null) {
@@ -182,7 +177,7 @@ async function retrieve(sql, params=[], message=defaultMsg) {
  * @param {List[String]} params 
  * @param {Message} message 
  */
-async function update(sql, params=[], message=defaultMsg) {
+export const update = async (sql, params=[], message=defaultMsg) => {
   // Note: Should all update calls must return all columns (i.e. RETURNING *)?
   console.log("-- The following query is being executed --\n sql: " + sql + "\n params: " + params);
   return await db.query(sql, params).then(result => {
@@ -205,7 +200,7 @@ async function update(sql, params=[], message=defaultMsg) {
  * @param {List[String]} params 
  * @param {Message} message 
  */
-async function create(sql, params=[], message=defaultMsg) {
+export const create = async (sql, params=[], message=defaultMsg) => {
   // Note: Should all update calls must return all columns (i.e. RETURNING *)?
   console.log("-- The following query is being executed --\n sql: " + sql + "\n params: " + params);
   return await db.query(sql, params).then(result => {
@@ -251,33 +246,17 @@ async function create(sql, params=[], message=defaultMsg) {
  * @param {List[String]} params 
  * @param {Message} message 
  */
-async function remove(sql, params=[], message=defaultMsg) {
+export const remove = async (sql, params=[], message=defaultMsg) => {
   // Note: Should all update calls must return all columns (i.e. RETURNING *)?
   console.log("-- The following query is being executed --\n sql: " + sql + "\n params: " + params);
   return await db.query(sql, params).then(result => {
     if (result.rows[0] == null) {
-      return setResult({}, false, none, errorEnum.DNE);
+      return setResult({}, false, message.none, errorEnum.DNE);
     }
-    return setResult(result.rows, true, success, errorEnum.NONE);
+    return setResult(result.rows, true, message.success, errorEnum.NONE);
   }).catch(e => {
-    console.log("\n!Deletion error!\n", error, e);
+    console.log("\n!Deletion error!\n", message.server, e);
     return setResult({}, false, message.server, errorEnum.SERVER);
 
   })
 }
-
-// TODO: Handle more complex situations (i.e. we should only insert if the insert in a specific scenario...
-//       or can that be handled elsewhere?)
-// ORRRR we could create views and validate based on a fetch from those views.
-
-export default {
-  retrieve: retrieve,
-  update: update,
-  create: create,
-  remove: remove,
-  setResult: setResult,
-  simpleValidation: checkBody,
-  isFunction: isFunction,
-  errorEnum: errorEnum,
-  Message: Message,
-};

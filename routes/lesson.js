@@ -1,6 +1,7 @@
-const router = require("express").Router();
-import l from '../model/lesson';
-import c from './routingConstants';
+import { Router } from 'express'
+import l from '../model/lesson.js';
+import c from './routingConstants.js';
+const router = Router();
 
 /*
  * @api [get] /lessons
