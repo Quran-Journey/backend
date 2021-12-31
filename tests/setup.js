@@ -1,5 +1,5 @@
-const faker = require("faker");
-const moment = require("moment");
+import faker from 'faker';
+import moment from 'moment';
 
 
 /**
@@ -99,7 +99,7 @@ async function seedDatabase(db) {
     await db.end();
 }
 
-module.exports = {
+export default {
     seedDatabase: seedDatabase,
     seedData: seedData,
 };

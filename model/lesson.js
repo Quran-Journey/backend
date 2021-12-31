@@ -1,4 +1,4 @@
-const c = require("./constants");
+import c from './constants';
 
 /**
  *  @schema AllLessons
@@ -44,7 +44,7 @@ async function createLesson(data) {
     );
 }
 
-module.exports = {
+export default {
     getLessons: getLessons,
     createLesson: createLesson,
 };

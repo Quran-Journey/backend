@@ -1,8 +1,10 @@
-const lessonTests = require("./lesson-tests.js").lessonTests;
+import { lessonTests } from './lesson-tests.js';
+
 // const registrationTests = require("./registration-tests.js").registrationTests;
 // const teamTests = require("./team-tests.js").teamTests;
-const setup = require("./setup.js");
-const utils = require("./utils.js");
+import setup from './setup.js';
+
+import utils from './utils.js';
 
 describe("Set up", () => {
     test("setup database", async () => {

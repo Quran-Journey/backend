@@ -1,4 +1,4 @@
-const c = require("../model/constants");
+import c from '../model/constants';
 
 function simpleResponse(result, response) {
     // A result takes the following format: { data: d, error: msg, success: pass, ecode: code }
@@ -27,6 +27,6 @@ function simpleResponse(result, response) {
     return true;
 }
 
-module.exports = {
+export default {
     simpleResponse: simpleResponse
-}
+};

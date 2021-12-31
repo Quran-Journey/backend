@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const l = require("../model/lesson");
-const c = require("./routingConstants");
+import l from '../model/lesson';
+import c from './routingConstants';
 
 /*
  * @api [get] /lessons
@@ -44,4 +44,4 @@ router.post("/lesson", async (request, response) => {
   });
 });
 
-module.exports = router;
+export default router;

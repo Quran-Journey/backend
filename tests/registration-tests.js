@@ -1,9 +1,9 @@
-const faker = require("faker");
-const utils = require("./utils");
+import faker from 'faker';
+import utils from './utils';
 const apiGET = utils.apiGET;
 const apiPOST = utils.apiPOST;
-const setup = require("./setup");
-const moment = require("moment");
+import setup from './setup';
+import moment from 'moment';
 const seedData = setup.seedData;
 
 function registrationTests() {
@@ -62,6 +62,6 @@ function checkMatch(registrationA, registrationB) {
     ).toEqual(new moment(registrationB.datetime).format("YYYY-MM-DD HH:MM:SS"));
 }
 
-module.exports = {
+export default {
     registrationTests: registrationTests,
 };

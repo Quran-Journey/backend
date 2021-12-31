@@ -1,4 +1,4 @@
-const db = require("./db");
+import db from './db';
 
 // Error codes
 const errorEnum = {
@@ -13,7 +13,7 @@ const errorEnum = {
 // Check if f is a function.
 function isFunction(f) {
   return f && {}.toString.call(f) === '[object Function]';
-};
+}
 
 // This is a constant response return format so that all of our responses have the same format.
 function setResult(d, pass, msg, code) {
@@ -270,7 +270,7 @@ async function remove(sql, params=[], message=defaultMsg) {
 //       or can that be handled elsewhere?)
 // ORRRR we could create views and validate based on a fetch from those views.
 
-module.exports = {
+export default {
   retrieve: retrieve,
   update: update,
   create: create,
@@ -280,4 +280,4 @@ module.exports = {
   isFunction: isFunction,
   errorEnum: errorEnum,
   Message: Message,
-}
+};

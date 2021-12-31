@@ -1,5 +1,6 @@
-require('dotenv').config();
-const Client = require("pg").Client;
+import dotenv from 'dotenv';
+import { Client } from 'pg';
+dotenv.config()
 
 const config = {
     user: process.env.POSTGRES_USER,
@@ -33,4 +34,4 @@ async function connect_to_db() {
 
 connect_to_db();
 
-module.exports = db;
+export default db;

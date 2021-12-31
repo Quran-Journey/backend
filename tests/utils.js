@@ -1,6 +1,6 @@
-require("dotenv").config();
-const Client = require("pg").Client;
-const axios = require("axios");
+import dotenv from 'dotenv';
+import { Client } from 'pg';
+dotenv.config()
 
 const config = {
     user: process.env.POSTGRES_USER,
@@ -56,7 +56,7 @@ async function apiGET(path) {
         });
 }
 
-module.exports = {
+export default {
     apiGET: apiGET,
     apiPOST: apiPOST,
     connect_to_db: connect_to_db,

@@ -1,8 +1,8 @@
-const https = require("https");
-const fs = require("fs");
-const express = require("express");
-const bodyParser = require("body-parser");
-const lesson = require("./routes/lesson");
+import https from 'https';
+import fs from 'fs';
+import express from 'express';
+import bodyParser from 'body-parser';
+import lesson from './routes/lesson';
 
 var port = 3001;
 
@@ -34,7 +34,7 @@ if (process.env.NODE_ENV == "production") {
         ca: chain,
     };
 
-    var httpsServer = https.createServer(httpsOptions, app).listen(port, () => {
+    https.createServer(httpsOptions, app).listen(port, () => {
         console.log("Serving on https");
     });
 } else if (process.env.NODE_ENV == "development") {

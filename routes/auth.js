@@ -1,11 +1,10 @@
 const router = require("express").Router();
-const p = require("../model/person");
-const h = require("../model/constants");
-const c = require("./routingConstants");
-const admin = require("firebase-admin");
-
-const serviceAccount = require("../secretKey.json");
-const { setResult } = require("../model/constants");
+import p from '../model/person';
+import h from '../model/constants';
+import c from './routingConstants';
+import admin from 'firebase-admin';
+import serviceAccount from '../secretKey.json';
+import { setResult } from '../model/constants';
 
 const fbAdmin = admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -91,4 +90,4 @@ function prepCookies(obj, res, exp) {
     }
 }
 
-module.exports = { router, fbAuthorization: fbAuthorization };
+export default { router, fbAuthorization: fbAuthorization };
