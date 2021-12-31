@@ -1,0 +1,20 @@
+{
+    "env": {
+        "es2021": true,
+        "node": true
+    },
+    "extends": ["eslint:recommended"],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 13,
+        "sourceType": "module"
+    },
+    "plugins": ["import"],
+    "rules": {
+        "import/no-unresolved": 2,
+        "import/no-commonjs": 2,
+        "import/extensions": [2, "ignorePackages"]
+    }
+}
