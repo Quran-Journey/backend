@@ -23,17 +23,17 @@ router.get("/lessons", async (request, response) => {
 });
 
 /*
- * @api [get] /lessons
- *  summary: "Returns all lessons from the system."
+ * @api [get] /lesson
+ *  summary: "Returns a single lesson from the system."
  *  tags:
  *    - lesson
  *  parameters:
- *        - $ref: '#/components/AllLessons'
+ *        - id: integer
  *  responses:
  *    200:
- *      description: A list of lessons.
+ *      description: A single lesson.
  *      response:
- *        - $ref: '#/components/schemas/AllLessons'
+ *        - $ref: '#/components/schemas/lesson'
  *    404:
  *      description: No lessons found.
  *
