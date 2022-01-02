@@ -57,7 +57,8 @@ def addPathTags(oas):
                 tag = oas["paths"][path][op]["tags"]
             else:
                 print("Not tagging: %s" % path)
-            group["tags"].append(tag)
+            if tag not in group["tags"]:
+                group["tags"].append(tag)
 
     # Ensure that API endpoints appears before models
     groups = []
