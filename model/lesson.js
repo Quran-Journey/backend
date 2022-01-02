@@ -5,7 +5,6 @@ const c = require("./constants");
  *  type: array
  *  items:
  *      $ref: '#/definitions/Lesson'
- *  tags: Falafel
  */
 async function getLessons() {
     return await c.retrieve("SELECT * FROM Lesson;");
@@ -19,10 +18,9 @@ async function getLessons() {
  *      - lesson_date
  *      - source
  *  properties:
- *      lesson_number: integer
+ *      lesson_id: integer
  *      lesson_date: string
  *      source: string
- *  tags: Falafel
  */
 async function createLesson(data) {
     // Frontend note: also add a feature where we guess that the
