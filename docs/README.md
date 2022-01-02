@@ -8,3 +8,4 @@ References:
 - [petstore redoc html example](https://redocly.github.io/redoc/):
 - [petstore yaml example](https://redocly.github.io/redoc/openapi.yaml)
 - [redoc "extensions"](https://github.com/Redocly/redoc/blob/master/docs/redoc-vendor-extensions.md#x-logo)
+- [adding parameters](https://swagger.io/docs/specification/2-0/describing-parameters/)
