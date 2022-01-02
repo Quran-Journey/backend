@@ -4,9 +4,9 @@ const c = require("./routingConstants");
 
 /*
  * @api [get] /lessons
- *  summary: "Fetch all lessons." 
+ *  summary: "Fetch all lessons."
  *  tags:
- *    - Lessons
+ *    - Lesson Endpoints
  *  responses:
  *    200:
  *      description: A list of lessons.
@@ -23,25 +23,44 @@ router.get("/lessons", async (request, response) => {
 });
 
 /*
- * @api [get] /lesson
+ * @api [post] /lesson
  *  summary: "Fetch a lesson by ID."
  *  tags:
- *    - Lessons
+ *    - Lesson Endpoints
  *  parameters:
  *        - id: integer
+ *          required: true
  *  responses:
  *    200:
  *      description: A single lesson.
  *      response:
  *        - $ref: '#/components/schemas/lesson'
- *    404:
- *      description: No lessons found.
  *
  */
 router.post("/lesson", async (request, response) => {
-  await l.createLesson(request.body).then(async function (result) {
-      return c.simpleResponse(result, response);
-  });
+    await l.createLesson(request.body).then(async function (result) {
+        return c.simpleResponse(result, response);
+    });
 });
+
+/*
+ * @api [post] /surah/notes
+ *  summary: "Upload notes to a particular surah."
+ *  tags:
+ *    - Surah Endpoints
+ *  parameters:
+ *        - surah_id: integer
+ *          required: true
+ *        - name: notes
+ *          in: formdata
+ *          description: The uploaded notes
+ *          required: true
+ *          type: file
+ *  responses:
+ *    200:
+ *      description: A single lesson.
+ *
+ */
+router.post("/lesson", async (request, response) => {});
 
 module.exports = router;
