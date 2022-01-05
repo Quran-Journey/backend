@@ -10,7 +10,35 @@ We are using [OAS 2.0](https://swagger.io/docs/specification/2-0) to document ou
 
 What inline documentation looks like (focus on the comments, not the code):
 
-<img src="./assets/img/docsCodeExample.png" alt="drawing" height="500"/>
+```
+/*
+ * @api [get] /lesson
+ *  summary: "Fetch a lesson by ID."
+ *  tags:
+ *    - Lessons
+ *  produces:
+ *    - application/json
+ *  parameters:
+ *        - in: path
+ *          name: id
+ *          type: integer
+ *          required: true
+ *          example: 1
+ *  responses:
+ *    200:
+ *      description: A single lesson.
+ *      schema:
+ *          $ref: '#/definitions/Lesson'
+ *    404:
+ *      description: No lessons found with that ID.
+ *
+ */
+router.post("/lesson", async (request, response) => {
+    await l.createLesson(request.body).then(async function (result) {
+        return c.simpleResponse(result, response);
+    });
+});
+```
 
 Notice how little effort that comment is. You are able to document the endpoint so that other people can see it in an easy and visually appealing way with less than 20 lines!
 
