@@ -3,11 +3,13 @@
 We are using [OAS 2.0](https://swagger.io/docs/specification/2-0) to document our code and [redoc](https://github.com/Redocly/redoc) to format it into html. This process has already partially been automated and we are using some time saving tools along the way. Documentation, therefore, should be easy and therefore highly encouraged.
 
 What inline documentation looks like:
+
 ![image](./assets/img/docsCodeExample.png)
 
 Notice how little effort that comment is. You are able to document the endpoint so that other people can see it in an easy and visually appealing way with less than 20 lines!
 
 Here's how that inline documentation looks after it's been processed with `run.sh`:
+
 ![image](./assets/img/docsExample.png)
 
 
