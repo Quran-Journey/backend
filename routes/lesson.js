@@ -39,6 +39,7 @@ router.get("/lessons", async (request, response) => {
  *          name: id
  *          type: integer
  *          required: true
+ *          example: 1
  *  responses:
  *    200:
  *      description: A single lesson.
@@ -66,6 +67,7 @@ router.post("/lesson", async (request, response) => {
  *          name: id
  *          type: integer
  *          required: true
+ *          example: 1
  *  responses:
  *    200:
  *      description: A single lesson.
