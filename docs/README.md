@@ -1,10 +1,6 @@
 # Docs
 
-We are using [OAS 2.0](https://swagger.io/docs/specification/2-0) to document our code and [redoc](https://github.com/Redocly/redoc) to format it into html. This process has already partially been automated and we are using some time saving tools along the way. Documentation, therfore, should be easy and therefore highly encouraged.
-
-In order to generate the docs, we can run the script `sh run.sh`. This script will also run a docker build to serve the html file on localhost. To see how you can document the code yourself, take a look at the lesson files inside of the model and routes. The models are documented differently from how the routes are documented. After running `sh run.sh`, you'll see that an oas.json has been generated. You can identify similarities in the structure to the inline documentation from the model and routes folders.
-
-You can also always reference the [swagger inline documentation](https://github.com/readmeio/swagger-inline) which contains some instructions on how to use swagger oas inline with the code. It's also a good idea to reference swagger oas yaml formats.
+We are using [OAS 2.0](https://swagger.io/docs/specification/2-0) to document our code and [redoc](https://github.com/Redocly/redoc) to format it into html. This process has already partially been automated and we are using some time saving tools along the way. Documentation, therefore, should be easy and therefore highly encouraged.
 
 What inline documentation looks like:
 ![image](./assets/img/docsCodeExample.png)
@@ -14,6 +10,18 @@ Notice how little effort that comment is. You are able to document the endpoint 
 Here's how that inline documentation looks after it's been processed with `run.sh`:
 ![image](./assets/img/docsExample.png)
 
+
+The steps to document code are simple:
+1. Add inline comments that describe the endpoints or schemas using OAS.
+2. execute `sh run.sh` to process the docs and serve them on localhost. 
+
+It's that simple.
+
+To see how you can document the code yourself in more detail, take a look at the files inside of the model and routes folders (particularly lesson.js). Notice that the models are documented slightly differently from how the routes are documented. After running `sh run.sh`, you can see the documentation at `http://localhost/redoc-static.html`.
+
+You'll also see that an `oas.json` and `redoc-static.html` file have been generated. You can ignore those unless you need to debug something in the documentation process, in which case you can see one of the references below.
+
+Note: The inline documentation is known as [swagger inline documentation](https://github.com/readmeio/swagger-inline). Check that repo to see some instructions on how to use swagger oas inline with the code. It's also a good idea to reference swagger oas yaml formats.
 
 
 References:
