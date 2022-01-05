@@ -1,16 +1,6 @@
 const c = require("./constants");
 
 /**
- *  @schema AllLessons
- *  type: array
- *  items:
- *      $ref: '#/definitions/Lesson'
- */
-async function getLessons() {
-    return await c.retrieve("SELECT * FROM Lesson;");
-}
-
-/**
  *  @schema Lesson
  *  type: object
  *  required:
@@ -18,9 +8,18 @@ async function getLessons() {
  *      - lesson_date
  *      - source
  *  properties:
- *      lesson_id: integer
- *      lesson_date: string
- *      source: string
+ *      lesson_id:
+ *          type: integer
+ *          description: to identify the lesson from others
+ *          example: 1
+ *      lesson_date:
+ *          type: date
+ *          description: to identify the day that the lesson was taught
+ *          example: 2021-10-30
+ *      source:
+ *          type: string
+ *          description: a URL to the lesson recording
+ *          example: "https://www.facebook.com/watch/live/?ref=watch_permalink&v=244235014324418"
  */
 async function createLesson(data) {
     // Frontend note: also add a feature where we guess that the
@@ -41,6 +40,11 @@ async function createLesson(data) {
         new c.Message({ success: "Successfully created a lesson." })
     );
 }
+
+async function getLessons() {
+    return await c.retrieve("SELECT * FROM Lesson;");
+}
+
 
 module.exports = {
     getLessons: getLessons,

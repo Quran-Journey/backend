@@ -4,6 +4,8 @@ In order to generate the docs, we can run the script `sh run.sh`. This script wi
 
 You can also always reference the [swagger inline documentation](https://github.com/readmeio/swagger-inline) which contains some instructions on how to use swagger oas inline with the code. It's also a good idea to reference swagger oas yaml formats.
 
+![image](./assets/img/docsExample.png)
+
 References:
 - [petstore redoc html example](https://redocly.github.io/redoc/):
 - [petstore yaml example](https://redocly.github.io/redoc/openapi.yaml)
