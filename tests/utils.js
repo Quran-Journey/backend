@@ -56,8 +56,16 @@ async function apiGET(path) {
         });
 }
 
+async function apiPATCH(path, body = {}) {
+    return await axios
+        .patch(API_URL + path, body, { validateStatus: false })
+        .catch((e) => {
+            console.log(e.toJSON());
+        });
+}
 module.exports = {
     apiGET: apiGET,
     apiPOST: apiPOST,
+    apiPATCH: apiPATCH,
     connect_to_db: connect_to_db,
 };
