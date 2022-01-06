@@ -4,7 +4,7 @@ const c = require("./routingConstants");
 
 /*
  * @api [get] /lessons
- *  summary: "Fetch all lessons."
+ *  summary: "Fetch all lessons"
  *  description: "This is a general fetch and has no parameters. It will fetch all of the lessons in the database."
  *  tags:
  *    - Lessons
@@ -28,8 +28,8 @@ router.get("/lessons", async (request, response) => {
 });
 
 /*
- * @api [get] /lessons
- *  summary: "Fetch all lessons."
+ * @api [get] /lesson/{lesson_id}
+ *  summary: "Fetch a lesson by ID"
  *  description: "This is a general fetch and has no parameters. It will fetch all of the lessons in the database."
  *  tags:
  *    - Lessons
@@ -37,7 +37,7 @@ router.get("/lessons", async (request, response) => {
  *    - application/json
  *  parameters:
  *      - in: path
- *        name: id
+ *        name: lesson_id
  *        type: integer
  *        required: true
  *        example: 1
@@ -58,7 +58,7 @@ router.get("/lesson/:lesson_id", async (request, response) => {
 
 /*
  * @api [post] /lesson
- *  summary: "Create a lesson."
+ *  summary: "Create a lesson"
  *  tags:
  *    - Lessons
  *  produces:
@@ -96,7 +96,7 @@ router.post("/lesson", async (request, response) => {
 
 /*
  * @api [patch] /lesson
- *  summary: "Update a lesson."
+ *  summary: "Update a lesson"
  *  tags:
  *    - Lessons
  *  produces:
