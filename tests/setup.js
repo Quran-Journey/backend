@@ -1,7 +1,6 @@
 const faker = require("faker");
 const moment = require("moment");
 
-
 /**
  * In this seeded database there is:
  * - 2 lessons
@@ -9,12 +8,14 @@ const moment = require("moment");
 const seedData = {
     lesson: [
         {
+            lesson_id: 1,
             lesson_date: new moment(faker.date.past(100)).format("YYYY-MM-DD"),
             source: "youtube.com/url_to_video",
         },
         {
+            lesson_id: 2,
             lesson_date: new moment(faker.date.past(100)).format("YYYY-MM-DD"),
-            source: "facebook.com/url_to_video"
+            source: "facebook.com/url_to_video",
         },
     ],
 };
