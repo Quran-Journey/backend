@@ -33,8 +33,8 @@ What inline documentation looks like (focus on the comments, not the code):
  *      description: No lessons found with that ID.
  *
  */
-router.post("/lesson", async (request, response) => {
-    await l.createLesson(request.body).then(async function (result) {
+router.get("/lesson", async (request, response) => {
+    await l.getLesson(request.body).then(async function (result) {
         return c.simpleResponse(result, response);
     });
 });
