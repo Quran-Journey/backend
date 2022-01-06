@@ -28,25 +28,61 @@ router.get("/lessons", async (request, response) => {
 });
 
 /*
- * @api [get] /lesson
- *  summary: "Fetch a lesson by ID."
+ * @api [get] /lessons
+ *  summary: "Fetch all lessons."
+ *  description: "This is a general fetch and has no parameters. It will fetch all of the lessons in the database."
  *  tags:
  *    - Lessons
  *  produces:
  *    - application/json
  *  parameters:
- *        - in: path
- *          name: id
- *          type: integer
- *          required: true
- *          example: 1
+ *      - in: path
+ *        name: id
+ *        type: integer
+ *        required: true
+ *        example: 1
  *  responses:
  *    200:
- *      description: A single lesson.
+ *      description: A list of lessons.
  *      schema:
  *          $ref: '#/definitions/Lesson'
  *    404:
  *      description: No lessons found with that ID.
+ *
+ */
+router.get("/lesson/:lesson_id", async (request, response) => {
+    await l.getLessonById(request.params).then(async function (result) {
+        return c.simpleResponse(result, response);
+    });
+});
+
+/*
+ * @api [post] /lesson
+ *  summary: "Create a lesson."
+ *  tags:
+ *    - Lessons
+ *  produces:
+ *    - application/json
+ *  parameters:
+ *        - in: body
+ *          name: id
+ *          description: the lesson to update and it's new attributes
+ *          schema:
+ *              type: object
+ *              required:
+ *                  - lesson_id
+ *                  - lesson_date
+ *                  - source
+ *              properties:
+ *                  lesson_id:
+ *                      type: integer
+ *                  lesson_id:
+ *                      type: date
+ *                  source:
+ *                      type: string
+ *  responses:
+ *    200:
+ *      description: Lesson has been created.
  *
  */
 router.post("/lesson", async (request, response) => {
@@ -57,33 +93,36 @@ router.post("/lesson", async (request, response) => {
 
 /*
  * @api [patch] /lesson
- *  summary: "Update a lesson's information."
+ *  summary: "Update a lesson."
  *  tags:
  *    - Lessons
  *  produces:
  *    - application/json
  *  parameters:
- *        - in: path
+ *        - in: body
  *          name: id
- *          type: integer
- *          required: true
- *          example: 1
+ *          description: the lesson to update and it's new attributes
+ *          schema:
+ *              type: object
+ *              required:
+ *                  - lesson_id
+ *                  - lesson_date
+ *                  - source
+ *              properties:
+ *                  lesson_id:
+ *                      type: integer
+ *                  lesson_id:
+ *                      type: date
+ *                  source:
+ *                      type: string
  *  responses:
  *    200:
- *      description: A single lesson.
- *      schema:
- *          type: object
- *          properties:
- *              success:
- *                  type: boolean
- *                  example: true
- *                  description: true if attempt to update lesson was successful, false if unsuccesful
- *              
+ *      description: Lesson has been updated.
  *    404:
- *      description: No lessons found with that ID.
+ *      description: Could not find a lesson with that id.
  *
  */
-router.post("/lesson", async (request, response) => {
+router.patch("/lesson", async (request, response) => {
     await l.updateLesson(request.body).then(async function (result) {
         return c.simpleResponse(result, response);
     });
