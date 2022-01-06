@@ -76,10 +76,13 @@ router.get("/lesson/:lesson_id", async (request, response) => {
  *              properties:
  *                  lesson_id:
  *                      type: integer
- *                  lesson_id:
+ *                      example: 1
+ *                  lesson_date:
  *                      type: date
+ *                      example: 2025-1-30
  *                  source:
  *                      type: string
+ *                      example: "aURL.com/video"
  *  responses:
  *    200:
  *      description: Lesson has been created.
@@ -111,10 +114,13 @@ router.post("/lesson", async (request, response) => {
  *              properties:
  *                  lesson_id:
  *                      type: integer
- *                  lesson_id:
+ *                      example: 1
+ *                  lesson_date:
  *                      type: date
+ *                      example: 2022-1-30
  *                  source:
  *                      type: string
+ *                      example: "aNewURL.com/video"
  *  responses:
  *    200:
  *      description: Lesson has been updated.
