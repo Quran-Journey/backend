@@ -347,12 +347,19 @@ async function remove(sql, params = [], message = defaultMsg) {
         .query(sql, params)
         .then((result) => {
             if (result.rows[0] == null) {
-                return setResult({}, false, none, errorEnum.DNE);
+                console.log(message.none);
+                return setResult({}, false, message.none, errorEnum.DNE);
             }
-            return setResult(result.rows, true, success, errorEnum.NONE);
+            console.log(message.success);
+            return setResult(
+                result.rows,
+                true,
+                message.success,
+                errorEnum.NONE
+            );
         })
         .catch((e) => {
-            console.log("\n!Deletion error!\n", error, e);
+            console.log("\n!Deletion error!\n", message.server, e);
             return setResult({}, false, message.server, errorEnum.SERVER);
         });
 }

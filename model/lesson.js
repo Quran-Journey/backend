@@ -87,9 +87,30 @@ async function updateLesson(data) {
     );
 }
 
+/** Update a lesson, requires all attributes of the lesson. */
+async function deleteLesson(data) {
+    var invalid = c.simpleValidation(data, {
+        lesson_id: "integer",
+    });
+    if (invalid) {
+        return invalid;
+    }
+    let sql = "DELETE FROM Lesson WHERE lesson_id=$1 RETURNING *;";
+    var params = [data.lesson_id];
+    return await c.remove(
+        sql,
+        params,
+        new c.Message({
+            success: `Successfully deleted lesson with id ${data.lesson_id}.`,
+            none: `Could not find a lesson with id ${data.lesson_id}.`,
+        })
+    );
+}
+
 module.exports = {
     getLessons: getLessons,
     getLessonById: getLessonById,
     createLesson: createLesson,
     updateLesson: updateLesson,
+    deleteLesson: deleteLesson,
 };

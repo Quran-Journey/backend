@@ -134,4 +134,10 @@ router.patch("/lesson", async (request, response) => {
     });
 });
 
+router.delete("/lesson/:lesson_id", async (request, response) => {
+    await l.deleteLesson(request.params).then(async function (result) {
+        return c.simpleResponse(result, response);
+    });
+});
+
 module.exports = router;
