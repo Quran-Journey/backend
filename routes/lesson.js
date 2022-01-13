@@ -68,21 +68,7 @@ router.get("/lesson/:lesson_id", async (request, response) => {
  *          name: id
  *          description: the lesson to update and it's new attributes
  *          schema:
- *              type: object
- *              required:
- *                  - lesson_id
- *                  - lesson_date
- *                  - source
- *              properties:
- *                  lesson_id:
- *                      type: integer
- *                      example: 1
- *                  lesson_date:
- *                      type: date
- *                      example: 2025-1-30
- *                  source:
- *                      type: string
- *                      example: "aURL.com/video"
+ *              $ref: '#/definitions/Lesson'
  *  responses:
  *    200:
  *      description: Lesson has been created.
@@ -106,21 +92,7 @@ router.post("/lesson", async (request, response) => {
  *          name: id
  *          description: the lesson to update and it's new attributes
  *          schema:
- *              type: object
- *              required:
- *                  - lesson_id
- *                  - lesson_date
- *                  - source
- *              properties:
- *                  lesson_id:
- *                      type: integer
- *                      example: 1
- *                  lesson_date:
- *                      type: date
- *                      example: 2022-1-30
- *                  source:
- *                      type: string
- *                      example: "aNewURL.com/video"
+ *              $ref: '#/definitions/Lesson'
  *  responses:
  *    200:
  *      description: Lesson has been updated.
@@ -130,6 +102,34 @@ router.post("/lesson", async (request, response) => {
  */
 router.patch("/lesson", async (request, response) => {
     await l.updateLesson(request.body).then(async function (result) {
+        return c.simpleResponse(result, response);
+    });
+});
+
+/*
+ * @api [delete] /lesson
+ *  summary: "Delete a lesson"
+ *  tags:
+ *    - Lessons
+ *  produces:
+ *    - application/json
+ *  parameters:
+ *        - in: body
+ *          name: id
+ *          description: the lesson to be deleted
+ *          schema:
+ *              $ref: '#/definitions/Lesson'
+ *  responses:
+ *    200:
+ *      description: This lesson has been deleted.
+ *      schema:
+ *          $ref: '#/definitions/Lesson'
+ *    404:
+ *      description: Could not find a lesson with that id.
+ *
+ */
+router.delete("/lesson/:lesson_id", async (request, response) => {
+    await l.deleteLesson(request.params).then(async function (result) {
         return c.simpleResponse(result, response);
     });
 });

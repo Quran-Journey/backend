@@ -63,9 +63,19 @@ async function apiPATCH(path, body = {}) {
             console.log(e.toJSON());
         });
 }
+
+async function apiDELETE(path, body = {}) {
+    return await axios
+        .delete(API_URL + path, body, { validateStatus: false })
+        .catch((e) => {
+            console.log(e.toJSON());
+        });
+}
+
 module.exports = {
     apiGET: apiGET,
     apiPOST: apiPOST,
     apiPATCH: apiPATCH,
+    apiDELETE: apiDELETE,
     connect_to_db: connect_to_db,
 };

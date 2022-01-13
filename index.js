@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(async (req, res, next) => {
-    console.log(`\nEndpoint Hit: ${req.originalUrl}\n`);
+    console.log(`\nEndpoint Hit: ${req.method} ${req.originalUrl}\n`);
     next();
 });
 
