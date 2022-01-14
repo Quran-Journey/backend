@@ -22,7 +22,7 @@ const c = require("./routingConstants");
  *
  */
 router.get("/lessons", async (request, response) => {
-    await l.getLessons(request.body).then(async function (result) {
+    await l.getLessons().then(async function (result) {
         return c.simpleResponse(result, response);
     });
 });
