@@ -1,6 +1,4 @@
 const lessonTests = require("./lesson-tests.js").lessonTests;
-// const registrationTests = require("./registration-tests.js").registrationTests;
-// const teamTests = require("./team-tests.js").teamTests;
 const setup = require("./setup.js");
 const utils = require("./utils.js");
 
@@ -12,13 +10,5 @@ describe("Set up", () => {
 });
 
 describe("Test Lesson", () => {
-    lessonTests();
+    lessonTests(db);
 });
-
-// describe("Test Registration", () => {
-//     registrationTests();
-// });
-
-// describe("Test Team", () => {
-//     teamTests();
-// });
