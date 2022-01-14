@@ -10,5 +10,5 @@ describe("Set up", () => {
 });
 
 describe("Test Lesson", () => {
-    lessonTests(db);
+    lessonTests();
 });
