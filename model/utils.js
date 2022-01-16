@@ -218,43 +218,6 @@ async function retrieve(sql, params = [], message = defaultMsg) {
 }
 
 /**
- * This function allows for filtering based on a column when doing a fetch.
- *
- * @param {*} table
- * This is the table we are fetching from
- * @param {[object]} fetch_by
- * These are the constraints we are filtering by. Each item in fetch_by us a list of objects.
- * Each of the objectes contains a "column", a "constraint", and "filter".
- *      The column attribute describes which column we are constraining by.
- *      The constraint attribute defines the type of constraint we are using (i.e. >, <, =, !=...)
- *      The filter attribute describes what the actual constraining value is.
- * @param {[string]} being_fetched
- */
-
-async function simpleFilter(table, fetch_by, being_fetched) {
-    let constraints = `${fetch_by[0].column}${fetch_by[0].constraint}${fetch_by[0].filter}`;
-    if (fetch_by.length > 1) {
-        for (var c = 1; c < fetch_by.length; c++) {
-            constraints = `${constraints} AND ${fetch_by[c].column}${fetch_by[0].constraint}${fetch_by[c].filter}`;
-        }
-    }
-
-    let values = `${fetch_by[0]}`;
-    if (being_fetched.length > 1) {
-        for (var v = 1; v < being_fetched.length; c++) {
-            values = `, ${values}`;
-        }
-    }
-    let sql = `SELECT $1 from $2 where $3;`;
-    let params = [table, values, constraints];
-    let message = new Message({
-        success: `Successfully fetched ${being_fetched} by value ${fetch_by} from ${table}.`,
-        none: "No rows found.",
-    });
-    return await retrieve(sql, params, message);
-}
-
-/**
  * This function prepares a generic row update based on the inputs.
  * This function can update none, one, or more rows based on an sql command and passed in parameters.
  *
