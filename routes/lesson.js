@@ -50,8 +50,8 @@ router.get("/lessons", async (request, response) => {
  *      description: No lessons found with that ID.
  *
  */
-router.get("/lesson/:lesson_id", async (request, response) => {
-    await lesson.getLessonById(request.params).then(async function (result) {
+router.get("/lesson/:filter_by/:value", async (request, response) => {
+    await lesson.filterLessons(request.params).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });

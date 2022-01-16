@@ -361,7 +361,6 @@ module.exports = {
     update: update,
     create: create,
     remove: remove,
-    simpleFilter: simpleFilter,
     setResult: setResult,
     simpleValidation: checkBody,
     errorEnum: errorEnum,
