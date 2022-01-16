@@ -7,7 +7,7 @@ const utils = require("./utils");
  *  summary: "Fetch all lessons"
  *  description: "This is a general fetch and has no parameters. It will fetch all of the lessons in the database."
  *  tags:
- *    - Lessons
+ *    - Lesson Endpoints
  *  produces:
  *    - application/json
  *  responses:
@@ -32,7 +32,7 @@ router.get("/lessons", async (request, response) => {
  *  summary: "Fetch a lesson by ID"
  *  description: "This is a general fetch and has no parameters. It will fetch all of the lessons in the database."
  *  tags:
- *    - Lessons
+ *    - Lesson Endpoints
  *  produces:
  *    - application/json
  *  parameters:
@@ -60,7 +60,7 @@ router.get("/lesson/:lesson_id", async (request, response) => {
  * @api [post] /lesson
  *  summary: "Create a lesson"
  *  tags:
- *    - Lessons
+ *    - Lesson Endpoints
  *  produces:
  *    - application/json
  *  parameters:
@@ -84,7 +84,7 @@ router.post("/lesson", async (request, response) => {
  * @api [patch] /lesson
  *  summary: "Update a lesson"
  *  tags:
- *    - Lessons
+ *    - Lesson Endpoints
  *  produces:
  *    - application/json
  *  parameters:
@@ -110,7 +110,7 @@ router.patch("/lesson", async (request, response) => {
  * @api [delete] /lesson
  *  summary: "Delete a lesson"
  *  tags:
- *    - Lessons
+ *    - Lesson Endpoints
  *  produces:
  *    - application/json
  *  parameters:
