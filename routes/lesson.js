@@ -1,13 +1,13 @@
 const router = require("express").Router();
-const l = require("../model/lesson");
-const c = require("./routingConstants");
+const lesson = require("../model/lesson");
+const utils = require("./utils");
 
 /*
  * @api [get] /lessons
  *  summary: "Fetch all lessons"
  *  description: "This is a general fetch and has no parameters. It will fetch all of the lessons in the database."
  *  tags:
- *    - Lessons
+ *    - Lesson Endpoints
  *  produces:
  *    - application/json
  *  responses:
@@ -22,8 +22,8 @@ const c = require("./routingConstants");
  *
  */
 router.get("/lessons", async (request, response) => {
-    await l.getLessons().then(async function (result) {
-        return c.simpleResponse(result, response);
+    await lesson.getLessons().then(async function (result) {
+        return utils.simpleResponse(result, response);
     });
 });
 
@@ -32,7 +32,7 @@ router.get("/lessons", async (request, response) => {
  *  summary: "Fetch a lesson by ID"
  *  description: "This is a general fetch and has no parameters. It will fetch all of the lessons in the database."
  *  tags:
- *    - Lessons
+ *    - Lesson Endpoints
  *  produces:
  *    - application/json
  *  parameters:
@@ -51,8 +51,8 @@ router.get("/lessons", async (request, response) => {
  *
  */
 router.get("/lesson/:lesson_id", async (request, response) => {
-    await l.getLessonById(request.params).then(async function (result) {
-        return c.simpleResponse(result, response);
+    await lesson.getLessonById(request.params).then(async function (result) {
+        return utils.simpleResponse(result, response);
     });
 });
 
@@ -60,7 +60,7 @@ router.get("/lesson/:lesson_id", async (request, response) => {
  * @api [post] /lesson
  *  summary: "Create a lesson"
  *  tags:
- *    - Lessons
+ *    - Lesson Endpoints
  *  produces:
  *    - application/json
  *  parameters:
@@ -75,8 +75,8 @@ router.get("/lesson/:lesson_id", async (request, response) => {
  *
  */
 router.post("/lesson", async (request, response) => {
-    await l.createLesson(request.body).then(async function (result) {
-        return c.simpleResponse(result, response);
+    await lesson.createLesson(request.body).then(async function (result) {
+        return utils.simpleResponse(result, response);
     });
 });
 
@@ -84,7 +84,7 @@ router.post("/lesson", async (request, response) => {
  * @api [patch] /lesson
  *  summary: "Update a lesson"
  *  tags:
- *    - Lessons
+ *    - Lesson Endpoints
  *  produces:
  *    - application/json
  *  parameters:
@@ -101,8 +101,8 @@ router.post("/lesson", async (request, response) => {
  *
  */
 router.patch("/lesson", async (request, response) => {
-    await l.updateLesson(request.body).then(async function (result) {
-        return c.simpleResponse(result, response);
+    await lesson.updateLesson(request.body).then(async function (result) {
+        return utils.simpleResponse(result, response);
     });
 });
 
@@ -110,7 +110,7 @@ router.patch("/lesson", async (request, response) => {
  * @api [delete] /lesson
  *  summary: "Delete a lesson"
  *  tags:
- *    - Lessons
+ *    - Lesson Endpoints
  *  produces:
  *    - application/json
  *  parameters:
@@ -129,8 +129,8 @@ router.patch("/lesson", async (request, response) => {
  *
  */
 router.delete("/lesson/:lesson_id", async (request, response) => {
-    await l.deleteLesson(request.params).then(async function (result) {
-        return c.simpleResponse(result, response);
+    await lesson.deleteLesson(request.params).then(async function (result) {
+        return utils.simpleResponse(result, response);
     });
 });
 
