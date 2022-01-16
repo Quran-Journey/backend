@@ -1,4 +1,4 @@
-const c = require("./constants");
+const utils = require("./utils");
 
 /**
  *  @schema Lesson
@@ -24,7 +24,7 @@ const c = require("./constants");
 async function createLesson(data) {
     // Frontend note: also add a feature where we guess that the
     //  lesson's date is the next saturday after the last lesson's date
-    var invalid = c.simpleValidation(data, {
+    var invalid = utils.simpleValidation(data, {
         lesson_date: "date",
         source: "string",
     });
@@ -34,21 +34,21 @@ async function createLesson(data) {
     var sql =
         "INSERT INTO Lesson (source, lesson_date) VALUES ($1, $2) RETURNING *;";
     var params = [data.source, data.lesson_date];
-    return await c.create(
+    return await utils.create(
         sql,
         params,
-        new c.Message({ success: "Successfully created a lesson." })
+        new utils.Message({ success: "Successfully created a lesson." })
     );
 }
 
 /** Self explanatory function */
 async function getLessons() {
-    return await c.retrieve("SELECT * FROM Lesson;");
+    return await utils.retrieve("SELECT * FROM Lesson;");
 }
 
 /** Self explanatory function */
 async function getLessonById(data) {
-    var invalid = c.simpleValidation(data, {
+    var invalid = utils.simpleValidation(data, {
         lesson_id: "integer",
     });
     if (invalid) {
@@ -56,10 +56,10 @@ async function getLessonById(data) {
     }
     let sql = "SELECT * FROM Lesson WHERE lesson_id=$1";
     var params = [data.lesson_id];
-    return await c.retrieve(
+    return await utils.retrieve(
         sql,
         params,
-        new c.Message({
+        new utils.Message({
             success: `Successfully fetched lesson with id ${data.lesson_id}.`,
         })
     );
@@ -67,7 +67,7 @@ async function getLessonById(data) {
 
 /** Update a lesson, requires all attributes of the lesson. */
 async function updateLesson(data) {
-    var invalid = c.simpleValidation(data, {
+    var invalid = utils.simpleValidation(data, {
         lesson_id: "integer",
         lesson_date: "date",
         source: "string",
@@ -77,10 +77,10 @@ async function updateLesson(data) {
     }
     let sql = "UPDATE Lesson SET source=$2, lesson_date=$3 WHERE lesson_id=$1";
     var params = [data.lesson_id, data.source, data.lesson_date];
-    return await c.update(
+    return await utils.update(
         sql,
         params,
-        new c.Message({
+        new utils.Message({
             success: `Successfully update lesson with id ${data.lesson_id}.`,
             none: `Could not find a lesson with id ${data.lesson_id}.`,
         })
@@ -89,7 +89,7 @@ async function updateLesson(data) {
 
 /** Update a lesson, requires all attributes of the lesson. */
 async function deleteLesson(data) {
-    var invalid = c.simpleValidation(data, {
+    var invalid = utils.simpleValidation(data, {
         lesson_id: "integer",
     });
     if (invalid) {
@@ -97,10 +97,10 @@ async function deleteLesson(data) {
     }
     let sql = "DELETE FROM Lesson WHERE lesson_id=$1 RETURNING *;";
     var params = [data.lesson_id];
-    return await c.remove(
+    return await utils.remove(
         sql,
         params,
-        new c.Message({
+        new utils.Message({
             success: `Successfully deleted lesson with id ${data.lesson_id}.`,
             none: `Could not find a lesson with id ${data.lesson_id}.`,
         })
