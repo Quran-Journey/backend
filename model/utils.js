@@ -38,23 +38,23 @@ const defaultMsg = new Message({});
 function checkEmptyBody(data) {
     var keys = Object.keys(data);
     if (keys.length == 0) {
-        console.log("Request body is empty");
+        console.log("Request data is empty");
         return setResult(
             {},
             false,
-            "Request body is empty.",
+            "Request data is empty.",
             errorEnum.INVALID
         );
     }
     for (var i = 0; i < keys.length; i++) {
         if (!keys[i]) {
             console.log(
-                "Invalid: Body is missing atleast one key, value pair."
+                "Invalid: data is missing atleast one key, value pair."
             );
             return setResult(
                 data,
                 false,
-                "Body is missing atleast one key, value pair.",
+                "data is missing atleast one key, value pair.",
                 errorEnum.INVALID
             );
         }
@@ -132,13 +132,13 @@ function checkBodyKeys(data, required, p = true) {
         if (!keys[i] || !keys.includes(requiredKeys[i])) {
             if (p) {
                 console.log(
-                    "Invalid: Body is missing the key: " + requiredKeys[i]
+                    "Invalid: data is missing the key: " + requiredKeys[i]
                 );
             }
             return setResult(
                 data,
                 false,
-                "Body is missing the key: " + requiredKeys[i],
+                "data is missing the key: " + requiredKeys[i],
                 errorEnum.INVALID
             );
         }
@@ -148,7 +148,7 @@ function checkBodyKeys(data, required, p = true) {
 
 /**
  * This function does some simple validation of the formats.
- * It uses helper functions to ensure that the body is not missing any parameters,
+ * It uses helper functions to ensure that the data is not missing any parameters,
  * that the data includes the required keys.
  *
  * @param {Object} data
