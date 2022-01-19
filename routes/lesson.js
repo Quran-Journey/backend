@@ -10,6 +10,22 @@ const utils = require("./utils");
  *    - Lesson Endpoints
  *  produces:
  *    - application/json
+ *  parameters:
+ *      - in: query
+ *        name: property
+ *        type: string
+ *        required: false
+ *        example: 'lesson_date'
+ *      - in: query
+ *        name: operator
+ *        type: string
+ *        required: false
+ *        example: 'eq', 'lt', or 'gte'
+ *      - in: query
+ *        name: value
+ *        type: string
+ *        required: false
+ *        example: '2021-5-28'
  *  responses:
  *    200:
  *      description: A list of lessons.
@@ -22,7 +38,7 @@ const utils = require("./utils");
  *
  */
 router.get("/lessons", async (request, response) => {
-    await lesson.getLessons().then(async function (result) {
+    await lesson.filterLessons(request.query).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });
@@ -50,8 +66,8 @@ router.get("/lessons", async (request, response) => {
  *      description: No lessons found with that ID.
  *
  */
-router.get("/lesson/:filter_by/:value", async (request, response) => {
-    await lesson.filterLessons(request.params).then(async function (result) {
+router.get("/lesson/:lesson_id", async (request, response) => {
+    await lesson.getLessonById(request.params).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });

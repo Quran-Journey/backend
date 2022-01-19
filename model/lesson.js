@@ -41,24 +41,44 @@ async function createLesson(data) {
     );
 }
 
-/** Self explanatory function */
-async function getLessons() {
-    return await utils.retrieve("SELECT * FROM Lesson;");
+/** This is where we actually filter our values. */
+async function filterLessons(data) {
+    var invalid = utils.simpleValidation(data, {
+        property: "string",
+        operator: "string",
+        value: "string",
+    });
+    if (invalid) {
+        return await utils.retrieve(
+            "SELECT * FROM Lesson;",
+            [],
+            (message = new utils.Message({
+                success: `Fetched all lessons since no query was properly defined.`,
+            }))
+        );
+    } else {
+        // let sql = "SELECT * FROM Lesson WHERE $1$2$3";
+        // var params = [data.property, data.operator, data.value];
+        // return await utils.retrieve(
+        //     sql,
+        //     params,
+        //     new utils.Message({
+        //         success: `Successfully fetched lesson with id ${data.lesson_id}.`,
+        //     })
+        // );
+    }
 }
 
 /** Fetches lessons based on a specific filter (i.e. id, date) */
-async function filterLessons(data) {
+async function getLessonById(data) {
     var invalid = utils.simpleValidation(data, {
-        filter_by: "string",
-        value: "string",
+        lesson_id: "integer",
     });
     if (invalid) {
         return invalid;
     }
-    // Note: we're injecting the column constraint.
-    // Also note that our validation isn't actually checking the type of the value being queried.
-    let sql = `SELECT * FROM Lesson WHERE ${data.filter_by}=$1`;
-    var params = [data.value];
+    let sql = "SELECT * FROM Lesson WHERE lesson_id=$1";
+    var params = [data.lesson_id];
     return await utils.retrieve(
         sql,
         params,
@@ -111,8 +131,8 @@ async function deleteLesson(data) {
 }
 
 module.exports = {
-    getLessons: getLessons,
     filterLessons: filterLessons,
+    getLessonById: getLessonById,
     createLesson: createLesson,
     updateLesson: updateLesson,
     deleteLesson: deleteLesson,
