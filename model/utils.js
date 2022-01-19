@@ -174,6 +174,24 @@ function checkBody(data, required, p = true) {
     return;
 }
 
+/** A function that gets us a string representation of an operator based on a string */
+function getOperator(operator) {
+    switch (operator) {
+        case "eq":
+            return "=";
+        case "gt":
+            return ">";
+        case "lt":
+            return "<";
+        case "gte":
+            return ">=";
+        case "lte":
+            return "<=";
+        default:
+            return false;
+    }
+}
+
 /**
 ----------------------------------------------------------------------------------
 THE FOLLOWING FUNCTIONS IMPLEMENT THE DIFFERENT VARIATIONS OF THE CRUD OPERATIONS.
@@ -362,6 +380,7 @@ module.exports = {
     create: create,
     remove: remove,
     setResult: setResult,
+    getOperator: getOperator,
     simpleValidation: checkBody,
     errorEnum: errorEnum,
     Message: Message,
