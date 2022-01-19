@@ -49,9 +49,6 @@ async function createLesson(data) {
 }
 
 /**
- *  Note: this function is way too large. I need to break it up into smaller chunks
- *  For example, Take out the invalid return value by moving it to a helper function (it appears three times)
- *
  *  This is where we actually filter our values.
  *  Properties must be a string representing one of the table columns.
  *  Operator must be one of: eq, gt, lt, gte, or lte.
