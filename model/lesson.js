@@ -81,9 +81,7 @@ async function filterLessons(data) {
             value: attributes[data.property],
         });
         if (invalid) {
-            utils.returnInvalid(
-                `${property} is not an attribute of the Lesson type.`
-            );
+            return invalid;
         }
         let sql = `SELECT * FROM Lesson WHERE ${data.property}`;
         let op = utils.getOperator(data.operator);
