@@ -18,12 +18,24 @@ function lessonTests() {
         expect(resp1.data.success).toEqual(true);
     });
 
-    it("getting all lessons", async () => {
+    it("getting a lesson by it's date", async () => {
         let lessonA = seedData.lesson[0];
 
-        const resp1 = await apiGET(`/lessons`);
+        const resp1 = await apiGET(`/lessons?property=lesson_date&operator=eq&value=${lessonA.lesson_date}`);
         let lessonB = resp1.data.data[0];
         checkMatch(lessonA, lessonB);
+        expect(resp1.data.success).toEqual(true);
+    });
+
+    it("getting all lessons", async () => {
+        let lesson1 = seedData.lesson[0];
+        let lesson2 = seedData.lesson[1];
+
+        const resp1 = await apiGET(`/lessons`);
+        let lessonA = resp1.data.data[0];
+        let lessonB = resp1.data.data[1];
+        checkMatch(lesson1, lessonA);
+        checkMatch(lesson2, lessonB);
         expect(resp1.data.success).toEqual(true);
     });
 

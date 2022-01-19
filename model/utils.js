@@ -10,14 +10,15 @@ const errorEnum = {
     FOREIGN: 5,
 };
 
-// Check if f is a function.
-function isFunction(f) {
-    return f && {}.toString.call(f) === "[object Function]";
-}
-
 // This is a constant response return format so that all of our responses have the same format.
 function setResult(d, pass, msg, code) {
-    return { data: d, error: msg, success: pass, ecode: code };
+    console.log(msg);
+    return { data: d, success: pass, error: msg, ecode: code };
+}
+
+/** Simply prepare an response for invalid inputs */
+function returnInvalid(msg) {
+    return utils.setResult({}, false, msg, utils.errorEnum.INVALID);
 }
 
 /**
@@ -43,23 +44,19 @@ const defaultMsg = new Message({});
 function checkEmptyBody(data) {
     var keys = Object.keys(data);
     if (keys.length == 0) {
-        console.log("Request body is empty");
         return setResult(
             {},
             false,
-            "Request body is empty.",
+            "Request data is empty.",
             errorEnum.INVALID
         );
     }
     for (var i = 0; i < keys.length; i++) {
         if (!keys[i]) {
-            console.log(
-                "Invalid: Body is missing atleast one key, value pair."
-            );
             return setResult(
                 data,
                 false,
-                "Body is missing atleast one key, value pair.",
+                "data is missing atleast one key, value pair.",
                 errorEnum.INVALID
             );
         }
@@ -93,9 +90,6 @@ function checkBodyTypes(data, required) {
         var type = required[key];
         var value = data[key];
         if (value == undefined) {
-            console.log(
-                "Invalid: Body contains an undefined value for key: " + key
-            );
             return setResult(
                 data,
                 false,
@@ -109,9 +103,6 @@ function checkBodyTypes(data, required) {
             !dataTypeRegex[type].test(value)
         ) {
             // If the regex test fails, this implies that the formatting is incorrect.
-            console.log(
-                "Invalid: Body contains an invalid value for key: " + key
-            );
             return setResult(
                 data,
                 false,
@@ -137,13 +128,13 @@ function checkBodyKeys(data, required, p = true) {
         if (!keys[i] || !keys.includes(requiredKeys[i])) {
             if (p) {
                 console.log(
-                    "Invalid: Body is missing the key: " + requiredKeys[i]
+                    "Invalid: data is missing the key: " + requiredKeys[i]
                 );
             }
             return setResult(
                 data,
                 false,
-                "Body is missing the key: " + requiredKeys[i],
+                "data is missing the key: " + requiredKeys[i],
                 errorEnum.INVALID
             );
         }
@@ -153,7 +144,7 @@ function checkBodyKeys(data, required, p = true) {
 
 /**
  * This function does some simple validation of the formats.
- * It uses helper functions to ensure that the body is not missing any parameters,
+ * It uses helper functions to ensure that the data is not missing any parameters,
  * that the data includes the required keys.
  *
  * @param {Object} data
@@ -179,11 +170,33 @@ function checkBody(data, required, p = true) {
     return;
 }
 
-/**
- * ----------------------------------------------------------------------------------
- * THE FOLLOWING FUNCTIONS IMPLEMENT THE DIFFERENT VARIATIONS OF THE CRUD OPERATIONS.
- * ----------------------------------------------------------------------------------
+/** A function that gets us a string representation of an operator based on a string
+ *
+ * @param {string} operator
+ * The string representation of the operator
  */
+function getOperator(operator) {
+    switch (operator) {
+        case "eq":
+            return "=";
+        case "gt":
+            return ">";
+        case "lt":
+            return "<";
+        case "gte":
+            return ">=";
+        case "lte":
+            return "<=";
+        default:
+            return false;
+    }
+}
+
+/**
+----------------------------------------------------------------------------------
+THE FOLLOWING FUNCTIONS IMPLEMENT THE DIFFERENT VARIATIONS OF THE CRUD OPERATIONS.
+----------------------------------------------------------------------------------
+*/
 
 /**
  * This function prepares a generic row fetch based on the inputs.
@@ -205,10 +218,8 @@ async function retrieve(sql, params = [], message = defaultMsg) {
         .query(sql, params)
         .then((result) => {
             if (result.rows[0] == null) {
-                console.log(message.none);
                 return setResult([], false, message.none, errorEnum.DNE);
             }
-            console.log(message.success);
             return setResult(
                 result.rows,
                 true,
@@ -217,7 +228,7 @@ async function retrieve(sql, params = [], message = defaultMsg) {
             );
         })
         .catch((e) => {
-            console.log("\nERROR!\n", message.server, e);
+            console.log("\nERROR!\n", e);
             return setResult([], false, message.server, errorEnum.SERVER);
         });
 }
@@ -258,8 +269,7 @@ async function update(sql, params = [], message = defaultMsg) {
 }
 
 /**
- * This function prepares a generic row update based on the inputs.
- * This function can update none, one, or more rows based on an sql command and passed in parameters.
+ * This function acts as a generic insert into the database.
  *
  * @param {String} sql
  * @param {List[String]} params
@@ -324,8 +334,6 @@ async function create(sql, params = [], message = defaultMsg) {
         });
 }
 
-// TODO: Implement Delete
-
 /**
  * NOTE: this implements the based delete operation, but we cannot call it delete in js
  * This function prepares a generic row deletion based on the inputs.
@@ -347,10 +355,8 @@ async function remove(sql, params = [], message = defaultMsg) {
         .query(sql, params)
         .then((result) => {
             if (result.rows[0] == null) {
-                console.log(message.none);
                 return setResult({}, false, message.none, errorEnum.DNE);
             }
-            console.log(message.success);
             return setResult(
                 result.rows,
                 true,
@@ -364,18 +370,14 @@ async function remove(sql, params = [], message = defaultMsg) {
         });
 }
 
-// TODO: Handle more complex situations (i.e. we should only insert if the insert in a specific scenario...
-//       or can that be handled elsewhere?)
-// ORRRR we could create views and validate based on a fetch from those views.
-
 module.exports = {
     retrieve: retrieve,
     update: update,
     create: create,
     remove: remove,
     setResult: setResult,
+    getOperator: getOperator,
     simpleValidation: checkBody,
-    isFunction: isFunction,
     errorEnum: errorEnum,
     Message: Message,
 };

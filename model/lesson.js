@@ -1,5 +1,12 @@
 const utils = require("./utils");
 
+// Note: this list contains key value pairs of the attribute and types within the schema.
+const attributes = {
+    lesson_id: "integer",
+    lesson_date: "date",
+    source: "string",
+};
+
 /**
  *  @schema Lesson
  *  type: object
@@ -41,12 +48,63 @@ async function createLesson(data) {
     );
 }
 
-/** Self explanatory function */
-async function getLessons() {
-    return await utils.retrieve("SELECT * FROM Lesson;");
+/**
+ *  Note: this function is way too large. I need to break it up into smaller chunks
+ *  For example, Take out the invalid return value by moving it to a helper function (it appears three times)
+ *
+ *  This is where we actually filter our values.
+ *  Properties must be a string representing one of the table columns.
+ *  Operator must be one of: eq, gt, lt, gte, or lte.
+ *  Value is the value we are filtering by.
+ */
+async function filterLessons(data) {
+    var invalid = utils.simpleValidation(data, {
+        property: "string",
+        operator: "string",
+    });
+    if (invalid) {
+        return await utils.retrieve(
+            "SELECT * FROM Lesson;",
+            [],
+            new utils.Message({
+                success: `Fetched all lessons since no query was properly defined.`,
+            })
+        );
+    } else {
+        if (!Object.keys(attributes).includes(data.property)) {
+            // This check is done to avoid SQL injection.
+            return utils.returnInvalid(
+                `${property} is not an attribute of the Lesson type.`
+            );
+        }
+        invalid = utils.simpleValidation(data, {
+            value: attributes[data.property],
+        });
+        if (invalid) {
+            return invalid;
+        }
+        let sql = `SELECT * FROM Lesson WHERE ${data.property}`;
+        let op = utils.getOperator(data.operator);
+        if (op) {
+            sql = sql + `${op}$1;`;
+        } else {
+            // If the operator is invalid, then we must notify the client.
+            utils.returnInvalid(
+                `Operator was not set correctly. Operator must be one of: eq, gt, lt, gte, or lte.`
+            );
+        }
+        var params = [data.value];
+        return await utils.retrieve(
+            sql,
+            params,
+            new utils.Message({
+                success: `Successfully fetched lessons based on filter ${data.property} ${op} ${data.value}.`,
+            })
+        );
+    }
 }
 
-/** Self explanatory function */
+/** Fetches lessons based on a specific filter (i.e. id, date) */
 async function getLessonById(data) {
     var invalid = utils.simpleValidation(data, {
         lesson_id: "integer",
@@ -108,7 +166,7 @@ async function deleteLesson(data) {
 }
 
 module.exports = {
-    getLessons: getLessons,
+    filterLessons: filterLessons,
     getLessonById: getLessonById,
     createLesson: createLesson,
     updateLesson: updateLesson,

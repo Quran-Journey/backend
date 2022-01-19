@@ -4,12 +4,28 @@ const utils = require("./utils");
 
 /*
  * @api [get] /lessons
- *  summary: "Fetch all lessons"
- *  description: "This is a general fetch and has no parameters. It will fetch all of the lessons in the database."
+ *  summary: "Filter lessons"
+ *  description: "This fetch acts as a filter based on the given query params. If none are given, then all params are fetched. Operator must be one of: eq, gt, lt, gte, or lte."
  *  tags:
  *    - Lesson Endpoints
  *  produces:
  *    - application/json
+ *  parameters:
+ *      - in: query
+ *        name: property
+ *        type: string
+ *        required: false
+ *        example: 'lesson_date'
+ *      - in: query
+ *        name: operator
+ *        type: string
+ *        required: false
+ *        example: 'eq'
+ *      - in: query
+ *        name: value
+ *        type: string
+ *        required: false
+ *        example: '2021-5-28'
  *  responses:
  *    200:
  *      description: A list of lessons.
@@ -22,7 +38,7 @@ const utils = require("./utils");
  *
  */
 router.get("/lessons", async (request, response) => {
-    await lesson.getLessons().then(async function (result) {
+    await lesson.filterLessons(request.query).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });
@@ -43,7 +59,7 @@ router.get("/lessons", async (request, response) => {
  *        example: 1
  *  responses:
  *    200:
- *      description: A list of lessons.
+ *      description: The corresponding lesson.
  *      schema:
  *          $ref: '#/definitions/Lesson'
  *    404:
@@ -121,7 +137,7 @@ router.patch("/lesson", async (request, response) => {
  *              $ref: '#/definitions/Lesson'
  *  responses:
  *    200:
- *      description: This lesson has been deleted.
+ *      description: The Lesson has been deleted.
  *      schema:
  *          $ref: '#/definitions/Lesson'
  *    404:
