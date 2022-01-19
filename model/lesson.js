@@ -72,24 +72,17 @@ async function filterLessons(data) {
         );
     } else {
         if (!Object.keys(attributes).includes(data.property)) {
-            // Must be in the list of possible properties, if not,
-            // then we must notify the user. This is done to avoid SQL injection.
-            return utils.setResult(
-                {},
-                false,
-                `${property} is not an attribute of the Lesson type.`,
-                utils.errorEnum.INVALID
+            // This check is done to avoid SQL injection.
+            return utils.returnInvalid(
+                `${property} is not an attribute of the Lesson type.`
             );
         }
         invalid = utils.simpleValidation(data, {
             value: attributes[data.property],
         });
         if (invalid) {
-            return utils.setResult(
-                {},
-                false,
-                `${property} is not an attribute of the Lesson type.`,
-                utils.errorEnum.INVALID
+            utils.returnInvalid(
+                `${property} is not an attribute of the Lesson type.`
             );
         }
         let sql = `SELECT * FROM Lesson WHERE ${data.property}`;
@@ -97,12 +90,9 @@ async function filterLessons(data) {
         if (op) {
             sql = sql + `${op}$1;`;
         } else {
-            // If the operator is invalid, then we must notify the user.
-            return utils.setResult(
-                {},
-                false,
-                `Operator was not set correctly. Operator must be one of: eq, gt, lt, gte, or lte.`,
-                utils.errorEnum.INVALID
+            // If the operator is invalid, then we must notify the client.
+            utils.returnInvalid(
+                `Operator was not set correctly. Operator must be one of: eq, gt, lt, gte, or lte.`
             );
         }
         var params = [data.value];

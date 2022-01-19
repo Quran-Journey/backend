@@ -16,6 +16,11 @@ function setResult(d, pass, msg, code) {
     return { data: d, success: pass, error: msg, ecode: code };
 }
 
+/** Simply prepare an response for invalid inputs */
+function returnInvalid(msg) {
+    return utils.setResult({}, false, msg, utils.errorEnum.INVALID);
+}
+
 /**
  * This class represents messages that will be returned as errors or to the user.
  * Either the values are passed into the options object, or they are set to the default values
@@ -165,7 +170,11 @@ function checkBody(data, required, p = true) {
     return;
 }
 
-/** A function that gets us a string representation of an operator based on a string */
+/** A function that gets us a string representation of an operator based on a string
+ *
+ * @param {string} operator
+ * The string representation of the operator
+ */
 function getOperator(operator) {
     switch (operator) {
         case "eq":
