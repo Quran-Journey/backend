@@ -4,8 +4,8 @@ const utils = require("./utils");
 
 /*
  * @api [get] /lessons
- *  summary: "Fetch all lessons"
- *  description: "This is a general fetch and has no parameters. It will fetch all of the lessons in the database."
+ *  summary: "Filter lessons"
+ *  description: "This fetch acts as a filter based on the given query params. If none are given, then all params are fetched. Operator must be one of: eq, gt, lt, gte, or lte."
  *  tags:
  *    - Lesson Endpoints
  *  produces:
@@ -20,7 +20,7 @@ const utils = require("./utils");
  *        name: operator
  *        type: string
  *        required: false
- *        example: 'eq', 'lt', or 'gte'
+ *        example: 'eq'
  *      - in: query
  *        name: value
  *        type: string
@@ -59,7 +59,7 @@ router.get("/lessons", async (request, response) => {
  *        example: 1
  *  responses:
  *    200:
- *      description: A list of lessons.
+ *      description: The corresponding lesson.
  *      schema:
  *          $ref: '#/definitions/Lesson'
  *    404:
@@ -137,7 +137,7 @@ router.patch("/lesson", async (request, response) => {
  *              $ref: '#/definitions/Lesson'
  *  responses:
  *    200:
- *      description: This lesson has been deleted.
+ *      description: The Lesson has been deleted.
  *      schema:
  *          $ref: '#/definitions/Lesson'
  *    404:
