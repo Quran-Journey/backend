@@ -1,5 +1,12 @@
 const utils = require("./utils");
 
+// Note: this list contains key value pairs of the attribute and types within the schema.
+const attributes = {
+    lesson_id: "integer",
+    lesson_date: "date",
+    source: "string",
+};
+
 /**
  *  @schema Lesson
  *  type: object
@@ -41,31 +48,71 @@ async function createLesson(data) {
     );
 }
 
-/** This is where we actually filter our values. */
+/**
+ *  Note: this function is way too large. I need to break it up into smaller chunks
+ *  For example, Take out the invalid return value by moving it to a helper function (it appears three times)
+ *
+ *  This is where we actually filter our values.
+ *  Properties must be a string representing one of the table columns.
+ *  Operator must be one of: eq, gt, lt, gte, or lte.
+ *  Value is the value we are filtering by.
+ */
 async function filterLessons(data) {
     var invalid = utils.simpleValidation(data, {
         property: "string",
         operator: "string",
-        value: "string",
     });
     if (invalid) {
         return await utils.retrieve(
             "SELECT * FROM Lesson;",
             [],
-            (message = new utils.Message({
+            new utils.Message({
                 success: `Fetched all lessons since no query was properly defined.`,
-            }))
+            })
         );
     } else {
-        // let sql = "SELECT * FROM Lesson WHERE $1$2$3";
-        // var params = [data.property, data.operator, data.value];
-        // return await utils.retrieve(
-        //     sql,
-        //     params,
-        //     new utils.Message({
-        //         success: `Successfully fetched lesson with id ${data.lesson_id}.`,
-        //     })
-        // );
+        if (!Object.keys(attributes).includes(data.property)) {
+            // Must be in the list of possible properties, if not,
+            // then we must notify the user. This is done to avoid SQL injection.
+            return utils.setResult(
+                {},
+                false,
+                `${property} is not an attribute of the Lesson type.`,
+                utils.errorEnum.INVALID
+            );
+        }
+        invalid = utils.simpleValidation(data, {
+            value: attributes[data.property],
+        });
+        if (invalid) {
+            return utils.setResult(
+                {},
+                false,
+                `${property} is not an attribute of the Lesson type.`,
+                utils.errorEnum.INVALID
+            );
+        }
+        let sql = `SELECT * FROM Lesson WHERE ${data.property}`;
+        let op = utils.getOperator(data.operator);
+        if (op) {
+            sql = sql + `${op}$1;`;
+        } else {
+            // If the operator is invalid, then we must notify the user.
+            return utils.setResult(
+                {},
+                false,
+                `Operator was not set correctly. Operator must be one of: eq, gt, lt, gte, or lte.`,
+                utils.errorEnum.INVALID
+            );
+        }
+        var params = [data.value];
+        return await utils.retrieve(
+            sql,
+            params,
+            new utils.Message({
+                success: `Successfully fetched lessons based on filter ${data.property} ${op} ${data.value}.`,
+            })
+        );
     }
 }
 
