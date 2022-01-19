@@ -18,6 +18,15 @@ function lessonTests() {
         expect(resp1.data.success).toEqual(true);
     });
 
+    it("getting a lesson by it's date", async () => {
+        let lessonA = seedData.lesson[0];
+
+        const resp1 = await apiGET(`/lessons?property=lesson_date&operator=eq&value=${lessonA.lesson_date}`);
+        let lessonB = resp1.data.data[0];
+        checkMatch(lessonA, lessonB);
+        expect(resp1.data.success).toEqual(true);
+    });
+
     it("getting all lessons", async () => {
         let lesson1 = seedData.lesson[0];
         let lesson2 = seedData.lesson[1];
@@ -72,15 +81,6 @@ function lessonTests() {
         let resp2 = await apiGET(`/lesson/4`);
         expect(resp2.data.ecode).toEqual(3); // Ecode 3 implies None found (i.e. DNE)
         expect(resp2.data.success).toEqual(false);
-    });
-
-    it("getting a lesson by it's date", async () => {
-        let lessonA = seedData.lesson[0];
-
-        const resp1 = await apiGET(`/lessons?property=lesson_date&operator=eq&value=${lessonA.lesson_date}`);
-        let lessonB = resp1.data.data[0];
-        checkMatch(lessonA, lessonB);
-        expect(resp1.data.success).toEqual(true);
     });
 }
 
