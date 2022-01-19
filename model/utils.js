@@ -39,7 +39,6 @@ const defaultMsg = new Message({});
 function checkEmptyBody(data) {
     var keys = Object.keys(data);
     if (keys.length == 0) {
-        console.log("Request data is empty");
         return setResult(
             {},
             false,
@@ -49,9 +48,6 @@ function checkEmptyBody(data) {
     }
     for (var i = 0; i < keys.length; i++) {
         if (!keys[i]) {
-            console.log(
-                "Invalid: data is missing atleast one key, value pair."
-            );
             return setResult(
                 data,
                 false,
@@ -89,9 +85,6 @@ function checkBodyTypes(data, required) {
         var type = required[key];
         var value = data[key];
         if (value == undefined) {
-            console.log(
-                "Invalid: Body contains an undefined value for key: " + key
-            );
             return setResult(
                 data,
                 false,
@@ -105,9 +98,6 @@ function checkBodyTypes(data, required) {
             !dataTypeRegex[type].test(value)
         ) {
             // If the regex test fails, this implies that the formatting is incorrect.
-            console.log(
-                "Invalid: Body contains an invalid value for key: " + key
-            );
             return setResult(
                 data,
                 false,
