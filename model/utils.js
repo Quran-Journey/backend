@@ -12,6 +12,7 @@ const errorEnum = {
 
 // This is a constant response return format so that all of our responses have the same format.
 function setResult(d, pass, msg, code) {
+    console.log(msg);
     return { data: d, success: pass, error: msg, ecode: code };
 }
 
@@ -218,10 +219,8 @@ async function retrieve(sql, params = [], message = defaultMsg) {
         .query(sql, params)
         .then((result) => {
             if (result.rows[0] == null) {
-                console.log(message.none);
                 return setResult([], false, message.none, errorEnum.DNE);
             }
-            console.log(message.success);
             return setResult(
                 result.rows,
                 true,
@@ -230,7 +229,7 @@ async function retrieve(sql, params = [], message = defaultMsg) {
             );
         })
         .catch((e) => {
-            console.log("\nERROR!\n", message.server, e);
+            console.log("\nERROR!\n", e);
             return setResult([], false, message.server, errorEnum.SERVER);
         });
 }
@@ -357,10 +356,8 @@ async function remove(sql, params = [], message = defaultMsg) {
         .query(sql, params)
         .then((result) => {
             if (result.rows[0] == null) {
-                console.log(message.none);
                 return setResult({}, false, message.none, errorEnum.DNE);
             }
-            console.log(message.success);
             return setResult(
                 result.rows,
                 true,
