@@ -1,6 +1,6 @@
 const utils = require("./utils");
 
-// Note: this list contains key value pairs of the attribute and types within the schema.
+// Note: this object contains key value pairs of the attribute and types within the schema.
 const attributes = {
     lesson_id: "integer",
     lesson_date: "date",
