@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const lesson = require("../model/lesson");
+const chapter = require('../models/chapter');
 const utils = require("./utils");
 
 /*
@@ -95,6 +96,32 @@ router.post("/lesson", async (request, response) => {
         return utils.simpleResponse(result, response);
     });
 });
+
+/*
+ * @api [post] /chapter
+ *  summary: "Post Surah Informations"
+ *  tags:
+ *    - Chapter Endpoints
+ *  produces:
+ *    - application/json
+ *  parameters:
+ *        - in: body
+ *          name: id
+ *          description: the lesson to update and it's new attributes
+ *          schema:
+ *              $ref: '#/definitions/Lesson'
+ *  responses:
+ *    200:
+ *      description: Chapter has been created.
+ *
+ */
+router.post("/chapter", async (request, response) => {
+    await lesson.createLesson(request.body).then(async function (result) {
+        return utils.simpleResponse(result, response);
+    });
+});
+
+
 
 /*
  * @api [patch] /lesson
