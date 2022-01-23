@@ -18,7 +18,7 @@ function setResult(d, pass, msg, code) {
 
 /** Simply prepare an response for invalid inputs */
 function returnInvalid(msg) {
-    return utils.setResult({}, false, msg, utils.errorEnum.INVALID);
+    return setResult({}, false, msg, utils.errorEnum.INVALID);
 }
 
 /**
@@ -154,7 +154,7 @@ function checkBodyKeys(data, required, p = true) {
  * @param {List[String]} types
  * The types of the values that should be in the parameters
  */
-function checkBody(data, required, p = true) {
+function simpleValidation(data, required, p = true) {
     var empty = checkEmptyBody(data);
     if (empty) {
         return empty;
@@ -192,6 +192,28 @@ function getOperator(operator) {
     }
 }
 
+/** A function that will return the pagination portion of an sql SELECT statement.
+ *
+ * @param {string} data
+ * The query data coming from the request
+ */
+function paginate(data) {
+    // Here, we just need make sure that the page and results per page are valid inputs
+    var invalid = simpleValidation(data, {
+        page: "integer",
+        results_per_page: "integer",
+    });
+    if (invalid) {
+        return "";
+    }
+    if (isNaN(page) || isNaN(results_per_page)) {
+        return returnInvalid(
+            `Invalid value for pagination. Either "page" or "results_per_page" is not a number.`
+        );
+    }
+    return `LIMIT ${results_per_page} OFFSET ${page * results_per_page};s`;
+}
+
 /**
 ----------------------------------------------------------------------------------
 THE FOLLOWING FUNCTIONS IMPLEMENT THE DIFFERENT VARIATIONS OF THE CRUD OPERATIONS.
@@ -204,8 +226,11 @@ THE FOLLOWING FUNCTIONS IMPLEMENT THE DIFFERENT VARIATIONS OF THE CRUD OPERATION
  * It also takes ina message object which contains three
  *
  * @param {String} sql
+ * The query to be executed
  * @param {List[String]} params
+ * The values that will be passed into the query
  * @param {Message} message
+ * Any success or error messages that the client may receive
  */
 async function retrieve(sql, params = [], message = defaultMsg) {
     console.log(
@@ -377,7 +402,8 @@ module.exports = {
     remove: remove,
     setResult: setResult,
     getOperator: getOperator,
-    simpleValidation: checkBody,
+    paginate: paginate,
+    simpleValidation: simpleValidation,
     errorEnum: errorEnum,
     Message: Message,
 };
