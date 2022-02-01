@@ -2,7 +2,7 @@
 
 The steps to document code are simple:
 1. Add inline comments that describe the endpoints or schemas using OAS.
-2. execute `sh run.sh` to process the docs and serve them on localhost. 
+2. execute `sh run.sh` to process the docs and `sh serve.sh` serve them on localhost. 
 
 It's that simple.
 
