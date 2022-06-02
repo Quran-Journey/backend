@@ -9,7 +9,7 @@ Below is the architecture of just the web app.
 
 Below is the overall architecture of the entire project. The frontend of this web app connects to Node from the roots microservice, where roots serves as an API. 
 
-![Overall Diagram](https://user-images.githubusercontent.com/35634011/171746859-4a996d80-99bc-4923-bfcb-3d0b94e9c443.png)
+![Overall Diagram](https://user-images.githubusercontent.com/35634011/171746913-332d998f-88c2-4b9d-84c7-fa189e104a5e.png)
 
 ## Development Environment
 We are using the PERN stack (Postgres, Express, React, Nginx). Please execute scripts in a linux environment that contains docker and node. It is recommended that you also have Postgres installed on your machine, but this is not necessary.
