@@ -1,9 +1,19 @@
 # Quran Journey Web App
 
-## Development environment
+## High-Level Architecture 
+Quran Journey is a web app that also utilizes a microservice project from [Quran Journey/roots](https://github.com/Quran-Journey/roots).
+
+Below is the architecture of just the web app. 
+
+![Group 19](https://user-images.githubusercontent.com/35634011/171739299-32e85c77-2124-429b-b1eb-25cd2fac0bde.png)
+Below is the overall architecture of the entire project. The frontend of this web app connects to Node from the roots microservice, where roots serves as an API. 
+
+![Overall Diagram](https://user-images.githubusercontent.com/35634011/171739198-c6b3ccd0-254f-41af-ae6b-e4c7fffe8e5d.png)
+
+## Development Environment
 We are using the PERN stack (Postgres, Express, React, Nginx). Please execute scripts in a linux environment that contains docker and node. It is recommended that you also have Postgres installed on your machine, but this is not necessary.
 
-## Running the scripts
+## Running the Scripts
 
 Note: the following scripts are to be executed from the top level folder.
 
