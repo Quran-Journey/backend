@@ -4,8 +4,8 @@
 Quran Journey is a web app that also utilizes a microservice project from [Quran Journey/roots](https://github.com/Quran-Journey/roots).
 
 Below is the architecture of just the web app. 
+![Web App](https://user-images.githubusercontent.com/35634011/171740146-3f2ae4f9-1dca-4a93-a294-57c8631acf18.png)
 
-![Group 19](https://user-images.githubusercontent.com/35634011/171739299-32e85c77-2124-429b-b1eb-25cd2fac0bde.png)
 Below is the overall architecture of the entire project. The frontend of this web app connects to Node from the roots microservice, where roots serves as an API. 
 
 ![Overall Diagram](https://user-images.githubusercontent.com/35634011/171739198-c6b3ccd0-254f-41af-ae6b-e4c7fffe8e5d.png)
