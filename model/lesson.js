@@ -59,9 +59,10 @@ async function filterLessons(data) {
         property: "string",
         operator: "string",
     });
+    let pagination = utils.paginate(data);
     if (invalid) {
         return await utils.retrieve(
-            "SELECT * FROM Lesson;",
+            `SELECT * FROM Lesson ${pagination};`,
             [],
             new utils.Message({
                 success: `Fetched all lessons since no query was properly defined.`,
@@ -83,7 +84,8 @@ async function filterLessons(data) {
         let sql = `SELECT * FROM Lesson WHERE ${data.property}`;
         let op = utils.getOperator(data.operator);
         if (op) {
-            sql = sql + `${op}$1;`;
+            // Add the operator and any pagination
+            sql = sql + `${op}$1 ${pagination};`;
         } else {
             // If the operator is invalid, then we must notify the client.
             utils.returnInvalid(
