@@ -22,6 +22,8 @@ Compile the documentation by executing `cd docs; sh run.sh;` Serve the docs loca
 
 ## High-Level Architecture 
 
-[Click here to see an image depicting the technologies used in this project.](https://user-images.githubusercontent.com/35634011/171746819-db404bc7-ed8f-4ad5-a65c-7d1d43051e62.png) 
+[An image depicting the technologies used in this project.](https://user-images.githubusercontent.com/35634011/171746819-db404bc7-ed8f-4ad5-a65c-7d1d43051e62.png) 
 
-[Click here to view the relationship to other projects within the Quran Journey development scope.](https://user-images.githubusercontent.com/35634011/171746913-332d998f-88c2-4b9d-84c7-fa189e104a5e.png)
+[An image depicting the relationships to other projects within the Quran Journey development scope.](https://user-images.githubusercontent.com/35634011/171746913-332d998f-88c2-4b9d-84c7-fa189e104a5e.png)
+
+[Entity Relationship Diagram for this application and other microservices](https://github.com/Quran-Journey/backend/tree/master/db#readme)
