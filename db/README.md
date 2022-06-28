@@ -1,5 +1,7 @@
 ### Database
 
+![Entity Relationship Diagram](./ERD.jpg)
+
 The database schema and views are defined in this folder.
 
 There is also a docker-compose file which executes a simple docker container so that you do not need to install docker yourself.
