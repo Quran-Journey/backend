@@ -2,63 +2,60 @@
 -- But because I'd prefer to store everything for ourselves, we should make the request to that api only once
 -- and store them here.
 CREATE TABLE Surah (
-    surah_number INTEGER PRIMARY KEY, -- This is the number corresponding to the surah in question
-    revelation_place VARCHAR(20),
-    revelation_order INTEGER,
+    surah_id INTEGER NOT NULL, 
+    surah_number INTEGER,
+    revelation_place VARCHAR(50),
     name_complex VARCHAR(50),
     name_arabic VARCHAR(50), -- TODO: check if this is how we can store the arabic name, I think it's fine
     verses_count INTEGER,
-    num_pages INTEGER,
-    english_name VARCHAR(50)
+    PRIMARY KEY (surah_id)
 );
 
--- We've separated the notes because they could be used in multiple lessones
-CREATE TABLE Notes(
-    notes_id SERIAL PRIMARY KEY,
-    notes_file VARCHAR(200), -- This is the location of the notes file, essentially just the file name as we will be storing them all in the same place.
-    surah INTEGER,
-    version INTEGER, -- why is the word version highlighted in blue? This will be the version of the notes (i.e. v1.2). As the notes might get updated for the same surah
+CREATE TABLE IF NOT EXISTS SurahInfo(
+    title VARCHAR(255) NOT NULL,
+    text VARCHAR(255),
+    PRIMARY KEY (title)
+)
 
-    constraint SurahNotesFk foreign key (surah) references Surah(surah_number) on update cascade on delete cascade
+CREATE TABLE IF NOT EXISTS LessonSurah(
+    lesson_id INTEGER NOT NULL,
+    surah_number INTEGER,
+    PRIMARY KEY (lesson_id),
+    FOREIGN KEY (surah_number)
+        REFERENCES Surah(surah_number)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS Verse(
+    verse_idex INTEGER NOT NULL,
+    surah INTEGER,
+    PRIMARY KEY (verse_idex),
+    FOREIGN KEY (surah)
+        REFERENCES Surah(surah_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 -- This will store the locations for the video and audio file for a lesson
-CREATE TABLE Lesson (
-    lesson_id SERIAL PRIMARY KEY, -- This implies we will need to add the lesson number ourselves.
-    lesson_date DATE NOT NULL, 
-    source TEXT NOT NULL -- The host from which we will fetch the video (i.e. youtube or facebook)
+CREATE TABLE IF NOT EXISTS Lesson(
+    lesson_id INTEGER NOT NULL,  
+    lesson_date DATE NOT NULL,
+    source TEXT NOT NULL,
+    PRIMARY KEY (lesson_id)
 );
 
-
--- The following table exists so that we can have multiple surahs in the same lesson, or multiple lessones covering the same surah.
-CREATE TABLE LessonSurah (
-    lesson_id SERIAL PRIMARY KEY,
-    surah_number INTEGER,
-    
-    constraint SurahLessonFk foreign key (surah_number) references Surah(surah_number) on update cascade on delete cascade
+CREATE TABLE IF NOT EXISTS VerseExplanation(
+    explanation_id INTEGER NOT NULL,
+    verse_id INTEGER NOT NULL,
+    PRIMARY KEY (explanation_id),
+    FOREIGN KEY (verse_id)
+        REFERENCES Verse(verse_idex)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
-
-CREATE TABLE Verse (
-    verse_id SERIAL PRIMARY KEY,
-    surah_number INTEGER,
-    verse_number INTEGER, -- In order to get the verse using quran.com api, we just need the verse and surah number.
-    
-    constraint SurahLessonFk foreign key (surah_number) references Surah(surah_number) on update cascade on delete cascade
-);
-
-
-CREATE TABLE VerseExplanation (
-    explanation_id SERIAL PRIMARY KEY,
-    notes_id INTEGER,
-    verse_id INTEGER,
-    explanation TEXT, -- In order to get the verse using quran.com api, we just need the verse and surah number.
-    
-    constraint verseBeingExplainedFk foreign key (verse_id) references Verse(verse_id) on update cascade on delete cascade,
-    constraint notesContainingExplanationFk foreign key (notes_id) references Notes(notes_id) on update cascade on delete cascade
-);
-
--- TODO: fix up foreign key references
+--- 6 Tables done, finish / fix the ones below ---
 
 CREATE TABLE Word (
     word_id SERIAL PRIMARY KEY,
@@ -92,3 +89,15 @@ CREATE TABLE Hadith (
     
     constraint HadithVerseExplanationFk foreign key (explanation_id) references VerseExplanation(explanation_id) on update cascade on delete cascade
 );
+
+
+-- We've separated the notes because they could be used in multiple lessones
+CREATE TABLE Notes(
+    notes_id SERIAL PRIMARY KEY,
+    notes_file VARCHAR(200), -- This is the location of the notes file, essentially just the file name as we will be storing them all in the same place.
+    surah INTEGER,
+    version INTEGER, -- why is the word version highlighted in blue? This will be the version of the notes (i.e. v1.2). As the notes might get updated for the same surah
+
+    constraint SurahNotesFk foreign key (surah) references Surah(surah_number) on update cascade on delete cascade
+);
+
