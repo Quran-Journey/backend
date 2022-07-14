@@ -10,7 +10,7 @@ const seedData = setup.seedData;
 
 function lessonTests() {
     it("getting a lesson's information", async () => {
-        let lessonA = seedData.lesson[0];
+        let lessonA = seedData.Lesson[0];
 
         const resp1 = await apiGET(`/lesson/1`);
         let lessonB = resp1.data.data[0];
@@ -19,7 +19,7 @@ function lessonTests() {
     });
 
     it("getting a lesson by it's date", async () => {
-        let lessonA = seedData.lesson[0];
+        let lessonA = seedData.Lesson[0];
 
         const resp1 = await apiGET(`/lessons?property=lesson_date&operator=eq&value=${lessonA.lesson_date}`);
         let lessonB = resp1.data.data[0];
@@ -28,8 +28,8 @@ function lessonTests() {
     });
 
     it("getting all lessons", async () => {
-        let lesson1 = seedData.lesson[0];
-        let lesson2 = seedData.lesson[1];
+        let lesson1 = seedData.Lesson[0];
+        let lesson2 = seedData.Lesson[1];
 
         const resp1 = await apiGET(`/lessons`);
         let lessonA = resp1.data.data[0];

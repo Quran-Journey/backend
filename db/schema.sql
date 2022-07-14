@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS Verse(
 
 DROP TABLE IF EXISTS Lesson; 
 CREATE TABLE IF NOT EXISTS Lesson(
-    lesson_id INTEGER NOT NULL,  
+    lesson_id PRIMARY KEY NOT NULL,  
     lesson_date DATE NOT NULL,
     source TEXT NOT NULL,
     PRIMARY KEY (lesson_id)
