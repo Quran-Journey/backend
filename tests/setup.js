@@ -6,7 +6,7 @@ const moment = require("moment");
  * - 2 lessons
  */
 const seedData = {
-    lesson: [
+    Lesson: [
         {
             lesson_id: 1,
             lesson_date: new moment(faker.date.past(100)).format("YYYY-MM-DD"),
