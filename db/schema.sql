@@ -1,12 +1,10 @@
--- We can use surah_number to make an api request to https://api.quran.com/api/v4/chapters/(surah_number)
--- and store them here.
 DROP TABLE IF EXISTS Surah; 
 CREATE TABLE IF NOT EXISTS Surah (
     surah_id SERIAL PRIMARY KEY, 
     surah_number INTEGER NOT NULL,
     revelation_place VARCHAR(100),
     name_complex VARCHAR(50),
-    name_arabic VARCHAR(50), -- TODO: check if this is how we can store the arabic name, I think it's fine
+    name_arabic VARCHAR(50),
     verse_count INTEGER NOT NULL
 );
 
@@ -21,12 +19,11 @@ CREATE TABLE IF NOT EXISTS SurahInfo (
 
 DROP TABLE IF EXISTS Verse; 
 CREATE TABLE IF NOT EXISTS Verse (
-    verse_index INTEGER PRIMARY KEY, -- This is an integer and not a serial because it's a reference to another service's verse_id
+    verse_index INTEGER PRIMARY KEY,
     surah INTEGER NOT NULL,
     FOREIGN KEY (surah) REFERENCES Surah(surah_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- This will store the locations for the video and audio file for a lesson
 DROP TABLE IF EXISTS Lesson; 
 CREATE TABLE IF NOT EXISTS Lesson (
     lesson_id SERIAL PRIMARY KEY,
