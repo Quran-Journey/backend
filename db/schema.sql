@@ -12,13 +12,16 @@ CREATE TABLE IF NOT EXISTS Surah (
 
 DROP TABLE IF EXISTS SurahInfo; 
 CREATE TABLE IF NOT EXISTS SurahInfo (
-    title VARCHAR(255) PRIMARY KEY,
-    info TEXT
+    surah_info_id SERIAL PRIMARY KEY,
+    surah INTEGER NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    info TEXT NOT NULL,
+    FOREIGN KEY (surah) REFERENCES Surah(surah_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 DROP TABLE IF EXISTS Verse; 
 CREATE TABLE IF NOT EXISTS Verse (
-    verse_index SERIAL PRIMARY KEY,
+    verse_index INTEGER PRIMARY KEY, -- This is an integer and not a serial because it's a reference to another service's verse_id
     surah INTEGER NOT NULL,
     FOREIGN KEY (surah) REFERENCES Surah(surah_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -42,33 +45,34 @@ CREATE TABLE IF NOT EXISTS LessonSurah (
 
 DROP TABLE IF EXISTS VerseExplanation; 
 CREATE TABLE IF NOT EXISTS VerseExplanation (
-    explanation_id SERIAL PRIMARY KEY,
+    verse_explanation_id SERIAL PRIMARY KEY,
     verse_id INTEGER NOT NULL,
     FOREIGN KEY (verse_id) REFERENCES Verse(verse_index) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-DROP TABLE IF EXISTS WordExplaination; 
-CREATE TABLE IF NOT EXISTS WordExplaination (
-    root_id SERIAL PRIMARY KEY,
-    explanation_id INTEGER NOT NULL,
+DROP TABLE IF EXISTS WordExplanation; 
+CREATE TABLE IF NOT EXISTS WordExplanation (
+    word_explanation_id SERIAL PRIMARY KEY,
+    verse_explanation_id INTEGER,
+    root_id INTEGER NOT NULL,
     visible BOOLEAN NOT NULL, 
-    explaination TEXT,
-    FOREIGN KEY (explanation_id) REFERENCES VerseExplanation(explanation_id) ON DELETE CASCADE ON UPDATE CASCADE
+    word_explaination TEXT,
+    FOREIGN KEY (verse_explanation_id) REFERENCES VerseExplanation(verse_explanation_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 DROP TABLE IF EXISTS Tafsir; 
 CREATE TABLE IF NOT EXISTS Tafsir (
     tafsir_id SERIAL PRIMARY KEY,
-    explanation_id INTEGER NOT NULL,
+    verse_explanation_id INTEGER NOT NULL,
     visible BOOLEAN NOT NULL, 
-    FOREIGN KEY (explanation_id) REFERENCES VerseExplanation(explanation_id) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (verse_explanation_id) REFERENCES VerseExplanation(verse_explanation_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-DROP TABLE IF EXISTS Reflections; 
-CREATE TABLE IF NOT EXISTS Reflections (
+DROP TABLE IF EXISTS Reflection; 
+CREATE TABLE IF NOT EXISTS Reflection (
     reflection_id SERIAL PRIMARY KEY,
-    explanation_id INTEGER NOT NULL,
-    title TEXT NOT NULL, 
+    verse_explanation_id INTEGER NOT NULL,
+    title TEXT NOT NULL,
     reflection TEXT,
-    FOREIGN KEY (explanation_id) REFERENCES VerseExplanation(explanation_id) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (verse_explanation_id) REFERENCES VerseExplanation(verse_explanation_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
