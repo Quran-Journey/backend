@@ -10,8 +10,7 @@ services:
         volumes:
             - ./pgdata:/var/lib/postgresql/qj:z
             - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:z
-            - ./views.sql:/docker-entrypoint-initdb.d/views.sql:z
         ports:
-            - "5434:5432"
+            - "5436:5432"
         networks:
             - default

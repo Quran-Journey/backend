@@ -1,5 +1,4 @@
 -- We can use surah_number to make an api request to https://api.quran.com/api/v4/chapters/(surah_number)
--- But because I'd prefer to store everything for ourselves, we should make the request to that api only once
 -- and store them here.
 DROP TABLE IF EXISTS Surah; 
 CREATE TABLE IF NOT EXISTS Surah (
@@ -30,7 +29,7 @@ CREATE TABLE IF NOT EXISTS Verse (
 -- This will store the locations for the video and audio file for a lesson
 DROP TABLE IF EXISTS Lesson; 
 CREATE TABLE IF NOT EXISTS Lesson (
-    lesson_id SERIAL PRIMARY KEY,
+    lesson_id serial PRIMARY KEY,
     lesson_date DATE NOT NULL,
     source TEXT NOT NULL
 );
@@ -38,7 +37,7 @@ CREATE TABLE IF NOT EXISTS Lesson (
 DROP TABLE IF EXISTS LessonSurah; 
 CREATE TABLE IF NOT EXISTS LessonSurah (
     lesson_id SERIAL,
-    surah_id SERIAL,
+    surah_id SERIAL
     PRIMARY KEY (lesson_id, surah_id),
     FOREIGN KEY (lesson_id)
         REFERENCES Lesson(lesson_id)
@@ -52,7 +51,7 @@ CREATE TABLE IF NOT EXISTS LessonSurah (
 
 DROP TABLE IF EXISTS VerseExplanation; 
 CREATE TABLE IF NOT EXISTS VerseExplanation (
-    explanation_id SERIAL PRIMARY KEY,
+    explanation_id serial PRIMARY KEY,
     verse_id INTEGER NOT NULL,
     FOREIGN KEY (verse_id)
         REFERENCES Verse(verse_index)
