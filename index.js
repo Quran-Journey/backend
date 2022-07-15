@@ -1,6 +1,8 @@
 const https = require("https");
 const fs = require("fs");
 const express = require("express");
+const firebase = require('firebase/app');
+const auth = require('firebase/auth');
 const bodyParser = require("body-parser");
 const lesson = require("./routes/lesson");
 
