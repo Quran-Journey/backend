@@ -7,7 +7,7 @@ const seedData = setup.seedData;
 
 function reflectionTests() {
 
-    it("getting a reflection's information", async () => {
+    it("getting reflection's information", async () => {
         let ReflectionA = seedData.Reflection[0];
 
         const resp1 = await apiGET(`/reflection`);

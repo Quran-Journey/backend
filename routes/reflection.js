@@ -9,7 +9,7 @@ router.get("/reflection", async (request, response) => {
     })
 })
 
-router.get("/reflection/:Reflection_id", async (request, response) => {
+router.get("/reflection/:reflection_id", async (request, response) => {
     await reflection.getReflectionById(request.params).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
@@ -27,7 +27,7 @@ router.patch("/reflection", async (request, response) => {
     });
 });
 
-router.delete("/reflection/:Reflection_id", async (request, response) => {
+router.delete("/reflection/:reflection_id", async (request, response) => {
     await reflection.deleteReflection(request.params).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
