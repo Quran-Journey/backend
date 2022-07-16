@@ -90,7 +90,7 @@ router.patch("/reflection", async (request, response) => {
  *  produces:
  *    - application/json
  *  parameters:
- *        - in: body
+ *        - in: params
  *          name: id
  *          description: the reflection to be deleted
  *          schema:
@@ -113,6 +113,7 @@ router.delete("/reflection/:reflection_id", async (request, response) => {
 /*
  * @api [get] /reflection
  *  summary: "get all reflection"
+ *  description: "This is used to request all reflections stored in the Reflection Table"
  *  tags:
  *    - Reflection Endpoints
  *  produces:
