@@ -1,6 +1,53 @@
 const utils = require("./utils");
 
-async function test() {
+/**
+ *  @schema Reflection
+ *  type: object
+ *  required:
+ *      - reflection_id
+ *      - verse_explanation_id
+ *      - title
+ *      - reflection
+ *  properties:
+ *      reflection_id:
+ *          type: integer
+ *          description: to identify the reflection from others
+ *          example: 1
+ *      verse_explanation_id:
+ *          type: integer
+ *          description: to identify the verse that the reflection is refering to
+ *          example: 23
+ *      title:
+ *          type: string
+ *          description: a title to the refelction
+ *          example: "My Reflection"
+ *      reflection:
+ *          type: string
+ *          description: refelction on verse 
+ *          example: "I have..."
+ */
+async function createReflection(data) {
+
+    var invalid = utils.simpleValidation(data, {
+        verse_explanation_id: "integer",
+        title: "string",
+        reflection: "string",
+    });
+    if (invalid) {
+        return invalid;
+    }
+    var sql_reflec =
+        "INSERT INTO Reflection (verse_explanation_id, title, reflection) VALUES ($1, $2, $3) RETURNING *;";
+    var params = [data.verse_explanation_id, data.title, data.reflection];
+
+    return await utils.create(
+        sql_reflec,
+        params,
+        new utils.Message({ success: "Successfully created a reflection." })
+    );
+}
+
+async function getAllReflections() {
     let sql = "SELECT * FROM Reflection";
     return await utils.retrieve(
         sql,
@@ -29,40 +76,6 @@ async function getReflectionById(data) {
             success: `Successfully fetched reflection with id ${data.reflection_id}.`,
         })
     );
-}
-
-async function createReflection(data) {
-
-    var invalid = utils.simpleValidation(data, {
-        reflection_id: "integer",
-        verse_explanation_id: "integer",
-        title: "string",
-        reflection: "string",
-    });
-    if (invalid) {
-        return invalid;
-    }
-    var sql_reflec =
-        "INSERT INTO Reflection (verse_explanation_id, title, reflection) VALUES ($1, $2, $3) RETURNING *;";
-    var params = [data.verse_explanation_id, data.title, data.reflection];
-    try {
-        /* some data to avoid forign key constraints 
-        var sql_verse = "INSERT INTO Verse (verse_index, surah) VALUES ($1, $2)";
-        var sql_surah =
-            "INSERT INTO Surah (surah_id,surah_number,revelation_place,verse_count) VALUES ($1, $2, $3, $4) RETURNING *;";
-        var sql_verse_expl = "INSERT INTO VerseExplanation (verse_explanation_id,verse_id) VALUES ($1,$2)RETURNING *;";
-        await utils.create(sql_surah, [1, 1, "Makkah", 7])
-        await utils.create(sql_verse, [1, 1])
-        await utils.create(sql_verse_expl, [1, 1])
-        */
-        return await utils.create(
-            sql_reflec,
-            params,
-            new utils.Message({ success: "Successfully created a reflection." })
-        );
-    } catch (error) {
-        console.log("ERROR: Something went wrong!")
-    }
 }
 
 /** Update a reflection, requires all attributes of the reflection. */
@@ -112,5 +125,5 @@ module.exports = {
     createReflection: createReflection,
     updateReflection: updateReflection,
     deleteReflection: deleteReflection,
-    test: test,
+    getAllReflections: getAllReflections,
 };
