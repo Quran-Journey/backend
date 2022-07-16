@@ -164,7 +164,6 @@ async function deleteLesson(data) {
     );
 }
 
-
 module.exports = {
     filterLessons: filterLessons,
     getLessonById: getLessonById,

@@ -99,7 +99,7 @@ router.patch("/reflection", async (request, response) => {
  *    200:
  *      description: The reflection has been deleted.
  *      schema:
- *          $ref: '#/definitions/reflection'
+ *          $ref: '#/definitions/Reflection'
  *    404:
  *      description: Could not find a reflection with that id.
  *
@@ -112,7 +112,7 @@ router.delete("/reflection/:reflection_id", async (request, response) => {
 
 /*
  * @api [get] /reflection
- *  summary: "get all reflection"
+ *  summary: "Get all reflections"
  *  description: "This is used to request all reflections stored in the Reflection Table"
  *  tags:
  *    - Reflection Endpoints
