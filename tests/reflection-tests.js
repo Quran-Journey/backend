@@ -41,11 +41,10 @@ function reflectionTests() {
 
     */
 }
-function checkMatch(lessonA, lessonB) {
-    expect(lessonA.source).toEqual(lessonB.source);
-    expect(new moment(lessonA.lesson_date).format("YYYY-MM-DD")).toEqual(
-        new moment(lessonB.lesson_date).format("YYYY-MM-DD")
-    );
+function checkMatch(reflectionA, reflectionB) {
+    expect(reflectionA.title).toEqual(reflectionB.title);
+    expect(reflectionA.reflection).toEqual(reflectionB.reflection);
+    expect(reflectionA.verse_explanation_id).toEqual(reflectionB.verse_explanation_id);
 }
 
 module.exports = {
