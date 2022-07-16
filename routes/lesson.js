@@ -150,4 +150,29 @@ router.delete("/lesson/:lesson_id", async (request, response) => {
     });
 });
 
+router.get("/reflection/:Reflection_id", async (request, response) => {
+    await lesson.getReflectionById(request.params).then(async function (result) {
+        return utils.simpleResponse(result, response);
+    });
+});
+
+router.post("/reflection", async (request, response) => {
+    await lesson.createReflection(request.body).then(async function (result) {
+        return utils.simpleResponse(result, response);
+    });
+});
+
+router.patch("/reflection", async (request, response) => {
+    await lesson.updateReflection(request.body).then(async function (result) {
+        return utils.simpleResponse(result, response);
+    });
+});
+
+router.delete("/reflection/:Reflection_id", async (request, response) => {
+    await lesson.deleteReflection(request.params).then(async function (result) {
+        return utils.simpleResponse(result, response);
+    });
+});
+
+
 module.exports = router;

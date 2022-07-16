@@ -164,10 +164,96 @@ async function deleteLesson(data) {
     );
 }
 
+/** Fetches Reflections based on a specific filter */
+async function getReflectionById(data) {
+    var invalid = utils.simpleValidation(data, {
+        Reflection_id: "integer",
+    });
+    if (invalid) {
+        console.log("exiting getReflectionById()...");
+        return invalid;
+    }
+    let sql = "SELECT * FROM Reflections WHERE Reflection_id=$1";
+    var params = [data.Reflection_id];
+    return await utils.retrieve(
+        sql,
+        params,
+        new utils.Message({
+            success: `Successfully fetched reflection with id ${data.Reflection_id}.`,
+        })
+    );
+}
+
+async function createReflection(data) {
+
+    var invalid = utils.simpleValidation(data, {
+        Explanation_id: "integer",
+        Title: "string",
+        Reflection: "string",
+    });
+    if (invalid) {
+        return invalid;
+    }
+    var sql =
+        "INSERT INTO Reflections (Explanation_id, Title, Reflection) VALUES ($1, $2, $3) RETURNING *;";
+    var params = [data.Explanation_id, data.Title, data.Reflection];
+    return await utils.create(
+        sql,
+        params,
+        new utils.Message({ success: "Successfully created a reflection." })
+    );
+}
+
+/** Update a reflection, requires all attributes of the reflection. */
+async function updateReflection(data) {
+    var invalid = utils.simpleValidation(data, {
+        Reflection_id: "integer",
+        Title: "string",
+        Reflection: "string",
+    });
+    if (invalid) {
+        return invalid;
+    }
+    let sql = "UPDATE Reflections SET Title=$2, Reflection=$3 WHERE Reflection_id=$1";
+    var params = [data.Reflection_id, data.Title, data.Reflection];
+    return await utils.update(
+        sql,
+        params,
+        new utils.Message({
+            success: `Successfully update reflection with id ${data.Reflection_id}.`,
+            none: `Could not find a reflection with id ${data.Reflection_id}.`,
+        })
+    );
+}
+
+/** Update a lesson, requires all attributes of the lesson. */
+async function deleteReflection(data) {
+    var invalid = utils.simpleValidation(data, {
+        Reflection_id: "integer",
+    });
+    if (invalid) {
+        return invalid;
+    }
+    let sql = "DELETE FROM Reflections WHERE Reflection_id=$1 RETURNING *;";
+    var params = [data.Reflection_id];
+    return await utils.remove(
+        sql,
+        params,
+        new utils.Message({
+            success: `Successfully deleted reflection with id ${data.Reflection_id}.`,
+            none: `Could not find a reflection with id ${data.Reflection_id}.`,
+        })
+    );
+}
+
 module.exports = {
     filterLessons: filterLessons,
     getLessonById: getLessonById,
     createLesson: createLesson,
     updateLesson: updateLesson,
     deleteLesson: deleteLesson,
+    getReflectionById: getReflectionById,
+    createReflection: createReflection,
+    updateReflection: updateReflection,
+    deleteReflection: deleteReflection,
 };
