@@ -53,7 +53,7 @@ async function getAllReflections() {
         sql,
         [],
         new utils.Message({
-            success: `Successfully fetched reflection.`,
+            success: `Successfully fetched reflections.`,
         })
     );
 }
@@ -64,7 +64,6 @@ async function getReflectionById(data) {
         reflection_id: "integer",
     });
     if (invalid) {
-        console.log("exiting getReflectionById()...");
         return invalid;
     }
     let sql = "SELECT * FROM Reflection WHERE reflection_id=$1";
@@ -82,6 +81,7 @@ async function getReflectionById(data) {
 async function updateReflection(data) {
     var invalid = utils.simpleValidation(data, {
         reflection_id: "integer",
+        verse_explanation_id: "integer",
         title: "string",
         reflection: "string",
     });
@@ -100,7 +100,7 @@ async function updateReflection(data) {
     );
 }
 
-/** Update a lesson, requires all attributes of the lesson. */
+/** Delete a reflection, requires all attributes of the reflection. */
 async function deleteReflection(data) {
     var invalid = utils.simpleValidation(data, {
         reflection_id: "integer",

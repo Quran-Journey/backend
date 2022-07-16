@@ -23,8 +23,8 @@ const seedData = {
             surah_id: 1,
             surah_number: 1,
             revelation_place: "Makkah",
-            name_complex: "",
-            name_arabic: "",
+            name_complex: "Al-Fātiĥah",
+            name_arabic: "الفاتحة",
             verse_count: 7,
         }
     ],

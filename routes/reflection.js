@@ -34,6 +34,7 @@ router.get("/reflection/:reflection_id", async (request, response) => {
 /*
  * @api [post] /reflection
  *  summary: "Create a reflection"
+ *  description: "This creates a reflection from the data attribute in the request body"
  *  tags:
  *    - Reflection Endpoints
  *  produces:
@@ -93,7 +94,7 @@ router.patch("/reflection", async (request, response) => {
  *          name: id
  *          description: the reflection to be deleted
  *          schema:
- *              $ref: '#/definitions/reflection'
+ *              $ref: '#/definitions/Reflection'
  *  responses:
  *    200:
  *      description: The reflection has been deleted.
@@ -116,7 +117,6 @@ router.delete("/reflection/:reflection_id", async (request, response) => {
  *    - Reflection Endpoints
  *  produces:
  *    - application/json
- *  parameters:
  *  responses:
  *    200:
  *      description: All reflections have been fetched.
@@ -130,8 +130,6 @@ router.get("/reflection", async (request, response) => {
     await reflection.getAllReflections().then(async function (result) {
         return utils.simpleResponse(result, response);
     })
-})
-
-
+});
 
 module.exports = router;
