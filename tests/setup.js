@@ -18,6 +18,36 @@ const seedData = {
             source: "facebook.com/url_to_video",
         },
     ],
+    Surah: [
+        {
+            surah_id: 1,
+            surah_number: 1,
+            revelation_place: "Makkah",
+            name_complex: "Al-Fātiĥah",
+            name_arabic: "الفاتحة",
+            verse_count: 7,
+        }
+    ],
+    Verse: [
+        {
+            verse_index: 1,
+            surah: 1,
+        }
+    ],
+    VerseExplanation: [
+        {
+            verse_explanation_id: 1,
+            verse_id: 1,
+        }
+    ],
+    Reflection: [
+        {
+            reflection_id: 1,
+            verse_explanation_id: 1,
+            title: "Bismillah",
+            reflection: "My First Reflection",
+        }
+    ],
 };
 
 /**
