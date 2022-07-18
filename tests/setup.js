@@ -28,6 +28,14 @@ const seedData = {
             verse_count: 7,
         }
     ],
+    SurahInfo: [
+        {
+            surah_info_id: 1,
+            surah: 1,
+            title: "The Opener",
+            info: "Al-Fātiĥah consists of 7 ayah which are a prayer for guidance and mercy"
+        }
+    ],
     Verse: [
         {
             verse_index: 1,
