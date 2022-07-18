@@ -10,7 +10,7 @@ describe("Set up", () => {
         await setup.seedDatabase(db);
     }, 30000);
 });
-/*
+
 describe("Test Lesson", () => {
     lessonTests();
 });
@@ -18,7 +18,7 @@ describe("Test Lesson", () => {
 describe("Test Reflection", () => {
     reflectionTests();
 });
-*/
+
 describe("Test SurahInfo", () => {
     surahInfoTests();
 });
