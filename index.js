@@ -5,6 +5,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const lesson = require("./routes/lesson");
 const reflection = require("./routes/reflection");
+const surahInfo = require("./routes/surah-info")
 
 var port = 3001;
 
@@ -19,6 +20,7 @@ app.use(async (req, res, next) => {
 
 app.use("/api", lesson);
 app.use("/api", reflection);
+app.use("/api", surahInfo)
 
 if (process.env.NODE_ENV == "production") {
     // This sets the options for https so that it finds the ssl certificates
