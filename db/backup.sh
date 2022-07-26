@@ -8,6 +8,7 @@ docker-compose up --build -d;
 # PGPASSWORD=postgres psql quranjourney < root_tables.sql;
 
 python3 insert_data.py;
-cd ../model; node insertMeanings.js;
+cd ../model; node insertMeanings.js; cd ../db;
 
-docker exec -i db_postgres_alone_1 /bin/bash -c "PGPASSWORD=Yatathakar123! pg_dump --username qj quranJourney" > ./filled.sql
+docker exec -i db_postgres_alone_1 /bin/bash -c "PGPASSWORD=Yatathakar123! pg_dump --username qj quranJourney" > ./filled.sql;
+cd ..;

@@ -3,3 +3,4 @@ drop table quran_text cascade;
 drop table suras cascade;
 drop table texttoword cascade;
 drop table arabicword cascade;
+-- TODO: drop the rest of the tables
