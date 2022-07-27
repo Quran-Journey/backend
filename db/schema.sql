@@ -47,21 +47,15 @@ CREATE TABLE IF NOT EXISTS VerseExplanation (
     FOREIGN KEY (verse_id) REFERENCES Verse(verse_index) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- We may still keep the table below since we may have multiple explanations for the same word
+
 DROP TABLE IF EXISTS WordExplanation; 
 CREATE TABLE IF NOT EXISTS WordExplanation (
     word_explanation_id SERIAL PRIMARY KEY,
     verse_explanation_id INTEGER,
     root_id INTEGER NOT NULL,
     visible BOOLEAN NOT NULL, 
-    word_explaination TEXT,
-    FOREIGN KEY (verse_explanation_id) REFERENCES VerseExplanation(verse_explanation_id) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-DROP TABLE IF EXISTS Tafsir; 
-CREATE TABLE IF NOT EXISTS Tafsir (
-    tafsir_id SERIAL PRIMARY KEY,
-    verse_explanation_id INTEGER NOT NULL,
-    visible BOOLEAN NOT NULL, 
+    word_explaination TEXT, -- This is the contextual explanation that we will give.
     FOREIGN KEY (verse_explanation_id) REFERENCES VerseExplanation(verse_explanation_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -74,7 +68,6 @@ CREATE TABLE IF NOT EXISTS Reflection (
     FOREIGN KEY (verse_explanation_id) REFERENCES VerseExplanation(verse_explanation_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
---- Some comments on the table below 
 --- the quran_text table is defined in quran-simple.sql
 
 DROP TABLE IF EXISTS RootWord CASCADE;
@@ -113,6 +106,48 @@ CREATE TABLE IF NOT EXISTS RootMeaning  (
     Meanings TEXT,
     FOREIGN KEY (RootWord)
         REFERENCES RootWord(RootWord)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+DROP TABLE IF EXISTS Tafsir CASCADE;
+CREATE TABLE IF NOT EXISTS Tafsir (
+    tafsir_id SERIAL PRIMARY KEY,
+    content TEXT NOT NULL,
+    book TEXT NOT NULL,
+    verse_explanation_id INTEGER NOT NULL,
+    visible BOOLEAN NOT NULL, 
+    FOREIGN KEY (verse_explanation_id) REFERENCES VerseExplanation(verse_explanation_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+DROP TABLE IF EXISTS Mufasir CASCADE;
+CREATE TABLE IF NOT EXISTS Mufasir (
+    mufasir_id SERIAL PRIMARY KEY,
+    mufasir_name INT NOT NULL,
+    death DATETIME NOT NULL
+)
+
+DROP TABLE IF EXISTS Book CASCADE;
+CREATE TABLE IF NOT EXISTS Tafsir (
+    book_id SERIAL PRIMARY KEY,
+    author TEXT NOT NULL,
+    title TEXT NOT NULL,
+    FOREIGN KEY (author)
+        REFERENCES Mufasir(mufasir_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+)
+
+DROP TABLE IF EXISTS MufasirTafsir CASCADE;
+CREATE TABLE IF NOT EXISTS MufasirTafsir (
+    mufasir INT,
+    tafsir INT,
+    FOREIGN KEY (mufasir)
+        REFERENCES Mufasir(mufasir_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (tafsir)
+        REFERENCES Tafsir(tafsir_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
