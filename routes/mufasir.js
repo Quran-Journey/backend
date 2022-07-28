@@ -7,7 +7,7 @@ const utils = require("./utils");
  *  summary: "Get Mufasireen"
  *  description: "Fetch an ordered list of all of the names of mufasireen."
  *  tags:
- *    - Mufasir Endpoints
+ *    - Tafsir Endpoints
  *  produces:
  *    - application/json
  *  responses:
@@ -30,9 +30,20 @@ router.get("/mufasir", async (request, response) => {
  *  summary: "Add Mufasir"
  *  description: "Add a mufasir."
  *  tags:
- *    - Mufasir Endpoints
+ *    - Tafsir Endpoints
  *  produces:
  *    - application/json
+ *  parameters:
+ *      - in: body
+ *        name: mufasir_name
+ *        type: string
+ *        required: true
+ *        example: "Ibn Kathir"
+ *      - in: body
+ *        name: death
+ *        type: string
+ *        required: true
+ *        example: "774"
  *  responses:
  *    200:
  *      description: Successfully added mufasir.
@@ -45,12 +56,29 @@ router.post("/mufasir", async (request, response) => {
 });
 
 /*
- * @api [Put] Add Mufasir"
- *  description: "Add a mufasir."
+ * @api [put] /mufasir
+ *  summary: "Update Mufasir"
+ *  description: "Update a mufasir."
  *  tags:
- *    - Mufasir Endpoints
+ *    - Tafsir Endpoints
  *  produces:
  *    - application/json
+ *  parameters:
+ *      - in: body
+ *        name: mufasir_id
+ *        type: integer
+ *        required: true
+ *        example: 1
+ *      - in: body
+ *        name: mufasir_name
+ *        type: string
+ *        required: true
+ *        example: "Ibn Kathir"
+ *      - in: body
+ *        name: death
+ *        type: string
+ *        required: true
+ *        example: "774"
  *  responses:
  *    200:
  *      description: Successfully updated mufasir.
@@ -65,12 +93,19 @@ router.put("/mufasir", async (request, response) => {
 });
 
 /*
- * @api [Delete] Delete Mufasir"
+ * @api [delete] /mufasir
+ *  summary: "Remove Mufasir"
  *  description: "Remove a mufasir."
  *  tags:
- *    - Mufasir Endpoints
+ *    - Tafsir Endpoints
  *  produces:
  *    - application/json
+ *  parameters:
+ *      - in: body
+ *        name: mufasir_id
+ *        type: integer
+ *        required: true
+ *        example: 1
  *  responses:
  *    200:
  *      description: Successfully deleted mufasir.
@@ -78,8 +113,8 @@ router.put("/mufasir", async (request, response) => {
  *      description: A mufasir with that ID does not exist.
  *
  */
-router.put("/mufasir", async (request, response) => {
-    await lesson.updateMufasir(request.body).then(async function (result) {
+router.delete("/mufasir", async (request, response) => {
+    await lesson.deleteMufasir(request.body).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });
