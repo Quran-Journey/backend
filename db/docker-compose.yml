@@ -9,8 +9,9 @@ services:
             PGDATA: pgdata
         volumes:
             - ./pgdata:/var/lib/postgresql/qj:z
+            - ./quran-simple.sql:/docker-entrypoint-initdb.d/quran-simple.sql:z
             - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:z
         ports:
-            - "5436:5432"
+            - "5435:5432"
         networks:
             - default
