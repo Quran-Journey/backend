@@ -25,5 +25,63 @@ router.get("/mufasir", async (request, response) => {
     });
 });
 
+/*
+ * @api [post] /mufasir
+ *  summary: "Add Mufasir"
+ *  description: "Add a mufasir."
+ *  tags:
+ *    - Mufasir Endpoints
+ *  produces:
+ *    - application/json
+ *  responses:
+ *    200:
+ *      description: Successfully added mufasir.
+ *
+ */
+router.post("/mufasir", async (request, response) => {
+    await lesson.addMufasir(request.body).then(async function (result) {
+        return utils.simpleResponse(result, response);
+    });
+});
+
+/*
+ * @api [Put] Add Mufasir"
+ *  description: "Add a mufasir."
+ *  tags:
+ *    - Mufasir Endpoints
+ *  produces:
+ *    - application/json
+ *  responses:
+ *    200:
+ *      description: Successfully updated mufasir.
+ *    404:
+ *      description: A mufasir with that ID does not exist.
+ *
+ */
+router.put("/mufasir", async (request, response) => {
+    await lesson.updateMufasir(request.body).then(async function (result) {
+        return utils.simpleResponse(result, response);
+    });
+});
+
+/*
+ * @api [Delete] Delete Mufasir"
+ *  description: "Remove a mufasir."
+ *  tags:
+ *    - Mufasir Endpoints
+ *  produces:
+ *    - application/json
+ *  responses:
+ *    200:
+ *      description: Successfully deleted mufasir.
+ *    404:
+ *      description: A mufasir with that ID does not exist.
+ *
+ */
+router.put("/mufasir", async (request, response) => {
+    await lesson.updateMufasir(request.body).then(async function (result) {
+        return utils.simpleResponse(result, response);
+    });
+});
 
 module.exports = router;

@@ -41,29 +41,8 @@ async function getMufasireen(data) {
 
 async function addMufasir(data) {
     var invalid = utils.simpleValidation(data, {
-        mufasir_id: "integer",
         mufasir_name: "string",
-        death: "string",
-    });
-    if (invalid) {
-        return invalid;
-    }
-    let sql =
-        "INSERT INTO mufasir (mufasir_id, mufasir_name, death) VALUES ($1, $2, $3) RETURNING *;";
-    var params = [data.mufasir_id, data.mufasir_name, data.death];
-    return await utils.retrieve(
-        sql,
-        params,
-        new utils.Message({
-            success: `Successfully fetched roots for verse with id ${data.verse_id}.`,
-        })
-    );
-}
-
-async function addMufasir(data) {
-    var invalid = utils.simpleValidation(data, {
-        mufasir_name: "string",
-        death: "string",
+        death: "date",
     });
     if (invalid) {
         return invalid;
@@ -84,7 +63,7 @@ async function updateMufasir(data) {
     var invalid = utils.simpleValidation(data, {
         mufasir_id: "integer",
         mufasir_name: "string",
-        death: "string",
+        death: "date",
     });
     if (invalid) {
         return invalid;
