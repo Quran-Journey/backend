@@ -63,7 +63,7 @@ async function fetch_chapters() {
     // TODO: Insert into db.
 }
 
-fetch_chapters();
+// fetch_chapters();
 
 // We should get the information section for each chapter
 // And then populate each of them as a row in the surahInfo table
@@ -81,4 +81,23 @@ async function fetch_chapter_info(chapter) {
     // TODO: Insert into db.
 }
 
-fetch_chapter_info();
+// fetch_chapter_info();
+
+// Note: I believe there is json export for the clear quran translations
+
+async function fetch_translations() {
+    // The id for mustafa khattab's translation is 131
+    // You can find more at /v4/resources/translations
+    return await apiGET("/quran/translations/131").then((response) => {
+        let text = [];
+        // console.log(response)
+        for (verse of response.data.translations) {
+            text.push(verse.text);
+        }
+        console.log(text);
+
+        // TODO: insert into a database.
+    });
+}
+
+fetch_translations();
