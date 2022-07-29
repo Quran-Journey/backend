@@ -21,15 +21,27 @@ const utils = require("./utils");
  *          description: The date that the mufasir passed away
  *          example: 1203 H
  */
-async function getMufasireen(data) {
+async function getMufasir(data) {
     var invalid = utils.simpleValidation(data, {
-        verse_id: "integer",
+        mufasir_id: "integer",
     });
     if (invalid) {
         return invalid;
     }
+    let sql = "SELECT * FROM mufasir WHERE mufasir_id=$1;";
+    var params = [data.mufasir_id];
+    return await utils.retrieve(
+        sql,
+        params,
+        new utils.Message({
+            success: `Successfully fetched mufasir with ID ${mufasir_id}.`,
+        })
+    );
+}
+
+async function getMufasireen() {
     let sql = "SELECT * FROM mufasir;";
-    var params = [data.verse_id];
+    var params = [];
     return await utils.retrieve(
         sql,
         params,
@@ -100,6 +112,7 @@ async function deleteMufasir(data) {
 
 module.exports = {
     getMufasireen,
+    getMufasir,
     addMufasir,
     updateMufasir,
     deleteMufasir,
