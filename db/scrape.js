@@ -45,7 +45,7 @@ async function go_through_letters() {
             }
         }
         let data = JSON.stringify(roots);
-        fs.writeFileSync("root_meanings.json", data);
+        fs.writeFileSync("../model/root_meanings.json", data);
     } finally {
         console.log("quitting");
         setTimeout(() => {
