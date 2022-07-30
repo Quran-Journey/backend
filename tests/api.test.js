@@ -1,6 +1,7 @@
 const lessonTests = require("./lesson-tests.js").lessonTests;
 const reflectionTests = require("./reflection-tests.js").reflectionTests;
 const surahInfoTests = require("./surah-info-tests.js").surahInfoTests;
+const mufasirTests = require("./mufasir-tests.js").mufasirTests;
 const setup = require("./setup.js");
 const utils = require("./utils.js");
 
@@ -21,4 +22,8 @@ describe("Test Reflection", () => {
 
 describe("Test SurahInfo", () => {
     surahInfoTests();
+});
+
+describe("Test Mufasir", () => {
+    mufasirTests();
 });

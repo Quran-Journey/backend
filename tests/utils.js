@@ -64,14 +64,6 @@ async function apiPATCH(path, body = {}) {
         });
 }
 
-async function apiPATCH(path, body = {}) {
-    return await axios
-        .patch(API_URL + path, body, { validateStatus: false })
-        .catch((e) => {
-            console.log(e.toJSON());
-        });
-}
-
 async function apiPUT(path, body = {}) {
     return await axios
         .put(API_URL + path, body, { validateStatus: false })
