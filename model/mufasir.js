@@ -34,7 +34,7 @@ async function getMufasir(data) {
         sql,
         params,
         new utils.Message({
-            success: `Successfully fetched mufasir with ID ${mufasir_id}.`,
+            success: `Successfully fetched mufasir with ID ${data.mufasir_id}.`,
         })
     );
 }
@@ -54,7 +54,7 @@ async function getMufasireen() {
 async function addMufasir(data) {
     var invalid = utils.simpleValidation(data, {
         mufasir_name: "string",
-        death: "date",
+        death: "string",
     });
     if (invalid) {
         return invalid;
@@ -75,13 +75,13 @@ async function updateMufasir(data) {
     var invalid = utils.simpleValidation(data, {
         mufasir_id: "integer",
         mufasir_name: "string",
-        death: "date",
+        death: "string",
     });
     if (invalid) {
         return invalid;
     }
     let sql =
-        "UPDATE mufasir SET mufasir_name=$2, death=$3 WHERE mufasir_id=$1;";
+        "UPDATE mufasir SET mufasir_name=$2, death=$3 WHERE mufasir_id=$1 RETURNING *;";
     var params = [data.mufasir_id, data.mufasir_name, data.death];
     return await utils.update(
         sql,
@@ -99,9 +99,9 @@ async function deleteMufasir(data) {
     if (invalid) {
         return invalid;
     }
-    let sql = "DELETE FROM mufasir WHERE mufasir_id=$1;";
+    let sql = "DELETE FROM mufasir WHERE mufasir_id=$1 RETURNING *;";
     var params = [data.mufasir_id];
-    return await utils.delete(
+    return await utils.remove(
         sql,
         params,
         new utils.Message({

@@ -24,7 +24,6 @@ function reflectionTests() {
         };
 
         let resp1 = await apiPOST(`/reflection`, newreflection);
-        console.log(resp1);
         let reflection = resp1.data.data[0];
         checkMatch(newreflection, reflection);
         expect(resp1.data.success).toEqual(true);

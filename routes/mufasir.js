@@ -49,8 +49,8 @@ router.get("/mufasir", async (request, response) => {
  *          $ref: '#/definitions/Mufasir'
  *
  */
-router.get("/mufasir/:id", async (request, response) => {
-    await lesson.getMufasir().then(async function (result) {
+router.get("/mufasir/:mufasir_id", async (request, response) => {
+    await lesson.getMufasir(request.params).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });
@@ -145,7 +145,7 @@ router.put("/mufasir", async (request, response) => {
  *      description: A mufasir with that ID does not exist.
  *
  */
-router.delete("/mufasir/mufasir_id", async (request, response) => {
+router.delete("/mufasir/:mufasir_id", async (request, response) => {
     await lesson.deleteMufasir(request.params).then(async function (result) {
         return utils.simpleResponse(result, response);
     });

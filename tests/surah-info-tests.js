@@ -23,7 +23,6 @@ function surahInfoTests() {
         };
 
         let resp1 = await apiPOST(`/surah-info`, newsurahinfo);
-        console.log(resp1);
         let surahinfo = resp1.data.data[0];
         checkMatch(newsurahinfo, surahinfo);
         expect(resp1.data.success).toEqual(true);

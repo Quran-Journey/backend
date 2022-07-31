@@ -60,7 +60,7 @@ const seedData = {
         {
             mufasir_id: 1,
             mufasir_name: "Ibn Kathir",
-            death: new moment(faker.date.past(1350)).format("YYYY-MM-DD"),
+            death: "774 H",
         },
     ],
 };
