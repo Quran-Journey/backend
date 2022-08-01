@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const lesson = require("../model/rootWord");
+const quran = require("../model/quran");
 const utils = require("./utils");
 
 /*
@@ -20,7 +20,7 @@ const utils = require("./utils");
  *
  */
 router.get("/chapters", async (request, response) => {
-    await lesson.getChapters().then(async function (result) {
+    await quran.getChapters().then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });
@@ -51,7 +51,7 @@ router.get("/chapters", async (request, response) => {
  *
  */
 router.get("/chapter/:sura_number", async (request, response) => {
-    await lesson.getChapterVerses(request.params).then(async function (result) {
+    await quran.getChapterVerses(request.params).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });

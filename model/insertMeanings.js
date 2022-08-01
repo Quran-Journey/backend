@@ -5,7 +5,7 @@ const fs = require("fs");
 
 async function insertMeanings(data) {
     var sql =
-        "INSERT INTO RootMeaning (RootWord, Meanings) VALUES ($1, $2) RETURNING *;";
+        "INSERT INTO RootMeaning (root_word, meanings) VALUES ($1, $2) RETURNING *;";
     var params = [data.word, data.meanings];
     return await utils.create(
         sql,

@@ -65,9 +65,8 @@ const seedData = {
     ],
     RootWord: [
         {
-            mufasir_id: 1,
-            mufasir_name: "Ibn Kathir",
-            death: "774 H",
+            root_id: 1,
+            root_word: "س م و",
         },
     ],
 };

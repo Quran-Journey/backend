@@ -2,8 +2,8 @@ const lessonTests = require("./lesson-tests.js").lessonTests;
 const reflectionTests = require("./reflection-tests.js").reflectionTests;
 const surahInfoTests = require("./surah-info-tests.js").surahInfoTests;
 const mufasirTests = require("./mufasir-tests.js").mufasirTests;
-const rootWordTests = require("./rootWord-tests.js").rootWordTests;
-const rootWordTests = require("./quranFetching-tests.js").rootWordTests;
+const wordTests = require("./word-tests.js").wordTests;
+const quranTests = require("./quran-tests.js").quranTests;
 const setup = require("./setup.js");
 const utils = require("./utils.js");
 
@@ -14,8 +14,8 @@ describe("Set up", () => {
     }, 30000);
 });
 
-describe("Test Quran fetching", () => {
-    quranFetchingTests();
+describe("Test Quran Endpoints", () => {
+    quranTests();
 });
 
 describe("Test Lesson", () => {
@@ -34,7 +34,6 @@ describe("Test Mufasir", () => {
     mufasirTests();
 });
 
-describe("Test RootWord", () => {
-    rootWordTests();
+describe("Test everything related to words", () => {
+    wordTests();
 });
-

@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const lesson = require("./routes/lesson");
 const reflection = require("./routes/reflection");
 const surahInfo = require("./routes/surah-info");
-const rootWord = require("./routes/rootWord");
+const words = require("./routes/words");
 const mufasir = require("./routes/mufasir");
 const quran = require("./routes/quran");
 const cors = require("cors");
@@ -24,7 +24,7 @@ app.use(async (req, res, next) => {
     next();
 });
 
-app.use("/api", rootWord);
+app.use("/api", words);
 app.use("/api", lesson);
 app.use("/api", reflection);
 app.use("/api", surahInfo);
