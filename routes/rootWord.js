@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const lesson = require("../model/roots");
+const lesson = require("../model/rootWord");
 const utils = require("./utils");
 
 /*
@@ -90,7 +90,7 @@ router.get("/verse/:verse_id", async (request, response) => {
 });
 
 router.get("/verse/:verse_id/sentences", async (request, response) => {
-    await lesson.getRootsMeaning(request.params).then(async function (result) {
+    await lesson.getRootWordMeaning(request.params).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });

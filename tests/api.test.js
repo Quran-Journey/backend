@@ -27,3 +27,7 @@ describe("Test SurahInfo", () => {
 describe("Test Mufasir", () => {
     mufasirTests();
 });
+
+describe("Test RootWord", () => {
+    rootTests();
+});

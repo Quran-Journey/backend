@@ -129,7 +129,7 @@ async function getVerseRootWords(data) {
         })
     );
 }
-async function getRootsMeaning(data) {
+async function getRootWordMeaning(data) {
     var all_roots = await getVerseRootWords(data);
     let msg = all_roots.error;
     let root, word, rootmeaning, sentence;
@@ -150,5 +150,5 @@ module.exports = {
     getChapterVerses,
     getChapters,
     getVerseRootWords,
-    getRootsMeaning,
+    getRootWordMeaning,
 };
