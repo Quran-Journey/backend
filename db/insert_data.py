@@ -51,13 +51,13 @@ arabic_df = arabic_df.convert_dtypes()
 arabic_words_df = arabic_df.merge(df_roots, how='inner', left_on='Root_Letters', right_on='Root_Words')
 arabic_words_df = arabic_words_df.drop(['Root_Letters', 'Root_Words'], axis=1)
 
-# Rename the index column to RootID to make it clear
-arabic_words_df.rename(columns = {'index':'RootID'}, inplace = True)
+# Rename the index column to root_id to make it clear
+arabic_words_df.rename(columns = {'index':'root_id'}, inplace = True)
 
 # Put the dataframe into the format for postgres sql insertion 
 arabic_words_data = []
 for index, row in arabic_words_df.iterrows():
-    arabic_words_data.append( (row['primary_key'], row['ARABIC'], row['RootID']) )
+    arabic_words_data.append( (row['primary_key'], row['ARABIC'], row['root_id']) )
     
 ########################################
 ### GET data for  TEXT TO WORD table ###
@@ -73,18 +73,18 @@ df["Ayah"] = ayah
 df["Surah"] = df["Surah"].values.astype(int)
 df["Ayah"] = df["Ayah"].values.astype(int)
 
-# Get the IndexIDs from the Quran Table  -- need to merge it since different lengths
-indexID, count = [], 0
+# Get the index_ids from the Quran Table  -- need to merge it since different lengths
+index_id, count = [], 0
 ayahs = df['Ayah'].to_list()
 # Essentially generating each ayah = 1 unique id, from 1 - 6000. # Don't need quran table now
 for i in range(len(ayahs)):
     if ayahs[i] != ayahs[i-1]:
         count+=1 
-        indexID.append(count)
+        index_id.append(count)
     else:
-        indexID.append(count)
+        index_id.append(count)
     
-df['index_id'] = indexID
+df['index_id'] = index_id
 
 # Generate our text to words table
 TextToWords_df = df.merge(arabic_words_df, left_on ="ARABIC", right_on = "ARABIC", how = 'inner')
@@ -115,7 +115,7 @@ except (Exception, Error) as error:
 # Create functions to insert root words, arabic words and text to word data   
 def insert_root_words(root_words_data):
     """ Insert Root Words Data into the POSTGRES DB """
-    postgres_insert_query = """ INSERT INTO RootWord (RootID, RootWord) VALUES (%s ,%s)"""
+    postgres_insert_query = """ INSERT INTO RootWord (root_id, RootWord) VALUES (%s ,%s)"""
     counter = 0
     for row in root_words_data:
         record_to_insert = row
@@ -127,7 +127,7 @@ def insert_root_words(root_words_data):
 
 def insert_arabic_text(arabic_text_data):
     """ Insert Arabic Text Data into the POSTGRES DB """
-    postgres_insert_query = """ INSERT INTO ArabicWord (WordID, Word, RootID) VALUES (%s ,%s, %s)"""
+    postgres_insert_query = """ INSERT INTO ArabicWord (word_id, Word, root) VALUES (%s ,%s, %s)"""
     counter = 0
     for row in arabic_text_data:
         record_to_insert = row
@@ -155,7 +155,7 @@ insert_arabic_text(arabic_words_data)
 
 def insert_text_to_word(text_to_word_data):
     """ Insert Text to Word  Data into the POSTGRES DB """
-    postgres_insert_query = """ INSERT INTO TextToWord (IndexID, WordID) VALUES (%s, %s)"""
+    postgres_insert_query = """ INSERT INTO TextToWord (index_id, word_id) VALUES (%s, %s)"""
     counter = 0
     for row in text_to_word_data:
         record_to_insert = row
