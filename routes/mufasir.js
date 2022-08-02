@@ -26,6 +26,36 @@ router.get("/mufasir", async (request, response) => {
 });
 
 /*
+ * @api [get] /mufasir/{mufasir_id}
+ *  summary: "Get Mufasir"
+ *  description: "Fetch a mufasir by ID."
+ *  tags:
+ *    - Tafsir Endpoints
+ *  produces:
+ *    - application/json
+ *
+ *  parameters:
+ *      - in: path
+ *        name: mufasir_id
+ *        type: integer
+ *        required: true
+ *        example: 1
+ *  responses:
+ *    200:
+ *      description: The mufasir's information.
+ *      schema:
+ *        type: array
+ *        items:
+ *          $ref: '#/definitions/Mufasir'
+ *
+ */
+router.get("/mufasir/:mufasir_id", async (request, response) => {
+    await lesson.getMufasir(request.params).then(async function (result) {
+        return utils.simpleResponse(result, response);
+    });
+});
+
+/*
  * @api [post] /mufasir
  *  summary: "Add Mufasir"
  *  description: "Add a mufasir."
@@ -47,6 +77,8 @@ router.get("/mufasir", async (request, response) => {
  *  responses:
  *    200:
  *      description: Successfully added mufasir.
+ *    404:
+ *      description: A mufasir with that ID does not exist.
  *
  */
 router.post("/mufasir", async (request, response) => {
@@ -101,7 +133,7 @@ router.put("/mufasir", async (request, response) => {
  *  produces:
  *    - application/json
  *  parameters:
- *      - in: body
+ *      - in: path
  *        name: mufasir_id
  *        type: integer
  *        required: true
@@ -113,8 +145,8 @@ router.put("/mufasir", async (request, response) => {
  *      description: A mufasir with that ID does not exist.
  *
  */
-router.delete("/mufasir", async (request, response) => {
-    await lesson.deleteMufasir(request.body).then(async function (result) {
+router.delete("/mufasir/:mufasir_id", async (request, response) => {
+    await lesson.deleteMufasir(request.params).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });

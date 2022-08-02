@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const lesson = require("../model/roots");
+const quran = require("../model/quran");
 const utils = require("./utils");
 
 /*
@@ -20,7 +20,7 @@ const utils = require("./utils");
  *
  */
 router.get("/chapters", async (request, response) => {
-    await lesson.getChapters().then(async function (result) {
+    await quran.getChapters().then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });
@@ -51,46 +51,7 @@ router.get("/chapters", async (request, response) => {
  *
  */
 router.get("/chapter/:sura_number", async (request, response) => {
-    await lesson.getChapterVerses(request.params).then(async function (result) {
-        return utils.simpleResponse(result, response);
-    });
-});
-
-/*
- * @api [get] /verse/{verse_id}
- *  summary: "Get a Verse's root words"
- *  description: "Fetches the root words and their meanings for each of the words in a verse."
- *  tags:
- *    - Root Endpoints
- *  produces:
- *    - application/json
- *  parameters:
- *      - in: query
- *        name: verse_id
- *        type: integer
- *        required: true
- *        example: 1
- *  responses:
- *    200:
- *      description: A list of the root words and their meanings pertaining to each word in a verse.
- *      schema:
- *        type: array
- *        items:
- *          $ref: '#/definitions/RootWord'
- *    404:
- *      description: No verse with that ID found.
- *
- */
-router.get("/verse/:verse_id", async (request, response) => {
-    await lesson
-        .getVerseRootWords(request.params)
-        .then(async function (result) {
-            return utils.simpleResponse(result, response);
-        });
-});
-
-router.get("/verse/:verse_id/sentences", async (request, response) => {
-    await lesson.getRootsMeaning(request.params).then(async function (result) {
+    await quran.getChapterVerses(request.params).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });

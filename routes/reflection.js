@@ -5,7 +5,7 @@ const utils = require("./utils");
 /*
  * @api [get] /reflection/{reflection_id}
  *  summary: "Fetch a Reflection by ID"
- *  description: "This is a general fetch and has no parameters. It will fetch all of the reflections in the database."
+ *  description: "Fetch a reflection by it's ID."
  *  tags:
  *    - Reflection Endpoints
  *  produces:
