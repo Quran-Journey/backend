@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS RootWord (
 DROP TABLE IF EXISTS ArabicWord CASCADE;
 CREATE TABLE IF NOT EXISTS ArabicWord (
     word_id SERIAL PRIMARY KEY,
-    Word VARCHAR(255) NOT NULL,
+    word VARCHAR(255) NOT NULL,
     root_id INT NOT NULL,
     FOREIGN KEY (root_id)
         REFERENCES RootWord(root_id)
