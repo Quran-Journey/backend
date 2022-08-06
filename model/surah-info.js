@@ -42,6 +42,23 @@ async function getSurahIntroInfo(data) {
         })
     );
 }
+async function getSurahInfoBySurahID(data) {
+    var invalid = utils.simpleValidation(data, {
+        surah: "integer",
+    });
+    if (invalid) {
+        return invalid;
+    }
+    let sql = "SELECT * FROM SurahInfo WHERE surah=$1";
+    var params = [data.surah];
+    return await utils.retrieve(
+        sql,
+        params,
+        new utils.Message({
+            success: `Successfully fetched surah info with id ${data.surah}.`,
+        })
+    );
+}
 
 async function createSurahIntroInfo(data) {
     var invalid = utils.simpleValidation(data, {
@@ -109,6 +126,7 @@ async function deleteSurahIntroInfo(data) {
 
 module.exports = {
     getSurahIntroInfo: getSurahIntroInfo,
+    getSurahInfoBySurahID: getSurahInfoBySurahID,
     createSurahIntroInfo: createSurahIntroInfo,
     updateSurahIntroInfo: updateSurahIntroInfo,
     deleteSurahIntroInfo: deleteSurahIntroInfo,
