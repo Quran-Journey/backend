@@ -15,6 +15,15 @@ function surahInfoTests() {
         expect(resp1.data.success).toEqual(true);
     });
 
+    it("getting a surah's information by surah ID", async () => {
+        let surahInfoA = seedData.SurahInfo[0];
+
+        const resp1 = await apiGET(`/surah/info/surahID/1`);
+        let surahInfoB = resp1.data.data[0];
+        checkMatch(surahInfoA, surahInfoB);
+        expect(resp1.data.success).toEqual(true);
+    });
+
     it("creating a surah info", async () => {
         let newsurahinfo = {
             surah: 1,
