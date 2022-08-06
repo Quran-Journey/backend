@@ -32,6 +32,40 @@ router.get("/reflection/:reflection_id", async (request, response) => {
 });
 
 /*
+ * @api [get] /reflection/{surah_id}/{verse_id}
+ *  summary: "Fetch a Reflection by ID"
+ *  description: "Fetch a reflection by it's surah id and verse id."
+ *  tags:
+ *    - Reflection Endpoints
+ *  produces:
+ *    - application/json
+ *  parameters:
+ *      - in: path
+ *        name: surah_id
+ *        type: integer
+ *        required: true
+ *        example: 12
+ *      - in: path
+ *        name: verse_id
+ *        type: integer
+ *        required: true
+ *        example: 134
+ *  responses:
+ *    200:
+ *      description: The corresponding reflection.
+ *      schema:
+ *          $ref: '#/definitions/Reflection'
+ *    404:
+ *      description: No reflections found with those IDs.
+ *
+ */
+router.get("/reflection/:surah_id/:verse_id", async (request, response) => {
+    await reflection.getReflectionBySurahVerseId(request.params).then(async function (result) {
+        return utils.simpleResponse(result, response);
+    });
+});
+
+/*
  * @api [post] /reflection
  *  summary: "Create a reflection"
  *  description: "This creates a reflection from the data attribute in the request body"
