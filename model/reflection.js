@@ -88,7 +88,7 @@ async function updateReflection(data) {
     if (invalid) {
         return invalid;
     }
-    let sql = "UPDATE Reflection SET title=$2, reflection=$3 WHERE reflection_id=$1";
+    let sql = "UPDATE Reflection SET title=$2, reflection=$3 WHERE reflection_id=$1 RETURNING *;";
     var params = [data.reflection_id, data.title, data.reflection];
     return await utils.update(
         sql,

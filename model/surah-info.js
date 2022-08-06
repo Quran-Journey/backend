@@ -75,7 +75,7 @@ async function updateSurahIntroInfo(data) {
     if (invalid) {
         return invalid;
     }
-    let sql = "UPDATE SurahInfo SET surah=$2, title=$3, info=$4 WHERE surah_info_id=$1";
+    let sql = "UPDATE SurahInfo SET surah=$2, title=$3, info=$4 WHERE surah_info_id=$1 RETURNING *;";
     var params = [data.surah_info_id, data.surah, data.title, data.info];
     return await utils.update(
         sql,
