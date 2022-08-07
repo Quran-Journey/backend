@@ -67,7 +67,6 @@ CREATE TABLE IF NOT EXISTS Reflection (
     reflection TEXT,
     FOREIGN KEY (verse_explanation_id) REFERENCES VerseExplanation(verse_explanation_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
 --- the quran_text table is defined in quran-simple.sql
 
 DROP TABLE IF EXISTS RootWord CASCADE;
@@ -86,6 +85,7 @@ CREATE TABLE IF NOT EXISTS ArabicWord (
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+
 DROP TABLE IF EXISTS TextToWord CASCADE;
 CREATE TABLE IF NOT EXISTS TextToWord  (
     index_id INT NOT NULL,
@@ -100,6 +100,7 @@ CREATE TABLE IF NOT EXISTS TextToWord  (
 		ON DELETE CASCADE
 		ON UPDATE CASCADE
 );
+
 DROP TABLE IF EXISTS RootMeaning CASCADE;
 CREATE TABLE IF NOT EXISTS RootMeaning  (
     root_word VARCHAR(225) PRIMARY KEY,

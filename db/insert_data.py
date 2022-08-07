@@ -115,7 +115,7 @@ except (Exception, Error) as error:
 # Create functions to insert root words, arabic words and text to word data   
 def insert_root_words(root_words_data):
     """ Insert Root Words Data into the POSTGRES DB """
-    postgres_insert_query = """ INSERT INTO RootWord (root_id, RootWord) VALUES (%s ,%s)"""
+    postgres_insert_query = """ INSERT INTO RootWord (root_id, root_word) VALUES (%s ,%s)"""
     counter = 0
     for row in root_words_data:
         record_to_insert = row
@@ -127,7 +127,7 @@ def insert_root_words(root_words_data):
 
 def insert_arabic_text(arabic_text_data):
     """ Insert Arabic Text Data into the POSTGRES DB """
-    postgres_insert_query = """ INSERT INTO ArabicWord (word_id, Word, root) VALUES (%s ,%s, %s)"""
+    postgres_insert_query = """ INSERT INTO ArabicWord (word_id, word, root) VALUES (%s ,%s, %s)"""
     counter = 0
     for row in arabic_text_data:
         record_to_insert = row
