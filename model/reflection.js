@@ -77,6 +77,26 @@ async function getReflectionById(data) {
     );
 }
 
+async function getReflectionBySurahVerseId(data) {
+    var invalid = utils.simpleValidation(data, {
+        surah_id: "integer",
+        verse_id: "integer",
+    });
+
+    if (invalid) {
+        return invalid;
+    }
+    let sql = "SELECT * FROM(SELECT reflection_id, verse_id, title, reflection FROM Reflection as r JOIN VerseExplanation as ve on r.verse_explanation_id = ve.verse_explanation_id) as rve JOIN Verse as v on rve.verse_id = v.verse_index WHERE surah = $1 and verse_id = $2;";
+    var params = [data.surah_id, data.verse_id];
+    return await utils.retrieve(
+        sql,
+        params,
+        new utils.Message({
+            success: `Successfully fetched reflection by verse id ${data.verse_id} and surah id ${data.surah_id}.`
+        })
+    );
+}
+
 /** Update a reflection, requires all attributes of the reflection. */
 async function updateReflection(data) {
     var invalid = utils.simpleValidation(data, {
@@ -88,7 +108,7 @@ async function updateReflection(data) {
     if (invalid) {
         return invalid;
     }
-    let sql = "UPDATE Reflection SET title=$2, reflection=$3 WHERE reflection_id=$1";
+    let sql = "UPDATE Reflection SET title=$2, reflection=$3 WHERE reflection_id=$1 RETURNING *;";
     var params = [data.reflection_id, data.title, data.reflection];
     return await utils.update(
         sql,
@@ -122,6 +142,7 @@ async function deleteReflection(data) {
 
 module.exports = {
     getReflectionById: getReflectionById,
+    getReflectionBySurahVerseId: getReflectionBySurahVerseId,
     createReflection: createReflection,
     updateReflection: updateReflection,
     deleteReflection: deleteReflection,
