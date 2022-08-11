@@ -1,3 +1,4 @@
+const { fi } = require("faker/lib/locales");
 const utils = require("./utils");
 /**
  *  @schema SurahInfo
@@ -25,7 +26,19 @@ const utils = require("./utils");
  *          description: information regarding the surah  
  *          example: "This surah was..."
  */
-async function getSurahIntroInfo(data) {
+async function getSurahInfo(data) {
+    let result;
+    if (data.surah != undefined) {
+        result = await getSurahInfoBySurahID(data);
+    }
+    if (data.surah_info_id != undefined) {
+        result = await getSurahInfoBySurahInfoID(data);
+    }
+    return result;
+}
+
+
+async function getSurahInfoBySurahInfoID(data) {
     var invalid = utils.simpleValidation(data, {
         surah_info_id: "integer",
     });
@@ -125,7 +138,8 @@ async function deleteSurahIntroInfo(data) {
 
 
 module.exports = {
-    getSurahIntroInfo: getSurahIntroInfo,
+    getSurahInfo: getSurahInfo,
+    getSurahInfoBySurahInfoID: getSurahInfoBySurahInfoID,
     getSurahInfoBySurahID: getSurahInfoBySurahID,
     createSurahIntroInfo: createSurahIntroInfo,
     updateSurahIntroInfo: updateSurahIntroInfo,

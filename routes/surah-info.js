@@ -3,16 +3,21 @@ const surahInfo = require("../model/surah-info");
 const utils = require("./utils");
 
 /*
- * @api [get] /surah/info/{surah_info_id}
- *  summary: "Fetch a surah-info by surah_info ID"
- *  description: "This is a fetch and has surah_info ID parameter. It will fetch all of the surah-info in the database based on parameter."
+ * @api [get] /surah/info
+ *  summary: "Fetch a surah-info"
+ *  description: "This is a fetch for surah-info. It will fetch all of the surah-info in the database based on query parameter."
  *  tags:
  *    - SurahInfo Endpoints
  *  produces:
  *    - application/json
  *  parameters:
- *      - in: path
+ *      - in: query
  *        name: surah
+ *        type: integer
+ *        required: true
+ *        example: 1
+ *      - in: query
+ *        name: surah_info_id
  *        type: integer
  *        required: true
  *        example: 1
@@ -25,40 +30,13 @@ const utils = require("./utils");
  *      description: No surah info found with that ID.
  *
  */
-router.get("/surah/info/:surah_info_id", async (request, response) => {
-    await surahInfo.getSurahIntroInfo(request.params).then(async function (result) {
+router.get("/surah/info", async (request, response) => {
+    await surahInfo.getSurahInfo(request.query).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });
 
-/*
- * @api [get] /surah/info/surahID/:surah
- *  summary: "Fetch a surah-info by ID"
- *  description: "This is a fetch and has surah ID parameter. It will fetch all of the surah-info in the database based on parameter."
- *  tags:
- *    - SurahInfo Endpoints
- *  produces:
- *    - application/json
- *  parameters:
- *      - in: path
- *        name: surah
- *        type: integer
- *        required: true
- *        example: 1
- *  responses:
- *    200:
- *      description: The corresponding surah-info.
- *      schema:
- *          $ref: '#/definitions/SurahInfo'
- *    404:
- *      description: No surah info found with that ID.
- *
- */
-router.get("/surah/info/surahID/:surah", async (request, response) => {
-    await surahInfo.getSurahInfoBySurahID(request.params).then(async function (result) {
-        return utils.simpleResponse(result, response);
-    });
-});
+
 /*
  * @api [post] /surah/info
  *  summary: "Create a surah info"
@@ -132,8 +110,8 @@ router.patch("/surah/info", async (request, response) => {
  *      description: Could not find a surah info with that id.
  *
  */
-router.delete("/surah/info/:surah_info_id", async (request, response) => {
-    await surahInfo.deleteSurahIntroInfo(request.params).then(async function (result) {
+router.delete("/surah/info", async (request, response) => {
+    await surahInfo.deleteSurahIntroInfo(request.body).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });
