@@ -1,14 +1,14 @@
-DROP TABLE IF EXISTS Surah; 
+DROP TABLE IF EXISTS Surah CASCADE; 
 CREATE TABLE IF NOT EXISTS Surah (
     surah_id SERIAL PRIMARY KEY, 
     surah_number INTEGER NOT NULL,
     revelation_place VARCHAR(100),
     name_complex VARCHAR(50),
     name_arabic VARCHAR(50),
-    verse_count INTEGER NOT NULL
+    verse_count INTEGER
 );
 
-DROP TABLE IF EXISTS SurahInfo; 
+DROP TABLE IF EXISTS SurahInfo CASCADE; 
 CREATE TABLE IF NOT EXISTS SurahInfo (
     surah_info_id SERIAL PRIMARY KEY,
     surah INTEGER NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS SurahInfo (
     FOREIGN KEY (surah) REFERENCES Surah(surah_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-DROP TABLE IF EXISTS Verse; 
+DROP TABLE IF EXISTS Verse CASCADE; 
 CREATE TABLE IF NOT EXISTS Verse (
     verse_index INTEGER PRIMARY KEY,
     surah INTEGER NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS Verse (
     FOREIGN KEY (surah) REFERENCES Surah(surah_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-DROP TABLE IF EXISTS Lesson; 
+DROP TABLE IF EXISTS Lesson CASCADE; 
 CREATE TABLE IF NOT EXISTS Lesson (
     lesson_id SERIAL PRIMARY KEY,
     lesson_date DATE NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS Lesson (
 
 -- We may still keep the table below since we may have multiple explanations for the same word
 
-DROP TABLE IF EXISTS WordExplanation; 
+DROP TABLE IF EXISTS WordExplanation CASCADE; 
 CREATE TABLE IF NOT EXISTS WordExplanation (
     word_explanation_id SERIAL PRIMARY KEY,
     verse_id INTEGER,
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS WordExplanation (
     FOREIGN KEY (verse_id) REFERENCES Verse(verse_index) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-DROP TABLE IF EXISTS Reflection;
+DROP TABLE IF EXISTS Reflection CASCADE;
 CREATE TABLE IF NOT EXISTS Reflection (
     reflection_id SERIAL PRIMARY KEY,
     verse_id INTEGER NOT NULL,
@@ -125,7 +125,7 @@ DROP TABLE IF EXISTS MufasirTafsir CASCADE;
 CREATE TABLE IF NOT EXISTS MufasirTafsir (
     mufasir INT,
     tafsir INT,
-    
+
     FOREIGN KEY (mufasir) REFERENCES Mufasir(mufasir_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (tafsir) REFERENCES Tafsir(tafsir_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
