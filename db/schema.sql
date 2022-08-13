@@ -74,35 +74,23 @@ CREATE TABLE IF NOT EXISTS RootWord (
 DROP TABLE IF EXISTS ArabicWord CASCADE;
 CREATE TABLE IF NOT EXISTS ArabicWord (
     word_id SERIAL PRIMARY KEY,
-    Word VARCHAR(255) NOT NULL,
+    word VARCHAR(255) NOT NULL,
     root_id INT NOT NULL,
-    FOREIGN KEY (root_id)
-        REFERENCES RootWord(root_id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
+    FOREIGN KEY (root_id) REFERENCES RootWord(root_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 DROP TABLE IF EXISTS TextToWord CASCADE;
 CREATE TABLE IF NOT EXISTS TextToWord  (
     index_id INT NOT NULL,
     word_id INT NOT NULL,
     PRIMARY KEY (index_id, word_id),
-    FOREIGN KEY (index_id)
-        REFERENCES quran_text("index")
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-	FOREIGN KEY (word_id)
-		REFERENCES ArabicWord(word_id)
-		ON DELETE CASCADE
-		ON UPDATE CASCADE
+    FOREIGN KEY (index_id) REFERENCES Verse(verse_index) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (word_id) REFERENCES ArabicWord(word_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 DROP TABLE IF EXISTS RootMeaning CASCADE;
 CREATE TABLE IF NOT EXISTS RootMeaning  (
     root_word VARCHAR(225) PRIMARY KEY,
     meanings TEXT,
-    FOREIGN KEY (root_word)
-        REFERENCES RootWord(root_word)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
+    FOREIGN KEY (root_word) REFERENCES RootWord(root_word) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 DROP TABLE IF EXISTS Tafsir CASCADE;
@@ -127,22 +115,13 @@ CREATE TABLE IF NOT EXISTS Tafsir (
     book_id SERIAL PRIMARY KEY,
     author TEXT NOT NULL,
     title TEXT NOT NULL,
-    FOREIGN KEY (author)
-        REFERENCES Mufasir(mufasir_id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
+    FOREIGN KEY (author) REFERENCES Mufasir(mufasir_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 DROP TABLE IF EXISTS MufasirTafsir CASCADE;
 CREATE TABLE IF NOT EXISTS MufasirTafsir (
     mufasir INT,
     tafsir INT,
-    FOREIGN KEY (mufasir)
-        REFERENCES Mufasir(mufasir_id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    FOREIGN KEY (tafsir)
-        REFERENCES Tafsir(tafsir_id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
+    FOREIGN KEY (mufasir) REFERENCES Mufasir(mufasir_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (tafsir) REFERENCES Tafsir(tafsir_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
