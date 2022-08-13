@@ -78,27 +78,27 @@ async function updateSurah(data) {
         params,
         new utils.Message({
             success: `Successfully update Surah with id ${data.surah_id}.`,
-            none: `Could not find a lesson with id ${data.surah_id}.`,
+            none: `Could not find a Surah with id ${data.surah_id}.`,
         })
     );
 }
 
-/** Update a lesson, requires all attributes of the lesson. */
-async function deleteLesson(data) {
+/** Delete a Surah, requires only the Surah ID of a Surah */
+async function deleteSurah(data) {
     var invalid = utils.simpleValidation(data, {
-        lesson_id: "integer",
+        surah_id: "integer",
     });
     if (invalid) {
         return invalid;
     }
-    let sql = "DELETE FROM Lesson WHERE lesson_id=$1 RETURNING *;";
-    var params = [data.lesson_id];
+    let sql = "DELETE FROM Surah WHERE surah_id=$1 RETURNING *;";
+    var params = [data.surah_id];
     return await utils.remove(
         sql,
         params,
         new utils.Message({
-            success: `Successfully deleted lesson with id ${data.lesson_id}.`,
-            none: `Could not find a lesson with id ${data.lesson_id}.`,
+            success: `Successfully deleted Surah with id ${data.surah_id}.`,
+            none: `Could not find a Surah with id ${data.surah_id}.`,
         })
     );
 }
@@ -107,6 +107,6 @@ module.exports = {
     filterLessons: filterLessons,
     getLessonById: getLessonById,
     createLesson: createLesson,
-    updateLesson: updateLesson,
-    deleteLesson: deleteLesson,
+    updateSurah: updateSurah,
+    deleteSurah: deleteSurah,
 };
