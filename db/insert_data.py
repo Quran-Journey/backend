@@ -89,13 +89,13 @@ for i in range(len(ayahs)):
 df['index_id'] = index_id
 
 # Generate our text to words table
-TextToWords_df = df.merge(
+VerseWords_df = df.merge(
     arabic_words_df, left_on="ARABIC", right_on="ARABIC", how='inner')
-TextToWords_df = TextToWords_df.reset_index()
+VerseWords_df = VerseWords_df.reset_index()
 
 # Put the dataframe into the format for postgres sql insertion
 TexttoWord = []
-for index, row in TextToWords_df.iterrows():
+for index, row in VerseWords_df.iterrows():
     tup = tuple((row['index_id'], row['primary_key']))
     if tup not in TexttoWord:
         TexttoWord.append(tup)
@@ -133,7 +133,7 @@ def insert_root_words(root_words_data):
 
 def insert_arabic_text(arabic_text_data):
     """ Insert Arabic Text Data into the POSTGRES DB """
-    postgres_insert_query = """ INSERT INTO ArabicWord (word_id, Word, root_id) VALUES (%s ,%s, %s)"""
+    postgres_insert_query = """ INSERT INTO ArabicWord (word_id, word, root_id) VALUES (%s ,%s, %s)"""
     counter = 0
     for row in arabic_text_data:
         record_to_insert = row
@@ -166,14 +166,14 @@ insert_arabic_text(arabic_words_data)
 
 def insert_text_to_word(text_to_word_data):
     """ Insert Text to Word  Data into the POSTGRES DB """
-    postgres_insert_query = """ INSERT INTO TextToWord (index_id, word_id) VALUES (%s, %s)"""
+    postgres_insert_query = """ INSERT INTO VerseWord (verse_id, word_id) VALUES (%s, %s)"""
     counter = 0
     for row in text_to_word_data:
         record_to_insert = row
         cursor.execute(postgres_insert_query, record_to_insert)
         connection.commit()
         counter += cursor.rowcount
-    print(counter, "records inserted successfully into TextToWord table")
+    print(counter, "records inserted successfully into VerseWord table")
     return counter
 
 

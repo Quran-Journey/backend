@@ -22,10 +22,8 @@ const seedData = {
         {
             surah_id: 1,
             surah_number: 1,
-            revelation_place: "Makkah",
             name_complex: "Al-Fātiĥah",
             name_arabic: "الفاتحة",
-            verse_count: 7,
         },
     ],
     SurahInfo: [
@@ -40,18 +38,14 @@ const seedData = {
         {
             verse_index: 1,
             surah: 1,
-        },
-    ],
-    VerseExplanation: [
-        {
-            verse_explanation_id: 1,
-            verse_id: 1,
+            verse_number: 1,
+            verse_text: "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ",
         },
     ],
     Reflection: [
         {
             reflection_id: 1,
-            verse_explanation_id: 1,
+            verse_id: 1,
             title: "Bismillah",
             reflection: "My First Reflection",
         },

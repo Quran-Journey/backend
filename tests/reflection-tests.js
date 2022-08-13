@@ -29,7 +29,7 @@ function reflectionTests() {
 
     it("creating a reflection", async () => {
         let newreflection = {
-            verse_explanation_id: 1,
+            verse_id: 1,
             title: "Inshallah",
             reflection: "My Second Reflection",
         };
@@ -43,7 +43,7 @@ function reflectionTests() {
     it("updating a reflection", async () => {
         let newreflection = {
             reflection_id: 1,
-            verse_explanation_id: 1,
+            verse_id: 1,
             title: "Alhamdulillah",
             reflection: "My Last Reflection",
         };
@@ -75,7 +75,7 @@ function reflectionTests() {
 function checkMatch(reflectionA, reflectionB) {
     expect(reflectionA.title).toEqual(reflectionB.title);
     expect(reflectionA.reflection).toEqual(reflectionB.reflection);
-    expect(reflectionA.verse_explanation_id).toEqual(reflectionB.verse_explanation_id);
+    expect(reflectionA.verse_id).toEqual(reflectionB.verse_id);
 }
 
 module.exports = {

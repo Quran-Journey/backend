@@ -9,7 +9,7 @@ const utils = require("./utils");
  *      - word
  *      - root_id
  *      - rootword
- *      - meanings
+ *      - meaning
  *  properties:
  *      index_id:
  *          type: Integer
@@ -140,7 +140,7 @@ async function getVerseRootWords(data) {
         return invalid;
     }
     let sql =
-        "SELECT * FROM (SELECT * FROM (SELECT index_id, aw.word_id, word, root_id FROM TextToWord as ttw JOIN ArabicWord as aw on aw.word_id=ttw.word_id WHERE index_id=$1) as taw JOIN RootWord as rt ON rt.root_id=taw.root_id) rtw JOIN RootMeaning rm ON rm.root_word=rtw.root_word;";
+        "SELECT * FROM (SELECT * FROM (SELECT index_id, aw.word_id, word, root_id FROM VerseWord as ttw JOIN ArabicWord as aw on aw.word_id=ttw.word_id WHERE index_id=$1) as taw JOIN RootWord as rt ON rt.root_id=taw.root_id) rtw JOIN RootMeaning rm ON rm.root_word=rtw.root_word;";
     var params = [data.verse_id];
     return await utils.retrieve(
         sql,
@@ -159,7 +159,7 @@ async function getVerseRootWordsSentences(data) {
         for (let item of all_roots.data) {
             root = item.root_word;
             word = item.word;
-            rootmeaning = item.meanings;
+            rootmeaning = item.meaning;
             sentence = `The word ${word} comes from the root ${root} and is associated with the meanings: ${rootmeaning}`;
             item.sentence = sentence;
         }
