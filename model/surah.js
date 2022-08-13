@@ -51,7 +51,7 @@ async function createSurah(data) {
     return await utils.create(
         sql,
         params,
-        new utils.Message({ success: "Successfully created a lesson." })
+        new utils.Message({ success: "Successfully created a Surah." })
     );
 }
 
