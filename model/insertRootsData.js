@@ -31,8 +31,8 @@ async function retrieve(relation_name, message = "defaultMsg") {
         case 'ArabicWord':
             sql = "SELECT * FROM ArabicWord;"
             break;
-        case 'TextToWord':
-            sql = "SELECT * FROM TextToWord;"
+        case 'VerseWord':
+            sql = "SELECT * FROM VerseWord;"
             break;
         default:
             console.log("Error relation name doesnt exist")
@@ -61,7 +61,7 @@ async function main() {
     let data = {
         RootWords: [],
         ArabicWord: [],
-        TextToWord: []
+        VerseWord: []
     };
 
     await retrieve("RootWords").then(async function (result) {
@@ -70,8 +70,8 @@ async function main() {
     await retrieve("ArabicWord").then(async function (result) {
         data["ArabicWord"] = result.data;
     });
-    await retrieve("TextToWord").then(async function (result) {
-        data["TextToWord"] = result.data;
+    await retrieve("VerseWord").then(async function (result) {
+        data["VerseWord"] = result.data;
     });
 
 
