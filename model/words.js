@@ -9,7 +9,7 @@ const utils = require("./utils");
  *      - word
  *      - root_id
  *      - rootword
- *      - meanings
+ *      - meaning
  *  properties:
  *      index_id:
  *          type: Integer
@@ -159,7 +159,7 @@ async function getVerseRootWordsSentences(data) {
         for (let item of all_roots.data) {
             root = item.root_word;
             word = item.word;
-            rootmeaning = item.meanings;
+            rootmeaning = item.meaning;
             sentence = `The word ${word} comes from the root ${root} and is associated with the meanings: ${rootmeaning}`;
             item.sentence = sentence;
         }

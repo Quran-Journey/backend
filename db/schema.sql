@@ -2,10 +2,8 @@ DROP TABLE IF EXISTS Surah CASCADE;
 CREATE TABLE IF NOT EXISTS Surah (
     surah_id SERIAL PRIMARY KEY, 
     surah_number INTEGER NOT NULL,
-    revelation_place VARCHAR(100),
     name_complex VARCHAR(50),
-    name_arabic VARCHAR(50),
-    verse_count INTEGER
+    name_arabic VARCHAR(50)
 );
 
 DROP TABLE IF EXISTS SurahInfo CASCADE; 
@@ -89,7 +87,7 @@ CREATE TABLE IF NOT EXISTS VerseWord  (
 DROP TABLE IF EXISTS RootMeaning CASCADE;
 CREATE TABLE IF NOT EXISTS RootMeaning  (
     root_word VARCHAR(225) PRIMARY KEY,
-    meanings TEXT,
+    meaning TEXT,
 
     FOREIGN KEY (root_word) REFERENCES RootWord(root_word) ON DELETE CASCADE ON UPDATE CASCADE
 );

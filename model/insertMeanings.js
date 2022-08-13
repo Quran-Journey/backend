@@ -5,7 +5,7 @@ const fs = require("fs");
 
 async function insertMeanings(data) {
     var sql =
-        "INSERT INTO RootMeaning (root_word, meanings) VALUES ($1, $2) RETURNING *;";
+        "INSERT INTO RootMeaning (root_word, meaning) VALUES ($1, $2) RETURNING *;";
     var params = [data.word, data.meanings];
     return await utils.create(
         sql,
@@ -20,7 +20,7 @@ async function main() {
     let words = Object.keys(meanings);
     let data;
     for (var m = 0; m < words.length; m++) {
-        data = { word: words[m], meanings: meanings[words[m]] };
+        data = { word: words[m], meaning: meanings[words[m]] };
         // console.log("inserting stuff")
         console.log(await insertMeanings(data));
     }
