@@ -42,16 +42,10 @@ const seedData = {
             surah: 1,
         },
     ],
-    VerseExplanation: [
-        {
-            verse_explanation_id: 1,
-            verse_id: 1,
-        },
-    ],
     Reflection: [
         {
             reflection_id: 1,
-            verse_explanation_id: 1,
+            verse_id: 1,
             title: "Bismillah",
             reflection: "My First Reflection",
         },

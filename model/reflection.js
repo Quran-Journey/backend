@@ -86,7 +86,7 @@ async function getReflectionBySurahVerseId(data) {
     if (invalid) {
         return invalid;
     }
-    let sql = "SELECT * FROM(SELECT reflection_id, verse_id, title, reflection FROM Reflection as r JOIN VerseExplanation as ve on r.verse_explanation_id = ve.verse_explanation_id) as rve JOIN Verse as v on rve.verse_id = v.verse_index WHERE surah = $1 and verse_id = $2;";
+    let sql = "SELECT * FROM(SELECT reflection_id, verse_id, title, reflection FROM Reflection as r JOIN Verse as v on r.verse_explanation_id = ve.verse_explanation_id) as rve JOIN Verse as v on rve.verse_id = v.verse_index WHERE surah = $1 and verse_id = $2;";
     var params = [data.surah_id, data.verse_id];
     return await utils.retrieve(
         sql,
