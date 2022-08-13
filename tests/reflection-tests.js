@@ -10,9 +10,20 @@ function reflectionTests() {
     it("getting reflection's information", async () => {
         let ReflectionA = seedData.Reflection[0];
 
-        const resp1 = await apiGET(`/reflection`);
+        const resp1 = await apiGET(`/reflection/1`);
+        let ReflectionB = resp1.data.data[0];
+        checkMatch(ReflectionA, ReflectionB);
+        expect(resp1.data.success).toEqual(true);
+    });
+
+    it("getting reflection's information by surah id and verse id", async () => {
+        let ReflectionA = seedData.Reflection[0];
+
+        const resp1 = await apiGET(`/reflection/1/1`);
         let reflectionB = resp1.data.data[0];
-        checkMatch(ReflectionA, reflectionB);
+        expect(ReflectionA.title).toEqual(reflectionB.title);
+        expect(ReflectionA.reflection).toEqual(reflectionB.reflection);
+        expect(ReflectionA.reflection_id).toEqual(reflectionB.reflection_id);
         expect(resp1.data.success).toEqual(true);
     });
 
@@ -24,7 +35,6 @@ function reflectionTests() {
         };
 
         let resp1 = await apiPOST(`/reflection`, newreflection);
-        console.log(resp1);
         let reflection = resp1.data.data[0];
         checkMatch(newreflection, reflection);
         expect(resp1.data.success).toEqual(true);

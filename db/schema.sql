@@ -72,40 +72,40 @@ CREATE TABLE IF NOT EXISTS Reflection (
 
 DROP TABLE IF EXISTS RootWord CASCADE;
 CREATE TABLE IF NOT EXISTS RootWord (
-    RootID SERIAL PRIMARY KEY,
-    RootWord VARCHAR(225) NOT NULL UNIQUE
+    root_id SERIAL PRIMARY KEY,
+    root_word VARCHAR(225) NOT NULL UNIQUE
 );
 
 DROP TABLE IF EXISTS ArabicWord CASCADE;
 CREATE TABLE IF NOT EXISTS ArabicWord (
-    WordID SERIAL PRIMARY KEY,
+    word_id SERIAL PRIMARY KEY,
     Word VARCHAR(255) NOT NULL,
-    RootID INT NOT NULL,
-    FOREIGN KEY (RootID)
-        REFERENCES RootWord(RootID)
+    root_id INT NOT NULL,
+    FOREIGN KEY (root_id)
+        REFERENCES RootWord(root_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 DROP TABLE IF EXISTS TextToWord CASCADE;
 CREATE TABLE IF NOT EXISTS TextToWord  (
-    IndexID INT NOT NULL,
-    WordID INT NOT NULL,
-    PRIMARY KEY (IndexID, WordID),
-    FOREIGN KEY (IndexID)
+    index_id INT NOT NULL,
+    word_id INT NOT NULL,
+    PRIMARY KEY (index_id, word_id),
+    FOREIGN KEY (index_id)
         REFERENCES quran_text("index")
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-	FOREIGN KEY (WordID)
-		REFERENCES ArabicWord(WordID)
+	FOREIGN KEY (word_id)
+		REFERENCES ArabicWord(word_id)
 		ON DELETE CASCADE
 		ON UPDATE CASCADE
 );
 DROP TABLE IF EXISTS RootMeaning CASCADE;
 CREATE TABLE IF NOT EXISTS RootMeaning  (
-    RootWord VARCHAR(225) PRIMARY KEY,
-    Meanings TEXT,
-    FOREIGN KEY (RootWord)
-        REFERENCES RootWord(RootWord)
+    root_word VARCHAR(225) PRIMARY KEY,
+    meanings TEXT,
+    FOREIGN KEY (root_word)
+        REFERENCES RootWord(root_word)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
@@ -123,8 +123,8 @@ CREATE TABLE IF NOT EXISTS Tafsir (
 DROP TABLE IF EXISTS Mufasir CASCADE;
 CREATE TABLE IF NOT EXISTS Mufasir (
     mufasir_id SERIAL PRIMARY KEY,
-    mufasir_name INT NOT NULL,
-    death DATE NOT NULL
+    mufasir_name TEXT NOT NULL,
+    death VARCHAR(30) NOT NULL
 );
 
 DROP TABLE IF EXISTS Book CASCADE;

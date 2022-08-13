@@ -5,8 +5,10 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const lesson = require("./routes/lesson");
 const reflection = require("./routes/reflection");
-const surahInfo = require("./routes/surah-info")
-const roots = require("./routes/roots");
+const surahInfo = require("./routes/surah-info");
+const words = require("./routes/words");
+const mufasir = require("./routes/mufasir");
+const quran = require("./routes/quran");
 const cors = require("cors");
 const path = require("path");
 
@@ -22,32 +24,34 @@ app.use(async (req, res, next) => {
     next();
 });
 
-app.use("/api", roots);
+app.use("/api", words);
 app.use("/api", lesson);
 app.use("/api", reflection);
-app.use("/api", surahInfo)
+app.use("/api", surahInfo);
+app.use("/api", mufasir);
+app.use("/api", quran);
 
-app.use(express.static(path.join(__dirname, '/docs')));
+app.use(express.static(path.join(__dirname, "/docs")));
 app.route("/").get((req, res) => {
     res.sendFile(path.join(__dirname + "/docs/index.html"));
 });
 
 if (process.env.NODE_ENV == "production") {
-  // This sets the options for https so that it finds the ssl certificates
-  var privateKey = fs.readFileSync(
-    "/etc/letsencrypt/live/offlinequran.com/privkey.pem"
-  );
-  var certificate = fs.readFileSync(
-    "/etc/letsencrypt/live/offlinequran.com/cert.pem"
-  )
-  var chain = fs.readFileSync(
-    "/etc/letsencrypt/live/offlinequran.com/fullchain.pem"
-  );
-  const httpsOptions = {
-    cert: certificate,
-    key: privateKey,
-    ca: chain,
-  };
+    // This sets the options for https so that it finds the ssl certificates
+    var privateKey = fs.readFileSync(
+        "/etc/letsencrypt/live/offlinequran.com/privkey.pem"
+    );
+    var certificate = fs.readFileSync(
+        "/etc/letsencrypt/live/offlinequran.com/cert.pem"
+    );
+    var chain = fs.readFileSync(
+        "/etc/letsencrypt/live/offlinequran.com/fullchain.pem"
+    );
+    const httpsOptions = {
+        cert: certificate,
+        key: privateKey,
+        ca: chain,
+    };
 
     var httpsServer = https.createServer(httpsOptions, app).listen(port, () => {
         console.log("Serving on https");

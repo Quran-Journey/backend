@@ -5,7 +5,7 @@ const utils = require("./utils");
 /*
  * @api [get] /reflection/{reflection_id}
  *  summary: "Fetch a Reflection by ID"
- *  description: "This is a general fetch and has no parameters. It will fetch all of the reflections in the database."
+ *  description: "Fetch a reflection by it's ID."
  *  tags:
  *    - Reflection Endpoints
  *  produces:
@@ -27,6 +27,40 @@ const utils = require("./utils");
  */
 router.get("/reflection/:reflection_id", async (request, response) => {
     await reflection.getReflectionById(request.params).then(async function (result) {
+        return utils.simpleResponse(result, response);
+    });
+});
+
+/*
+ * @api [get] /reflection/{surah_id}/{verse_id}
+ *  summary: "Fetch a Reflection by ID"
+ *  description: "Fetch a reflection by it's surah id and verse id."
+ *  tags:
+ *    - Reflection Endpoints
+ *  produces:
+ *    - application/json
+ *  parameters:
+ *      - in: path
+ *        name: surah_id
+ *        type: integer
+ *        required: true
+ *        example: 12
+ *      - in: path
+ *        name: verse_id
+ *        type: integer
+ *        required: true
+ *        example: 134
+ *  responses:
+ *    200:
+ *      description: The corresponding reflection.
+ *      schema:
+ *          $ref: '#/definitions/Reflection'
+ *    404:
+ *      description: No reflections found with those IDs.
+ *
+ */
+router.get("/reflection/:surah_id/:verse_id", async (request, response) => {
+    await reflection.getReflectionBySurahVerseId(request.params).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });

@@ -26,27 +26,27 @@ const seedData = {
             name_complex: "Al-Fātiĥah",
             name_arabic: "الفاتحة",
             verse_count: 7,
-        }
+        },
     ],
     SurahInfo: [
         {
             surah_info_id: 1,
             surah: 1,
             title: "The Opener",
-            info: "Al-Fātiĥah consists of 7 ayah which are a prayer for guidance and mercy"
-        }
+            info: "Al-Fātiĥah consists of 7 ayah which are a prayer for guidance and mercy",
+        },
     ],
     Verse: [
         {
             verse_index: 1,
             surah: 1,
-        }
+        },
     ],
     VerseExplanation: [
         {
             verse_explanation_id: 1,
             verse_id: 1,
-        }
+        },
     ],
     Reflection: [
         {
@@ -54,7 +54,20 @@ const seedData = {
             verse_explanation_id: 1,
             title: "Bismillah",
             reflection: "My First Reflection",
-        }
+        },
+    ],
+    Mufasir: [
+        {
+            mufasir_id: 1,
+            mufasir_name: "Ibn Kathir",
+            death: "774 H",
+        },
+    ],
+    RootWord: [
+        {
+            root_id: 1,
+            root_word: "س م و",
+        },
     ],
 };
 
