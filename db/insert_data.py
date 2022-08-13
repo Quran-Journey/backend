@@ -166,7 +166,7 @@ insert_arabic_text(arabic_words_data)
 
 def insert_text_to_word(text_to_word_data):
     """ Insert Text to Word  Data into the POSTGRES DB """
-    postgres_insert_query = """ INSERT INTO VerseWord (index_id, word_id) VALUES (%s, %s)"""
+    postgres_insert_query = """ INSERT INTO VerseWord (verse_id, word_id) VALUES (%s, %s)"""
     counter = 0
     for row in text_to_word_data:
         record_to_insert = row

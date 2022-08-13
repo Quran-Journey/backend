@@ -36,19 +36,6 @@ CREATE TABLE IF NOT EXISTS Lesson (
     FOREIGN KEY (surah_id) REFERENCES Surah(surah_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- We may still keep the table below since we may have multiple explanations for the same word
-
-DROP TABLE IF EXISTS WordExplanation CASCADE; 
-CREATE TABLE IF NOT EXISTS WordExplanation (
-    word_explanation_id SERIAL PRIMARY KEY,
-    verse_id INTEGER,
-    root_id INTEGER NOT NULL,
-    visible BOOLEAN NOT NULL, 
-    word_explaination TEXT, -- This is the contextual explanation that we will give.
-
-    FOREIGN KEY (verse_id) REFERENCES Verse(verse_index) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
 DROP TABLE IF EXISTS Reflection CASCADE;
 CREATE TABLE IF NOT EXISTS Reflection (
     reflection_id SERIAL PRIMARY KEY,
@@ -58,8 +45,6 @@ CREATE TABLE IF NOT EXISTS Reflection (
 
     FOREIGN KEY (verse_id) REFERENCES Verse(verse_index) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
---- the quran_text table is defined in quran-simple.sql
 
 DROP TABLE IF EXISTS RootWord CASCADE;
 CREATE TABLE IF NOT EXISTS RootWord (
@@ -75,15 +60,19 @@ CREATE TABLE IF NOT EXISTS ArabicWord (
 
     FOREIGN KEY (root_id) REFERENCES RootWord(root_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-DROP TABLE IF EXISTS VerseWord CASCADE;
-CREATE TABLE IF NOT EXISTS VerseWord  (
-    index_id INT NOT NULL,
-    word_id INT NOT NULL,
-    PRIMARY KEY (index_id, word_id),
 
-    FOREIGN KEY (index_id) REFERENCES Verse(verse_index) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (word_id) REFERENCES ArabicWord(word_id) ON DELETE CASCADE ON UPDATE CASCADE
+DROP TABLE IF EXISTS VerseWord CASCADE; 
+CREATE TABLE IF NOT EXISTS VerseWord (
+    verse_word_id SERIAL PRIMARY KEY,
+    verse_id INTEGER NOT NULL,
+    word_id INTEGER NOT NULL,
+    visible BOOLEAN DEFAULT true, 
+    word_explaination TEXT, -- This is the contextual explanation that we will give.
+
+    FOREIGN KEY (verse_id) REFERENCES Verse(verse_index) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (word_id) REFERENCES ArabicWord(word_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
 DROP TABLE IF EXISTS RootMeaning CASCADE;
 CREATE TABLE IF NOT EXISTS RootMeaning  (
     root_word VARCHAR(225) PRIMARY KEY,
