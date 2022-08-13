@@ -5,7 +5,7 @@ const utils = require("./utils");
  *  type: object
  *  required:
  *      - reflection_id
- *      - verse_explanation_id
+ *      - verse_id
  *      - title
  *      - reflection
  *  properties:
@@ -13,7 +13,7 @@ const utils = require("./utils");
  *          type: integer
  *          description: to identify the reflection from others
  *          example: 1
- *      verse_explanation_id:
+ *      verse_id:
  *          type: integer
  *          description: to identify the verse that the reflection is refering to
  *          example: 23
@@ -29,7 +29,7 @@ const utils = require("./utils");
 async function createReflection(data) {
 
     var invalid = utils.simpleValidation(data, {
-        verse_explanation_id: "integer",
+        verse_id: "integer",
         title: "string",
         reflection: "string",
     });
@@ -37,8 +37,8 @@ async function createReflection(data) {
         return invalid;
     }
     var sql_reflec =
-        "INSERT INTO Reflection (verse_explanation_id, title, reflection) VALUES ($1, $2, $3) RETURNING *;";
-    var params = [data.verse_explanation_id, data.title, data.reflection];
+        "INSERT INTO Reflection (verse_id, title, reflection) VALUES ($1, $2, $3) RETURNING *;";
+    var params = [data.verse_id, data.title, data.reflection];
 
     return await utils.create(
         sql_reflec,
@@ -86,7 +86,7 @@ async function getReflectionBySurahVerseId(data) {
     if (invalid) {
         return invalid;
     }
-    let sql = "SELECT * FROM(SELECT reflection_id, verse_id, title, reflection FROM Reflection as r JOIN Verse as v on r.verse_explanation_id = ve.verse_explanation_id) as rve JOIN Verse as v on rve.verse_id = v.verse_index WHERE surah = $1 and verse_id = $2;";
+    let sql = "SELECT * FROM(SELECT reflection_id, verse_id, title, reflection FROM Reflection as r JOIN Verse as v on r.verse_index = v.verse_id) as rve JOIN Verse as v on rve.verse_id = v.verse_index WHERE surah = $1 and verse_id = $2;";
     var params = [data.surah_id, data.verse_id];
     return await utils.retrieve(
         sql,
@@ -101,7 +101,7 @@ async function getReflectionBySurahVerseId(data) {
 async function updateReflection(data) {
     var invalid = utils.simpleValidation(data, {
         reflection_id: "integer",
-        verse_explanation_id: "integer",
+        verse_id: "integer",
         title: "string",
         reflection: "string",
     });
