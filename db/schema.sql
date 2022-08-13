@@ -28,15 +28,9 @@ DROP TABLE IF EXISTS Lesson;
 CREATE TABLE IF NOT EXISTS Lesson (
     lesson_id SERIAL PRIMARY KEY,
     lesson_date DATE NOT NULL,
-    source TEXT NOT NULL
-);
-
-DROP TABLE IF EXISTS LessonSurah; 
-CREATE TABLE IF NOT EXISTS LessonSurah (
-    lesson_id INTEGER,
+    source TEXT NOT NULL,
     surah_id INTEGER,
-    PRIMARY KEY (lesson_id, surah_id),
-    FOREIGN KEY (lesson_id) REFERENCES Lesson(lesson_id) ON DELETE CASCADE ON UPDATE CASCADE,
+
     FOREIGN KEY (surah_id) REFERENCES Surah(surah_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -44,6 +38,7 @@ DROP TABLE IF EXISTS VerseExplanation;
 CREATE TABLE IF NOT EXISTS VerseExplanation (
     verse_explanation_id SERIAL PRIMARY KEY,
     verse_id INTEGER NOT NULL,
+    
     FOREIGN KEY (verse_id) REFERENCES Verse(verse_index) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
