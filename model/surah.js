@@ -2,9 +2,12 @@ const utils = require("./utils");
 
 // Note: this list contains key value pairs of the attribute and types within the schema.
 const attributes = {
-    lesson_id: "integer",
-    lesson_date: "date",
-    source: "string",
+    surah_id: "integer",
+    surah_number: "date",
+    revelation_place: "string",
+    name_complex: "string",
+    name_arabic: "string",
+    verse_count: "integer",
 };
 
 /**
@@ -28,7 +31,9 @@ const attributes = {
  *          description: a URL to the lesson recording
  *          example: "https://www.facebook.com/watch/live/?ref=watch_permalink&v=244235014324418"
  */
-async function createLesson(data) {
+
+/* TO DO -- CREATE SURAH  */ 
+async function createSurah(data) {
     // Frontend note: also add a feature where we guess that the
     //  lesson's date is the next saturday after the last lesson's date
     var invalid = utils.simpleValidation(data, {
@@ -48,98 +53,32 @@ async function createLesson(data) {
     );
 }
 
-/**
- *  This is where we actually filter our values.
- *  Properties must be a string representing one of the table columns.
- *  Operator must be one of: eq, gt, lt, gte, or lte.
- *  Value is the value we are filtering by.
- */
-async function filterLessons(data) {
-    var invalid = utils.simpleValidation(data, {
-        property: "string",
-        operator: "string",
-    });
-    let pagination = utils.paginate(data);
-    if (invalid) {
-        return await utils.retrieve(
-            `SELECT * FROM Lesson ${pagination};`,
-            [],
-            new utils.Message({
-                success: `Fetched all lessons since no query was properly defined.`,
-            })
-        );
-    } else {
-        if (!Object.keys(attributes).includes(data.property)) {
-            // This check is done to avoid SQL injection.
-            return utils.returnInvalid(
-                `${property} is not an attribute of the Lesson type.`
-            );
-        }
-        invalid = utils.simpleValidation(data, {
-            value: attributes[data.property],
-        });
-        if (invalid) {
-            return invalid;
-        }
-        let sql = `SELECT * FROM Lesson WHERE ${data.property}`;
-        let op = utils.getOperator(data.operator);
-        if (op) {
-            // Add the operator and any pagination
-            sql = sql + `${op}$1 ${pagination};`;
-        } else {
-            // If the operator is invalid, then we must notify the client.
-            utils.returnInvalid(
-                `Operator was not set correctly. Operator must be one of: eq, gt, lt, gte, or lte.`
-            );
-        }
-        var params = [data.value];
-        return await utils.retrieve(
-            sql,
-            params,
-            new utils.Message({
-                success: `Successfully fetched lessons based on filter ${data.property} ${op} ${data.value}.`,
-            })
-        );
-    }
-}
 
-/** Fetches lessons based on a specific filter (i.e. id, date) */
-async function getLessonById(data) {
+/** Update a Surah, requires all attributes of the Surah. */
+async function updateSurah(data) {
     var invalid = utils.simpleValidation(data, {
-        lesson_id: "integer",
-    });
-    if (invalid) {
-        return invalid;
-    }
-    let sql = "SELECT * FROM Lesson WHERE lesson_id=$1";
-    var params = [data.lesson_id];
-    return await utils.retrieve(
-        sql,
-        params,
-        new utils.Message({
-            success: `Successfully fetched lesson with id ${data.lesson_id}.`,
-        })
-    );
-}
-
-/** Update a lesson, requires all attributes of the lesson. */
-async function updateLesson(data) {
-    var invalid = utils.simpleValidation(data, {
-        lesson_id: "integer",
+        surah_id: "integer",
+        surah_number: "date",
+        revelation_place: "string",
+        name_complex: "string",
+        name_arabic: "string",
+        verse_count: "integer",
+        
+        surah_id: "integer",
         lesson_date: "date",
         source: "string",
     });
     if (invalid) {
         return invalid;
     }
-    let sql = "UPDATE Lesson SET source=$2, lesson_date=$3 WHERE lesson_id=$1";
-    var params = [data.lesson_id, data.source, data.lesson_date];
+    let sql = "UPDATE Surah SET surah_number=$2, revelation_place=$3, name_complex=$4, name_arabic=$5, verse_count=$6 WHERE surah_id=$1";
+    var params = [data.surah_id, data.surah_number, data.revelation_place, data.name_complex, data.name_arabic, data.verse_count];
     return await utils.update(
         sql,
         params,
         new utils.Message({
-            success: `Successfully update lesson with id ${data.lesson_id}.`,
-            none: `Could not find a lesson with id ${data.lesson_id}.`,
+            success: `Successfully update Surah with id ${data.surah_id}.`,
+            none: `Could not find a lesson with id ${data.surah_id}.`,
         })
     );
 }
