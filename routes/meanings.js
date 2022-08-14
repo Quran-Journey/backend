@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const rootWord = require("../model/words");
+const meaning = require("../model/meanings");
 const utils = require("./utils");
 
 /*

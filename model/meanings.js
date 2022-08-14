@@ -69,7 +69,7 @@ async function getRootWordMeanings(data) {
     if (invalid) {
         return invalid;
     }
-    let sql = "SELECT * FROM RootMeaning WHERE root_word=$1;";
+    let sql = "SELECT * FROM RootMeaning WHERE root_id=$1;";
     var params = [data.root_id];
     return await utils.retrieve(
         sql,
@@ -88,8 +88,10 @@ async function getVerseRootWordsSentences(data) {
         for (let item of all_roots.data) {
             root = item.root_word;
             word = item.word;
-            rootmeanings = stringifyMeanings(item);
-            sentence = `The word ${word} comes from the root ${root} and is associated with the meanings: ${rootmeanings}`;
+            rootmeanings = await stringifyMeanings(item);
+            rootmeanings.length == 0
+                ? (sentence = `The word ${word} comes from the root ${root}.`)
+                : (sentence = `The word ${word} comes from the root ${root} and is associated with the meanings: ${rootmeanings}.`);
             item.sentence = sentence;
         }
         msg = `Successfully retreived sentences for each word in verse with id ${data.verse_id}`;
@@ -106,11 +108,32 @@ async function stringifyMeanings(root) {
     let meanings = await getRootWordMeanings(root);
     let meaningsString = "";
     for (let meaning of meanings.data) {
-        meaningsString = `${meaning}, `;
+        meaningsString
+            ? (meaningsString = `${meaningsString}, ${meaning.meaning}`)
+            : (meaningsString = `${meaning.meaning}`);
     }
-    return meaningsString.substring(0, meaningsString.length - 2);
+    return meaningsString;
+}
+
+async function addMeaning(data) {
+    var invalid = utils.simpleValidation(data, {
+        root_id: "integer",
+        meaning: "string",
+    });
+    if (invalid) {
+        return invalid;
+    }
+    var sql =
+        "INSERT INTO RootMeaning (root_id, meaning) VALUES ($1, $2) RETURNING *;";
+    var params = [data.root_id, data.meaning];
+    return await utils.create(
+        sql,
+        params,
+        new utils.Message({ success: "Successfully added a meaning." })
+    );
 }
 
 module.exports = {
     getVerseRootWordsSentences,
+    addMeaning,
 };
