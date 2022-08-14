@@ -56,8 +56,6 @@ const utils = require("./utils");
  *          example: س م و
  */
 
-
-
 /**
  *  @schema ArabicWord
  *  type: object
@@ -102,102 +100,93 @@ const utils = require("./utils");
  *          example: A name
  */
 
+async function createrootWord(data) {
+    // Frontend note: also add a feature where we guess that the
+    //  rootWord's date is the next saturday after the last rootWord's date
+    var invalid = utils.simpleValidation(data, {
+        rootWord: "date",
+        source: "string",
+    });
+    if (invalid) {
+        return invalid;
+    }
+    var sql =
+        "INSERT INTO rootWord (source, rootWord_date) VALUES ($1, $2) RETURNING *;";
+    var params = [data.source, data.root_word_date];
+    return await utils.create(
+        sql,
+        params,
+        new utils.Message({ success: "Successfully created a rootWord." })
+    );
+}
 
- async function createrootWord(data) {
-     // Frontend note: also add a feature where we guess that the
-     //  rootWord's date is the next saturday after the last rootWord's date
-     var invalid = utils.simpleValidation(data, {
-         rootWord: "date",
-         source: "string",
-     });
-     if (invalid) {
-         return invalid;
-     }
-     var sql =
-         "INSERT INTO rootWord (source, rootWord_date) VALUES ($1, $2) RETURNING *;";
-     var params = [data.source, data.root_word_date];
-     return await utils.create(
-         sql,
-         params,
-         new utils.Message({ success: "Successfully created a rootWord." })
-     );
- }
- 
- /** Fetches rootWords based on a specific filter (i.e. id, date) */
- async function getrootWordById(data) {
-     var invalid = utils.simpleValidation(data, {
-         rootWord_id: "integer",
-     });
-     if (invalid) {
-         return invalid;
-     }
-     let sql = "SELECT * FROM rootWord WHERE rootWord_id=$1";
-     var params = [data.root_word_id];
-     return await utils.retrieve(
-         sql,
-         params,
-         new utils.Message({
-             success: `Successfully fetched rootWord with id ${data.root_word_id}.`,
-         })
-     );
- }
- 
- /** Update a rootWord, requires all attributes of the rootWord. */
- async function updaterootWord(data) {
-     var invalid = utils.simpleValidation(data, {
-         rootWord_id: "integer",
-         rootWord_date: "date",
-         source: "string",
-     });
-     if (invalid) {
-         return invalid;
-     }
-     let sql = "UPDATE rootWord SET source=$2, rootWord_date=$3 WHERE rootWord_id=$1";
-     var params = [data.root_word_id, data.source, data.root_word_date];
-     return await utils.update(
-         sql,
-         params,
-         new utils.Message({
-             success: `Successfully update rootWord with id ${data.root_word_id}.`,
-             none: `Could not find a rootWord with id ${data.root_word_id}.`,
-         })
-     );
- }
- 
- /** Update a rootWord, requires all attributes of the rootWord. */
- async function deleterootWord(data) {
-     var invalid = utils.simpleValidation(data, {
-         rootWord_id: "integer",
-     });
-     if (invalid) {
-         return invalid;
-     }
-     let sql = "DELETE FROM rootWord WHERE rootWord_id=$1 RETURNING *;";
-     var params = [data.root_word_id];
-     return await utils.remove(
-         sql,
-         params,
-         new utils.Message({
-             success: `Successfully deleted rootWord with id ${data.root_word_id}.`,
-             none: `Could not find a rootWord with id ${data.root_word_id}.`,
-         })
-     );
- }
- 
- module.exports = {
-    //  filterrootWords: filterrootWords,
-     getrootWordById: getrootWordById,
-     createrootWord: createrootWord,
-     updaterootWord: updaterootWord,
-     deleterootWord: deleterootWord,
- };
- 
+/** Fetches rootWords based on a specific filter (i.e. id, date) */
+async function getrootWordById(data) {
+    var invalid = utils.simpleValidation(data, {
+        rootWord_id: "integer",
+    });
+    if (invalid) {
+        return invalid;
+    }
+    let sql = "SELECT * FROM rootWord WHERE rootWord_id=$1";
+    var params = [data.root_word_id];
+    return await utils.retrieve(
+        sql,
+        params,
+        new utils.Message({
+            success: `Successfully fetched rootWord with id ${data.root_word_id}.`,
+        })
+    );
+}
+
+/** Update a rootWord, requires all attributes of the rootWord. */
+async function updaterootWord(data) {
+    var invalid = utils.simpleValidation(data, {
+        rootWord_id: "integer",
+        rootWord_date: "date",
+        source: "string",
+    });
+    if (invalid) {
+        return invalid;
+    }
+    let sql =
+        "UPDATE rootWord SET source=$2, rootWord_date=$3 WHERE rootWord_id=$1";
+    var params = [data.root_word_id, data.source, data.root_word_date];
+    return await utils.update(
+        sql,
+        params,
+        new utils.Message({
+            success: `Successfully update rootWord with id ${data.root_word_id}.`,
+            none: `Could not find a rootWord with id ${data.root_word_id}.`,
+        })
+    );
+}
+
+/** Update a rootWord, requires all attributes of the rootWord. */
+async function deleterootWord(data) {
+    var invalid = utils.simpleValidation(data, {
+        rootWord_id: "integer",
+    });
+    if (invalid) {
+        return invalid;
+    }
+    let sql = "DELETE FROM rootWord WHERE rootWord_id=$1 RETURNING *;";
+    var params = [data.root_word_id];
+    return await utils.remove(
+        sql,
+        params,
+        new utils.Message({
+            success: `Successfully deleted rootWord with id ${data.root_word_id}.`,
+            none: `Could not find a rootWord with id ${data.root_word_id}.`,
+        })
+    );
+}
 
 // TODOs:
- async function getrootWordById() {}
- async function updateRootWord() {}
- async function addRootWord() {}
- async function deleteRootWord() {}
+async function getrootWordById() {}
+async function updateRootWord() {}
+async function addRootWord() {}
+async function deleteRootWord() {}
 
 async function getVerseRootWords(data) {
     var invalid = utils.simpleValidation(data, {
@@ -207,8 +196,27 @@ async function getVerseRootWords(data) {
         return invalid;
     }
     let sql =
-        "SELECT * FROM (SELECT * FROM (SELECT index_id, aw.word_id, word, root_id FROM VerseWord as ttw JOIN ArabicWord as aw on aw.word_id=ttw.word_id WHERE index_id=$1) as taw JOIN RootWord as rt ON rt.root_id=taw.root_id) rtw JOIN RootMeaning rm ON rm.root_word=rtw.root_word;";
+        "SELECT * FROM (SELECT verse_id, aw.word_id, word, root_id FROM VerseWord as vw JOIN ArabicWord as aw on aw.word_id=vw.word_id WHERE verse_id=$1) as vtaw JOIN RootWord as rt ON rt.root_id=vtaw.root_id;";
     var params = [data.verse_id];
+    return await utils.retrieve(
+        sql,
+        params,
+        new utils.Message({
+            success: `Successfully fetched roots for verse with id ${data.verse_id}.`,
+        })
+    );
+}
+
+// To be used when adding the different meanings to the sentences.
+async function getRootWordMeanings(data) {
+    var invalid = utils.simpleValidation(data, {
+        root_id: "integer",
+    });
+    if (invalid) {
+        return invalid;
+    }
+    let sql = "SELECT * FROM RootMeaning WHERE root_word=$1;";
+    var params = [data.root_id];
     return await utils.retrieve(
         sql,
         params,
@@ -221,13 +229,13 @@ async function getVerseRootWords(data) {
 async function getVerseRootWordsSentences(data) {
     var all_roots = await getVerseRootWords(data);
     let msg = all_roots.error;
-    let root, word, rootmeaning, sentence;
+    let root, word, rootmeanings, sentence;
     if (all_roots.success) {
         for (let item of all_roots.data) {
             root = item.root_word;
             word = item.word;
-            rootmeaning = item.meaning;
-            sentence = `The word ${word} comes from the root ${root} and is associated with the meanings: ${rootmeaning}`;
+            rootmeanings = stringifyMeanings(item);
+            sentence = `The word ${word} comes from the root ${root} and is associated with the meanings: ${rootmeanings}`;
             item.sentence = sentence;
         }
         msg = `Successfully retreived sentences for each word in verse with id ${data.verse_id}`;
@@ -240,7 +248,20 @@ async function getVerseRootWordsSentences(data) {
     );
 }
 
+async function stringifyMeanings(root) {
+    let meanings = await getRootWordMeanings(root);
+    let meaningsString = "";
+    for (let meaning of meanings.data) {
+        meaningsString = `${meaning}, `;
+    }
+    return meaningsString.substring(0, meaningsString.length - 2);
+}
+
 module.exports = {
+    getrootWordById: getrootWordById,
+    createrootWord: createrootWord,
+    updaterootWord: updaterootWord,
+    deleterootWord: deleterootWord,
     getVerseRootWords,
     getVerseRootWordsSentences,
 };
