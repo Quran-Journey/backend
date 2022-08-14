@@ -9,6 +9,7 @@ const surahInfo = require("./routes/surah-info");
 const words = require("./routes/words");
 const mufasir = require("./routes/mufasir");
 const quran = require("./routes/quran");
+const verseInfo = require("./routes/verseInfo");
 const cors = require("cors");
 const path = require("path");
 
@@ -30,6 +31,7 @@ app.use("/api", reflection);
 app.use("/api", surahInfo);
 app.use("/api", mufasir);
 app.use("/api", quran);
+app.use("/api", verseInfo);
 
 app.use(express.static(path.join(__dirname, "/docs")));
 app.route("/").get((req, res) => {
