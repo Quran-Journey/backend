@@ -4,10 +4,10 @@ const utils = require("./utils");
 
 /*
  * @api [get] /verse/{verse_id}
- *  summary: "Get a Verse's root words"
- *  description: "Fetches the root words and their meanings for each of the words in a verse."
+ *  summary: "Get the meanings of each word in a verse"
+ *  description: "Fetches the words, their roots, and their meanings for a specific verse."
  *  tags:
- *    - Root Endpoints
+ *    - Linguistic Endpoints
  *  produces:
  *    - application/json
  *  parameters:
@@ -22,7 +22,7 @@ const utils = require("./utils");
  *      schema:
  *        type: array
  *        items:
- *          $ref: '#/definitions/RootWord'
+ *          $ref: '#/definitions/VerseWordMeaning'
  *    404:
  *      description: No verse with that ID found.
  *
@@ -40,7 +40,7 @@ router.get("/rootWord/:verse_id/", async (request, response) => {
  *  summary: "Fetch a rootWord by ID"
  *  description: "Fetch a root word by it's ID."
  *  tags:
- *    - RootWord Endpoints
+ *    - Linguistic Endpoints
  *  produces:
  *    - application/json
  *  parameters:
@@ -53,7 +53,7 @@ router.get("/rootWord/:verse_id/", async (request, response) => {
  *    200:
  *      description: The corresponding rootWord.
  *      schema:
- *          $ref: '#/definitions/rootWord'
+ *          $ref: '#/definitions/RootWord'
  *    404:
  *      description: No rootWords found with that ID.
  *
@@ -71,7 +71,7 @@ router.get("/rootWord/:rootWord_id", async (request, response) => {
  *  summary: "Create a rootWord"
  *  description: "This creates a rootWord from the data attribute in the request body"
  *  tags:
- *    - RootWord Endpoints
+ *    - Linguistic Endpoints
  *  produces:
  *    - application/json
  *  parameters:
@@ -79,7 +79,7 @@ router.get("/rootWord/:rootWord_id", async (request, response) => {
  *          name: id
  *          description: the rootWord to update and it's new attributes
  *          schema:
- *              $ref: '#/definitions/rootWord'
+ *              $ref: '#/definitions/RootWord'
  *  responses:
  *    200:
  *      description: rootWord has been created.
@@ -95,7 +95,7 @@ router.post("/rootWord", async (request, response) => {
  * @api [patch] /rootWord
  *  summary: "Update a rootWord"
  *  tags:
- *    - RootWord Endpoints
+ *    - Linguistic Endpoints
  *  produces:
  *    - application/json
  *  parameters:
@@ -103,7 +103,7 @@ router.post("/rootWord", async (request, response) => {
  *          name: id
  *          description: the rootWord to update and it's new attributes
  *          schema:
- *              $ref: '#/definitions/rootWord'
+ *              $ref: '#/definitions/RootWord'
  *  responses:
  *    200:
  *      description: rootWord has been updated.
@@ -121,7 +121,7 @@ router.patch("/rootWord", async (request, response) => {
  * @api [delete] /rootWord
  *  summary: "Delete a rootWord"
  *  tags:
- *    - RootWord Endpoints
+ *    - Linguistic Endpoints
  *  produces:
  *    - application/json
  *  parameters:
@@ -134,7 +134,7 @@ router.patch("/rootWord", async (request, response) => {
  *    200:
  *      description: The rootWord has been deleted.
  *      schema:
- *          $ref: '#/definitions/rootWord'
+ *          $ref: '#/definitions/RootWord'
  *    404:
  *      description: Could not find a rootWord with that id.
  *
@@ -150,14 +150,14 @@ router.delete("/rootWord/:rootWord_id", async (request, response) => {
  *  summary: "Get all rootWords"
  *  description: "This is used to request all rootWords stored in the rootWord Table"
  *  tags:
- *    - RootWord Endpoints
+ *    - Linguistic Endpoints
  *  produces:
  *    - application/json
  *  responses:
  *    200:
  *      description: All rootWords have been fetched.
  *      schema:
- *          $ref: '#/definitions/rootWord'
+ *          $ref: '#/definitions/RootWord'
  *    404:
  *      description: Could not find any rootWords.
  *

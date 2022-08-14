@@ -1,7 +1,7 @@
 const utils = require("./utils");
 
 /**
- *  @schema RootWord
+ *  @schema VerseWordMeaning
  *  type: object
  *  required:
  *      - index_id
@@ -9,7 +9,7 @@ const utils = require("./utils");
  *      - word
  *      - root_id
  *      - rootword
- *      - meaning
+ *      - meanings
  *  properties:
  *      index_id:
  *          type: Integer
@@ -32,10 +32,77 @@ const utils = require("./utils");
  *          description: string representaiton of the root word with spaces in between each letter.
  *          example: س م و
  *      meanings:
- *          type: string
- *          description: the meanings associated with the root word
- *          example: to be high/lofty, raised, name, attribute. samawat - heights/heavens/rain, raining clouds. ismun - mark of identification by which one is recognised. It is a derivation of wsm (pl. asma). ism - stands for a distinguishing mark of a thing, sometimes said to signify its reality.
+ *          type: array
+ *          items:
+ *              $ref: '#/definitions/RootMeaning'
+ *          description: the meanings associated with the word in the verse
  */
+
+/**
+ *  @schema RootWord
+ *  type: object
+ *  required:
+ *      - root_id
+ *      - rootword
+ *      - meanings
+ *  properties:
+ *      root_id:
+ *          type: integer
+ *          description: the id of the root word
+ *          example: 936
+ *      rootword:
+ *          type: string
+ *          description: string representaiton of the root word with spaces in between each letter.
+ *          example: س م و
+ */
+
+
+
+/**
+ *  @schema ArabicWord
+ *  type: object
+ *  required:
+ *      - word_id
+ *      - root_id
+ *      - word
+ *  properties:
+ *      word_id:
+ *          type: integer
+ *          description: the id of the arabic word
+ *          example: 1
+ *      root_id:
+ *          type: integer
+ *          description: the id of the root word associated with the arabic word
+ *          example: 936
+ *      word:
+ *          type: string
+ *          description: string representaiton of the word.
+ *          example: بِسْمِ
+ */
+
+/**
+ *  @schema RootMeaning
+ *  type: object
+ *  required:
+ *      - word_id
+ *      - root_id
+ *      - meaning
+ *  properties:
+ *      meaning_id:
+ *          type: integer
+ *          description: the id of the meaning
+ *          example: 1
+ *      root_word:
+ *          type: integer
+ *          description: the id of the root word
+ *          example: 936
+ *      word:
+ *          type: string
+ *          description: The meaning.
+ *          example: A name
+ */
+
+
  async function createrootWord(data) {
      // Frontend note: also add a feature where we guess that the
      //  rootWord's date is the next saturday after the last rootWord's date
