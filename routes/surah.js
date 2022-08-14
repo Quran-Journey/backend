@@ -33,7 +33,7 @@ router.get("/surah/:surah_id", async (request, response) => {
 
 /*
  * @api [post] /lesson
- *  summary: "Create a lesson"
+ *  summary: "Create a Surah"
  *  tags:
  *    - Lesson Endpoints
  *  produces:
@@ -57,7 +57,7 @@ router.post("/lesson", async (request, response) => {
 
 /*
  * @api [patch] /lesson
- *  summary: "Update a lesson"
+ *  summary: "Update a Surah"
  *  tags:
  *    - Lesson Endpoints
  *  produces:
@@ -75,15 +75,15 @@ router.post("/lesson", async (request, response) => {
  *      description: Could not find a lesson with that id.
  *
  */
-router.patch("/lesson", async (request, response) => {
-    await lesson.updateLesson(request.body).then(async function (result) {
+router.patch("/surah", async (request, response) => {
+    await surah.updateSurah(request.body).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });
 
 /*
- * @api [delete] /lesson
- *  summary: "Delete a lesson"
+ * @api [delete] /Surah
+ *  summary: "Delete a Surah"
  *  tags:
  *    - Lesson Endpoints
  *  produces:
@@ -103,8 +103,8 @@ router.patch("/lesson", async (request, response) => {
  *      description: Could not find a lesson with that id.
  *
  */
-router.delete("/lesson/:lesson_id", async (request, response) => {
-    await lesson.deleteLesson(request.params).then(async function (result) {
+router.delete("/surah/:surah", async (request, response) => {
+    await surah.deleteSurah(request.params).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });
