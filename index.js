@@ -10,8 +10,10 @@ const words = require("./routes/words");
 const meanings = require("./routes/meanings");
 const mufasir = require("./routes/mufasir");
 const quran = require("./routes/quran");
+const setup = require("./tests/setup");
 const cors = require("cors");
 const path = require("path");
+const db = require("./model/db");
 
 var port = 3001;
 
@@ -59,7 +61,8 @@ if (process.env.NODE_ENV == "production") {
         console.log("Serving on https");
     });
 } else if (process.env.NODE_ENV == "development") {
-    app.listen(port, () => {
+    app.listen(port, async () => {
         console.log("Listening on port " + port);
+        await setup.seedDatabase(db, true);
     });
 }
