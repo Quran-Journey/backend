@@ -75,7 +75,8 @@ CREATE TABLE IF NOT EXISTS VerseWord (
 
 DROP TABLE IF EXISTS RootMeaning CASCADE;
 CREATE TABLE IF NOT EXISTS RootMeaning  (
-    root_word VARCHAR(225) PRIMARY KEY,
+    meaning_id VARCHAR(225) PRIMARY KEY,
+    root_word VARCHAR(225),
     meaning TEXT,
 
     FOREIGN KEY (root_word) REFERENCES RootWord(root_word) ON DELETE CASCADE ON UPDATE CASCADE
