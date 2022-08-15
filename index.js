@@ -6,8 +6,7 @@ const bodyParser = require("body-parser");
 const lesson = require("./routes/lesson");
 const reflection = require("./routes/reflection");
 const surahInfo = require("./routes/surah-info");
-const words = require("./routes/words");
-const meanings = require("./routes/meanings");
+const word = require("./routes/word/main");
 const mufasir = require("./routes/mufasir");
 const quran = require("./routes/quran");
 const setup = require("./tests/setup");
@@ -32,8 +31,7 @@ app.use("/api", reflection);
 app.use("/api", surahInfo);
 app.use("/api", mufasir);
 app.use("/api", quran);
-app.use("/api", words);
-app.use("/api", meanings);
+app.use("/api", word);
 
 app.use(express.static(path.join(__dirname, "/docs")));
 app.route("/").get((req, res) => {

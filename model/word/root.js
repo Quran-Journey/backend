@@ -58,7 +58,6 @@ async function createrootWord(data) {
     );
 }
 
-/** Fetches rootWords based on a specific filter (i.e. id, date) */
 async function getrootWordById(data) {
     var invalid = utils.simpleValidation(data, {
         root_id: "integer",
@@ -73,6 +72,19 @@ async function getrootWordById(data) {
         params,
         new utils.Message({
             success: `Successfully fetched rootWord with id ${data.root_id}.`,
+        })
+    );
+}
+
+/** Fetches rootWords based on a specific filter (i.e. id, date) */
+async function getAllrootWords(data) {
+    let sql = "SELECT * FROM rootWord;";
+    var params = [];
+    return await utils.retrieve(
+        sql,
+        params,
+        new utils.Message({
+            success: `Successfully fetched all root words.`,
         })
     );
 }
@@ -145,4 +157,5 @@ module.exports = {
     updaterootWord,
     deleterootWord,
     getVerseRootWords,
+    getAllrootWords,
 };

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const meaning = require("../../model/word/meanings");
+const meaning = require("../../model/word/meaning");
 const utils = require("../utils");
 
 /*
@@ -27,7 +27,7 @@ const utils = require("../utils");
  *      description: No verse with that ID found.
  *
  */
-router.get("/verse/word/root/meanings/:verse_id/", async (request, response) => {
+router.get("/root/meanings/verse/:verse_id/", async (request, response) => {
     await meaning
         .getVerseRootWordsSentences(request.params)
         .then(async function (result) {
@@ -54,7 +54,7 @@ router.get("/verse/word/root/meanings/:verse_id/", async (request, response) => 
  *      description: rootWord has been created.
  *
  */
-router.post("/word/root/meaning", async (request, response) => {
+router.post("/root/meaning", async (request, response) => {
     await meaning.addMeaning(request.body).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
