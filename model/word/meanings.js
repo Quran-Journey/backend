@@ -1,5 +1,5 @@
 const utils = require("../utils");
-const words = require("./words");
+const root = require("./root");
 
 /**
  *  @schema VerseWordMeaning
@@ -81,7 +81,7 @@ async function getRootWordMeanings(data) {
 }
 
 async function getVerseRootWordsSentences(data) {
-    var all_roots = await words.getVerseRootWords(data);
+    var all_roots = await root.getVerseRootWords(data);
     let msg = all_roots.error;
     let root, word, rootmeanings, sentence;
     if (all_roots.success) {

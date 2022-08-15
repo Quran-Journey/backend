@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const rootWord = require("../../model/word/words");
+const root = require("../../model/word/root");
 const utils = require("../utils");
 
 /*
@@ -26,11 +26,9 @@ const utils = require("../utils");
  *
  */
 router.get("/word/root/:rootWord_id", async (request, response) => {
-    await rootWord
-        .getrootWordById(request.params)
-        .then(async function (result) {
-            return utils.simpleResponse(result, response);
-        });
+    await root.getrootWordById(request.params).then(async function (result) {
+        return utils.simpleResponse(result, response);
+    });
 });
 
 /*
@@ -53,7 +51,7 @@ router.get("/word/root/:rootWord_id", async (request, response) => {
  *
  */
 router.post("/word/root", async (request, response) => {
-    await rootWord.createrootWord(request.body).then(async function (result) {
+    await root.createrootWord(request.body).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });
@@ -79,7 +77,7 @@ router.post("/word/root", async (request, response) => {
  *
  */
 router.patch("/word/root", async (request, response) => {
-    await rootWord.updaterootWord(request.body).then(async function (result) {
+    await root.updaterootWord(request.body).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });
@@ -107,7 +105,7 @@ router.patch("/word/root", async (request, response) => {
  *
  */
 router.delete("/word/root/:rootWord_id", async (request, response) => {
-    await rootWord.deleterootWord(request.params).then(async function (result) {
+    await root.deleterootWord(request.params).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });
@@ -130,7 +128,7 @@ router.delete("/word/root/:rootWord_id", async (request, response) => {
  *
  */
 router.get("/word/root", async (request, response) => {
-    await rootWord.getAllrootWords().then(async function (result) {
+    await root.getAllrootWords().then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });
