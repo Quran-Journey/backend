@@ -63,6 +63,22 @@ const seedData = {
             root_word: "س م و",
         },
     ],
+    ArabicWord: [
+        {
+            word_id: 1,
+            word: "بِسْمِ",
+            root_id: 1,
+        },
+    ],
+    VerseWord: [
+        {
+            verse_word_id: 1,
+            verse_id: 1,
+            word_id: 1,
+            visible: true,
+            word_explaination: "",
+        },
+    ],
 };
 
 /**
@@ -143,7 +159,7 @@ async function seedDatabase(db, isDev) {
             });
     }
     if (!isDev) await db.end();
-    console.log("Database setup complete.")
+    console.log("Database setup complete.");
 }
 
 module.exports = {
