@@ -1,4 +1,4 @@
-const utils = require("./utils");
+const utils = require("../utils");
 
 /**
  *  @schema VerseWordMeaning
@@ -207,61 +207,10 @@ async function getVerseRootWords(data) {
     );
 }
 
-// To be used when adding the different meanings to the sentences.
-async function getRootWordMeanings(data) {
-    var invalid = utils.simpleValidation(data, {
-        root_id: "integer",
-    });
-    if (invalid) {
-        return invalid;
-    }
-    let sql = "SELECT * FROM RootMeaning WHERE root_word=$1;";
-    var params = [data.root_id];
-    return await utils.retrieve(
-        sql,
-        params,
-        new utils.Message({
-            success: `Successfully fetched roots for verse with id ${data.verse_id}.`,
-        })
-    );
-}
-
-async function getVerseRootWordsSentences(data) {
-    var all_roots = await getVerseRootWords(data);
-    let msg = all_roots.error;
-    let root, word, rootmeanings, sentence;
-    if (all_roots.success) {
-        for (let item of all_roots.data) {
-            root = item.root_word;
-            word = item.word;
-            rootmeanings = stringifyMeanings(item);
-            sentence = `The word ${word} comes from the root ${root} and is associated with the meanings: ${rootmeanings}`;
-            item.sentence = sentence;
-        }
-        msg = `Successfully retreived sentences for each word in verse with id ${data.verse_id}`;
-    }
-    return utils.setResult(
-        all_roots.data,
-        all_roots.success,
-        msg,
-        all_roots.ecode
-    );
-}
-
-async function stringifyMeanings(root) {
-    let meanings = await getRootWordMeanings(root);
-    let meaningsString = "";
-    for (let meaning of meanings.data) {
-        meaningsString = `${meaning}, `;
-    }
-    return meaningsString.substring(0, meaningsString.length - 2);
-}
-
 module.exports = {
     getrootWordById: getrootWordById,
     createrootWord: createrootWord,
     updaterootWord: updaterootWord,
     deleterootWord: deleterootWord,
     getVerseRootWords,
-    getVerseRootWordsSentences,
 };

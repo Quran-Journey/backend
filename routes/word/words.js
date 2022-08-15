@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const rootWord = require("../model/words");
-const utils = require("./utils");
+const rootWord = require("../../model/word/words");
+const utils = require("../utils");
 
 /*
  * @api [get] /rootWord/{rootWord_id}
@@ -25,7 +25,7 @@ const utils = require("./utils");
  *      description: No rootWords found with that ID.
  *
  */
-router.get("/rootWord/:rootWord_id", async (request, response) => {
+router.get("/word/root/:rootWord_id", async (request, response) => {
     await rootWord
         .getrootWordById(request.params)
         .then(async function (result) {
@@ -52,7 +52,7 @@ router.get("/rootWord/:rootWord_id", async (request, response) => {
  *      description: rootWord has been created.
  *
  */
-router.post("/rootWord", async (request, response) => {
+router.post("/word/root", async (request, response) => {
     await rootWord.createrootWord(request.body).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
@@ -78,7 +78,7 @@ router.post("/rootWord", async (request, response) => {
  *      description: Could not find a rootWord with that id.
  *
  */
-router.patch("/rootWord", async (request, response) => {
+router.patch("/word/root", async (request, response) => {
     await rootWord.updaterootWord(request.body).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
@@ -106,7 +106,7 @@ router.patch("/rootWord", async (request, response) => {
  *      description: Could not find a rootWord with that id.
  *
  */
-router.delete("/rootWord/:rootWord_id", async (request, response) => {
+router.delete("/word/root/:rootWord_id", async (request, response) => {
     await rootWord.deleterootWord(request.params).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
@@ -129,7 +129,7 @@ router.delete("/rootWord/:rootWord_id", async (request, response) => {
  *      description: Could not find any rootWords.
  *
  */
-router.get("/rootWord", async (request, response) => {
+router.get("/word/root", async (request, response) => {
     await rootWord.getAllrootWords().then(async function (result) {
         return utils.simpleResponse(result, response);
     });
