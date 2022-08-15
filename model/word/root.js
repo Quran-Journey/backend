@@ -44,7 +44,7 @@ async function createrootWord(data) {
     // Frontend note: also add a feature where we guess that the
     //  rootWord's date is the next saturday after the last rootWord's date
     var invalid = utils.simpleValidation(data, {
-        root_word: "date",
+        root_word: "string",
     });
     if (invalid) {
         return invalid;
@@ -93,15 +93,13 @@ async function getAllrootWords(data) {
 async function updaterootWord(data) {
     var invalid = utils.simpleValidation(data, {
         root_id: "integer",
-        rootWord_date: "date",
-        source: "string",
+        root_word: "string",
     });
     if (invalid) {
         return invalid;
     }
-    let sql =
-        "UPDATE rootWord SET source=$2, rootWord_date=$3 WHERE root_id=$1";
-    var params = [data.root_id, data.source, data.root_word_date];
+    let sql = "UPDATE rootWord SET root_word=$2 WHERE root_id=$1";
+    var params = [data.root_id, data.root_word];
     return await utils.update(
         sql,
         params,
