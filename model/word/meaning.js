@@ -133,7 +133,27 @@ async function addMeaning(data) {
     );
 }
 
+async function editMeaning(data) {
+    var invalid = utils.simpleValidation(data, {
+        root_id: "integer",
+        meaning: "string",
+    });
+    if (invalid) {
+        return invalid;
+    }
+    var sql = "UPDATE RootMeaning SET meaning=$2 WHERE root_id=$1 RETURNING *;";
+    var params = [data.root_id, data.meaning];
+    return await utils.create(
+        sql,
+        params,
+        new utils.Message({
+            success: `Successfully edited meaning with id ${data.root_id}.`,
+        })
+    );
+}
+
 module.exports = {
     getVerseRootWordsSentences,
     addMeaning,
+    editMeaning,
 };

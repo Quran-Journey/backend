@@ -60,4 +60,29 @@ router.post("/root/meaning", async (request, response) => {
     });
 });
 
+/*
+ * @api [patch] /meaning
+ *  summary: "Edit meaning"
+ *  description: "This edits a root word's meaning"
+ *  tags:
+ *    - Linguistic Endpoints
+ *  produces:
+ *    - application/json
+ *  parameters:
+ *        - in: body
+ *          name: id
+ *          description: the rootWord to update and it's new attributes
+ *  responses:
+ *    200:
+ *      description: rootWord has been created.
+ *      schema:
+ *          $ref: '#/definitions/RootMeaning'
+ *
+ */
+router.patch("/root/meaning", async (request, response) => {
+    await meaning.editMeaning(request.body).then(async function (result) {
+        return utils.simpleResponse(result, response);
+    });
+});
+
 module.exports = router;
