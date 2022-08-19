@@ -4,6 +4,8 @@ const surahInfoTests = require("./surah-info-tests.js").surahInfoTests;
 const mufasirTests = require("./mufasir-tests.js").mufasirTests;
 const wordTests = require("./word-tests.js").wordTests;
 const quranTests = require("./quran-tests.js").quranTests;
+const verseInfoTests = require("./verse-info-tests").verseInfoTests;
+
 const setup = require("./setup.js");
 const utils = require("./utils.js");
 
@@ -36,4 +38,8 @@ describe("Test Mufasir", () => {
 
 describe("Test everything related to words", () => {
     wordTests();
+});
+
+describe("Test Verse Info", () => {
+    verseInfoTests();
 });
