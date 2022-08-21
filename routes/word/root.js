@@ -44,7 +44,14 @@ router.get("/root/:root_id", async (request, response) => {
  *          name: id
  *          description: the rootWord to update and it's new attributes
  *          schema:
- *              $ref: '#/definitions/RootWord'
+ *              type: object
+ *              required:
+ *                - root_word
+ *              properties:
+ *                root_word:
+ *                    type: string
+ *                    description: the root word (spaces between letters)
+ *                    example: س م و
  *  responses:
  *    200:
  *      description: rootWord has been created.
@@ -90,7 +97,7 @@ router.patch("/root", async (request, response) => {
  *  parameters:
  *        - in: params
  *          name: root_id
- *          description: the rootWord to be deleted
+ *          description: the id of the rootWord to be deleted
  *          type: integer
  *          example: 1
  *  responses:
@@ -111,7 +118,6 @@ router.delete("/root/:root_id", async (request, response) => {
 /*
  * @api [get] /word/roots
  *  summary: "Get all rootWords"
- *  description: "This is used to request all rootWords stored in the rootWord Table"
  *  tags:
  *    - Linguistic Endpoints
  *  produces:
