@@ -137,7 +137,7 @@ router.patch("/reflection", async (request, response) => {
  *    - application/json
  *  parameters:
  *        - in: path
- *          name: id
+ *          name: reflection_id
  *          description: the reflection to be deleted
  *          schema:
  *              $ref: '#/definitions/Reflection'

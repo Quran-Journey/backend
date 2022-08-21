@@ -49,7 +49,20 @@ router.get("/surah/info", async (request, response) => {
  *          name: id
  *          description: the surah info to update and it's new attributes
  *          schema:
- *              $ref: '#/definitions/SurahInfo'
+ *              type: object
+ *              properties:
+ *                  surah:
+ *                      type: integer
+ *                      description: to identify the surah that the surah info is refering to
+ *                      example: 23
+ *                  title:
+ *                      type: string
+ *                      description: a title to the surah info section
+ *                      example: "Place of revelation"
+ *                  info:
+ *                      type: string
+ *                      description: information regarding the surah  
+ *                      example: "This surah was revealed in place x"
  *  responses:
  *    200:
  *      description: Surah Info has been created.
@@ -97,7 +110,7 @@ router.patch("/surah/info", async (request, response) => {
  *    - application/json
  *  parameters:
  *        - in: path
- *          name: id
+ *          name: surah_info_id
  *          description: the surah info to be deleted
  *          schema:
  *              $ref: '#/definitions/SurahInfo'
