@@ -4,8 +4,8 @@ const utils = require("./utils");
 
 /*
  * @api [get] /surah/info
- *  summary: "Fetch a surah-info"
- *  description: "This is a fetch for surah-info. It will fetch all of the surah-info in the database based on query parameter."
+ *  summary: "Fetch information about a surah"
+ *  description: "Fetch information about a surah based on either the surah info id or the surah id. The request must contains one of these two query parameters."
  *  tags:
  *    - SurahInfo Endpoints
  *  produces:
@@ -14,12 +14,10 @@ const utils = require("./utils");
  *      - in: query
  *        name: surah
  *        type: integer
- *        required: true
  *        example: 1
  *      - in: query
  *        name: surah_info_id
  *        type: integer
- *        required: true
  *        example: 1
  *  responses:
  *    200:
@@ -36,10 +34,9 @@ router.get("/surah/info", async (request, response) => {
     });
 });
 
-
 /*
  * @api [post] /surah/info
- *  summary: "Create a surah info"
+ *  summary: "Add information about a surah"
  *  tags:
  *    - SurahInfo Endpoints
  *  produces:
@@ -50,6 +47,10 @@ router.get("/surah/info", async (request, response) => {
  *          description: the surah info to update and it's new attributes
  *          schema:
  *              type: object
+ *              required:
+ *                  - surah
+ *                  - title
+ *                  - info
  *              properties:
  *                  surah:
  *                      type: integer
@@ -61,49 +62,54 @@ router.get("/surah/info", async (request, response) => {
  *                      example: "Place of revelation"
  *                  info:
  *                      type: string
- *                      description: information regarding the surah  
+ *                      description: information regarding the surah
  *                      example: "This surah was revealed in place x"
  *  responses:
  *    200:
  *      description: Surah Info has been created.
+ *      schema:
+ *          $ref: '#/definitions/SurahInfo'
  *
  */
 router.post("/surah/info", async (request, response) => {
-    await surahInfo.createSurahIntroInfo(request.body).then(async function (result) {
-        return utils.simpleResponse(result, response);
-    });
+    await surahInfo
+        .createSurahIntroInfo(request.body)
+        .then(async function (result) {
+            return utils.simpleResponse(result, response);
+        });
 });
-
 
 /*
  * @api [patch] /surah/info
- *  summary: "Update a surah info"
+ *  summary: "Update specific information about a surah"
  *  tags:
  *    - SurahInfo Endpoints
  *  produces:
  *    - application/json
  *  parameters:
  *        - in: body
- *          name: id
- *          description: the surah info to update and it's new attributes
  *          schema:
  *              $ref: '#/definitions/SurahInfo'
  *  responses:
  *    200:
  *      description: Surah Info has been updated.
+ *      schema:
+ *          $ref: '#/definitions/SurahInfo'
  *    404:
  *      description: Could not find a surah info with that id.
  *
  */
 router.patch("/surah/info", async (request, response) => {
-    await surahInfo.updateSurahIntroInfo(request.body).then(async function (result) {
-        return utils.simpleResponse(result, response);
-    });
+    await surahInfo
+        .updateSurahIntroInfo(request.body)
+        .then(async function (result) {
+            return utils.simpleResponse(result, response);
+        });
 });
 
 /*
  * @api [delete] /surah/info/{surah_info_id}
- *  summary: "Delete a surah info"
+ *  summary: "Delete some information aobut a surah"
  *  tags:
  *    - SurahInfo Endpoints
  *  produces:
@@ -124,11 +130,11 @@ router.patch("/surah/info", async (request, response) => {
  *
  */
 router.delete("/surah/info", async (request, response) => {
-    await surahInfo.deleteSurahIntroInfo(request.body).then(async function (result) {
-        return utils.simpleResponse(result, response);
-    });
+    await surahInfo
+        .deleteSurahIntroInfo(request.body)
+        .then(async function (result) {
+            return utils.simpleResponse(result, response);
+        });
 });
-
-
 
 module.exports = router;

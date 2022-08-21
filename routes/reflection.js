@@ -26,9 +26,11 @@ const utils = require("./utils");
  *
  */
 router.get("/reflection/:reflection_id", async (request, response) => {
-    await reflection.getReflectionById(request.params).then(async function (result) {
-        return utils.simpleResponse(result, response);
-    });
+    await reflection
+        .getReflectionById(request.params)
+        .then(async function (result) {
+            return utils.simpleResponse(result, response);
+        });
 });
 
 /*
@@ -60,9 +62,11 @@ router.get("/reflection/:reflection_id", async (request, response) => {
  *
  */
 router.get("/reflection/:surah_id/:verse_id", async (request, response) => {
-    await reflection.getReflectionBySurahVerseId(request.params).then(async function (result) {
-        return utils.simpleResponse(result, response);
-    });
+    await reflection
+        .getReflectionBySurahVerseId(request.params)
+        .then(async function (result) {
+            return utils.simpleResponse(result, response);
+        });
 });
 
 /*
@@ -77,6 +81,10 @@ router.get("/reflection/:surah_id/:verse_id", async (request, response) => {
  *        - in: body
  *          schema:
  *              type: object
+ *              required:
+ *                  - verse_id
+ *                  - title
+ *                  - reflection
  *              properties:
  *                  verse_id:
  *                      type: integer
@@ -88,18 +96,22 @@ router.get("/reflection/:surah_id/:verse_id", async (request, response) => {
  *                      example: "My Reflection"
  *                  reflection:
  *                      type: string
- *                      description: refelction on verse 
+ *                      description: refelction on verse
  *                      example: "I have..."
- *          
+ *
  *  responses:
  *    200:
  *      description: Reflection has been created.
+ *      schema:
+ *        $ref: '#/definitions/Reflection'
  *
  */
 router.post("/reflection", async (request, response) => {
-    await reflection.createReflection(request.body).then(async function (result) {
-        return utils.simpleResponse(result, response);
-    });
+    await reflection
+        .createReflection(request.body)
+        .then(async function (result) {
+            return utils.simpleResponse(result, response);
+        });
 });
 
 /*
@@ -111,21 +123,23 @@ router.post("/reflection", async (request, response) => {
  *    - application/json
  *  parameters:
  *        - in: body
- *          name: id
- *          description: the reflection to update and it's new attributes
  *          schema:
  *              $ref: '#/definitions/Reflection'
  *  responses:
  *    200:
  *      description: Reflection has been updated.
+ *      schema:
+ *          $ref: '#/definitions/Reflection'
  *    404:
  *      description: Could not find a reflection with that id.
  *
  */
 router.patch("/reflection", async (request, response) => {
-    await reflection.updateReflection(request.body).then(async function (result) {
-        return utils.simpleResponse(result, response);
-    });
+    await reflection
+        .updateReflection(request.body)
+        .then(async function (result) {
+            return utils.simpleResponse(result, response);
+        });
 });
 
 /*
@@ -138,9 +152,8 @@ router.patch("/reflection", async (request, response) => {
  *  parameters:
  *        - in: path
  *          name: reflection_id
- *          description: the reflection to be deleted
- *          schema:
- *              $ref: '#/definitions/Reflection'
+ *          description: the id of the reflection to be deleted
+ *          type: integer
  *  responses:
  *    200:
  *      description: The reflection has been deleted.
@@ -151,9 +164,11 @@ router.patch("/reflection", async (request, response) => {
  *
  */
 router.delete("/reflection/:reflection_id", async (request, response) => {
-    await reflection.deleteReflection(request.params).then(async function (result) {
-        return utils.simpleResponse(result, response);
-    });
+    await reflection
+        .deleteReflection(request.params)
+        .then(async function (result) {
+            return utils.simpleResponse(result, response);
+        });
 });
 
 /*
@@ -176,7 +191,7 @@ router.delete("/reflection/:reflection_id", async (request, response) => {
 router.get("/reflection", async (request, response) => {
     await reflection.getAllReflections().then(async function (result) {
         return utils.simpleResponse(result, response);
-    })
+    });
 });
 
 module.exports = router;

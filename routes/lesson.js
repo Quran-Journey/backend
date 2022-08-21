@@ -127,6 +127,8 @@ router.get("/lesson/:lesson_id/verses", async (request, response) => {
  *  responses:
  *    200:
  *      description: Lesson has been created.
+ *      schema:
+ *          $ref: '#/definitions/Lesson'
  *
  */
 router.post("/lesson", async (request, response) => {
@@ -151,6 +153,8 @@ router.post("/lesson", async (request, response) => {
  *  responses:
  *    200:
  *      description: Lesson has been updated.
+ *      schema:
+ *          $ref: '#/definitions/Lesson'
  *    404:
  *      description: Could not find a lesson with that id.
  *

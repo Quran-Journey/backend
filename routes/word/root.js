@@ -55,6 +55,8 @@ router.get("/root/:root_id", async (request, response) => {
  *  responses:
  *    200:
  *      description: rootWord has been created.
+ *      schema:
+ *          $ref: '#/definitions/RootWord'
  *
  */
 router.post("/root", async (request, response) => {
@@ -77,6 +79,8 @@ router.post("/root", async (request, response) => {
  *  responses:
  *    200:
  *      description: rootWord has been updated.
+ *      schema:
+ *          $ref: '#/definitions/RootWord'
  *    404:
  *      description: Could not find a rootWord with that id.
  *

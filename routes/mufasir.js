@@ -82,6 +82,8 @@ router.get("/mufasir/:mufasir_id", async (request, response) => {
  *  responses:
  *    200:
  *      description: Successfully added mufasir.
+ *      schema:
+ *          $ref: '#/definitions/Mufasir'
  *    404:
  *      description: A mufasir with that ID does not exist.
  *
@@ -107,6 +109,8 @@ router.post("/mufasir", async (request, response) => {
  *  responses:
  *    200:
  *      description: Successfully updated mufasir.
+ *      schema:
+ *          $ref: '#/definitions/Mufasir'
  *    404:
  *      description: A mufasir with that ID does not exist.
  *
@@ -134,6 +138,8 @@ router.put("/mufasir", async (request, response) => {
  *  responses:
  *    200:
  *      description: Successfully deleted mufasir.
+ *      schema:
+ *          $ref: '#/definitions/Reflection'
  *    404:
  *      description: A mufasir with that ID does not exist.
  *
