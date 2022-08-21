@@ -43,7 +43,7 @@ const root = require("./root");
  *  @schema RootMeaning
  *  type: object
  *  required:
- *      - word_id
+ *      - meaning_id
  *      - root_id
  *      - meaning
  *  properties:
@@ -51,11 +51,11 @@ const root = require("./root");
  *          type: integer
  *          description: the id of the meaning
  *          example: 1
- *      root_word:
+ *      root_id:
  *          type: integer
  *          description: the id of the root word
  *          example: 936
- *      word:
+ *      meaning:
  *          type: string
  *          description: The meaning.
  *          example: A name
