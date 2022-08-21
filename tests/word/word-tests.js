@@ -1,4 +1,3 @@
-const faker = require("faker");
 const utils = require("./utils");
 const apiGET = utils.apiGET;
 const apiPOST = utils.apiPOST;
@@ -7,7 +6,7 @@ const apiDELETE = utils.apiDELETE;
 const setup = require("./setup");
 const seedData = setup.seedData;
 
-function wordTests() {
+function rootTests() {
     it("getting a root word by id", async () => {
         let rootA = seedData.RootWord[0];
 
@@ -58,8 +57,6 @@ function wordTests() {
             expect(resp2.data.success).toEqual(false);
         };
     });
-
-    it.todo("getting all of the root words associated with a specific verse.");
 }
 
 function checkMatch(rootA, rootB) {
@@ -68,5 +65,5 @@ function checkMatch(rootA, rootB) {
 }
 
 module.exports = {
-    wordTests: wordTests,
+    rootTests,
 };

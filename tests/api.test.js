@@ -2,7 +2,8 @@ const lessonTests = require("./lesson-tests.js").lessonTests;
 const reflectionTests = require("./reflection-tests.js").reflectionTests;
 const surahInfoTests = require("./surah-info-tests.js").surahInfoTests;
 const mufasirTests = require("./mufasir-tests.js").mufasirTests;
-const wordTests = require("./word-tests.js").wordTests;
+const rootTests = require("./word/word-tests.js").rootTests;
+const meaningTests = require("./word/meaning-tests.js").meaningTests;
 const quranTests = require("./quran-tests.js").quranTests;
 const setup = require("./setup.js");
 const utils = require("./utils.js");
@@ -35,5 +36,7 @@ describe("Test Mufasir", () => {
 });
 
 describe("Test everything related to words", () => {
-    wordTests();
+    rootTests();
+    meaningTests();
+    integratedWordTests();
 });

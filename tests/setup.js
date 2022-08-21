@@ -63,6 +63,13 @@ const seedData = {
             root_word: "س م و",
         },
     ],
+    RootMeaning: [
+        {
+            meaning_id: 1,
+            root_id: 1,
+            meaning: "name",
+        },
+    ],
     ArabicWord: [
         {
             word_id: 1,
