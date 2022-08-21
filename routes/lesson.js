@@ -109,11 +109,21 @@ router.get("/lesson/:lesson_id/verses", async (request, response) => {
  *  produces:
  *    - application/json
  *  parameters:
- *        - in: body
- *          name: id
- *          description: the lesson to update and it's new attributes
- *          schema:
- *              $ref: '#/definitions/Lesson'
+ *    - in: body
+ *      schema:
+ *          type: object
+ *          required:
+ *             - lesson_date
+ *             - source
+ *          properties:
+ *             lesson_date:
+ *                 type: date
+ *                 description: to identify the day that the lesson was taught
+ *                 example: 2021-10-30
+ *             source:
+ *                 type: string
+ *                 description: a URL to the lesson recording
+ *                 example: "https://www.facebook.com/watch/live/?ref=watch_permalink&v=244235014324418"
  *  responses:
  *    200:
  *      description: Lesson has been created.
@@ -134,7 +144,7 @@ router.post("/lesson", async (request, response) => {
  *    - application/json
  *  parameters:
  *        - in: body
- *          name: id
+ *          name: lesson
  *          description: the lesson to update and it's new attributes
  *          schema:
  *              $ref: '#/definitions/Lesson'
@@ -159,11 +169,12 @@ router.patch("/lesson", async (request, response) => {
  *  produces:
  *    - application/json
  *  parameters:
- *        - in: body
+ *        - in: path
  *          name: id
  *          description: the lesson to be deleted
- *          schema:
- *              $ref: '#/definitions/Lesson'
+ *          type: integer
+ *          required: true
+ *          example: 1
  *  responses:
  *    200:
  *      description: The Lesson has been deleted.
@@ -178,6 +189,5 @@ router.delete("/lesson/:lesson_id", async (request, response) => {
         return utils.simpleResponse(result, response);
     });
 });
-
 
 module.exports = router;
