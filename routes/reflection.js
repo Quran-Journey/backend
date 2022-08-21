@@ -33,8 +33,8 @@ router.get("/reflection/:reflection_id", async (request, response) => {
 
 /*
  * @api [get] /reflection/{surah_id}/{verse_id}
- *  summary: "Fetch a Reflection by ID"
- *  description: "Fetch a reflection by it's surah id and verse id."
+ *  summary: "Fetch a Reflection by the surah and verse ID"
+ *  description: "Fetch a reflection by it's surah id and verse ID."
  *  tags:
  *    - Reflection Endpoints
  *  produces:
@@ -75,10 +75,22 @@ router.get("/reflection/:surah_id/:verse_id", async (request, response) => {
  *    - application/json
  *  parameters:
  *        - in: body
- *          name: id
- *          description: the reflection to update and it's new attributes
  *          schema:
- *              $ref: '#/definitions/Reflection'
+ *              type: object
+ *              properties:
+ *                  verse_id:
+ *                      type: integer
+ *                      description: to identify the verse that the reflection is refering to
+ *                      example: 23
+ *                  title:
+ *                      type: string
+ *                      description: a title to the refelction
+ *                      example: "My Reflection"
+ *                  reflection:
+ *                      type: string
+ *                      description: refelction on verse 
+ *                      example: "I have..."
+ *          
  *  responses:
  *    200:
  *      description: Reflection has been created.
@@ -124,7 +136,7 @@ router.patch("/reflection", async (request, response) => {
  *  produces:
  *    - application/json
  *  parameters:
- *        - in: params
+ *        - in: path
  *          name: id
  *          description: the reflection to be deleted
  *          schema:
