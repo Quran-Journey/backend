@@ -110,6 +110,29 @@ const seedData = {
             visible: false,
         }
     ],
+    RootMeaning: [
+        {
+            meaning_id: 1,
+            root_id: 1,
+            meaning: "name",
+        },
+    ],
+    ArabicWord: [
+        {
+            word_id: 1,
+            word: "بِسْمِ",
+            root_id: 1,
+        },
+    ],
+    VerseWord: [
+        {
+            verse_word_id: 1,
+            verse_id: 1,
+            word_id: 1,
+            visible: true,
+            word_explaination: "",
+        },
+    ],
 };
 
 /**
@@ -155,7 +178,7 @@ function prepareTableSQL(table) {
 /**
  * This is where we actually put all of the mock data above into the database
  */
-async function seedDatabase(db) {
+async function seedDatabase(db, isDev) {
     await clearDatabase(db);
     let tables = Object.keys(seedData);
     let table;
@@ -189,7 +212,8 @@ async function seedDatabase(db) {
                 console.log(sql, rows[row]);
             });
     }
-    await db.end();
+    if (!isDev) await db.end();
+    console.log("Database setup complete.");
 }
 
 module.exports = {

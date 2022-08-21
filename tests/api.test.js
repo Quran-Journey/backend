@@ -2,7 +2,10 @@ const lessonTests = require("./lesson-tests.js").lessonTests;
 const reflectionTests = require("./reflection-tests.js").reflectionTests;
 const surahInfoTests = require("./surah-info-tests.js").surahInfoTests;
 const mufasirTests = require("./mufasir-tests.js").mufasirTests;
-const wordTests = require("./word-tests.js").wordTests;
+const rootTests = require("./word/word-tests.js").rootTests;
+const meaningTests = require("./word/meaning-tests.js").meaningTests;
+const integratedWordTests =
+    require("./word/integrated-word-tests.js").integratedWordTests;
 const quranTests = require("./quran-tests.js").quranTests;
 const verseInfoTests = require("./verse-info-tests").verseInfoTests;
 
@@ -37,7 +40,9 @@ describe("Test Mufasir", () => {
 });
 
 describe("Test everything related to words", () => {
-    wordTests();
+    rootTests();
+    meaningTests();
+    integratedWordTests();
 });
 
 describe("Test Verse Info", () => {

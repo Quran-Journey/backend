@@ -6,12 +6,13 @@ const bodyParser = require("body-parser");
 const lesson = require("./routes/lesson");
 const reflection = require("./routes/reflection");
 const surahInfo = require("./routes/surah-info");
-const words = require("./routes/words");
+const word = require("./routes/word/main");
 const mufasir = require("./routes/mufasir");
 const quran = require("./routes/quran");
-const verseInfo = require("./routes/verseInfo");
+const setup = require("./tests/setup");
 const cors = require("cors");
 const path = require("path");
+const verseInfo = require("./routes/verseInfo")
 
 var port = 3001;
 
@@ -25,12 +26,12 @@ app.use(async (req, res, next) => {
     next();
 });
 
-app.use("/api", words);
 app.use("/api", lesson);
 app.use("/api", reflection);
 app.use("/api", surahInfo);
 app.use("/api", mufasir);
 app.use("/api", quran);
+app.use("/api", word);
 app.use("/api", verseInfo);
 
 app.use(express.static(path.join(__dirname, "/docs")));
@@ -59,7 +60,8 @@ if (process.env.NODE_ENV == "production") {
         console.log("Serving on https");
     });
 } else if (process.env.NODE_ENV == "development") {
-    app.listen(port, () => {
+    app.listen(port, async () => {
         console.log("Listening on port " + port);
+        await setup.seedDatabase(db, true);
     });
 }
