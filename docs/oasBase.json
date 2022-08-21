@@ -5,7 +5,8 @@
             "altText": "Quran Journey",
             "url": "./assets/img/qjLogo.png"
         },
-        "title": "Quran Journey API"
+        "title": "Quran Journey API",
+        "description": "Welcome to the Quran Journey API documentation. This is where you can find documentation for all of our endpoints."
     },
     "host": "localhost",
     "basePath": "/api",
