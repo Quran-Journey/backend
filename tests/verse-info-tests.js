@@ -6,26 +6,33 @@ const moment = require("moment");
 const seedData = setup.seedData;
 
 function verseInfoTests() {
-    it.todo("get complete verse info (positive test)")
-    it.todo("get complete verse info (negative test)")
-}
-//{ data: { reflections: r, tafsir: t, wordexpl: we }, success: pass, error: msg, ecode: code }
-function checkMatch(verseInfoA, verseInfoB) {
-    expect(verseInfoA.reflection_id).toEqual(verseInfoB.reflection_id);
-    expect(verseInfoA.title).toEqual(verseInfoB.title);
-    expect(verseInfoA.reflection).toEqual(verseInfoB.reflection);
-}
-/*
-async () => {
-        let verseInfoA = seedData.Reflection[0];
+    it("get complete verse info (positive test)", async () => {
+        let reflectionInfo = seedData.Reflection[0];
+        let tafsirInfo = seedData.Tafsir[0];
+        let arabicWord = seedData.ArabicWord[0];
+        let verseWord = seedData.VerseWord[0]
 
         const resp1 = await apiGET(`/verse/1`);
-        console.dir(resp1.data.reflections)
-        let verseInfoB = resp1.data.reflections;
-        checkMatch(verseInfoA, verseInfoB);
+        expect(resp1.data.data.reflections[0]).toEqual(reflectionInfo)
+        checkTafsirMatch(resp1.data.data.tafsirs[0], tafsirInfo)
+        checkRootMatch(resp1.data.data.roots[0], verseWord, arabicWord)
         expect(resp1.data.success).toEqual(true);
-    }
-*/
+    })
+    it.todo("get complete verse info (negative test)")
+}
+
+function checkTafsirMatch(t1, t2) {
+    expect(t1.tafsir_id).toEqual(t2.tafsir_id);
+    expect(t1.content).toEqual(t2.content);
+    expect(t1.verse_id).toEqual(t2.verse_id);
+}
+function checkRootMatch(t1, vw, aw) {
+    expect(t1.root_id).toEqual(aw.root_id)
+    expect(t1.verse_id).toEqual(vw.verse_id)
+    expect(t1.word_id).toEqual(vw.word_id)
+    expect(t1.verse_word_id).toEqual(vw.verse_word_id)
+}
+
 module.exports = {
     verseInfoTests: verseInfoTests,
 };

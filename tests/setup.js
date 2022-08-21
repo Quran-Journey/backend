@@ -49,6 +49,12 @@ const seedData = {
             title: "Bismillah",
             reflection: "My First Reflection",
         },
+        {
+            reflection_id: 2,
+            verse_id: 1,
+            title: "Inshallah",
+            reflection: "My Second Reflection",
+        }
     ],
     Mufasir: [
         {
@@ -62,6 +68,47 @@ const seedData = {
             root_id: 1,
             root_word: "س م و",
         },
+        {
+            root_id: 2,
+            root_word: "ز ح ز ح"
+        }
+    ],
+    RootMeaning: [
+        {
+            meaning_id: 1,
+            root_word: "س م و",
+            meaning: "to be high/lofty, raised, name, attribute. samawat - heights/heavens/rain, raining clouds. ismun - mark of identification by which one is recognised. It is a derivation of wsm (pl. asma). ism - stands for a distinguishing mark of a thing, sometimes said to signify its reality.",
+        },
+    ],
+    ArabicWord: [
+        {
+            word_id: 1,
+            word: "بِسْمِ",
+            root_id: 1
+        },
+        {
+            word_id: 2,
+            word: "بِسْمِ",
+            root_id: 1
+        }
+    ],
+    VerseWord: [
+        {
+            verse_word_id: 1,
+            verse_id: 1,
+            word_id: 1,
+            visible: false,
+            word_explaination: "In the Name of Allah",
+        },
+    ],
+    Tafsir: [
+        {
+            tafsir_id: 1,
+            content: "In the name of Allah, The Most Gracious, The Most Merciful",
+            book: "Tafsir Ibn Kathir",
+            verse_id: 1,
+            visible: false,
+        }
     ],
 };
 
