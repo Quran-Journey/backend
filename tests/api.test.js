@@ -27,6 +27,10 @@ describe("Test Lesson", () => {
     lessonTests();
 });
 
+describe("Test Verse Info", () => {
+    verseInfoTests();
+});
+
 describe("Test Reflection", () => {
     reflectionTests();
 });
@@ -45,6 +49,4 @@ describe("Test everything related to words", () => {
     integratedWordTests();
 });
 
-describe("Test Verse Info", () => {
-    verseInfoTests();
-});
+

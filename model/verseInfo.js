@@ -109,7 +109,7 @@ async function getVerseRootWords(data) {
     if (invalid) {
         return invalid;
     }
-    let sql = "SELECT * FROM (SELECT * FROM (SELECT * FROM VerseWord as vw JOIN ArabicWord as aw ON aw.word_id = vw.word_id WHERE vw.verse_id = $1) as vwa JOIN RootWord ON RootWord.root_id = vwa.root_id) as vwar JOIN RootMeaning ON RootMeaning.root_word = vwar.root_word";
+    let sql = "SELECT word,vwar.root_id,verse_id,word_explaination,visible,root_word,meaning,word_id FROM (SELECT word,vwa.root_id,verse_id,word_explaination,visible,root_word,word_id FROM (SELECT word,root_id,verse_id,word_explaination,visible,aw.word_id as word_id FROM VerseWord as vw JOIN ArabicWord as aw ON aw.word_id = vw.word_id WHERE vw.verse_id = $1) as vwa JOIN RootWord ON RootWord.root_id = vwa.root_id) as vwar JOIN RootMeaning ON RootMeaning.root_id = vwar.root_id";
     var params = [data.verse_id];
     return await utils.retrieve(
         sql,

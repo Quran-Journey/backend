@@ -101,11 +101,25 @@ const seedData = {
             word_explaination: "In the Name of Allah",
         },
     ],
+    Mufasir: [
+        {
+            mufasir_id: 1,
+            mufasir_name: "Ibn Kathir",
+            death: "774 H"
+        }
+    ],
+    Book: [
+        {
+            book_id: 1,
+            author: 1,
+            title: "Tafsir Ibn Kathir"
+        }
+    ],
     Tafsir: [
         {
             tafsir_id: 1,
             content: "In the name of Allah, The Most Gracious, The Most Merciful",
-            book: "Tafsir Ibn Kathir",
+            book: 1,
             verse_id: 1,
             visible: false,
         }
