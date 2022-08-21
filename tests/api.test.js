@@ -4,6 +4,8 @@ const surahInfoTests = require("./surah-info-tests.js").surahInfoTests;
 const mufasirTests = require("./mufasir-tests.js").mufasirTests;
 const rootTests = require("./word/word-tests.js").rootTests;
 const meaningTests = require("./word/meaning-tests.js").meaningTests;
+const integratedWordTests =
+    require("./word/integrated-word-tests.js").integratedWordTests;
 const quranTests = require("./quran-tests.js").quranTests;
 const setup = require("./setup.js");
 const utils = require("./utils.js");

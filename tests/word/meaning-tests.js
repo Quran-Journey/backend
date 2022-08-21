@@ -1,9 +1,9 @@
-const utils = require("./utils");
+const utils = require("../utils");
 const apiGET = utils.apiGET;
 const apiPOST = utils.apiPOST;
-const apiPATCH = utils.apiPATCH;
+const apiPUT = utils.apiPUT;
 const apiDELETE = utils.apiDELETE;
-const setup = require("./setup");
+const setup = require("../setup");
 const seedData = setup.seedData;
 
 function meaningTests() {
@@ -22,7 +22,7 @@ function meaningTests() {
             meaning: "high",
         };
 
-        let resp1 = await apiPOST(`/word/root`, newMeaning);
+        let resp1 = await apiPOST(`/word/root/meaning`, newMeaning);
         let meaning = resp1.data.data[0];
         expect(resp1.data.success).toEqual(true);
         checkMatch(newMeaning, meaning);
@@ -39,7 +39,7 @@ function meaningTests() {
         let originalMeaning = resp1.data.data[0];
         expect(originalMeaning.meaning).not.toEqual(newMeaning.meaning);
 
-        await apiPATCH(`/word/root`, newMeaning);
+        await apiPUT(`/word/root/meaning`, newMeaning);
         let resp2 = await apiGET(`/word/root/meaning/${newMeaning.root_id}`);
         checkMatch(newMeaning, resp2.data.data[0]);
         expect(resp2.data.success).toEqual(true);
@@ -58,18 +58,11 @@ function meaningTests() {
             expect(resp2.data.success).toEqual(false);
         };
     });
-
-    it.todo(
-        "getting all of the root words along with their meanings associated with a specific verse."
-    );
-    it.todo(
-        "get a structured sentence of root words and meanings associated with a specific verse."
-    );
 }
 
-function checkMatch(rootA, rootB) {
-    expect(rootA.root_id).toEqual(rootB.root_id);
-    expect(rootA.root_word).toEqual(rootB.root_word);
+function checkMatch(meaningA, meaningB) {
+    expect(meaningA.root_id).toEqual(meaningB.root_id);
+    expect(meaningA.meaning).toEqual(meaningB.meaning);
 }
 
 module.exports = {

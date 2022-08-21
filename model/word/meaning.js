@@ -115,6 +115,25 @@ async function stringifyMeanings(root) {
     return meaningsString;
 }
 
+async function getMeaning(data) {
+    var invalid = utils.simpleValidation(data, {
+        meaning_id: "integer",
+    });
+    if (invalid) {
+        return invalid;
+    }
+    var sql = "SELECT * FROM RootMeaning WHERE meaning_id=$1;";
+    var params = [data.meaning_id];
+    return await utils.create(
+        sql,
+        params,
+        new utils.Message({
+            success: `Successfully fetched a meaning with id ${data.meaning_id}.`,
+            none: `Could not find root meaning with id ${data.meaning_id}.`,
+        })
+    );
+}
+
 async function addMeaning(data) {
     var invalid = utils.simpleValidation(data, {
         root_id: "integer",
@@ -129,31 +148,57 @@ async function addMeaning(data) {
     return await utils.create(
         sql,
         params,
-        new utils.Message({ success: "Successfully added a meaning." })
+        new utils.Message({
+            success: `Successfully added a meaning to root word with id ${data.root_id}.`,
+        })
     );
 }
 
 async function editMeaning(data) {
     var invalid = utils.simpleValidation(data, {
+        meaning_id: "integer",
         root_id: "integer",
         meaning: "string",
     });
     if (invalid) {
         return invalid;
     }
-    var sql = "UPDATE RootMeaning SET meaning=$2 WHERE root_id=$1 RETURNING *;";
-    var params = [data.root_id, data.meaning];
+    var sql =
+        "UPDATE RootMeaning SET meaning=$2, root_id=$3 WHERE meaning_id=$1 RETURNING *;";
+    var params = [data.meaning_id, data.meaning, data.root_id];
     return await utils.create(
         sql,
         params,
         new utils.Message({
-            success: `Successfully edited meaning with id ${data.root_id}.`,
+            success: `Successfully edited meaning with id ${data.meaning_id}.`,
+            none: `Could not find a meaning with id ${data.meaning_id}.`,
+        })
+    );
+}
+
+async function deleteMeaning(data) {
+    var invalid = utils.simpleValidation(data, {
+        meaning_id: "integer",
+    });
+    if (invalid) {
+        return invalid;
+    }
+    var sql = "DELETE FROM RootMeaning WHERE meaning_id=$1 RETURNING *;";
+    var params = [data.meaning_id];
+    return await utils.create(
+        sql,
+        params,
+        new utils.Message({
+            success: `Successfully deleted meaning with id ${data.meaning_id}.`,
+            none: `Could not find meaning with id ${data.meaning_id}.`,
         })
     );
 }
 
 module.exports = {
     getVerseRootWordsSentences,
+    getMeaning,
     addMeaning,
     editMeaning,
+    deleteMeaning,
 };

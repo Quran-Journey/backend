@@ -35,24 +35,56 @@ router.get("/root/meanings/verse/:verse_id/", async (request, response) => {
         });
 });
 
+
+/*
+ * @api [get] /meaning
+ *  summary: "Fetch meaning"
+ *  description: "This fetches a root word's meaning"
+ *  tags:
+ *    - Linguistic Endpoints
+ *  produces:
+ *    - application/json
+ *  parameters:
+ *        - in: param
+ *          name: meaning_id
+ *          description: the id of the meaning to be updated
+ *          type: integer
+ *  responses:
+ *    200:
+ *      description: root meaning has been fetched.
+ *      schema:
+ *          $ref: '#/definitions/RootMeaning'
+ *    404:
+ *      description: No root meaning with that ID found.
+ */
+router.get("/root/meaning/:meaning_id", async (request, response) => {
+    await meaning.getMeaning(request.params).then(async function (result) {
+        return utils.simpleResponse(result, response);
+    });
+});
+
 /*
  * @api [post] /meaning
  *  summary: "Add a meaning to a rootword"
- *  description: "This creates a rootWord from the data attribute in the request body"
+ *  description: "This endpoint adds a meaning to a root word"
  *  tags:
  *    - Linguistic Endpoints
  *  produces:
  *    - application/json
  *  parameters:
  *        - in: body
- *          name: id
- *          description: the rootWord to update and it's new attributes
- *          schema:
- *              $ref: '#/definitions/RootWord'
+ *          name: root_id
+ *          description: the id of the root word that we are adding a meaning to.
+ *          type: integer
+ *        - in: body
+ *          name: meaning
+ *          description: the meaning that we are adding to the root word
+ *          type: string
  *  responses:
  *    200:
  *      description: rootWord has been created.
- *
+ *      schema:
+ *          $ref: '#/definitions/RootMeaning'
  */
 router.post("/root/meaning", async (request, response) => {
     await meaning.addMeaning(request.body).then(async function (result) {
@@ -61,7 +93,7 @@ router.post("/root/meaning", async (request, response) => {
 });
 
 /*
- * @api [patch] /meaning
+ * @api [put] /meaning
  *  summary: "Edit meaning"
  *  description: "This edits a root word's meaning"
  *  tags:
@@ -70,17 +102,54 @@ router.post("/root/meaning", async (request, response) => {
  *    - application/json
  *  parameters:
  *        - in: body
- *          name: id
- *          description: the rootWord to update and it's new attributes
+ *          name: meaning_id
+ *          description: the id of the root meaning that is being edited.
+ *          type: integer
+ *        - in: body
+ *          name: root_id
+ *          description: the id of the root word that is to be associated with the meaning.
+ *          type: integer
+ *        - in: body
+ *          name: meaning
+ *          description: the updated meaning
+ *          type: string
  *  responses:
  *    200:
- *      description: rootWord has been created.
+ *      description: root meaning has been updated.
  *      schema:
  *          $ref: '#/definitions/RootMeaning'
+ *    404:
+ *      description: No root meaning with that ID found.
  *
  */
-router.patch("/root/meaning", async (request, response) => {
+router.put("/root/meaning", async (request, response) => {
     await meaning.editMeaning(request.body).then(async function (result) {
+        return utils.simpleResponse(result, response);
+    });
+});
+
+/*
+ * @api [delete] /meaning
+ *  summary: "Delete meaning"
+ *  description: "This deletes a root word's meaning"
+ *  tags:
+ *    - Linguistic Endpoints
+ *  produces:
+ *    - application/json
+ *  parameters:
+ *        - in: body
+ *          name: delete
+ *          description: the id of the meaning to be deleted
+ *  responses:
+ *    200:
+ *      description: meaning has been deleted.
+ *      schema:
+ *          $ref: '#/definitions/RootMeaning'
+ *    404:
+ *      description: No verse with that ID found.
+ */
+router.delete("/root/meaning", async (request, response) => {
+    await meaning.deleteMeaning(request.body).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });
