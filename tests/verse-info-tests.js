@@ -37,8 +37,10 @@ function checkRootMatch(t1, vw, aw) {
     expect(t1.root_id).toEqual(aw.root_id)
     expect(t1.verse_id).toEqual(vw.verse_id)
     expect(t1.word_id).toEqual(vw.word_id)
+    expect(t1.word).toEqual(aw.word)
 }
 
 module.exports = {
     verseInfoTests: verseInfoTests,
 };
+

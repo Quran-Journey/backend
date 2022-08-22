@@ -56,13 +56,6 @@ const seedData = {
             reflection: "My Second Reflection",
         }
     ],
-    Mufasir: [
-        {
-            mufasir_id: 1,
-            mufasir_name: "Ibn Kathir",
-            death: "774 H",
-        },
-    ],
     RootWord: [
         {
             root_id: 1,
@@ -137,16 +130,7 @@ const seedData = {
             word: "بِسْمِ",
             root_id: 1,
         },
-    ],
-    VerseWord: [
-        {
-            verse_word_id: 1,
-            verse_id: 1,
-            word_id: 1,
-            visible: true,
-            word_explaination: "",
-        },
-    ],
+    ]
 };
 
 /**

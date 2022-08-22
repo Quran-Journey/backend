@@ -24,7 +24,7 @@ const Ucreate = require("../model/utils");
  *      schema:
  *        type: array
  *        items:
- *          $ref: '#/definitions/Verse'
+ *          $ref: '#/definitions/VerseInformation'
  *
  */
 router.get("/verse/:verse_id", async (request, response) => {

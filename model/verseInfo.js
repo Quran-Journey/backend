@@ -1,13 +1,29 @@
 const { parseHttpResponse } = require("selenium-webdriver/http");
 const utils = require("./utils");
 
-/*MAIN REQUEST HANDLER*/
+/**
+ *  @schema VerseInformation
+ *  type: object
+ *  required:
+ *      - reflections
+ *      - tafsirs
+ *      - roots
+ *  properties:
+ *      reflections:
+ *          type: array
+ *          description: collection of reflections associated with a verse
+ *          example: [{}]
+ *      tafsirs:
+ *          type: array
+ *          description: collection of tafsirs for a verse from different mufasirs 
+ *          example: [{}]
+ *      roots:
+ *          type: array
+ *          description: collection of root words for words in a verse
+ *          example: [{}]
+ *  
+ */
 async function getAllVerseInfo(data) {
-    /*NOTE 
-    each method returns this => { data: d, success: pass, error: msg, ecode: code }
-    this method returns this =>
-    {data: {reflections: r, tafsir: t, wordexpl: we }, success: pass, error: msg, ecode:code}
-    */
     let verseInfo = {}
     let failed = false
     await getVerseReflections(data).then(async function (result) {

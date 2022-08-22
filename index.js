@@ -12,6 +12,7 @@ const quran = require("./routes/quran");
 const setup = require("./tests/setup");
 const cors = require("cors");
 const path = require("path");
+const db = require("./model/db");
 const verseInfo = require("./routes/verseInfo")
 
 var port = 3001;
