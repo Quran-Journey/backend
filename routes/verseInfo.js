@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const verseInfo = require("../model/verseInfo");
 const utils = require("./utils");
-const Ucreate = require("../model/utils");
 
 /*
  * @api [get] /verse/{verse_id}

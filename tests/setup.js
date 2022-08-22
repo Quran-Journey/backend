@@ -63,13 +63,13 @@ const seedData = {
         },
         {
             root_id: 2,
-            root_word: "ز ح ز ح"
+            root_word: "ر ح م"
         }
     ],
     RootMeaning: [
         {
             meaning_id: 1,
-            root_word: "س م و",
+            root_id: 1,
             meaning: "to be high/lofty, raised, name, attribute. samawat - heights/heavens/rain, raining clouds. ismun - mark of identification by which one is recognised. It is a derivation of wsm (pl. asma). ism - stands for a distinguishing mark of a thing, sometimes said to signify its reality.",
         },
     ],
@@ -81,8 +81,8 @@ const seedData = {
         },
         {
             word_id: 2,
-            word: "بِسْمِ",
-            root_id: 1
+            word: "الرَّحِيمِ",
+            root_id: 2
         }
     ],
     VerseWord: [
@@ -116,13 +116,6 @@ const seedData = {
             verse_id: 1,
             visible: false,
         }
-    ],
-    RootMeaning: [
-        {
-            meaning_id: 1,
-            root_id: 1,
-            meaning: "name",
-        },
     ],
     ArabicWord: [
         {

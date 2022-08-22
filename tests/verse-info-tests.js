@@ -1,8 +1,6 @@
-const faker = require("faker");
 const utils = require("./utils");
 const { apiGET } = utils;
 const setup = require("./setup");
-const moment = require("moment");
 const seedData = setup.seedData;
 
 function verseInfoTests() {

@@ -1,4 +1,3 @@
-const { parseHttpResponse } = require("selenium-webdriver/http");
 const utils = require("./utils");
 
 /**
