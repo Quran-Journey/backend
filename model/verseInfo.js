@@ -33,13 +33,17 @@ async function getVerseInfo(data) {
     if (invalid) {
         return invalid;
     }
+    let verse = await getVerse(data);
+    if (!verse.success) {
+        return verse;
+    }
     let reflections = await getVerseReflections(data);
     let tafsirs = await getVerseTafsir(data);
     let words = await getVerseWordExplanations(data);
-    return verseInfoResult(data, reflections, tafsirs, words);
+    return verseInfoResult(data, verse, reflections, tafsirs, words);
 }
 
-async function verseInfoResult(data, reflections, tafsirs, words) {
+async function verseInfoResult(data, verse, reflections, tafsirs, words) {
     let validEnums = [0, 3];
     let success = false;
     let error, ecode;
@@ -63,6 +67,7 @@ async function verseInfoResult(data, reflections, tafsirs, words) {
     }
     let res = utils.setResult(
         {
+            verse: verse.data,
             reflections: reflections.data,
             tafsirs: tafsirs.data,
             words: words.data,
@@ -73,6 +78,25 @@ async function verseInfoResult(data, reflections, tafsirs, words) {
     );
     console.log(res);
     return res;
+}
+
+async function getVerse(data) {
+    var invalid = utils.simpleValidation(data, {
+        verse_id: "integer",
+    });
+    if (invalid) {
+        return invalid;
+    }
+    let sql = "SELECT * FROM Verse WHERE verse_index=$1";
+    var params = [data.verse_id];
+    return await utils.retrieve(
+        sql,
+        params,
+        new utils.Message({
+            success: `Successfully fetched verse reflections with verse id ${data.verse_id}.`,
+            server: `An error occured while trying to access reflections for verse with id ${data.verse_id}`,
+        })
+    );
 }
 
 async function getVerseReflections(data) {
