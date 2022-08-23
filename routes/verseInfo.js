@@ -27,7 +27,7 @@ const utils = require("./utils");
  *
  */
 router.get("/verse/:verse_id", async (request, response) => {
-    await verseInfo.getAllVerseInfo(request.params).then(async function (result) {
+    await verseInfo.getVerseInfo(request.params).then(async function (result) {
         return utils.simpleResponse(result, response);
     })
 })
