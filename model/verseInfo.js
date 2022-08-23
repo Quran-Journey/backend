@@ -10,8 +10,10 @@ const utils = require("./utils");
  *  properties:
  *      reflections:
  *          type: array
+ *          items:
+ *            schema:
+ *              $ref: "#/definitions/Reflection"
  *          description: collection of reflections associated with a verse
- *          example: [{}]
  *      tafsirs:
  *          type: array
  *          description: collection of tafsirs for a verse from different mufasirs 
@@ -19,7 +21,9 @@ const utils = require("./utils");
  *      roots:
  *          type: array
  *          description: collection of root words for words in a verse
- *          example: [{}]
+ *          items:
+ *            schema:
+ *              $ref: "#/definitions/Reflection"
  *  
  */
 async function getAllVerseInfo(data) {
