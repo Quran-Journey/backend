@@ -54,7 +54,7 @@ const seedData = {
             verse_id: 1,
             title: "Inshallah",
             reflection: "My Second Reflection",
-        }
+        },
     ],
     RootWord: [
         {
@@ -63,8 +63,8 @@ const seedData = {
         },
         {
             root_id: 2,
-            root_word: "ر ح م"
-        }
+            root_word: "ر ح م",
+        },
     ],
     RootMeaning: [
         {
@@ -82,13 +82,13 @@ const seedData = {
         {
             word_id: 1,
             word: "بِسْمِ",
-            root_id: 1
+            root_id: 1,
         },
         {
             word_id: 2,
             word: "الرَّحِيمِ",
-            root_id: 2
-        }
+            root_id: 2,
+        },
     ],
     VerseWord: [
         {
@@ -103,24 +103,25 @@ const seedData = {
         {
             mufasir_id: 1,
             mufasir_name: "Ibn Kathir",
-            death: "774 H"
-        }
+            death: "774 H",
+        },
     ],
     Book: [
         {
             book_id: 1,
             author: 1,
-            title: "Tafsir Ibn Kathir"
-        }
+            title: "Tafsir Ibn Kathir",
+        },
     ],
     Tafsir: [
         {
             tafsir_id: 1,
-            content: "In the name of Allah, The Most Gracious, The Most Merciful",
+            content:
+                "In the name of Allah, The Most Gracious, The Most Merciful",
             book: 1,
             verse_id: 1,
             visible: false,
-        }
+        },
     ],
     ArabicWord: [
         {
@@ -128,7 +129,7 @@ const seedData = {
             word: "بِسْمِ",
             root_id: 1,
         },
-    ]
+    ],
 };
 
 /**
