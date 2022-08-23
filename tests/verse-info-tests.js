@@ -5,6 +5,7 @@ const seedData = setup.seedData;
 
 function verseInfoTests() {
     it("get complete verse info (positive test)", async () => {
+        let verse = seedData.Verse[0];
         let reflectionInfo = seedData.Reflection[0];
         let tafsirInfo = seedData.Tafsir[0];
         let arabicWord = seedData.ArabicWord[0];
@@ -13,6 +14,7 @@ function verseInfoTests() {
         const resp1 = await apiGET(`/verse/1`);
         expect(resp1.data.data.reflections[0]).toEqual(reflectionInfo);
         expect(resp1.data.data.reflections.length).toEqual(2);
+        expect(resp1.data.data.verse[0]).toEqual(verse);
 
         checkTafsirMatch(resp1.data.data.tafsirs[0], tafsirInfo);
         checkWordMatch(resp1.data.data.words[0], verseWord, arabicWord);
@@ -36,11 +38,9 @@ function verseInfoTests() {
 function checkTafsirMatch(t1, t2) {
     expect(t1.tafsir_id).toEqual(t2.tafsir_id);
     expect(t1.content).toEqual(t2.content);
-    expect(t1.verse_id).toEqual(t2.verse_id);
 }
 function checkWordMatch(t1, vw, aw) {
     expect(t1.root_id).toEqual(aw.root_id);
-    expect(t1.verse_id).toEqual(vw.verse_id);
     expect(t1.word_id).toEqual(vw.word_id);
     expect(t1.word).toEqual(aw.word);
     expect(t1.visible).toEqual(vw.visible);
