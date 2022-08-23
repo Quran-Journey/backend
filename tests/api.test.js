@@ -7,6 +7,8 @@ const meaningTests = require("./word/meaning-tests.js").meaningTests;
 const integratedWordTests =
     require("./word/integrated-word-tests.js").integratedWordTests;
 const quranTests = require("./quran-tests.js").quranTests;
+const verseInfoTests = require("./verse-info-tests").verseInfoTests;
+
 const setup = require("./setup.js");
 const utils = require("./utils.js");
 
@@ -23,6 +25,10 @@ describe("Test Quran Endpoints", () => {
 
 describe("Test Lesson", () => {
     lessonTests();
+});
+
+describe("Test Verse Info", () => {
+    verseInfoTests();
 });
 
 describe("Test Reflection", () => {
@@ -42,3 +48,5 @@ describe("Test everything related to words", () => {
     meaningTests();
     integratedWordTests();
 });
+
+

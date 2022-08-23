@@ -13,6 +13,7 @@ const setup = require("./tests/setup");
 const cors = require("cors");
 const path = require("path");
 const db = require("./model/db");
+const verseInfo = require("./routes/verseInfo")
 
 var port = 3001;
 
@@ -32,6 +33,7 @@ app.use("/api", surahInfo);
 app.use("/api", mufasir);
 app.use("/api", quran);
 app.use("/api", word);
+app.use("/api", verseInfo);
 
 app.use(express.static(path.join(__dirname, "/docs")));
 app.route("/").get((req, res) => {
