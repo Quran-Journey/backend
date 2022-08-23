@@ -41,6 +41,12 @@ const seedData = {
             verse_number: 1,
             verse_text: "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ",
         },
+        {
+            verse_index: 2,
+            surah: 1,
+            verse_number: 2,
+            verse_text: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
+        },
     ],
     Reflection: [
         {
@@ -65,6 +71,10 @@ const seedData = {
             root_id: 2,
             root_word: "ر ح م",
         },
+        {
+            root_id: 3,
+            root_word: "ح م د",
+        },
     ],
     RootMeaning: [
         {
@@ -76,6 +86,11 @@ const seedData = {
             meaning_id: 2,
             root_id: 1,
             meaning: "raised",
+        },
+        {
+            meaning_id: 3,
+            root_id: 3,
+            meaning: "To praise",
         },
     ],
     ArabicWord: [
@@ -89,6 +104,11 @@ const seedData = {
             word: "الرَّحِيمِ",
             root_id: 2,
         },
+        {
+            word_id: 3,
+            word: "الْحَمْدُ",
+            root_id: 3,
+        },
     ],
     VerseWord: [
         {
@@ -96,6 +116,13 @@ const seedData = {
             verse_id: 1,
             word_id: 1,
             visible: false,
+            word_explaination: "An explanation of the basmalla goes here.",
+        },
+        {
+            verse_word_id: 2,
+            verse_id: 2,
+            word_id: 3,
+            visible: true,
             word_explaination: "In the Name of Allah",
         },
     ],
@@ -121,13 +148,6 @@ const seedData = {
             book: 1,
             verse_id: 1,
             visible: false,
-        },
-    ],
-    ArabicWord: [
-        {
-            word_id: 1,
-            word: "بِسْمِ",
-            root_id: 1,
         },
     ],
 };

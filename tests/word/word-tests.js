@@ -19,7 +19,7 @@ function rootTests() {
     it("adding a root word", async () => {
         let newRoot = {
             root_id: seedData.RootWord.length + 2,
-            root_word: "ح م د1",
+            root_word: "ر ب",
         };
 
         let resp1 = await apiPOST(`/word/root`, newRoot);
@@ -31,7 +31,7 @@ function rootTests() {
     it("updating a root word", async () => {
         let newRoot = {
             root_id: seedData.RootWord.length + 2,
-            root_word: "ح م د",
+            root_word: "ر ب ب",
         };
 
         let resp1 = await apiGET(`/word/root/${newRoot.root_id}`);
