@@ -4,7 +4,7 @@ const setup = require("./setup");
 const seedData = setup.seedData;
 
 function verseInfoTests() {
-    it("get complete verse info (positive test)", async () => {
+    it("get complete verse info", async () => {
         let verse = seedData.Verse[0];
         let reflectionInfo = seedData.Reflection[0];
         let tafsirInfo = seedData.Tafsir[0];
