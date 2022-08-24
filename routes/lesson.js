@@ -68,6 +68,36 @@ router.get("/lessons", async (request, response) => {
  */
 router.get("/lesson/:lesson_id", async (request, response) => {
     await lesson.getLessonById(request.params).then(async function (result) {
+        console.log(result)
+        return utils.simpleResponse(result, response);
+    });
+});
+
+/*
+ * @api [get] /lesson/{lesson_id}/verses
+ *  summary: "Fetch a lessons complete verse info by lesson ID"
+ *  description: "This is a general fetch and has no parameters. It will fetch all of the verses associated with a lesson in the database."
+ *  tags:
+ *    - Lesson Endpoints
+ *  produces:
+ *    - application/json
+ *  parameters:
+ *      - in: path
+ *        name: lesson_id
+ *        type: integer
+ *        required: true
+ *        example: 1
+ *  responses:
+ *    200:
+ *      description: The verses info associated with a lesson.
+ *      schema:
+ *          $ref: '#/definitions/LessonInformation'
+ *    404:
+ *      description: No lessons found with that ID.
+ *
+ */
+router.get("/lesson/:lesson_id/verses", async (request, response) => {
+    await lesson.getLessonVerses(request.params).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });

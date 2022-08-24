@@ -1,4 +1,5 @@
 const utils = require("./utils");
+const verseInfo = require("./verseInfo")
 
 // Note: this list contains key value pairs of the attribute and types within the schema.
 const attributes = {
@@ -27,6 +28,22 @@ const attributes = {
  *          type: string
  *          description: a URL to the lesson recording
  *          example: "https://www.facebook.com/watch/live/?ref=watch_permalink&v=244235014324418"
+ */
+
+/**
+ *  @schema LessonInformation
+ *  type: object
+ *  required:
+ *      - lessonInfo
+ *  properties:
+ *      lessonInfo:
+ *          type: array
+ *          items:
+ *            schema:
+ *              $ref: "#/definitions/VerseInformation"
+ *          description: collection of complete verse Information for verses assocaited with a lesson
+ * 
+ *
  */
 async function createLesson(data) {
     // Frontend note: also add a feature where we guess that the
@@ -122,6 +139,40 @@ async function getLessonById(data) {
     );
 }
 
+/*Fetches verses in a lesson based*/
+//ASSUMPTIONS: Verses in a Lesson are contigous
+async function getLessonVerses(data) {
+    console.log(data);
+    var invalid = utils.simpleValidation(data, {
+        lesson_id: "integer",
+    });
+    if (invalid) {
+        return invalid;
+    }
+
+    let lesson = await getLessonById(data);
+    if (!lesson.success) {
+        return lesson;
+    }
+
+    let lessonInfo = [];
+    let currentVerse = lesson.data[0].lesson_start_verse;
+    let numVerses = lesson.data[0].lesson_end_verse - lesson.data[0].lesson_start_verse;
+    for (let i = 0; i <= numVerses; i++) {
+        let temp = await verseInfo.getVerseInfo({ verse_id: currentVerse })
+        lessonInfo[i] = temp.data;
+        currentVerse++;
+    }
+
+    let res = utils.setResult(
+        { lessonInfo },
+        lesson.success,
+        "Successfully fetched complete lesson info",
+        lesson.ecode
+    );
+    return res
+}
+
 /** Update a lesson, requires all attributes of the lesson. */
 async function updateLesson(data) {
     var invalid = utils.simpleValidation(data, {
@@ -170,4 +221,5 @@ module.exports = {
     createLesson: createLesson,
     updateLesson: updateLesson,
     deleteLesson: deleteLesson,
+    getLessonVerses: getLessonVerses
 };

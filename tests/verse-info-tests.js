@@ -20,16 +20,16 @@ function verseInfoTests() {
         checkWordMatch(resp1.data.data.words[0], verseWord, arabicWord);
         expect(resp1.data.success).toEqual(true);
     });
-    it("get verse info with only verse explanation", async () => {
+    it("get verse info with only verse explanation and one reflection", async () => {
         let arabicWord = seedData.ArabicWord[2];
         let verseWord = seedData.VerseWord[1];
         const resp = await apiGET(`/verse/2`);
-        expect(resp.data.data.reflections.length).toEqual(0);
+        expect(resp.data.data.reflections.length).toEqual(1);
         checkWordMatch(resp.data.data.words[0], verseWord, arabicWord);
         expect(resp.data.success).toEqual(true);
     });
     it("get verse info for a verse that does not exist", async () => {
-        const resp = await apiGET(`/verse/3`);
+        const resp = await apiGET(`/verse/4`);
         expect(resp.data.ecode).toEqual(3);
         expect(resp.data.success).toEqual(false);
     });
