@@ -36,8 +36,8 @@ CREATE TABLE
     IF NOT EXISTS Lesson (
         lesson_id SERIAL PRIMARY KEY,
         lesson_date DATE NOT NULL,
-        lesson_start_verse INTEGER,
-        lesson_end_verse INTEGER,
+        start_verse INTEGER,
+        end_verse INTEGER,
         source TEXT NOT NULL,
         surah_id INTEGER,
         FOREIGN KEY (surah_id) REFERENCES Surah(surah_id) ON DELETE CASCADE ON UPDATE CASCADE

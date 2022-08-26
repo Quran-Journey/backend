@@ -1,10 +1,12 @@
 const utils = require("../utils");
 const apiGET = utils.apiGET;
 const setup = require("../setup");
+const moment = require("moment");
 const seedData = setup.seedData;
 
 function lessonInfoTests() {
     it("getting verse info linked to a lesson", async () => {
+        let lesson = seedData.Lesson[1]
         let verseWord = seedData.VerseWord
         let arabicWord = seedData.ArabicWord
         let verses = seedData.Verse
@@ -12,14 +14,15 @@ function lessonInfoTests() {
         let reflections = seedData.Reflection
 
         let result = await apiGET("/lesson/2/verses")
-        expect(result.data.data.lessonInfo.length).toEqual(2)
+        expect(result.data.data.lessonInfo.length).toEqual(3)
+
+        checkLessonMatch(result.data.data.lessonInfo[2], lesson);
 
         checkVerseMatch(result.data.data.lessonInfo[0].verse[0], verses[0])
         checkVerseMatch(result.data.data.lessonInfo[1].verse[0], verses[1])
 
         checkReflectionMatch(result.data.data.lessonInfo[0].reflections[0], reflections[0])
-        checkReflectionMatch(result.data.data.lessonInfo[0].reflections[1], reflections[1])
-        checkReflectionMatch(result.data.data.lessonInfo[1].reflections[0], reflections[2])
+        expect(result.data.data.lessonInfo[0].reflections.length).toEqual(2)
 
         checkTafsirMatch(result.data.data.lessonInfo[0].tafsirs[0], tafsirs[0])
 
@@ -48,6 +51,13 @@ function checkWordMatch(t1, vw, aw) {
 function checkReflectionMatch(t1, t2) {
     expect(t1.reflection_id).toEqual(t2.reflection_id)
     expect(t1.reflection).toEqual(t2.reflection)
+}
+
+function checkLessonMatch(lessonA, lessonB) {
+    expect(lessonA.source).toEqual(lessonB.source);
+    expect(new moment(lessonA.lesson_date).format("YYYY-MM-DD")).toEqual(
+        new moment(lessonB.lesson_date).format("YYYY-MM-DD")
+    );
 }
 
 module.exports = {

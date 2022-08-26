@@ -29,7 +29,7 @@ function verseInfoTests() {
         expect(resp.data.success).toEqual(true);
     });
     it("get verse info for a verse that does not exist", async () => {
-        const resp = await apiGET(`/verse/4`);
+        const resp = await apiGET(`/verse/${seedData.Verse.length + 1}`);
         expect(resp.data.ecode).toEqual(3);
         expect(resp.data.success).toEqual(false);
     });

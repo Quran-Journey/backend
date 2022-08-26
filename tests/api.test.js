@@ -24,17 +24,14 @@ describe("Test Quran Endpoints", () => {
     quranTests();
 });
 
-describe("Test Lesson", () => {
+describe("Test everything related to lessons", () => {
     lessonTests();
+    lessonInfoTests();
 });
 
 describe("Test Verse Info", () => {
     verseInfoTests();
 });
-
-describe("Test Lesson Info", () => {
-    lessonInfoTests();
-})
 
 describe("Test Reflection", () => {
     reflectionTests();

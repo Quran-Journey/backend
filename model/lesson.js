@@ -31,7 +31,7 @@ const attributes = {
  */
 
 /**
- *  @schema LessonInformation
+ *  @schema LessonContent
  *  type: object
  *  required:
  *      - lessonInfo
@@ -142,13 +142,6 @@ async function getLessonById(data) {
 /*Fetches verses in a lesson based*/
 //ASSUMPTIONS: Verses in a Lesson are contigous
 async function getLessonVerses(data) {
-    console.log(data);
-    var invalid = utils.simpleValidation(data, {
-        lesson_id: "integer",
-    });
-    if (invalid) {
-        return invalid;
-    }
 
     let lesson = await getLessonById(data);
     if (!lesson.success) {
@@ -156,13 +149,16 @@ async function getLessonVerses(data) {
     }
 
     let lessonInfo = [];
-    let currentVerse = lesson.data[0].lesson_start_verse;
-    let numVerses = lesson.data[0].lesson_end_verse - lesson.data[0].lesson_start_verse;
+    let currentVerse = lesson.data[0].start_verse;
+    let numVerses = lesson.data[0].end_verse - lesson.data[0].start_verse;
     for (let i = 0; i <= numVerses; i++) {
         let temp = await verseInfo.getVerseInfo({ verse_id: currentVerse })
         lessonInfo[i] = temp.data;
         currentVerse++;
     }
+
+    //last element in the array is lesson object
+    lessonInfo.push(lesson.data[0])
 
     let res = utils.setResult(
         { lessonInfo },
@@ -216,10 +212,10 @@ async function deleteLesson(data) {
 }
 
 module.exports = {
-    filterLessons: filterLessons,
-    getLessonById: getLessonById,
-    createLesson: createLesson,
-    updateLesson: updateLesson,
-    deleteLesson: deleteLesson,
-    getLessonVerses: getLessonVerses
+    filterLessons,
+    getLessonById,
+    createLesson,
+    updateLesson,
+    deleteLesson,
+    getLessonVerses
 };

@@ -68,7 +68,6 @@ router.get("/lessons", async (request, response) => {
  */
 router.get("/lesson/:lesson_id", async (request, response) => {
     await lesson.getLessonById(request.params).then(async function (result) {
-        console.log(result)
         return utils.simpleResponse(result, response);
     });
 });
@@ -91,7 +90,7 @@ router.get("/lesson/:lesson_id", async (request, response) => {
  *    200:
  *      description: The verses info associated with a lesson.
  *      schema:
- *          $ref: '#/definitions/LessonInformation'
+ *          $ref: '#/definitions/LessonContent'
  *    404:
  *      description: No lessons found with that ID.
  *
