@@ -4,23 +4,32 @@ const utils = require("./utils");
  *  @schema VerseInformation
  *  type: object
  *  required:
+ *      - verse
  *      - reflections
  *      - tafsirs
  *      - roots
  *  properties:
+ *      verse: 
+ *          type: array 
+ *          items: 
+ *              schema:
+ *                  $ref: ""
+ *          example: [{"verse_index": 1,"surah": 1,"verse_number": 1,"verse_text": "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ"}]
  *      reflections:
  *          type: array
  *          items:
  *            schema:
  *              $ref: "#/definitions/Reflection"
  *          description: collection of reflections associated with a verse
+ *          example: [{"reflection_id": 1,"verse_id": 1, "title": "Bismillah","reflection": "My First Reflection"}]
  *      tafsirs:
  *          type: array
  *          description: collection of tafsirs for a verse from different mufasirs
- *          example: [{}]
+ *          example: [{"tafsir_id": 1,"content": "In the name of Allah, The Most Gracious, The Most Merciful","book": 1,"verse_id": 1, "visible": false,"verse_index": 1,"surah": 1,"verse_number": 1, "verse_text": "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ"}]
  *      words:
  *          type: array
  *          description: collection of root words for words in a verse
+ *          example: [{"word": "بِسْمِ","root_id": 1,"word_explaination": "An explanation of the basmalla goes here.","visible": false, "root_word": "س م و","meaning": "to be high","word_id": 1}]
  *          items:
  *            schema:
  *              $ref: "#/definitions/verseWordExplanation"
