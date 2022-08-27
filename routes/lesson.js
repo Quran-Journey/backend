@@ -75,7 +75,7 @@ router.get("/lesson/:lesson_id", async (request, response) => {
 /*
  * @api [get] /lesson/{lesson_id}/verses
  *  summary: "Fetch a lessons complete verse info by lesson ID"
- *  description: "This is a general fetch and has no parameters. It will fetch all of the verses associated with a lesson in the database."
+ *  description: "This is a general fetch and has lesson id as parameter. It will fetch all of the verses associated with a lesson in the database."
  *  tags:
  *    - Lesson Endpoints
  *  produces:

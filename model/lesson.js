@@ -53,12 +53,41 @@ const attributes = {
  *            schema:
  *              $ref: "#/definitions/VerseInformation"
  *          description: collection of complete verse Information for verses assocaited with a lesson
+ *          example: [{
+ *                      verse: {
+ *                          "verse_index": 1,
+                            "surah": 1,
+                            "verse_number": 1,
+                            "verse_text": "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ"},
+                        reflectons:{
+                            "reflection_id": 1,
+                            "verse_id": 1,
+                            "title": "Bismillah",
+                            "reflection": "My First Reflection"},
+                        tafsirs:{"tafsir_id": 1,
+                            "content": "In the name of Allah, The Most Gracious, The Most Merciful",
+                            "book": 1,
+                            "verse_id": 1,
+                            "visible": false,
+                            "verse_index": 1,
+                            "surah": 1,
+                            "verse_number": 1,
+                            "verse_text": "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ"},
+                        words:{"word": "بِسْمِ",
+                            "root_id": 1,
+                            "word_explaination": "An explanation of the basmalla goes here.",
+                            "visible": false,
+                            "root_word": "س م و",
+                            "meaning": "to be high",
+                            "word_id": 1}
+                    }]
  *      lesson:
  *          type: object
  *          items: 
  *             schema: 
  *               $ref: "#/definitions/Lesson"
- *          description: lesson details and information 
+ *          description: lesson details and information
+ *          example: {"lesson_id":1,"lesson_date":"2021-10-30T00:00:00.000Z","start_verse":1,"end_verse":2,"source":"https://google.com"} 
  */
 async function createLesson(data) {
     // Frontend note: also add a feature where we guess that the
