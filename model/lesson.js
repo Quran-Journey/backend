@@ -14,6 +14,8 @@ const attributes = {
  *  required:
  *      - lesson_id
  *      - lesson_date
+ *      - start_verse
+ *      - end_verse
  *      - source
  *  properties:
  *      lesson_id:
@@ -24,6 +26,14 @@ const attributes = {
  *          type: date
  *          description: to identify the day that the lesson was taught
  *          example: 2021-10-30
+ *      start_verse:
+ *          type: integer
+ *          description: first verse in a lesson
+ *          example: 1
+ *      end_verse:
+ *          type: integer
+ *          description: last verse in a lesson
+ *          example: 3
  *      source:
  *          type: string
  *          description: a URL to the lesson recording
@@ -35,6 +45,7 @@ const attributes = {
  *  type: object
  *  required:
  *      - lessonInfo
+ *      - lesson
  *  properties:
  *      lessonInfo:
  *          type: array
@@ -42,8 +53,12 @@ const attributes = {
  *            schema:
  *              $ref: "#/definitions/VerseInformation"
  *          description: collection of complete verse Information for verses assocaited with a lesson
- * 
- *
+ *      lesson:
+ *          type: object
+ *          items: 
+ *             schema: 
+ *               $ref: "#/definitions/Lesson"
+ *          description: lesson details and information 
  */
 async function createLesson(data) {
     // Frontend note: also add a feature where we guess that the
@@ -55,9 +70,13 @@ async function createLesson(data) {
     if (invalid) {
         return invalid;
     }
+
+    let start = data.start_verse ? data.start_verse : null;
+    let end = data.end_verse ? data.end_verse : null;
+
     var sql =
-        "INSERT INTO Lesson (source, lesson_date) VALUES ($1, $2) RETURNING *;";
-    var params = [data.source, data.lesson_date];
+        "INSERT INTO Lesson (source, lesson_date, start_verse, end_verse) VALUES ($1, $2, $3, $4) RETURNING *;";
+    var params = [data.source, data.lesson_date, start, end];
     return await utils.create(
         sql,
         params,
@@ -142,28 +161,30 @@ async function getLessonById(data) {
 /*Fetches verses in a lesson based*/
 //ASSUMPTIONS: Verses in a Lesson are contigous
 async function getLessonVerses(data) {
-
+    let msg = "";
     let lesson = await getLessonById(data);
     if (!lesson.success) {
         return lesson;
     }
 
     let lessonInfo = [];
-    let currentVerse = lesson.data[0].start_verse;
-    let numVerses = lesson.data[0].end_verse - lesson.data[0].start_verse;
-    for (let i = 0; i <= numVerses; i++) {
-        let temp = await verseInfo.getVerseInfo({ verse_id: currentVerse })
-        lessonInfo[i] = temp.data;
-        currentVerse++;
+    if (lesson.data[0].start_verse == null || lesson.data[0].end_verse == null) {
+        msg = "Invalid start or end verse value"
+    } else {
+        let currentVerse = lesson.data[0].start_verse;
+        let numVerses = lesson.data[0].end_verse - lesson.data[0].start_verse;
+        for (let i = 0; i <= numVerses; i++) {
+            let temp = await verseInfo.getVerseInfo({ verse_id: currentVerse })
+            lessonInfo[i] = temp.data;
+            currentVerse++;
+        }
+        msg = "Successfully fetched complete lesson info"
     }
 
-    //last element in the array is lesson object
-    lessonInfo.push(lesson.data[0])
-
     let res = utils.setResult(
-        { lessonInfo },
+        { lesson: lesson.data, lessonInfo },
         lesson.success,
-        "Successfully fetched complete lesson info",
+        msg,
         lesson.ecode
     );
     return res

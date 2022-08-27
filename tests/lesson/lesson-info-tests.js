@@ -14,9 +14,9 @@ function lessonInfoTests() {
         let reflections = seedData.Reflection
 
         let result = await apiGET("/lesson/2/verses")
-        expect(result.data.data.lessonInfo.length).toEqual(3)
+        expect(result.data.data.lessonInfo.length).toEqual(2)
 
-        checkLessonMatch(result.data.data.lessonInfo[2], lesson);
+        checkLessonMatch(result.data.data.lesson[0], lesson);
 
         checkVerseMatch(result.data.data.lessonInfo[0].verse[0], verses[0])
         checkVerseMatch(result.data.data.lessonInfo[1].verse[0], verses[1])
