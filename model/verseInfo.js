@@ -4,32 +4,43 @@ const utils = require("./utils");
  *  @schema VerseInformation
  *  type: object
  *  required:
- *      - verse
+ *      - verse_index
+ *      - surah
+ *      - verse_number
+ *      - verse_text
  *      - reflections
  *      - tafsirs
  *      - roots
  *  properties:
- *      verse: 
- *          type: array 
- *          items: 
- *              schema:
- *                  $ref: ""
- *          example: [{"verse_index": 1,"surah": 1,"verse_number": 1,"verse_text": "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ"}]
+ *      verse_index:
+ *          type: integer
+ *          description: the index of the verse in the quran
+ *          example: 1
+ *      surah:
+ *          type: integer
+ *          description: the sura id/number that the verse belongs to
+ *          example: 1
+ *      verse_number:
+ *          type: integer
+ *          description: the aya number within the surah
+ *          example: 1
+ *      verse_text:
+ *          type: string
+ *          description: the text representation of the verse
+ *          example: بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ
  *      reflections:
  *          type: array
  *          items:
  *            schema:
  *              $ref: "#/definitions/Reflection"
  *          description: collection of reflections associated with a verse
- *          example: [{"reflection_id": 1,"verse_id": 1, "title": "Bismillah","reflection": "My First Reflection"}]
  *      tafsirs:
  *          type: array
  *          description: collection of tafsirs for a verse from different mufasirs
- *          example: [{"tafsir_id": 1,"content": "In the name of Allah, The Most Gracious, The Most Merciful","book": 1,"verse_id": 1, "visible": false,"verse_index": 1,"surah": 1,"verse_number": 1, "verse_text": "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ"}]
+ *          example: [{"tafsir_id": 1,"tafsir_text": "In the name of Allah, The Most Gracious, The Most Merciful","book": 1,"verse_id": 1, "visible": false,"verse_index": 1,"surah": 1,"verse_number": 1, "verse_text": "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ"}]
  *      words:
  *          type: array
  *          description: collection of root words for words in a verse
- *          example: [{"word": "بِسْمِ","root_id": 1,"word_explaination": "An explanation of the basmalla goes here.","visible": false, "root_word": "س م و","meaning": "to be high","word_id": 1}]
  *          items:
  *            schema:
  *              $ref: "#/definitions/verseWordExplanation"
@@ -76,7 +87,7 @@ async function verseInfoResult(data, verse, reflections, tafsirs, words) {
     }
     let res = utils.setResult(
         {
-            verse: verse.data,
+            ...verse.data[0],
             reflections: reflections.data,
             tafsirs: tafsirs.data,
             words: words.data,
@@ -85,7 +96,6 @@ async function verseInfoResult(data, verse, reflections, tafsirs, words) {
         error,
         ecode
     );
-    console.log(res);
     return res;
 }
 
@@ -135,7 +145,7 @@ async function getVerseTafsir(data) {
         return invalid;
     }
     let sql =
-        "SELECT * FROM Tafsir JOIN Verse ON Verse.verse_index=Tafsir.verse_id WHERE Tafsir.verse_id=$1";
+        "SELECT tafsir_id, tafsir_text, book, visible FROM Tafsir JOIN Verse ON Verse.verse_index=Tafsir.verse_id WHERE Tafsir.verse_id=$1";
     var params = [data.verse_id];
     return await utils.retrieve(
         sql,
