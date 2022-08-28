@@ -37,7 +37,7 @@ function verseInfoTests() {
 
 function checkTafsirMatch(t1, t2) {
     expect(t1.tafsir_id).toEqual(t2.tafsir_id);
-    expect(t1.content).toEqual(t2.content);
+    expect(t1.tafsir_text).toEqual(t2.tafsir_text);
 }
 function checkWordMatch(t1, vw, aw) {
     expect(t1.root_id).toEqual(aw.root_id);
