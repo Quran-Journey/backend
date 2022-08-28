@@ -120,7 +120,7 @@ DROP TABLE IF EXISTS Tafsir CASCADE;
 CREATE TABLE
     IF NOT EXISTS Tafsir (
         tafsir_id SERIAL PRIMARY KEY,
-        content TEXT NOT NULL,
+        tafsir_text TEXT NOT NULL,
         book INTEGER NOT NULL,
         verse_id INTEGER NOT NULL,
         visible BOOLEAN NOT NULL,
