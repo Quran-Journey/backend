@@ -1,4 +1,4 @@
-const lessonTests = require("./lesson-tests.js").lessonTests;
+const lessonTests = require("./lesson/lesson-tests.js").lessonTests;
 const reflectionTests = require("./reflection-tests.js").reflectionTests;
 const surahInfoTests = require("./surah-info-tests.js").surahInfoTests;
 const mufasirTests = require("./mufasir-tests.js").mufasirTests;
@@ -8,6 +8,7 @@ const integratedWordTests =
     require("./word/integrated-word-tests.js").integratedWordTests;
 const quranTests = require("./quran-tests.js").quranTests;
 const verseInfoTests = require("./verse-info-tests").verseInfoTests;
+const lessonInfoTests = require("./lesson/lesson-info-tests").lessonInfoTests;
 
 const setup = require("./setup.js");
 const utils = require("./utils.js");
@@ -23,8 +24,9 @@ describe("Test Quran Endpoints", () => {
     quranTests();
 });
 
-describe("Test Lesson", () => {
+describe("Test everything related to lessons", () => {
     lessonTests();
+    lessonInfoTests();
 });
 
 describe("Test Verse Info", () => {
