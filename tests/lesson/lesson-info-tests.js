@@ -18,8 +18,8 @@ function lessonInfoTests() {
 
         checkLessonMatch(result.data.data.lesson_id, lesson.lesson_id);
 
-        checkVerseMatch(result.data.data.lesson_content[0].verse[0], verses[0]);
-        checkVerseMatch(result.data.data.lesson_content[1].verse[0], verses[1]);
+        checkVerseMatch(result.data.data.lesson_content[0].verse_index, verses[0].verse_index);
+        checkVerseMatch(result.data.data.lesson_content[1].verse_index, verses[1].verse_index);
 
         checkReflectionMatch(
             result.data.data.lesson_content[0].reflections[0],
