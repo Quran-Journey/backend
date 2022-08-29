@@ -140,21 +140,21 @@ const seedData = {
             verse_id: 1,
             word_id: 1,
             visible: false,
-            word_explaination: "An explanation of the basmalla goes here.",
+            word_explanation: "An explanation of the basmalla goes here.",
         },
         {
             verse_word_id: 2,
             verse_id: 2,
             word_id: 3,
             visible: true,
-            word_explaination: "All Praise is for Allah",
+            word_explanation: "All Praise is for Allah",
         },
         {
             verse_word_id: 3,
             verse_id: 3,
             word_id: 3,
             visible: true,
-            word_explaination: "Name of Allah",
+            word_explanation: "Name of Allah",
         }
     ],
     Mufasir: [

@@ -9,7 +9,7 @@ const integratedWordTests =
 const quranTests = require("./quran-tests.js").quranTests;
 const verseInfoTests = require("./verse-info-tests").verseInfoTests;
 const lessonInfoTests = require("./lesson/lesson-info-tests").lessonInfoTests;
-
+const verseWordTests = require("./word/verse-word-tests").verseWordTests;
 const setup = require("./setup.js");
 const utils = require("./utils.js");
 
@@ -48,7 +48,6 @@ describe("Test Mufasir", () => {
 describe("Test everything related to words", () => {
     rootTests();
     meaningTests();
+    verseWordTests();
     integratedWordTests();
 });
-
-
