@@ -3,7 +3,7 @@ const root = require("../../model/word/root");
 const utils = require("../utils");
 
 /*
- * @api [get] /rootWord/{rootWord_id}
+ * @api [get] /word/root/{rootWord_id}
  *  summary: "Fetch a rootWord by ID"
  *  description: "Fetch a root word by it's ID."
  *  tags:
@@ -32,7 +32,7 @@ router.get("/root/:root_id", async (request, response) => {
 });
 
 /*
- * @api [post] /rootWord
+ * @api [post] /word/root
  *  summary: "Create a rootWord"
  *  description: "This creates a rootWord from the data attribute in the request body"
  *  tags:
@@ -57,7 +57,7 @@ router.post("/root", async (request, response) => {
 });
 
 /*
- * @api [patch] /rootWord
+ * @api [patch] /word/root
  *  summary: "Update a rootWord"
  *  tags:
  *    - Linguistic Endpoints
@@ -65,8 +65,6 @@ router.post("/root", async (request, response) => {
  *    - application/json
  *  parameters:
  *        - in: body
- *          name: id
- *          description: the rootWord to update and it's new attributes
  *          schema:
  *              $ref: '#/definitions/RootWord'
  *  responses:
@@ -83,7 +81,7 @@ router.patch("/root", async (request, response) => {
 });
 
 /*
- * @api [delete] /rootWord
+ * @api [delete] /word/{root_id}
  *  summary: "Delete a rootWord"
  *  tags:
  *    - Linguistic Endpoints
@@ -91,10 +89,10 @@ router.patch("/root", async (request, response) => {
  *    - application/json
  *  parameters:
  *        - in: params
- *          name: id
+ *          name: root_id
  *          description: the rootWord to be deleted
- *          schema:
- *              $ref: '#/definitions/rootWord'
+ *          type: integer
+ *          example: 1
  *  responses:
  *    200:
  *      description: The rootWord has been deleted.
@@ -111,7 +109,7 @@ router.delete("/root/:root_id", async (request, response) => {
 });
 
 /*
- * @api [get] /rootWord
+ * @api [get] /word/roots
  *  summary: "Get all rootWords"
  *  description: "This is used to request all rootWords stored in the rootWord Table"
  *  tags:

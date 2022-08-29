@@ -40,7 +40,6 @@ const utils = require("./utils");
  *          example: [{"tafsir_id": 1,"tafsir_text": "In the name of Allah, The Most Gracious, The Most Merciful","book": 1,"verse_id": 1, "visible": false,"verse_index": 1,"surah": 1,"verse_number": 1, "verse_text": "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ"}]
  *      words:
  *          type: array
- *          description: collection of root words for words in a verse
  *          items:
  *            schema:
  *              $ref: "#/definitions/verseWordExplanation"
@@ -165,9 +164,9 @@ async function getVerseWordExplanations(data) {
         return invalid;
     }
     let sql =
-        "SELECT word, vwar.root_id, word_explaination, visible, root_word, meaning, word_id \
-         FROM (SELECT word, vwa.root_id, word_explaination, visible, root_word, word_id \
-            FROM (SELECT word, root_id, word_explaination, visible, aw.word_id as word_id \
+        "SELECT word, vwar.root_id, word_explanation, visible, root_word, meaning, word_id \
+         FROM (SELECT word, vwa.root_id, word_explanation, visible, root_word, word_id \
+            FROM (SELECT word, root_id, word_explanation, visible, aw.word_id as word_id \
                 FROM VerseWord as vw JOIN ArabicWord as aw ON aw.word_id = vw.word_id WHERE vw.verse_id = $1) as vwa \
                 JOIN RootWord ON RootWord.root_id = vwa.root_id) as vwar JOIN RootMeaning ON RootMeaning.root_id = vwar.root_id";
     var params = [data.verse_id];
