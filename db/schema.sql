@@ -80,7 +80,7 @@ CREATE TABLE
         verse_id INTEGER NOT NULL,
         word_id INTEGER NOT NULL,
         visible BOOLEAN DEFAULT true,
-        word_explaination TEXT,
+        word_explanation TEXT,
         -- This is the contextual explanation that we will give.
         FOREIGN KEY (verse_id) REFERENCES Verse(verse_index) ON DELETE CASCADE ON UPDATE CASCADE,
         FOREIGN KEY (word_id) REFERENCES ArabicWord(word_id) ON DELETE CASCADE ON UPDATE CASCADE
