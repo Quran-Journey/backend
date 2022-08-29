@@ -1,10 +1,10 @@
 const faker = require("faker");
-const utils = require("./utils");
+const utils = require("../utils");
 const apiGET = utils.apiGET;
 const apiPOST = utils.apiPOST;
 const apiPATCH = utils.apiPATCH;
 const apiDELETE = utils.apiDELETE;
-const setup = require("./setup");
+const setup = require("../setup");
 const moment = require("moment");
 const seedData = setup.seedData;
 
@@ -43,6 +43,9 @@ function lessonTests() {
         let newlesson = {
             lesson_date: new moment(faker.date.past(100)).format("YYYY-MM-DD"),
             source: "randomWebsite.com/url_to_video",
+            surah_id: 1,
+            start_verse: 1,
+            end_verse: 2
         };
 
         let resp1 = await apiPOST(`/lesson`, newlesson);
@@ -55,7 +58,10 @@ function lessonTests() {
         let newlesson = {
             lesson_id: 1,
             lesson_date: new moment(faker.date.past(100)).format("YYYY-MM-DD"),
+            surah_id: 1,
             source: "randomWebsite.com/url_to_video",
+            start_verse: 1,
+            end_verse: 5
         };
 
         let resp1 = await apiGET(`/lesson/1`);

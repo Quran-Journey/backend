@@ -36,6 +36,8 @@ CREATE TABLE
     IF NOT EXISTS Lesson (
         lesson_id SERIAL PRIMARY KEY,
         lesson_date DATE NOT NULL,
+        start_verse INTEGER,
+        end_verse INTEGER,
         source TEXT NOT NULL,
         surah_id INTEGER,
         FOREIGN KEY (surah_id) REFERENCES Surah(surah_id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -118,7 +120,7 @@ DROP TABLE IF EXISTS Tafsir CASCADE;
 CREATE TABLE
     IF NOT EXISTS Tafsir (
         tafsir_id SERIAL PRIMARY KEY,
-        content TEXT NOT NULL,
+        tafsir_text TEXT NOT NULL,
         book INTEGER NOT NULL,
         verse_id INTEGER NOT NULL,
         visible BOOLEAN NOT NULL,
