@@ -14,7 +14,7 @@ function verseInfoTests() {
         const resp1 = await apiGET(`/verse/1`);
         expect(resp1.data.data.reflections[0]).toEqual(reflectionInfo);
         expect(resp1.data.data.reflections.length).toEqual(2);
-        expect(resp1.data.data.verse[0]).toEqual(verse);
+        expect(resp1.data.data.verse_index).toEqual(verse.verse_index);
 
         checkTafsirMatch(resp1.data.data.tafsirs[0], tafsirInfo);
         checkWordMatch(resp1.data.data.words[0], verseWord, arabicWord);
@@ -37,7 +37,7 @@ function verseInfoTests() {
 
 function checkTafsirMatch(t1, t2) {
     expect(t1.tafsir_id).toEqual(t2.tafsir_id);
-    expect(t1.content).toEqual(t2.content);
+    expect(t1.tafsir_text).toEqual(t2.tafsir_text);
 }
 function checkWordMatch(t1, vw, aw) {
     expect(t1.root_id).toEqual(aw.root_id);

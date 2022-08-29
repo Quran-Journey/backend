@@ -6,28 +6,30 @@ const moment = require("moment");
  * - 2 lessons
  */
 const seedData = {
-    Lesson: [
-        {
-            lesson_id: 1,
-            lesson_date: new moment(faker.date.past(100)).format("YYYY-MM-DD"),
-            start_verse: 1,
-            end_verse: 1,
-            source: "youtube.com/url_to_video",
-        },
-        {
-            lesson_id: 2,
-            lesson_date: new moment(faker.date.past(100)).format("YYYY-MM-DD"),
-            start_verse: 1,
-            end_verse: 2,
-            source: "facebook.com/url_to_video",
-        },
-    ],
     Surah: [
         {
             surah_id: 1,
             surah_number: 1,
             name_complex: "Al-Fātiĥah",
             name_arabic: "الفاتحة",
+        },
+    ],
+    Lesson: [
+        {
+            lesson_id: 1,
+            surah_id: 1,
+            lesson_date: new moment(faker.date.past(100)).format("YYYY-MM-DD"),
+            start_verse: 1,
+            end_verse: 3,
+            source: "youtube.com/url_to_video",
+        },
+        {
+            lesson_id: 2,
+            surah_id: 1,
+            lesson_date: new moment(faker.date.past(100)).format("YYYY-MM-DD"),
+            start_verse: 1,
+            end_verse: 2,
+            source: "facebook.com/url_to_video",
         },
     ],
     SurahInfo: [
@@ -172,7 +174,7 @@ const seedData = {
     Tafsir: [
         {
             tafsir_id: 1,
-            content:
+            tafsir_text:
                 "In the name of Allah, The Most Gracious, The Most Merciful",
             book: 1,
             verse_id: 1,

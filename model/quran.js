@@ -17,12 +17,12 @@ const utils = require("./utils");
  *          example: al-Fātihah
  */
 async function getChapters(data) {
-    let sql = "SELECT * FROM suras";
+    let sql = "SELECT * FROM surah";
     return await utils.retrieve(
         sql,
         [],
         new utils.Message({
-            success: `Successfully fetched all suras.`,
+            success: `Successfully fetched all surahs.`,
         })
     );
 }
@@ -36,19 +36,19 @@ async function getChapters(data) {
  *      - aya
  *      - text
  *  properties:
- *      index:
+ *      verse_index:
  *          type: integer
  *          description: the index of the verse in the quran
  *          example: 1
- *      sura:
+ *      surah:
  *          type: integer
  *          description: the sura id/number that the verse belongs to
  *          example: 1
- *      aya:
+ *      verse_number:
  *          type: integer
  *          description: the aya number within the surah
  *          example: 1
- *      text:
+ *      verse_text:
  *          type: string
  *          description: the text representation of the verse
  *          example: بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ
@@ -60,7 +60,7 @@ async function getChapterVerses(data) {
     if (invalid) {
         return invalid;
     }
-    let sql = "SELECT * FROM quran_text WHERE sura=$1";
+    let sql = "SELECT * FROM Verse WHERE surah=$1";
     var params = [data.sura_number];
     let verses = await utils.retrieve(
         sql,
