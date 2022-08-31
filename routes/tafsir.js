@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const lesson = require("../model/tafsir");
+const tafsir = require("../model/tafsir");
 const utils = require("./utils");
 
 
@@ -27,7 +27,7 @@ const utils = require("./utils");
  *
  */
 router.get("/tafsir/:tafsir_id", async (request, response) => {
-    await lesson.getTafsirById(request.params).then(async function (result) {
+    await tafsir.getTafsirById(request.params).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });
@@ -50,7 +50,7 @@ router.get("/tafsir/:tafsir_id", async (request, response) => {
  *
  */
 router.post("/tafsir", async (request, response) => {
-    await lesson.createTafsir(request.body).then(async function (result) {
+    await tafsir.createTafsir(request.body).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });
@@ -76,7 +76,7 @@ router.post("/tafsir", async (request, response) => {
  *
  */
 router.patch("/tafsir", async (request, response) => {
-    await lesson.updateTafsir(request.body).then(async function (result) {
+    await tafsir.updateTafsir(request.body).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });
@@ -88,7 +88,7 @@ router.patch("/tafsir", async (request, response) => {
  *  produces:
  *    - application/json
  *  parameters:
- *        - in: path
+ *        - in: body
  *          name: id
  *          description: the tafsir to be deleted
  *          schema:
@@ -103,7 +103,7 @@ router.patch("/tafsir", async (request, response) => {
  *
  */
 router.delete("/tafsir", async (request, response) => {
-    await surahInfo.deleteTafsir(request.body).then(async function (result) {
+    await tafsir.deleteTafsir(request.body).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });

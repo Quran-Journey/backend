@@ -4,12 +4,32 @@ const utils = require("./utils");
  *  @schema Tafsir
  *  type: object
  *  required:
- *      - tafsir_id
+ *      -tafsir_id,
+ *      -tafsir_text,
+ *      -book,
+ *      -verse_id,
+ *      -visible
  *  properties:
  *      tafsir_id:
  *          type: integer
  *          description: to identify the tafsir from others
  *          example: 1
+ *      tafsir_text:
+ *          type: string
+ *          description: content of verse tafsir 
+ *          example: "In the Name of Allah—the Most Compassionate, Most Merciful."
+ *      book:
+ *          type: integer
+ *          description: unique identifier for book in which tafsir is
+ *          example: 3
+ *      verse_id: 
+ *          type: integer
+ *          description: the verse id
+ *          example: 23
+ *      visible:
+ *          type: integer
+ *          description: flag to display information 
+ *       
  *   
  */
 
@@ -21,8 +41,8 @@ async function getTafsirById(data) {
         return invalid;
     }
 
-    let sql = ""
-    let params = []
+    let sql = "SELECT * FROM Tafsir WHERE tafsir_id=$1;";
+    let params = [data.tafsir_id]
     return await utils.retrieve(
         sql,
         params,
@@ -33,13 +53,17 @@ async function getTafsirById(data) {
 async function createTafsir(data) {
     var invalid = utils.simpleValidation(data, {
         tafsir_id: "integer",
+        tafsir_text: "string",
+        book: "integer",
+        verse_id: "integer",
+        visible: "boolean"
     });
     if (invalid) {
         return invalid;
     }
 
-    let sql = ""
-    let params = []
+    let sql = "INSERT INTO Tafsir (tafsir_id,tafsir_text,book,verse_id,visible) VALUES ($1,$2,$3,$4,$5) RETURNING *;"
+    let params = [data.tafsir_id, data.tafsir_text, data.book, data.verse_id, data.visible]
     return await utils.create(
         sql,
         params,
@@ -49,13 +73,17 @@ async function createTafsir(data) {
 async function updateTafsir(data) {
     var invalid = utils.simpleValidation(data, {
         tafsir_id: "integer",
+        tafsir_text: "string",
+        book: "integer",
+        verse_id: "integer",
+        visible: "boolean"
     });
     if (invalid) {
         return invalid;
     }
 
-    let sql = ""
-    let params = []
+    let sql = "UPDATE Tafsir SET tafsir_text=$2, book=$3, verse_id=$4, visible=$5 WHERE tafsir_id=$1 RETURNING*;"
+    let params = [data.tafsir_id, data.tafsir_text, data.book, data.verse_id, data.visible]
     return await utils.update(
         sql,
         params,
@@ -70,8 +98,8 @@ async function deleteTafsir(data) {
         return invalid;
     }
 
-    let sql = ""
-    let params = []
+    let sql = "DELETE FROM Tafsir WHERE tafsir_id=$1 RETURNING *;"
+    let params = [data.tafsir_id]
     return await utils.remove(
         sql,
         params,
@@ -85,3 +113,4 @@ module.exports = {
     updateTafsir,
     deleteTafsir
 }
+
