@@ -9,6 +9,7 @@ const integratedWordTests =
 const quranTests = require("./quran-tests.js").quranTests;
 const verseInfoTests = require("./verse-info-tests").verseInfoTests;
 const lessonInfoTests = require("./lesson/lesson-info-tests").lessonInfoTests;
+
 const tafsirTests = require("./tafsir-tests").tafsirTests;
 
 const setup = require("./setup.js");
