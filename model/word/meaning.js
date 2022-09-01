@@ -13,7 +13,7 @@ const root = require("./root");
  *      - meanings
  *  properties:
  *      index_id:
- *          type: Integer
+ *          type: integer
  *          description: the index of the verse in the quran
  *          example: 1
  *      word_id:

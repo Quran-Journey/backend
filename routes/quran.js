@@ -34,7 +34,7 @@ router.get("/chapters", async (request, response) => {
  *  produces:
  *    - application/json
  *  parameters:
- *      - in: query
+ *      - in: path
  *        name: sura_number
  *        type: integer
  *        required: true

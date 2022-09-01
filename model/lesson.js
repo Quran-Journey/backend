@@ -23,7 +23,7 @@ const attributes = {
  *          description: to identify the lesson from others
  *          example: 1
  *      lesson_date:
- *          type: date
+ *          type: string
  *          description: to identify the day that the lesson was taught
  *          example: 2021-10-30
  *      start_verse:
@@ -54,8 +54,6 @@ const attributes = {
  *      lesson_content:
  *          type: array
  *          items:
- *            type: object
- *            schema:
  *              $ref: "#/definitions/VerseInformation"
  *          description: collection of complete verse Information for verses assocaited with a lesson
  *      lesson_id:
@@ -63,7 +61,7 @@ const attributes = {
  *          description: to identify the lesson from others
  *          example: 1
  *      lesson_date:
- *          type: date
+ *          type: string
  *          description: to identify the day that the lesson was taught
  *          example: 2021-10-30
  *      start_verse:
@@ -87,7 +85,7 @@ async function createLesson(data) {
         source: "string",
         surah_id: "string",
         start_verse: "integer",
-        surah_id: "integer",
+        end_verse: "integer",
     });
     if (invalid) {
         return invalid;

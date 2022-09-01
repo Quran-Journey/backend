@@ -3,7 +3,7 @@ const meaning = require("../../model/word/meaning");
 const utils = require("../utils");
 
 /*
- * @api [get] /meanings/{verse_id}
+ * @api [get] /word/root/meanings/verse/{verse_id}
  *  summary: "Get the meanings of each word in a verse"
  *  description: "Fetches the words, their roots, and their meanings for a specific verse."
  *  tags:
@@ -11,7 +11,7 @@ const utils = require("../utils");
  *  produces:
  *    - application/json
  *  parameters:
- *    - in: query
+ *    - in: path
  *      name: verse_id
  *      type: integer
  *      required: true
@@ -37,7 +37,7 @@ router.get("/root/meanings/verse/:verse_id/", async (request, response) => {
 
 
 /*
- * @api [get] /meaning
+ * @api [get] /word/root/meaning/{meaning_id}
  *  summary: "Fetch meaning"
  *  description: "This fetches a root word's meaning"
  *  tags:
@@ -66,7 +66,7 @@ router.get("/root/meaning/:meaning_id", async (request, response) => {
 });
 
 /*
- * @api [post] /meaning
+ * @api [post] /word/root/meaning
  *  summary: "Add a meaning to a rootword"
  *  description: "This endpoint adds a meaning to a root word"
  *  tags:
@@ -75,6 +75,7 @@ router.get("/root/meaning/:meaning_id", async (request, response) => {
  *    - application/json
  *  parameters:
  *    - in: body
+ *      name: root meaning
  *      schema:
  *          type: object
  *          required:
@@ -102,7 +103,7 @@ router.post("/root/meaning", async (request, response) => {
 });
 
 /*
- * @api [put] /meaning
+ * @api [put] /word/root/meaning
  *  summary: "Edit meaning"
  *  description: "This edits a root word's meaning"
  *  tags:
@@ -111,6 +112,7 @@ router.post("/root/meaning", async (request, response) => {
  *    - application/json
  *  parameters:
  *    - in: body
+ *      name: root meaning
  *      schema:
  *          $ref: '#/definitions/RootMeaning'
  *  responses:
@@ -129,7 +131,7 @@ router.put("/root/meaning", async (request, response) => {
 });
 
 /*
- * @api [delete] /meaning
+ * @api [delete] /word/root/meaning/{meaning_id}
  *  summary: "Delete meaning"
  *  description: "Deletes a root word's meaning"
  *  tags:
@@ -151,7 +153,7 @@ router.put("/root/meaning", async (request, response) => {
  *    404:
  *      description: No verse with that ID found.
  */
-router.delete("/root/meaning", async (request, response) => {
+router.delete("/root/meaning/:meaning_id", async (request, response) => {
     await meaning.deleteMeaning(request.params).then(async function (result) {
         return utils.simpleResponse(result, response);
     });

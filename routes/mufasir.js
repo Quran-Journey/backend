@@ -65,6 +65,7 @@ router.get("/mufasir/:mufasir_id", async (request, response) => {
  *    - application/json
  *  parameters:
  *    - in: body
+ *      name: mufasir information
  *      schema:
  *         type: object
  *         required:
@@ -104,6 +105,7 @@ router.post("/mufasir", async (request, response) => {
  *    - application/json
  *  parameters:
  *    - in: body
+ *      name: mufasir
  *      schema:
  *          $ref: "#/definitions/Mufasir"
  *  responses:
@@ -122,7 +124,7 @@ router.put("/mufasir", async (request, response) => {
 });
 
 /*
- * @api [delete] /mufasir
+ * @api [delete] /mufasir/{mufasir_id}
  *  summary: "Remove Mufasir"
  *  description: "Remove a mufasir."
  *  tags:

@@ -9,7 +9,7 @@ const utils = require("./utils");
  *      - death
  *  properties:
  *      mufasir_id:
- *          type: Integer
+ *          type: integer
  *          description: the id of the mufasir
  *          example: 1
  *      mufasir_name:

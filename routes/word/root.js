@@ -3,7 +3,7 @@ const root = require("../../model/word/root");
 const utils = require("../utils");
 
 /*
- * @api [get] /word/root/{rootWord_id}
+ * @api [get] /word/root/{root_id}
  *  summary: "Fetch a rootWord by ID"
  *  description: "Fetch a root word by it's ID."
  *  tags:
@@ -41,7 +41,7 @@ router.get("/root/:root_id", async (request, response) => {
  *    - application/json
  *  parameters:
  *        - in: body
- *          name: id
+ *          name: root word information
  *          description: the rootWord to update and it's new attributes
  *          schema:
  *              type: object
@@ -74,6 +74,7 @@ router.post("/root", async (request, response) => {
  *    - application/json
  *  parameters:
  *        - in: body
+ *          name: root word
  *          schema:
  *              $ref: '#/definitions/RootWord'
  *  responses:
@@ -99,11 +100,12 @@ router.patch("/root", async (request, response) => {
  *  produces:
  *    - application/json
  *  parameters:
- *        - in: params
+ *        - in: path
  *          name: root_id
  *          description: the id of the rootWord to be deleted
  *          type: integer
  *          example: 1
+ *          required: true
  *  responses:
  *    200:
  *      description: The rootWord has been deleted.

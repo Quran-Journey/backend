@@ -88,6 +88,7 @@ router.post("/surah/info", async (request, response) => {
  *    - application/json
  *  parameters:
  *        - in: body
+ *          name: Surah Info
  *          schema:
  *              $ref: '#/definitions/SurahInfo'
  *  responses:
@@ -118,8 +119,8 @@ router.patch("/surah/info", async (request, response) => {
  *        - in: path
  *          name: surah_info_id
  *          description: the surah info to be deleted
- *          schema:
- *              $ref: '#/definitions/SurahInfo'
+ *          required: true
+ *          type: integer
  *  responses:
  *    200:
  *      description: The Surah Info has been deleted.

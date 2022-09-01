@@ -110,14 +110,18 @@ router.get("/lesson/:lesson_id/verses", async (request, response) => {
  *    - application/json
  *  parameters:
  *    - in: body
+ *      name: lesson information
  *      schema:
  *          type: object
  *          required:
  *             - lesson_date
  *             - source
+ *             - surah_id
+ *             - start_verse
+ *             - end_verse
  *          properties:
  *             lesson_date:
- *                 type: date
+ *                 type: string
  *                 description: to identify the day that the lesson was taught
  *                 example: 2021-10-30
  *             source:
@@ -166,7 +170,7 @@ router.patch("/lesson", async (request, response) => {
 });
 
 /*
- * @api [delete] /lesson
+ * @api [delete] /lesson/{lesson_id}
  *  summary: "Delete a lesson"
  *  tags:
  *    - Lesson Endpoints
@@ -174,7 +178,7 @@ router.patch("/lesson", async (request, response) => {
  *    - application/json
  *  parameters:
  *        - in: path
- *          name: id
+ *          name: lesson_id
  *          description: the lesson to be deleted
  *          type: integer
  *          required: true

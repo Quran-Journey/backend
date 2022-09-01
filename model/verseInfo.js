@@ -1,6 +1,49 @@
 const utils = require("./utils");
 
 /**
+ * @schema VerseWordInformation
+ *     type: object
+ *     required:
+ *         - word
+ *         - root_id
+ *         - word_explanation
+ *         - visible
+ *         - root_word
+ *         - meaning
+ *         - word_id
+ *     properties:
+ *         word:
+ *             type: string
+ *             description: the arabic word in the verse
+ *             example: الْعَالَمِينَ
+ *         root_word:
+ *             type: string
+ *             description: the root word
+ *             example: س م و
+ *         word_explanation:
+ *             type: string
+ *             description: the explanation of the word in the verse.
+ *             example: this is the explanation for the word in the verse using the root word
+ *         visible:
+ *             type: boolean
+ *             description: whether this explanation is visible
+ *             example: true
+ *         root_id:
+ *             type: integer
+ *             description: the id of the root word
+ *             example: 1
+ *         meaning:
+ *             type: string
+ *             description: the meaning of the root word
+ *             example: A name.
+ *         word_id:
+ *             type: integer
+ *             description: the id of the word
+ *             example: 1
+ * 
+ */
+
+/**
  *  @schema VerseInformation
  *  type: object
  *  required:
@@ -31,18 +74,17 @@ const utils = require("./utils");
  *      reflections:
  *          type: array
  *          items:
- *            schema:
  *              $ref: "#/definitions/Reflection"
  *          description: collection of reflections associated with a verse
  *      tafsirs:
  *          type: array
  *          description: collection of tafsirs for a verse from different mufasirs
- *          example: [{"tafsir_id": 1,"tafsir_text": "In the name of Allah, The Most Gracious, The Most Merciful","book": 1,"verse_id": 1, "visible": false,"verse_index": 1,"surah": 1,"verse_number": 1, "verse_text": "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ"}]
+ *          items:
+ *              $ref: "#/definitions/Reflection"
  *      words:
  *          type: array
  *          items:
- *            schema:
- *              $ref: "#/definitions/verseWordExplanation"
+ *              $ref: "#/definitions/VerseWordInformation"
  *
  */
 async function getVerseInfo(data) {

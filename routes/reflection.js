@@ -79,6 +79,7 @@ router.get("/reflection/:surah_id/:verse_id", async (request, response) => {
  *    - application/json
  *  parameters:
  *        - in: body
+ *          name: reflection information
  *          schema:
  *              type: object
  *              required:
@@ -123,6 +124,7 @@ router.post("/reflection", async (request, response) => {
  *    - application/json
  *  parameters:
  *        - in: body
+ *          name: reflection
  *          schema:
  *              $ref: '#/definitions/Reflection'
  *  responses:
@@ -143,7 +145,7 @@ router.patch("/reflection", async (request, response) => {
 });
 
 /*
- * @api [delete] /reflection
+ * @api [delete] /reflection/{reflection_id}
  *  summary: "Delete a reflection"
  *  tags:
  *    - Reflection Endpoints
@@ -154,6 +156,7 @@ router.patch("/reflection", async (request, response) => {
  *          name: reflection_id
  *          description: the id of the reflection to be deleted
  *          type: integer
+ *          required: true
  *  responses:
  *    200:
  *      description: The reflection has been deleted.
