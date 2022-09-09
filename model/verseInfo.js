@@ -80,7 +80,7 @@ const utils = require("./utils");
  *          type: array
  *          description: collection of tafsirs for a verse from different mufasirs
  *          items:
- *              $ref: "#/definitions/Reflection"
+ *              $ref: "#/definitions/Tafsir"
  *      words:
  *          type: array
  *          items:
