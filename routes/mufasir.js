@@ -27,7 +27,7 @@ router.get("/mufasir", async (request, response) => {
 
 /*
  * @api [get] /mufasir/{mufasir_id}
- *  summary: "Get Mufasir"
+ *  summary: "Get a Mufasir"
  *  description: "Fetch a mufasir by ID."
  *  tags:
  *    - Tafsir Endpoints
@@ -64,19 +64,27 @@ router.get("/mufasir/:mufasir_id", async (request, response) => {
  *  produces:
  *    - application/json
  *  parameters:
- *      - in: body
- *        name: mufasir_name
- *        type: string
- *        required: true
- *        example: "Ibn Kathir"
- *      - in: body
- *        name: death
- *        type: string
- *        required: true
- *        example: "774"
+ *    - in: body
+ *      name: mufasir information
+ *      schema:
+ *         type: object
+ *         required:
+ *           - mufasir_name
+ *           - death
+ *         properties:
+ *           mufasir_name:
+ *            type: string
+ *            description: The name of the mufasir
+ *            example: "Ibn Kathir"
+ *           death:
+ *            type: string
+ *            description: The date that the mufasir passed away
+ *            example: 1203 H
  *  responses:
  *    200:
  *      description: Successfully added mufasir.
+ *      schema:
+ *          $ref: '#/definitions/Mufasir'
  *    404:
  *      description: A mufasir with that ID does not exist.
  *
@@ -96,24 +104,15 @@ router.post("/mufasir", async (request, response) => {
  *  produces:
  *    - application/json
  *  parameters:
- *      - in: body
- *        name: mufasir_id
- *        type: integer
- *        required: true
- *        example: 1
- *      - in: body
- *        name: mufasir_name
- *        type: string
- *        required: true
- *        example: "Ibn Kathir"
- *      - in: body
- *        name: death
- *        type: string
- *        required: true
- *        example: "774"
+ *    - in: body
+ *      name: mufasir
+ *      schema:
+ *          $ref: "#/definitions/Mufasir"
  *  responses:
  *    200:
  *      description: Successfully updated mufasir.
+ *      schema:
+ *          $ref: '#/definitions/Mufasir'
  *    404:
  *      description: A mufasir with that ID does not exist.
  *
@@ -125,7 +124,7 @@ router.put("/mufasir", async (request, response) => {
 });
 
 /*
- * @api [delete] /mufasir
+ * @api [delete] /mufasir/{mufasir_id}
  *  summary: "Remove Mufasir"
  *  description: "Remove a mufasir."
  *  tags:
@@ -141,6 +140,8 @@ router.put("/mufasir", async (request, response) => {
  *  responses:
  *    200:
  *      description: Successfully deleted mufasir.
+ *      schema:
+ *          $ref: '#/definitions/Reflection'
  *    404:
  *      description: A mufasir with that ID does not exist.
  *

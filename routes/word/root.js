@@ -3,7 +3,7 @@ const root = require("../../model/word/root");
 const utils = require("../utils");
 
 /*
- * @api [get] /word/root/{rootWord_id}
+ * @api [get] /word/root/{root_id}
  *  summary: "Fetch a rootWord by ID"
  *  description: "Fetch a root word by it's ID."
  *  tags:
@@ -41,13 +41,22 @@ router.get("/root/:root_id", async (request, response) => {
  *    - application/json
  *  parameters:
  *        - in: body
- *          name: id
+ *          name: root word information
  *          description: the rootWord to update and it's new attributes
  *          schema:
- *              $ref: '#/definitions/RootWord'
+ *              type: object
+ *              required:
+ *                - root_word
+ *              properties:
+ *                root_word:
+ *                    type: string
+ *                    description: the root word (spaces between letters)
+ *                    example: س م و
  *  responses:
  *    200:
  *      description: rootWord has been created.
+ *      schema:
+ *          $ref: '#/definitions/RootWord'
  *
  */
 router.post("/root", async (request, response) => {
@@ -65,11 +74,14 @@ router.post("/root", async (request, response) => {
  *    - application/json
  *  parameters:
  *        - in: body
+ *          name: root word
  *          schema:
  *              $ref: '#/definitions/RootWord'
  *  responses:
  *    200:
  *      description: rootWord has been updated.
+ *      schema:
+ *          $ref: '#/definitions/RootWord'
  *    404:
  *      description: Could not find a rootWord with that id.
  *
@@ -88,11 +100,12 @@ router.patch("/root", async (request, response) => {
  *  produces:
  *    - application/json
  *  parameters:
- *        - in: params
+ *        - in: path
  *          name: root_id
- *          description: the rootWord to be deleted
+ *          description: the id of the rootWord to be deleted
  *          type: integer
  *          example: 1
+ *          required: true
  *  responses:
  *    200:
  *      description: The rootWord has been deleted.
@@ -111,7 +124,6 @@ router.delete("/root/:root_id", async (request, response) => {
 /*
  * @api [get] /word/roots
  *  summary: "Get all rootWords"
- *  description: "This is used to request all rootWords stored in the rootWord Table"
  *  tags:
  *    - Linguistic Endpoints
  *  produces:

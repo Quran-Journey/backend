@@ -7,7 +7,7 @@ const utils = require("./utils");
  *  summary: "Get Chapters"
  *  description: "Fetch an ordered list of all of the english names of the chapters in the Quran."
  *  tags:
- *    - Root Endpoints
+ *    - Quran Endpoints
  *  produces:
  *    - application/json
  *  responses:
@@ -30,11 +30,11 @@ router.get("/chapters", async (request, response) => {
  *  summary: "Get Chapter Verses"
  *  description: "Fetches the verses of a chapter"
  *  tags:
- *    - Root Endpoints
+ *    - Quran Endpoints
  *  produces:
  *    - application/json
  *  parameters:
- *      - in: query
+ *      - in: path
  *        name: sura_number
  *        type: integer
  *        required: true

@@ -49,7 +49,7 @@ function meaningTests() {
         async () => {
             let resp = await apiGET(`/word/root/meaning/1`);
             let resp1 = await apiDELETE(`/word/root/meaning/1`);
-            // We want to ensure that the deleted lesson is the correct lesson.
+            // We want to ensure that the deleted meaning is the correct meaning.
             expect(resp1.data.data[0]).toEqual(resp.data.data[0]);
             expect(resp1.data.success).toEqual(true);
 

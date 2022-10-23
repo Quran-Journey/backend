@@ -26,15 +26,17 @@ const utils = require("./utils");
  *
  */
 router.get("/reflection/:reflection_id", async (request, response) => {
-    await reflection.getReflectionById(request.params).then(async function (result) {
-        return utils.simpleResponse(result, response);
-    });
+    await reflection
+        .getReflectionById(request.params)
+        .then(async function (result) {
+            return utils.simpleResponse(result, response);
+        });
 });
 
 /*
  * @api [get] /reflection/{surah_id}/{verse_id}
- *  summary: "Fetch a Reflection by ID"
- *  description: "Fetch a reflection by it's surah id and verse id."
+ *  summary: "Fetch a Reflection by the surah and verse ID"
+ *  description: "Fetch a reflection by it's surah id and verse ID."
  *  tags:
  *    - Reflection Endpoints
  *  produces:
@@ -60,9 +62,11 @@ router.get("/reflection/:reflection_id", async (request, response) => {
  *
  */
 router.get("/reflection/:surah_id/:verse_id", async (request, response) => {
-    await reflection.getReflectionBySurahVerseId(request.params).then(async function (result) {
-        return utils.simpleResponse(result, response);
-    });
+    await reflection
+        .getReflectionBySurahVerseId(request.params)
+        .then(async function (result) {
+            return utils.simpleResponse(result, response);
+        });
 });
 
 /*
@@ -75,19 +79,40 @@ router.get("/reflection/:surah_id/:verse_id", async (request, response) => {
  *    - application/json
  *  parameters:
  *        - in: body
- *          name: id
- *          description: the reflection to update and it's new attributes
+ *          name: reflection information
  *          schema:
- *              $ref: '#/definitions/Reflection'
+ *              type: object
+ *              required:
+ *                  - verse_id
+ *                  - title
+ *                  - reflection
+ *              properties:
+ *                  verse_id:
+ *                      type: integer
+ *                      description: to identify the verse that the reflection is refering to
+ *                      example: 23
+ *                  title:
+ *                      type: string
+ *                      description: a title to the refelction
+ *                      example: "My Reflection"
+ *                  reflection:
+ *                      type: string
+ *                      description: refelction on verse
+ *                      example: "I have..."
+ *
  *  responses:
  *    200:
  *      description: Reflection has been created.
+ *      schema:
+ *        $ref: '#/definitions/Reflection'
  *
  */
 router.post("/reflection", async (request, response) => {
-    await reflection.createReflection(request.body).then(async function (result) {
-        return utils.simpleResponse(result, response);
-    });
+    await reflection
+        .createReflection(request.body)
+        .then(async function (result) {
+            return utils.simpleResponse(result, response);
+        });
 });
 
 /*
@@ -99,36 +124,39 @@ router.post("/reflection", async (request, response) => {
  *    - application/json
  *  parameters:
  *        - in: body
- *          name: id
- *          description: the reflection to update and it's new attributes
+ *          name: reflection
  *          schema:
  *              $ref: '#/definitions/Reflection'
  *  responses:
  *    200:
  *      description: Reflection has been updated.
+ *      schema:
+ *          $ref: '#/definitions/Reflection'
  *    404:
  *      description: Could not find a reflection with that id.
  *
  */
 router.patch("/reflection", async (request, response) => {
-    await reflection.updateReflection(request.body).then(async function (result) {
-        return utils.simpleResponse(result, response);
-    });
+    await reflection
+        .updateReflection(request.body)
+        .then(async function (result) {
+            return utils.simpleResponse(result, response);
+        });
 });
 
 /*
- * @api [delete] /reflection
+ * @api [delete] /reflection/{reflection_id}
  *  summary: "Delete a reflection"
  *  tags:
  *    - Reflection Endpoints
  *  produces:
  *    - application/json
  *  parameters:
- *        - in: params
- *          name: id
- *          description: the reflection to be deleted
- *          schema:
- *              $ref: '#/definitions/Reflection'
+ *        - in: path
+ *          name: reflection_id
+ *          description: the id of the reflection to be deleted
+ *          type: integer
+ *          required: true
  *  responses:
  *    200:
  *      description: The reflection has been deleted.
@@ -139,9 +167,11 @@ router.patch("/reflection", async (request, response) => {
  *
  */
 router.delete("/reflection/:reflection_id", async (request, response) => {
-    await reflection.deleteReflection(request.params).then(async function (result) {
-        return utils.simpleResponse(result, response);
-    });
+    await reflection
+        .deleteReflection(request.params)
+        .then(async function (result) {
+            return utils.simpleResponse(result, response);
+        });
 });
 
 /*
@@ -164,7 +194,7 @@ router.delete("/reflection/:reflection_id", async (request, response) => {
 router.get("/reflection", async (request, response) => {
     await reflection.getAllReflections().then(async function (result) {
         return utils.simpleResponse(result, response);
-    })
+    });
 });
 
 module.exports = router;

@@ -13,7 +13,7 @@ const root = require("./root");
  *      - meanings
  *  properties:
  *      index_id:
- *          type: Integer
+ *          type: integer
  *          description: the index of the verse in the quran
  *          example: 1
  *      word_id:
@@ -43,7 +43,7 @@ const root = require("./root");
  *  @schema RootMeaning
  *  type: object
  *  required:
- *      - word_id
+ *      - meaning_id
  *      - root_id
  *      - meaning
  *  properties:
@@ -51,11 +51,11 @@ const root = require("./root");
  *          type: integer
  *          description: the id of the meaning
  *          example: 1
- *      root_word:
+ *      root_id:
  *          type: integer
  *          description: the id of the root word
  *          example: 936
- *      word:
+ *      meaning:
  *          type: string
  *          description: The meaning.
  *          example: A name
