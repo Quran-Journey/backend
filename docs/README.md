@@ -2,7 +2,8 @@
 
 The steps to document code are simple:
 1. Add inline comments that describe the endpoints or schemas using OAS.
-2. execute `sh run.sh` to process the docs and `sh serve.sh` serve them on localhost. 
+2. execute `sh run.sh` to process the docs
+You can serve them by running the project in the top level directory with `node index.js`. 
 
 It's that simple.
 
@@ -58,3 +59,4 @@ References:
 - [petstore redoc html example](https://redocly.github.io/redoc/)
 - [petstore yaml example](https://redocly.github.io/redoc/openapi.yaml)
 - [redoc "extensions"](https://github.com/Redocly/redoc/blob/master/docs/redoc-vendor-extensions.md#x-logo)
+- [adding parameters](https://swagger.io/docs/specification/2-0/describing-parameters/)

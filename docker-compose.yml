@@ -33,8 +33,3 @@ services:
             - "80:80"
         networks:
             - default
-    # qj_react:
-    #     build: ./qj_react
-    #     ports: "80:80"
-    #     networks:
-    #         - "default"

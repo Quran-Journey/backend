@@ -24,6 +24,7 @@
     "homepage": "https://github.com/osamaramihafez/QuranJourney#readme",
     "dependencies": {
         "axios": "^0.24.0",
+        "cors": "^2.8.5",
         "dotenv": "^10.0.0",
         "ejs": "^3.1.8",
         "express": "^4.17.1",
@@ -36,7 +37,8 @@
         "pg": "^8.7.1"
     },
     "devDependencies": {
-        "swagger-inline": "^5.0.1"
+        "swagger-inline": "^5.0.1",
+        "selenium-webdriver": "^4.1.2"
     },
     "prettier": {
         "tabWidth": 4
