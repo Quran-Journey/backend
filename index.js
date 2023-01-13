@@ -3,7 +3,9 @@ const https = require("https");
 const fs = require("fs");
 const express = require("express");
 // const firebase = require('firebase/app');
-// const auth = require('firebase/auth');
+const cookieParser = require("cookie-parser");
+const csrf = require("csurf");
+const auth = require('firebase/auth');
 const admin = require('firebase-admin');
 const bodyParser = require("body-parser");
 const lesson = require("./routes/lesson");
@@ -23,7 +25,9 @@ const serviceAccount = require("./serviceAccountKey.json");
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
-  });
+});
+
+const csrfMiddleware = csrf({ cookie: true });
 
 var port = process.env.PORT || 3001;
 
@@ -31,6 +35,8 @@ var app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(csrfMiddleware);
 
 app.engine("html", require("ejs").renderFile);
 
@@ -48,40 +54,68 @@ app.use("/api", word);
 app.use("/api", verseInfo);
 app.use("/api", tafsir);
 
+app.all("*", (req, res, next) => {
+    res.cookie("XSRF-TOKEN", req.csrfToken());
+    next();
+});
+
 app.use(express.static(path.join(__dirname, "/docs")));
 app.route("/").get((req, res) => {
     res.sendFile(path.join(__dirname + "/docs/index.html"));
 });
 
-app.get("/login", function(req, res) {
-    res.render("login.html");
-});
-
-app.get("/signup", function(req, res){
-    res.render("signup.html");
-});
-
-app.get("/", function(req, res) {
+app.get("/home", function (req, res) {
     res.render("index.html");
 });
 
-app.get("/profile", function(req, res) {
-    res.render("profile.html");
-    admin.auth().then(() => {
-        res.render("profile.html");
-    }).catch((error) => {
-        res.redirect("/login");
-    });
-})
+app.get("/login", function (req, res) {
+    res.render("login.html");
+});
+
+app.get("/signup", function (req, res) {
+    res.render("signup.html");
+});
+
+app.get("/profile", function (req, res) {
+    const sessionCookie = req.cookies.session || "";
+
+    admin
+        .auth()
+        .verifySessionCookie(sessionCookie, true /** checkRevoked */)
+        .then((userData) => {
+            console.log("Logged in:", userData.email)
+            res.render("profile.html");
+        })
+        .catch((error) => {
+            res.redirect("/login");
+        });
+});
 
 app.post("/sessionLogin", (req, res) => {
     const idToken = req.body.idToken.toString();
-    admin.auth();
+
+    const expiresIn = 60 * 60 * 24 * 5 * 1000;
+
+    admin
+        .auth()
+        .createSessionCookie(idToken, { expiresIn })
+        .then(
+            (sessionCookie) => {
+                const options = { maxAge: expiresIn, httpOnly: true };
+                res.cookie("session", sessionCookie, options);
+                res.end(JSON.stringify({ status: "success" }));
+            },
+            (error) => {
+                res.status(401).send("UNAUTHORIZED REQUEST!");
+            }
+        );
 });
 
 app.get("/sessionLogout", (req, res) => {
+    res.clearCookie("session");
     res.redirect("/login");
 });
+
 
 if (process.env.NODE_ENV == "production") {
     // This sets the options for https so that it finds the ssl certificates
