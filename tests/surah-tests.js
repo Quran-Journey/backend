@@ -1,5 +1,6 @@
 const faker = require("faker");
 const utils = require("./utils");
+const lessonsCheckMatch = require("./lesson/lesson-tests").checkMatch;
 const { apiGET, apiPUT } = utils;
 const setup = require("./setup");
 const moment = require("moment");
@@ -51,6 +52,16 @@ function surahTests() {
         const resp1 = await apiGET(`/surah/${surahA.surah_id}/verses`);
         checkVerses(verses, resp1.data.data);
     });
+
+    it("getting lessons associated with a specific Surah", async () => {
+        let surahA = seedData.Surah[0];
+        let lessons = seedData.Lesson.filter((lesson) => {
+            lesson.surah = surahA.surah_id;
+        });
+
+        const resp1 = await apiGET(`/surah/${surahA.surah_id}/verses`);
+        checkLessons(lessons, resp1.data.data);
+    });
 }
 
 function checkMatch(surahA, surahB) {
@@ -60,13 +71,19 @@ function checkMatch(surahA, surahB) {
 }
 
 function checkVerses(versesA, versesB) {
-    for (let verse = 1; verse < versesA.length; verse++) {
+    for (let verse = 0; verse < versesA.length; verse++) {
         expect(versesA[verse].surah).toEqual(versesB[verse].surah);
         expect(versesA[verse].verse_index).toEqual(versesB[verse].verse_index);
         expect(versesA[verse].verse_number).toEqual(
             versesB[verse].verse_number
         );
         expect(versesA[verse].verse_text).toEqual(versesB[verse].verse_text);
+    }
+}
+
+function checkLessons(lessonsA, lessonsB) {
+    for (let lesson = 0; lesson < lessonsA.length; lesson++) {
+        lessonsCheckMatch(lessonsA[lesson], lessonsB[lesson]);
     }
 }
 

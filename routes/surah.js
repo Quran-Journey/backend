@@ -5,7 +5,7 @@ const utils = require("./utils");
 /*
  * @api [get] /surah/{surah_id}
  *  summary: "Fetch a surah by ID"
- *  description: "This is a fetch based on either surah_id or surah_number. One of the two must be passed in."
+ *  description: "This is a fetch based on surah_id (same as surah_number)."
  *  tags:
  *    - Surah Endpoints
  *  produces:
@@ -37,9 +37,9 @@ router.get("/surah/:surah_id?", async (request, response) => {
 });
 
 /*
- * @api [get] /surah/{surah_id}
- *  summary: "Fetch a surah by ID"
- *  description: "This is a fetch based on either surah_id or surah_number. One of the two must be passed in."
+ * @api [get] /surah/{surah_id}/verses
+ *  summary: "Fetch a surah's verses by the surah id"
+ *  description: "This is a fetch based on surah_id (same as surah_number)."
  *  tags:
  *    - Surah Endpoints
  *  produces:
@@ -63,6 +63,37 @@ router.get("/surah/:surah_id?", async (request, response) => {
  */
 router.get("/surah/:surah_id/verses", async (request, response) => {
     await surah.getSurahVerses(request.params).then(async function (result) {
+        return utils.simpleResponse(result, response);
+    });
+});
+
+/*
+ * @api [get] /surah/{surah_id}/lessons
+ *  summary: "Fetch a surah's lessons by surah id"
+ *  description: "This is a fetch based on either surah_id or surah_number. One of the two must be passed in."
+ *  tags:
+ *    - Surah Endpoints
+ *  produces:
+ *    - application/json
+ *  parameters:
+ *      - in: path
+ *        name: surah_id
+ *        type: integer
+ *        required: true
+ *        example: 1
+ *  responses:
+ *    200:
+ *      description: The corresponding surah.
+ *      schema:
+ *          type: array
+ *          items:
+ *              $ref: '#/definitions/Lesson'
+ *    404:
+ *      description: No surahs found with that ID.
+ *
+ */
+router.get("/surah/:surah_id/lessons", async (request, response) => {
+    await surah.getSurahLessons(request.params).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });

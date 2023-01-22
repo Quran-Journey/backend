@@ -142,10 +142,32 @@ async function getSurahVerses(data) {
     return verses;
 }
 
+async function getSurahLessons(data) {
+    var invalid = utils.simpleValidation(data, {
+        surah_id: "integer",
+    });
+    if (invalid) {
+        return invalid;
+    }
+    let sql = "SELECT * FROM Lesson WHERE surah_id=$1";
+    var params = [data.surah_id];
+    let verses = await utils.retrieve(
+        sql,
+        params,
+        new utils.Message({
+            success: `Successfully fetched verses for sura number ${data.surah_id}.`,
+        })
+    );
+    if (verses.data.length > 0) {
+        verses.data.sort((a, b) => (a.aya > b.aya ? 1 : -1));
+    }
+    return verses;
+}
 
 module.exports = {
     getSurahById,
     updateSurah,
     getSurahVerses,
+    getSurahLessons,
     getSurahs,
 };
