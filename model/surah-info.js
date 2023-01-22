@@ -23,7 +23,7 @@ const utils = require("./utils");
  *          example: "Opening of The Quran"
  *      info:
  *          type: string
- *          description: information regarding the surah  
+ *          description: information regarding the surah
  *          example: "This surah was..."
  */
 async function getSurahInfo(data) {
@@ -36,7 +36,6 @@ async function getSurahInfo(data) {
     }
     return result;
 }
-
 
 async function getSurahInfoBySurahInfoID(data) {
     var invalid = utils.simpleValidation(data, {
@@ -85,13 +84,14 @@ async function createSurahIntroInfo(data) {
     var sql_surah_info =
         "INSERT INTO SurahInfo (surah, title, info) VALUES ($1, $2, $3) RETURNING *;";
     var params = [data.surah, data.title, data.info];
-    var sql_surah =
-        "INSERT INTO Surah (surah_id,surah_number,revelation_place,verse_count) VALUES ($1, $2, $3, $4) RETURNING *;";
-    await utils.create(sql_surah, [1, 1, "Makkah", 7])
     return await utils.create(
         sql_surah_info,
         params,
-        new utils.Message({ success: "Successfully created a Surah Info." })
+        new utils.Message({
+            success: "Successfully created a Surah Info.",
+            foreign:
+                "Invalid Surah. The surah must be valid and enabled first.",
+        })
     );
 }
 
@@ -105,7 +105,8 @@ async function updateSurahIntroInfo(data) {
     if (invalid) {
         return invalid;
     }
-    let sql = "UPDATE SurahInfo SET surah=$2, title=$3, info=$4 WHERE surah_info_id=$1 RETURNING *;";
+    let sql =
+        "UPDATE SurahInfo SET surah=$2, title=$3, info=$4 WHERE surah_info_id=$1 RETURNING *;";
     var params = [data.surah_info_id, data.surah, data.title, data.info];
     return await utils.update(
         sql,
@@ -135,7 +136,6 @@ async function deleteSurahIntroInfo(data) {
         })
     );
 }
-
 
 module.exports = {
     getSurahInfo: getSurahInfo,

@@ -13,6 +13,12 @@ const seedData = {
             name_complex: "Al-Fātiĥah",
             name_arabic: "الفاتحة",
         },
+        {
+            surah_id: 2,
+            surah_number: 2,
+            name_complex: "The cow",
+            name_arabic: "",
+        },
     ],
     Lesson: [
         {
@@ -58,7 +64,7 @@ const seedData = {
             surah: 1,
             verse_number: 3,
             verse_text: "الرَّحْمَـٰنِ الرَّحِيمِ",
-        }
+        },
     ],
     Reflection: [
         {
@@ -77,14 +83,14 @@ const seedData = {
             reflection_id: 3,
             verse_id: 2,
             title: "Allahu Akbar",
-            reflection: "Inshallah my last reflection!"
+            reflection: "Inshallah my last reflection!",
         },
         {
             reflection_id: 4,
             verse_id: 3,
             title: "Subhanallah",
-            reflection: "Allah SWT is the most most merciful"
-        }
+            reflection: "Allah SWT is the most most merciful",
+        },
     ],
     RootWord: [
         {
@@ -155,7 +161,7 @@ const seedData = {
             word_id: 3,
             visible: true,
             word_explanation: "Name of Allah",
-        }
+        },
     ],
     Mufasir: [
         {
