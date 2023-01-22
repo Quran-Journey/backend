@@ -5,109 +5,115 @@ const utils = require("./utils");
 /*
  * @api [get] /surah/{surah_id}
  *  summary: "Fetch a surah by ID"
- *  description: "This is a general fetch and has no parameters. It will fetch all of the lessons in the database."
+ *  description: "This is a fetch based on either surah_id or surah_number. One of the two must be passed in."
  *  tags:
- *    - Lesson Endpoints
+ *    - Surah Endpoints
  *  produces:
  *    - application/json
  *  parameters:
  *      - in: path
- *        name: lesson_id
+ *        name: surah_id
  *        type: integer
  *        required: true
  *        example: 1
+ *      - in: query
+ *        name: surah_number
+ *        type: integer
+ *        required: false
+ *        example: 1
  *  responses:
  *    200:
- *      description: The corresponding lesson.
+ *      description: The corresponding surah.
  *      schema:
- *          $ref: '#/definitions/Lesson'
+ *          - $ref: '#/definitions/Surah'
  *    404:
- *      description: No lessons found with that ID.
+ *      description: No surahs found with that ID.
  *
  */
-router.get("/surah/:surah_id", async (request, response) => {
+router.get("/surah/:surah_id?", async (request, response) => {
     await surah.getSurahById(request.params).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });
 
 /*
- * @api [post] /lesson
- *  summary: "Create a Surah"
+ * @api [get] /surah/{surah_id}
+ *  summary: "Fetch a surah by ID"
+ *  description: "This is a fetch based on either surah_id or surah_number. One of the two must be passed in."
  *  tags:
- *    - Lesson Endpoints
+ *    - Surah Endpoints
  *  produces:
  *    - application/json
  *  parameters:
- *        - in: body
- *          name: id
- *          description: the lesson to update and it's new attributes
- *          schema:
- *              $ref: '#/definitions/Lesson'
+ *      - in: path
+ *        name: surah_id
+ *        type: integer
+ *        required: true
+ *        example: 1
  *  responses:
  *    200:
- *      description: Lesson has been created.
+ *      description: The corresponding surah.
+ *      schema:
+ *          type: array
+ *          items:
+ *              $ref: '#/definitions/Verse'
+ *    404:
+ *      description: No surahs found with that ID.
  *
  */
-router.post("/lesson", async (request, response) => {
-    await lesson.createLesson(request.body).then(async function (result) {
+router.get("/surah/:surah_id/verses", async (request, response) => {
+    await surah.getSurahVerses(request.params).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });
 
 /*
- * @api [patch] /lesson
+ * @api [put] /surah
  *  summary: "Update a Surah"
  *  tags:
- *    - Lesson Endpoints
+ *    - Surah Endpoints
  *  produces:
  *    - application/json
  *  parameters:
  *        - in: body
- *          name: id
- *          description: the lesson to update and it's new attributes
+ *          name: Surah
+ *          description: the Surah to update and it's new attributes
  *          schema:
- *              $ref: '#/definitions/Lesson'
+ *              $ref: '#/definitions/Surah'
  *  responses:
  *    200:
- *      description: Lesson has been updated.
+ *      description: Surah has been updated.
  *    404:
- *      description: Could not find a lesson with that id.
+ *      description: Could not find a surah with that id.
  *
  */
-router.patch("/surah", async (request, response) => {
+router.put("/surah", async (request, response) => {
     await surah.updateSurah(request.body).then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });
 
 /*
- * @api [delete] /Surah
- *  summary: "Delete a Surah"
+ * @api [get] /surahs
+ *  summary: "Get Surahs"
+ *  description: "Fetch an ordered list of all of the english names of the surahs in the Quran."
  *  tags:
- *    - Lesson Endpoints
+ *    - Quran Endpoints
  *  produces:
  *    - application/json
- *  parameters:
- *        - in: body
- *          name: id
- *          description: the lesson to be deleted
- *          schema:
- *              $ref: '#/definitions/Lesson'
  *  responses:
  *    200:
- *      description: The Lesson has been deleted.
+ *      description: An ordered list of surahs with their names and sura_numbers.
  *      schema:
- *          $ref: '#/definitions/Lesson'
- *    404:
- *      description: Could not find a lesson with that id.
+ *        type: array
+ *        items:
+ *          $ref: '#/definitions/Surah'
  *
  */
-router.delete("/surah/:surah", async (request, response) => {
-    await surah.deleteSurah(request.params).then(async function (result) {
+router.get("/surahs", async (request, response) => {
+    await surah.getSurahs().then(async function (result) {
         return utils.simpleResponse(result, response);
     });
 });
-
 
 module.exports = router;
