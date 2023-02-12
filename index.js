@@ -27,6 +27,19 @@ admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
 
+function checkAuth(req, res, next) {
+    if (req.cookies.session) {
+        admin.auth().verifySessionCookie(req.cookies.session)
+            .then(() => {
+                next();
+            }).catch(() => {
+                res.status(403).send('Unauthorized')
+            });
+    } else {
+        res.status(403).send('Unauthorized!')
+    }
+}
+
 const csrfMiddleware = csrf({ cookie: true });
 
 var port = process.env.PORT || 3001;
@@ -44,6 +57,8 @@ app.use(async (req, res, next) => {
     console.log(`\nEndpoint Hit: ${req.method} ${req.originalUrl}\n`);
     next();
 });
+
+app.use("/test", checkAuth);
 
 app.use("/api", lesson);
 app.use("/api", reflection);
@@ -64,6 +79,12 @@ app.route("/").get((req, res) => {
     res.sendFile(path.join(__dirname + "/docs/index.html"));
 });
 
+app.get('/test', (req, res) => {
+    res.json({
+        message: 'Hello World!'
+    })
+})
+
 app.get("/home", function (req, res) {
     res.render("index.html");
 });
@@ -83,7 +104,8 @@ app.get("/profile", function (req, res) {
         .auth()
         .verifySessionCookie(sessionCookie, true /** checkRevoked */)
         .then((userData) => {
-            console.log("Logged in:", userData.email)
+            // console.log("Logged in:", userData.email)
+            // console.log("profile-backend", userData)
             res.render("profile.html");
         })
         .catch((error) => {
@@ -94,6 +116,7 @@ app.get("/profile", function (req, res) {
 app.post("/sessionLogin", (req, res) => {
     const idToken = req.body.idToken.toString();
 
+    // Set session expiration to 5 days
     const expiresIn = 60 * 60 * 24 * 5 * 1000;
 
     admin
@@ -113,7 +136,7 @@ app.post("/sessionLogin", (req, res) => {
 
 app.get("/sessionLogout", (req, res) => {
     res.clearCookie("session");
-    res.redirect("/login");
+    res.redirect("/home");
 });
 
 
@@ -143,3 +166,5 @@ if (process.env.NODE_ENV == "production") {
         await setup.seedDatabase(db, true);
     });
 }
+
+
