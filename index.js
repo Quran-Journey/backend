@@ -104,8 +104,8 @@ app.get("/profile", function (req, res) {
         .auth()
         .verifySessionCookie(sessionCookie, true /** checkRevoked */)
         .then((userData) => {
-            // console.log("Logged in:", userData.email)
-            // console.log("profile-backend", userData)
+            console.log("Logged in:", userData.email)
+            console.log("profile-backend", userData)
             res.render("profile.html");
         })
         .catch((error) => {
