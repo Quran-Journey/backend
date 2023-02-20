@@ -58,7 +58,7 @@ app.use(async (req, res, next) => {
     next();
 });
 
-app.use("/test", checkAuth, testRoutes);
+app.use("/api", checkAuth, testRoutes);
 app.use("/api", lesson);
 app.use("/api", reflection);
 app.use("/api", surahInfo);

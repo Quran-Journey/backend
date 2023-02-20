@@ -17,7 +17,7 @@ const utils = require("./utils");
  *
  */
 router.get("/test", async (request, response) => {
-    res.json({
+    response.json({
         message: 'Hello World!'
     })
 });
