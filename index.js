@@ -2,7 +2,6 @@ require("dotenv");
 const https = require("https");
 const fs = require("fs");
 const express = require("express");
-// const firebase = require('firebase/app');
 const cookieParser = require("cookie-parser");
 const csrf = require("csurf");
 const auth = require('firebase/auth');
@@ -20,6 +19,7 @@ const path = require("path");
 const db = require("./model/db");
 const verseInfo = require("./routes/verseInfo");
 const tafsir = require("./routes/tafsir");
+const testRoutes = require("./routes/testRoutes");
 
 const serviceAccount = require("./serviceAccountKey.json");
 
@@ -58,8 +58,7 @@ app.use(async (req, res, next) => {
     next();
 });
 
-app.use("/test", checkAuth);
-
+app.use("/test", checkAuth, testRoutes);
 app.use("/api", lesson);
 app.use("/api", reflection);
 app.use("/api", surahInfo);
@@ -69,21 +68,15 @@ app.use("/api", word);
 app.use("/api", verseInfo);
 app.use("/api", tafsir);
 
-app.all("*", (req, res, next) => {
-    res.cookie("XSRF-TOKEN", req.csrfToken());
-    next();
-});
+// app.all("*", (req, res, next) => {
+//     res.cookie("XSRF-TOKEN", req.csrfToken());
+//     next();
+// });
 
 app.use(express.static(path.join(__dirname, "/docs")));
 app.route("/").get((req, res) => {
     res.sendFile(path.join(__dirname + "/docs/index.html"));
 });
-
-app.get('/test', (req, res) => {
-    res.json({
-        message: 'Hello World!'
-    })
-})
 
 app.get("/home", function (req, res) {
     res.render("index.html");
