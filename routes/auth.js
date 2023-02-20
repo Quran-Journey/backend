@@ -23,6 +23,22 @@ router.get("/test", async (req, res) => {
 });
 
 
+
+/*
+ * @api [get] /profile
+ *  summary: "verify session cookie"
+ *  description: "This endpoint is protected. only authorized admins can access"
+ *  tags:
+ *    - Test Endpoints
+ *  produces:
+ *    - application/json
+ *  responses:
+ *    200:
+ *      description: redirect to profile.
+ *    403:
+ *      description: redirect to login.
+ *
+ */
 router.get("/profile", function (req, res) {
     const sessionCookie = req.cookies.session || "";
 
@@ -39,6 +55,22 @@ router.get("/profile", function (req, res) {
         });
 });
 
+
+/*
+ * @api [get] /sessionLogin
+ *  summary: "create session cookie"
+ *  description: "This endpoint uses firebase to create cookies for the admin to access privliged endpoints."
+ *  tags:
+ *    - Test Endpoints
+ *  produces:
+ *    - application/json
+ *  responses:
+ *    200:
+ *      description: creates session cookie.
+ *    401:
+ *      description: UNAUTHORIZED REQUEST!
+ *
+ */
 router.post("/sessionLogin", (req, res) => {
     const idToken = req.body.idToken.toString();
 
@@ -60,6 +92,20 @@ router.post("/sessionLogin", (req, res) => {
         );
 });
 
+
+/*
+ * @api [get] /sessionLogout
+ *  summary: "clears cookies"
+ *  description: "This endpoint clears cookies, removing state history of user."
+ *  tags:
+ *    - Test Endpoints
+ *  produces:
+ *    - application/json
+ *  responses:
+ *    200:
+ *      description: redirect.
+ *
+ */
 router.get("/sessionLogout", (req, res) => {
     res.clearCookie("session");
     res.redirect("/home");
