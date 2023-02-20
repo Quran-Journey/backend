@@ -19,26 +19,14 @@ const path = require("path");
 const db = require("./model/db");
 const verseInfo = require("./routes/verseInfo");
 const tafsir = require("./routes/tafsir");
-const testRoutes = require("./routes/testRoutes");
+const authentication = require("./routes/auth");
+const { checkAuth } = require("./routes/utils");
 
 const serviceAccount = require("./serviceAccountKey.json");
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
-
-function checkAuth(req, res, next) {
-    if (req.cookies.session) {
-        admin.auth().verifySessionCookie(req.cookies.session)
-            .then(() => {
-                next();
-            }).catch(() => {
-                res.status(403).send('Unauthorized')
-            });
-    } else {
-        res.status(403).send('Unauthorized!')
-    }
-}
 
 const csrfMiddleware = csrf({ cookie: true });
 
@@ -58,7 +46,6 @@ app.use(async (req, res, next) => {
     next();
 });
 
-app.use("/api", checkAuth, testRoutes);
 app.use("/api", lesson);
 app.use("/api", reflection);
 app.use("/api", surahInfo);
@@ -67,6 +54,7 @@ app.use("/api", surah);
 app.use("/api", word);
 app.use("/api", verseInfo);
 app.use("/api", tafsir);
+app.use("/api", checkAuth, authentication);
 
 // app.all("*", (req, res, next) => {
 //     res.cookie("XSRF-TOKEN", req.csrfToken());
@@ -77,61 +65,6 @@ app.use(express.static(path.join(__dirname, "/docs")));
 app.route("/").get((req, res) => {
     res.sendFile(path.join(__dirname + "/docs/index.html"));
 });
-
-app.get("/home", function (req, res) {
-    res.render("index.html");
-});
-
-app.get("/login", function (req, res) {
-    res.render("login.html");
-});
-
-app.get("/signup", function (req, res) {
-    res.render("signup.html");
-});
-
-app.get("/profile", function (req, res) {
-    const sessionCookie = req.cookies.session || "";
-
-    admin
-        .auth()
-        .verifySessionCookie(sessionCookie, true /** checkRevoked */)
-        .then((userData) => {
-            console.log("Logged in:", userData.email)
-            console.log("profile-backend", userData)
-            res.render("profile.html");
-        })
-        .catch((error) => {
-            res.redirect("/login");
-        });
-});
-
-app.post("/sessionLogin", (req, res) => {
-    const idToken = req.body.idToken.toString();
-
-    // Set session expiration to 5 days
-    const expiresIn = 60 * 60 * 24 * 5 * 1000;
-
-    admin
-        .auth()
-        .createSessionCookie(idToken, { expiresIn })
-        .then(
-            (sessionCookie) => {
-                const options = { maxAge: expiresIn, httpOnly: true };
-                res.cookie("session", sessionCookie, options);
-                res.end(JSON.stringify({ status: "success" }));
-            },
-            (error) => {
-                res.status(401).send("UNAUTHORIZED REQUEST!");
-            }
-        );
-});
-
-app.get("/sessionLogout", (req, res) => {
-    res.clearCookie("session");
-    res.redirect("/home");
-});
-
 
 if (process.env.NODE_ENV == "production") {
     // This sets the options for https so that it finds the ssl certificates

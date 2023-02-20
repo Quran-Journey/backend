@@ -22,6 +22,20 @@ function simpleResponse(result, response) {
     return true;
 }
 
+function checkAuth(req, res, next) {
+    if (req.cookies.session) {
+        admin.auth().verifySessionCookie(req.cookies.session)
+            .then(() => {
+                next();
+            }).catch(() => {
+                res.status(403).send('Unauthorized')
+            });
+    } else {
+        res.status(403).send('Unauthorized!')
+    }
+}
+
 module.exports = {
-    simpleResponse: simpleResponse
+    simpleResponse,
+    checkAuth
 }
