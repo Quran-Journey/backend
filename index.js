@@ -13,13 +13,13 @@ const reflection = require("./routes/reflection");
 const surahInfo = require("./routes/surah-info");
 const word = require("./routes/word/main");
 const mufasir = require("./routes/mufasir");
-const quran = require("./routes/quran");
+const surah = require("./routes/surah");
 const setup = require("./tests/setup");
 const cors = require("cors");
 const path = require("path");
 const db = require("./model/db");
-const verseInfo = require("./routes/verseInfo")
-const tafsir = require("./routes/tafsir")
+const verseInfo = require("./routes/verseInfo");
+const tafsir = require("./routes/tafsir");
 
 const serviceAccount = require("./serviceAccountKey.json");
 
@@ -64,7 +64,7 @@ app.use("/api", lesson);
 app.use("/api", reflection);
 app.use("/api", surahInfo);
 app.use("/api", mufasir);
-app.use("/api", quran);
+app.use("/api", surah);
 app.use("/api", word);
 app.use("/api", verseInfo);
 app.use("/api", tafsir);

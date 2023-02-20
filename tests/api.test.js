@@ -1,12 +1,12 @@
 const lessonTests = require("./lesson/lesson-tests.js").lessonTests;
 const reflectionTests = require("./reflection-tests.js").reflectionTests;
 const surahInfoTests = require("./surah-info-tests.js").surahInfoTests;
+const surahTests = require("./surah-tests.js").surahTests;
 const mufasirTests = require("./mufasir-tests.js").mufasirTests;
 const rootTests = require("./word/word-tests.js").rootTests;
 const meaningTests = require("./word/meaning-tests.js").meaningTests;
 const integratedWordTests =
     require("./word/integrated-word-tests.js").integratedWordTests;
-const quranTests = require("./quran-tests.js").quranTests;
 const verseInfoTests = require("./verse-info-tests").verseInfoTests;
 const lessonInfoTests = require("./lesson/lesson-info-tests").lessonInfoTests;
 const verseWordTests = require("./word/verse-word-tests").verseWordTests;
@@ -19,10 +19,6 @@ describe("Set up", () => {
         let db = await utils.connect_to_db();
         await setup.seedDatabase(db);
     }, 30000);
-});
-
-describe("Test Quran Endpoints", () => {
-    quranTests();
 });
 
 describe("Test everything related to lessons", () => {
@@ -38,8 +34,9 @@ describe("Test Reflection", () => {
     reflectionTests();
 });
 
-describe("Test SurahInfo", () => {
+describe("Test Surah Related endpoints", () => {
     surahInfoTests();
+    surahTests();
 });
 
 describe("Test Mufasir", () => {
@@ -55,5 +52,4 @@ describe("Test everything related to words", () => {
 
 describe("Test Tafsir", () => {
     tafsirTests();
-})
-
+});
