@@ -18,7 +18,6 @@ const db = require("./model/db");
 const verseInfo = require("./routes/verseInfo");
 const tafsir = require("./routes/tafsir");
 const authentication = require("./routes/auth");
-const public = require("./routes/public")
 const { checkAuth } = require("./routes/utils");
 
 const csrfMiddleware = csrf({ cookie: true });
@@ -31,7 +30,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 // app.use(csrfMiddleware);
-app.engine("html", require("ejs").renderFile);
 
 
 app.use(async (req, res, next) => {
@@ -49,7 +47,6 @@ app.use("/api", word);
 app.use("/api", verseInfo);
 app.use("/api", tafsir);
 app.use("/api", checkAuth, authentication);
-app.use("/auth", public);
 
 // app.all("*", (req, res, next) => {
 //     res.cookie("XSRF-TOKEN", req.csrfToken());
