@@ -1,6 +1,20 @@
 const router = require("express").Router();
 const utils = require("./utils");
 
+// TODO: https://firebase.google.com/docs/auth/admin/custom-claims
+// 1. Create an admin(can only be done by a logged -in master admin)
+router.post("/setCustomClaims", (req,res)=>{
+
+})
+// 2. Change admin permissions
+router.post("/modifyAccess", (req,res)=>{
+
+})
+// 3. Delete an admin(can only be done by a logged -in master admin)
+router.delete("/deleteCustomClaims", (req,res)=>{
+
+})
+
 /*
  * @api [get] /test
  *  summary: "authorization test endpoint"
