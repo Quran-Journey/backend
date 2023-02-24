@@ -1,4 +1,11 @@
 const c = require("../model/utils");
+const serviceAccount = require("../serviceAccountKey.json");
+const auth = require('firebase/auth');
+const admin = require('firebase-admin');
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+});
 
 function simpleResponse(result, response) {
     // A result takes the following format: { data: d, error: msg, success: pass, ecode: code }
@@ -22,6 +29,21 @@ function simpleResponse(result, response) {
     return true;
 }
 
+function checkAuth(req, res, next) {
+    if (req.cookies.session) {
+        admin.auth().verifySessionCookie(req.cookies.session)
+            .then(() => {
+                next();
+            }).catch(() => {
+                res.status(403).send('Unauthorized')
+            });
+    } else {
+        res.status(403).send('Unauthorized!')
+    }
+}
+
 module.exports = {
-    simpleResponse: simpleResponse
+    simpleResponse,
+    checkAuth,
+    admin,
 }

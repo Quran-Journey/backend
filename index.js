@@ -2,6 +2,8 @@ require("dotenv");
 const https = require("https");
 const fs = require("fs");
 const express = require("express");
+const cookieParser = require("cookie-parser");
+const csrf = require("csurf");
 const bodyParser = require("body-parser");
 const lesson = require("./routes/lesson");
 const reflection = require("./routes/reflection");
@@ -15,13 +17,20 @@ const path = require("path");
 const db = require("./model/db");
 const verseInfo = require("./routes/verseInfo");
 const tafsir = require("./routes/tafsir");
+const authentication = require("./routes/auth");
+const { checkAuth } = require("./routes/utils");
 
-var port = 3001;
+const csrfMiddleware = csrf({ cookie: true });
+
+var port = process.env.PORT || 3001;
 
 var app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+// app.use(csrfMiddleware);
+
 
 app.use(async (req, res, next) => {
     console.log(`\nEndpoint Hit: ${req.method} ${req.originalUrl}\n`);
@@ -37,6 +46,12 @@ app.use("/api", surah);
 app.use("/api", word);
 app.use("/api", verseInfo);
 app.use("/api", tafsir);
+app.use("/api", checkAuth, authentication);
+
+// app.all("*", (req, res, next) => {
+//     res.cookie("XSRF-TOKEN", req.csrfToken());
+//     next();
+// });
 
 app.use(express.static(path.join(__dirname, "/docs")));
 app.route("/").get((req, res) => {
