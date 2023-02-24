@@ -42,73 +42,21 @@ router.get("/test", async (req, res) => {
 router.get("/profile", function (req, res) {
     const sessionCookie = req.cookies.session || "";
 
-    admin
+    utils.admin
         .auth()
         .verifySessionCookie(sessionCookie, true /** checkRevoked */)
         .then((userData) => {
             console.log("Logged in:", userData.email)
             console.log("profile-backend", userData)
             res.render("profile.html");
+            res.status(200);
+            res.json({ data: "user authorized", error: "no msg", success: "pass", ecode: 0 })
         })
         .catch((error) => {
-            res.redirect("/login");
+            res.redirect("/auth/home");
+            res.status(401);
+            res.json({ data: "access denied", error: "user failed to authorize", success: "fail", ecode: 4 })
         });
-});
-
-
-/*
- * @api [get] /sessionLogin
- *  summary: "create session cookie"
- *  description: "This endpoint uses firebase to create cookies for the admin to access privliged endpoints."
- *  tags:
- *    - Test Endpoints
- *  produces:
- *    - application/json
- *  responses:
- *    200:
- *      description: creates session cookie.
- *    401:
- *      description: UNAUTHORIZED REQUEST!
- *
- */
-router.post("/sessionLogin", (req, res) => {
-    const idToken = req.body.idToken.toString();
-
-    // Set session expiration to 5 days
-    const expiresIn = 60 * 60 * 24 * 5 * 1000;
-
-    admin
-        .auth()
-        .createSessionCookie(idToken, { expiresIn })
-        .then(
-            (sessionCookie) => {
-                const options = { maxAge: expiresIn, httpOnly: true };
-                res.cookie("session", sessionCookie, options);
-                res.end(JSON.stringify({ status: "success" }));
-            },
-            (error) => {
-                res.status(401).send("UNAUTHORIZED REQUEST!");
-            }
-        );
-});
-
-
-/*
- * @api [get] /sessionLogout
- *  summary: "clears cookies"
- *  description: "This endpoint clears cookies, removing state history of user."
- *  tags:
- *    - Test Endpoints
- *  produces:
- *    - application/json
- *  responses:
- *    200:
- *      description: redirect.
- *
- */
-router.get("/sessionLogout", (req, res) => {
-    res.clearCookie("session");
-    res.redirect("/home");
 });
 
 module.exports = router;

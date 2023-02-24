@@ -1,4 +1,11 @@
 const c = require("../model/utils");
+const serviceAccount = require("../serviceAccountKey.json");
+const auth = require('firebase/auth');
+const admin = require('firebase-admin');
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+});
 
 function simpleResponse(result, response) {
     // A result takes the following format: { data: d, error: msg, success: pass, ecode: code }
@@ -37,5 +44,6 @@ function checkAuth(req, res, next) {
 
 module.exports = {
     simpleResponse,
-    checkAuth
+    checkAuth,
+    admin,
 }
