@@ -9,9 +9,8 @@ services:
             PGDATA: pgdata
         volumes:
             - ./pgdata:/var/lib/postgresql/qj:z
-            - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql:z
-            - ./db/views.sql:/docker-entrypoint-initdb.d/views.sql:z
-            # Note that the file extensions need to be sql files, not ddl files.
+            - ./db/schema.sql:/docker-entrypoint-initdb.d/init.sql:z
+            - ./db/quran-simple.sql:/docker-entrypoint-initdb.d/quran-simple.sql:z
         command: -p 5433
         ports:
             - "5433:5432"
@@ -20,16 +19,11 @@ services:
     qj:
         build: .
         environment: 
-            NODE_ENV: development
+            NODE_ENV: staging
+            PORT: 3001
         depends_on:
             - docker_postgres
         ports:
             - "3001:3001"
-        networks:
-            - default
-    qj_html:
-        build: ./html
-        ports:
-            - "80:80"
         networks:
             - default
