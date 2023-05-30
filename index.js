@@ -84,3 +84,9 @@ if (process.env.NODE_ENV == "production") {
         await setup.seedDatabase(db, true);
     });
 }
+else if (process.env.NODE_ENV == "staging") {
+    app.listen(port, async () => {
+        // Database should be seeded externally
+        console.log("Listening on port " + port);
+    });
+}
