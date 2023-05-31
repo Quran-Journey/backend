@@ -18,9 +18,6 @@ services:
             - default
     qj:
         build: .
-        environment: 
-            NODE_ENV: staging
-            PORT: 3001
         depends_on:
             - docker_postgres
         ports:
