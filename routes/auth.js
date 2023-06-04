@@ -1,5 +1,138 @@
 const router = require("express").Router();
+const { errorEnum } = require("../model/utils");
 const utils = require("./utils");
+
+/*
+ * @api [get] /login
+ *  summary: "login test endpoint"
+ *  description: "This is endpoint to support backend login."
+ *  tags:
+ *    - Test Endpoints
+ *  produces:
+ *    - application/json
+ *
+ */
+router.get("/login", async (req, res) => {
+    const email = req.body.email;
+    const pwd = req.body.password;
+
+    utils.auth.signInWithEmailAndPassword(email, pwd)
+        .then(async ({ user }) => {
+            res.json({
+                message: `Welcome ${user.displayName}`,
+                idToken: user.accessToken,
+                user,
+            })
+        })
+})
+
+
+/*
+ * @api [post] /setCustomClaims
+ *  summary: "set admin custom claim"
+ *  description: "Create an admin(can only be done by a logged -in master admin)."
+ *  tags:
+ *    - Test Endpoints
+ *  produces:
+ *    - application/json
+ *  responses:
+ *    200:
+ *      description: successfully added to admin group.
+ *    403:
+ *      description: Error creating custom claims for user:
+ *
+ */
+router.post("/setCustomClaims", (req, res) => {
+    // Set admin privilege on the user corresponding to uid.
+    const isMaster = req.body.isMaster;
+
+    utils.admin
+        .auth()
+        .verifyIdTokenk(req.body.idToken)
+        .then((claims) => {
+            if (claims.master !== true) {
+                throw new Error('current user unauthorized to create other admin')
+            }
+        })
+        .setCustomUserClaims(req.body.uid, isMaster ? { master: true } : { admin: true })
+        .then(() => {
+            // The new custom claims will propagate to the user's ID token the
+            // next time a new one is issued.
+            currentUser.getIdToken(true)
+            res.status(200).send("successfully added to admin group")
+        })
+        .catch((error) => {
+            res.status(403).send(`Error creating custom claims for user: ${error}`)
+            console.log('Error creating custom claims for user:', error);
+        });
+})
+
+/*
+ * @api [delete] /delete
+ *  summary: "delete admin if custom claims is master"
+ *  description: "Delete an admin(can only be done by a logged -in master admin)."
+ *  tags:
+ *    - Test Endpoints
+ *  produces:
+ *    - application/json
+ *  responses:
+ *    200:
+ *      description: Successfully deleted user.
+ *    403:
+ *      description: Error deleting user: ...
+ *
+ */
+router.delete("/delete", (req, res) => {
+
+    utils.admin
+        .auth()
+        .verifyIdTokenk(req.body.idToken)
+        .then((claims) => {
+            if (claims.master !== true) {
+                throw new Error('current user unauthorized to delete other admin')
+            }
+        })
+        .deleteUser(req.body.uid)
+        .then(() => {
+            res.status(200).send("Successfully deleted user")
+            console.log('Successfully deleted user');
+        })
+        .catch((error) => {
+            res.status(403).send(`Error deleting user: ${error}`)
+            console.log('Error deleting user:', error);
+        });
+})
+
+
+/*
+ * @api [get] /verify
+ *  summary: "verify custom claims set appropriately"
+ *  description: "This is endpoint to test custom claims."
+ *  tags:
+ *    - Test Endpoints
+ *  produces:
+ *    - application/json
+ *  responses:
+ *    200:
+ *      description: user is included in admin group.
+ *    403:
+ *      description: user unable to access resource.
+ *
+ */
+router.get("/verify", (req, res) => {
+    // Set admin privilege on the user corresponding to uid.
+    utils.admin
+        .auth()
+        .verifyIdToken(req.body.idToken)
+        .then((claims) => {
+            if (claims.admin === true) {
+                // Allow access to requested admin resource.
+                res.status(200).send("user is included in admin group")
+            } else {
+                res.status(403).send("user unable to access resource")
+            }
+        });
+})
 
 /*
  * @api [get] /test

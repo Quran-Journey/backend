@@ -1,8 +1,17 @@
 const c = require("../model/utils");
 const serviceAccount = require("../serviceAccountKey.json");
-const auth = require('firebase/auth');
+const firebaseConfig = require("../firebaseConfig.json");
+// const auth = require('firebase/auth');
 const admin = require('firebase-admin');
+const firebase = require('firebase/compat/app');
+require('firebase/compat/auth')
 
+// Initialize Firebase SDK
+firebase.initializeApp(firebaseConfig);
+// Initialize Firebase Authentication and get a reference to the service
+const auth = firebase.auth();
+
+// Initialize Firebase Admin SDK
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
@@ -42,8 +51,25 @@ function checkAuth(req, res, next) {
     }
 }
 
+function createSession(idToken, expiresIn) {
+    admin
+        .auth()
+        .createSessionCookie(idToken, { expiresIn })
+        .then(
+            (sessionCookie) => {
+                const options = { maxAge: expiresIn, httpOnly: true };
+                return sessionCookie
+            },
+            (error) => {
+                return "UNAUTHORIZED REQUEST!"
+            }
+        );
+}
+
 module.exports = {
     simpleResponse,
     checkAuth,
+    createSession,
     admin,
+    auth
 }
