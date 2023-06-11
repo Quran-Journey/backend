@@ -1,8 +1,4 @@
 ### Database
-Below you can see an ERD diagram depicting the project (including other microservices).
-In green is this application... the main application. It utilizes two other microservices, the roots microservice is in blue (MVP implemented) and the tafsir microservice is in tan (currently unimplemented). 
-
-![Entity Relationship Diagram](./ERD.jpg)
 
 The database schema and views are defined in this folder.
 
