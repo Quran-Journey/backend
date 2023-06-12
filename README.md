@@ -20,10 +20,6 @@ Run the backend tests by executing `sh run_tests.sh`.
 
 Compile the documentation by executing `cd docs; sh run.sh;` Serve the docs locally using `sh serve.sh`.
 
-## High-Level Architecture 
+If you are running postgres on a local machine, please note that you will also need to configure your postgres server to use the credentials laid out in the .env file. You can find some SQL schemas and data in the `./db`. From that folder, you can also run `sh backup.sh`. This will generate an SQL dump that contains some mock data.
 
-[An image depicting the technologies used in this project.](https://user-images.githubusercontent.com/35634011/171746819-db404bc7-ed8f-4ad5-a65c-7d1d43051e62.png) 
-
-[An image depicting the relationships to other projects within the Quran Journey development scope.](https://user-images.githubusercontent.com/35634011/171746913-332d998f-88c2-4b9d-84c7-fa189e104a5e.png)
-
-[Entity Relationship Diagram for this application and other microservices](https://github.com/Quran-Journey/backend/tree/master/db#readme)
+Note: when running `docker-compose` with the `-d` flag, you can access logs using `docker-compose logs`.
