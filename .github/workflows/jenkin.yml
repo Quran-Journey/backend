@@ -1,0 +1,19 @@
+# Deploy service to server, triggerd on merge into staging branch
+name: Trigger Jenkins Deployment
+on:  
+    pull_request:    
+        branches:      
+            - staging    
+        types: [closed]
+
+jobs: 
+    Build-QJB-Jenkins:
+        runs-on: ubuntu-latest
+        steps:
+            - name: trigger QJB deploy-pipeline
+              uses: appleboy/jenkins-action@master
+              with:
+                url: "https://jenkins.offlinequran.com/"
+                user: "qj-admin"
+                token: ${{secrets.JENKINS_API_TOKEN}}
+                job: "Quran-Journey-Backend"
