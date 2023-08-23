@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const lesson = require("../model/mufasir");
+const lesson = require("../services/mufasir");
 const utils = require("./utils");
 
 /*

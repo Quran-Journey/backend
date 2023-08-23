@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const tafsir = require("../model/tafsir");
+const tafsir = require("../services/tafsir");
 const utils = require("./utils");
 
 

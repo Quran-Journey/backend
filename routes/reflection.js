@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const reflection = require("../model/reflection");
+const reflection = require("../services/reflection");
 const utils = require("./utils");
 
 /*

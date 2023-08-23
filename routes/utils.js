@@ -1,12 +1,12 @@
-const c = require("../model/utils");
-const serviceAccount = require("../serviceAccountKey.json");
-const auth = require('firebase/auth');
-const admin = require('firebase-admin');
+const c = require("../services/utils");
 
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-});
-
+/**
+ * Prepares a generic response template for all requests.
+ *
+ * @param {*} result the result of the operation conducted based on the request
+ * @param {*} response the response that will be modified and sent back to the user
+ * @returns true if successful, none otherwise.
+ */
 function simpleResponse(result, response) {
     // A result takes the following format: { data: d, error: msg, success: pass, ecode: code }
     var success = result.success;
@@ -23,27 +23,36 @@ function simpleResponse(result, response) {
     } else if (ecode == c.errorEnum.INVALID) {
         response.status(400);
     } else {
-        console.log("Could not set a valid response status.")
+        console.log("Could not set a valid response status.");
     }
-    response.json(result)
+    response.json(result);
     return true;
 }
 
-function checkAuth(req, res, next) {
-    if (req.cookies.session) {
-        admin.auth().verifySessionCookie(req.cookies.session)
-            .then(() => {
-                next();
-            }).catch(() => {
-                res.status(403).send('Unauthorized')
-            });
+/**
+ * Prepares a response template for auth requests.
+ *
+ * @param {*} result the result of the operation conducted based on the request
+ * @param {*} response the response that will be modified and sent back to the user
+ * @returns true if successful, none otherwise.
+ */
+function authResponse(result, response) {
+    // A result takes the following format: { data: d, error: msg, success: pass, ecode: code }
+    var success = result.success;
+    var ecode = result.ecode;
+
+    if (success) {
+        response.status(200);
+    } else if (ecode == c.errorEnum.UNAUTHORIZED) {
+        response.status(403);
     } else {
-        res.status(403).send('Unauthorized!')
+        console.log("Could not set a valid response status.");
     }
+    response.json(result);
+    return true;
 }
 
 module.exports = {
     simpleResponse,
-    checkAuth,
-    admin,
-}
+    authResponse,
+};

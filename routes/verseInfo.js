@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const verseInfo = require("../model/verseInfo");
+const verseInfo = require("../services/verseInfo");
 const utils = require("./utils");
 
 /*

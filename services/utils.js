@@ -7,7 +7,7 @@ const errorEnum = {
     SERVER: 2,
     DNE: 3,
     INVALID: 4,
-    FOREIGN: 5,
+    FOREIGN: 5
 };
 
 // This is a constant response return format so that all of our responses have the same format.
@@ -235,9 +235,9 @@ THE FOLLOWING FUNCTIONS IMPLEMENT THE DIFFERENT VARIATIONS OF THE CRUD OPERATION
 async function retrieve(sql, params = [], message = defaultMsg) {
     console.log(
         "-- The following query is being executed --\n sql: " +
-        sql +
-        "\n params: " +
-        params
+            sql +
+            "\n params: " +
+            params
     );
     return await db
         .query(sql, params)
@@ -270,9 +270,9 @@ async function update(sql, params = [], message = defaultMsg) {
     // Note: Should all update calls must return all columns (i.e. RETURNING *)?
     console.log(
         "-- The following query is being executed --\n sql: " +
-        sql +
-        "\n params: " +
-        params
+            sql +
+            "\n params: " +
+            params
     );
     return await db
         .query(sql, params)
@@ -304,9 +304,9 @@ async function create(sql, params = [], message = defaultMsg) {
     // Note: Should all update calls must return all columns (i.e. RETURNING *)?
     console.log(
         "-- The following query is being executed --\n sql: " +
-        sql +
-        "\n params: " +
-        params
+            sql +
+            "\n params: " +
+            params
     );
     return await db
         .query(sql, params)
@@ -372,9 +372,9 @@ async function remove(sql, params = [], message = defaultMsg) {
     // Note: Should all update calls must return all columns (i.e. RETURNING *)?
     console.log(
         "-- The following query is being executed --\n sql: " +
-        sql +
-        "\n params: " +
-        params
+            sql +
+            "\n params: " +
+            params
     );
     return await db
         .query(sql, params)
