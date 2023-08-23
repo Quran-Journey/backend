@@ -5,7 +5,7 @@ class MufasirTafsir {
     this.tafsir = tafsir;
   }
 
-  // Define your model methods here
+  // Define any model methods here
 }
 
 module.exports = Surah;

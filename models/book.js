@@ -6,7 +6,7 @@ class Book {
     this.title = title;
   }
 
-  // Define your model methods here
+  // Define any model methods here
 }
 
 module.exports = Book;

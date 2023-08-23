@@ -8,7 +8,7 @@ class VerseWord {
     this.wordExplanation = wordExplanation;
   }
 
-  // Define your model methods here
+  // Define any model methods here
 }
 
 module.exports = VerseWord;

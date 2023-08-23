@@ -7,7 +7,7 @@ class Verse {
     this.verseText = verseText;
   }
 
-  // Define your model methods here
+  // Define any model methods here
 }
 
 module.exports = Verse;

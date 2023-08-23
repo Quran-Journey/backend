@@ -8,7 +8,7 @@ class Tafsir {
     this.visible = visible;
   }
 
-  // Define your model methods here
+  // Define any model methods here
 }
 
 module.exports = Tafsir;

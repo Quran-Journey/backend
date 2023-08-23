@@ -5,7 +5,7 @@ class RootWord {
     this.rootWord = rootWord;
   }
 
-  // Define your model methods here
+  // Define any model methods here
 }
 
 module.exports = RootWord;

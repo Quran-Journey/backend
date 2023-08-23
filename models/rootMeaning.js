@@ -6,7 +6,7 @@ class RootMeaning {
     this.meaning = meaning;
   }
 
-  // Define your model methods here
+  // Define any model methods here
 }
 
 module.exports = RootMeaning;

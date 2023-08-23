@@ -7,7 +7,7 @@ class SurahInfo {
     this.info = info;
   }
 
-  // Define your model methods here
+  // Define any model methods here
 }
 
 module.exports = SurahInfo;

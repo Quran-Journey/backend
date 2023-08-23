@@ -6,7 +6,7 @@ class ArabicWord {
     this.rootId = rootId;
   }
 
-  // Define your model methods here
+  // Define any model methods here
 }
 
 module.exports = ArabicWord;
