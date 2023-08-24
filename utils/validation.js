@@ -1,12 +1,35 @@
-// This is a constant response return format so that all of our responses have the same format.
-function setResult(d, pass, msg, code) {
-    console.log(msg);
-    return { data: d, success: pass, error: msg, ecode: code };
+const { Errors, Messages } = require("./constants");
+
+class Result {
+    /**
+     * This is a constant response return format so that all of our responses have the same format.
+     *
+     * @param {Object} d the data that is to be returned to the user
+     * @param {boolean} pass Whether other not the request passed successfully
+     * @param {string} msg
+     * @param {integer} code
+     * @returns
+     */
+    constructor(options) {
+        console.log(msg);
+        this.data = options.data || {};
+        this.success = options.success || true;
+        this.msg = options.msg || new Messages().default;
+        this.code = options.code || Errors.NONE;
+    }
 }
 
-/** Simply prepare an response for invalid inputs */
-function returnInvalid(msg) {
-    return setResult({}, false, msg, utils.Errors.DB_INVALID);
+/**
+ * This is a constant response return format so that all of our responses have the same format.
+ *
+ * @param {Object} d the data that is to be returned to the user
+ * @param {boolean} pass Whether other not the request passed successfully
+ * @param {string} msg
+ * @param {integer} code
+ * @returns
+ */
+function setResult(d, pass, msg, code) {
+    return { data: d, success: pass, msg: msg, code: code };
 }
 
 /**
@@ -16,21 +39,21 @@ function returnInvalid(msg) {
 function checkEmptyBody(data) {
     var keys = Object.keys(data);
     if (keys.length == 0) {
-        return setResult(
-            {},
-            false,
-            "Request data is empty.",
-            Errors.DB_INVALID
-        );
+        return new Result({
+            data: {},
+            success: false,
+            msg: "Request data is empty.",
+            code: Errors.INVALID_REQUEST,
+        });
     }
     for (var i = 0; i < keys.length; i++) {
         if (!keys[i]) {
-            return setResult(
-                data,
-                false,
-                "data is missing atleast one key, value pair.",
-                Errors.DB_INVALID
-            );
+            return new Result({
+                data: data,
+                success: false,
+                msg: "data is missing atleast one key, value pair.",
+                code: Errors.INVALID_REQUEST,
+            });
         }
     }
     return;
@@ -62,12 +85,12 @@ function checkBodyTypes(data, required) {
         var type = required[key];
         var value = data[key];
         if (value == undefined) {
-            return setResult(
-                data,
-                false,
-                "Undefined value set for: " + key,
-                Errors.DB_INVALID
-            );
+            return new Result({
+                data: data,
+                success: false,
+                msg: "Undefined value set for: " + key,
+                code: Errors.INVALID_REQUEST,
+            });
         }
         if (
             dataTypeRegex[type] &&
@@ -75,12 +98,12 @@ function checkBodyTypes(data, required) {
             !dataTypeRegex[type].test(value)
         ) {
             // If the regex test fails, this implies that the formatting is incorrect.
-            return setResult(
-                data,
-                false,
-                "Invalid value set for: " + key,
-                Errors.DB_INVALID
-            );
+            return new Result({
+                data: data,
+                success: false,
+                msg: "Invalid value set for: " + key,
+                code: Errors.INVALID_REQUEST,
+            });
         }
     }
     return;
@@ -103,12 +126,12 @@ function checkBodyKeys(data, required, p = true) {
                     "Invalid: data is missing the key: " + requiredKeys[i]
                 );
             }
-            return setResult(
-                data,
-                false,
-                "data is missing the key: " + requiredKeys[i],
-                Errors.DB_INVALID
-            );
+            return new Result({
+                data: data,
+                success: false,
+                msg: "data is missing the key: " + requiredKeys[i],
+                code: Errors.DB_INVALID,
+            });
         }
     }
     return;
@@ -143,7 +166,6 @@ function simpleValidation(data, required, p = true) {
 }
 
 module.exports = {
-    returnInvalid: returnInvalid,
-    setResult: setResult,
-    simpleValidation: simpleValidation,
+    Result,
+    simpleValidation,
 };

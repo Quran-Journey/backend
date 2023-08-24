@@ -49,7 +49,7 @@ async function linkVerseToWord(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully linked a verse with id ${data.verse_id} to word with id ${data.word_id}.`,
+            success: `Successfully linked a verse with id ${data.verse_id} to word with id ${data.word_id}.`,
         })
     );
 }
@@ -67,7 +67,7 @@ async function getVerseWordById(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully fetched verse word with id ${data.verse_word_id}.`,
+            success: `Successfully fetched verse word with id ${data.verse_word_id}.`,
         })
     );
 }
@@ -97,7 +97,7 @@ async function updateVerseWord(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully update VerseWord with id ${data.verse_word_id}.`,
+            success: `Successfully update VerseWord with id ${data.verse_word_id}.`,
             dbNotFound: `Could not find a VerseWord with id ${data.verse_word_id}.`,
         })
     );
@@ -117,7 +117,7 @@ async function deleteVerseWord(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully deleted VerseWord with id ${data.verse_word_id}.`,
+            success: `Successfully deleted VerseWord with id ${data.verse_word_id}.`,
             dbNotFound: `Could not find a VerseWord with id ${data.verse_word_id}.`,
         })
     );

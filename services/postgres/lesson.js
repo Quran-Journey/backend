@@ -1,5 +1,5 @@
 const postgres = require("./postgres");
-const validate = require("../../utils/validation");
+const { Result, simpleValidation } = require("../../utils/validation");
 const constants = require("../../utils/constants");
 const verseInfo = require("./verseInfo");
 
@@ -82,7 +82,7 @@ const attributes = {
 async function createLesson(data) {
     // Frontend note: also add a feature where we guess that the
     //  lesson's date is the next saturday after the last lesson's date
-    var invalid = validate.simpleValidation(data, {
+    var invalid = simpleValidation(data, {
         lesson_date: "date",
         source: "string",
         surah_id: "string",
@@ -103,7 +103,7 @@ async function createLesson(data) {
     return await utils.create(
         sql,
         params,
-        new constants.Messages({ dbSuccess: "Successfully created a lesson." })
+        new constants.Messages({ success: "Successfully created a lesson." })
     );
 }
 
@@ -114,7 +114,7 @@ async function createLesson(data) {
  *  Value is the value we are filtering by.
  */
 async function filterLessons(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = simpleValidation(data, {
         property: "string",
         operator: "string",
     });
@@ -124,17 +124,20 @@ async function filterLessons(data) {
             `SELECT * FROM Lesson ${pagination};`,
             [],
             new constants.Messages({
-                dbSuccess: `Fetched all lessons since no query was properly defined.`,
+                success: `Fetched all lessons since no query was properly defined.`,
             })
         );
     } else {
         if (!Object.keys(attributes).includes(data.property)) {
             // This check is done to avoid SQL injection.
-            return utils.returnInvalid(
-                `${property} is not an attribute of the Lesson type.`
-            );
+            return new Result({
+                data: {},
+                success: false,
+                msg: `${property} is not an attribute of the Lesson type.`,
+                code: Errors.DB_INVALID,
+            });
         }
-        invalid = validate.simpleValidation(data, {
+        invalid = simpleValidation(data, {
             value: attributes[data.property],
         });
         if (invalid) {
@@ -147,16 +150,19 @@ async function filterLessons(data) {
             sql = sql + `${op}$1 ${pagination};`;
         } else {
             // If the operator is invalid, then we must notify the client.
-            utils.returnInvalid(
-                `Operator was not set correctly. Operator must be one of: eq, gt, lt, gte, or lte.`
-            );
+            return new Result({
+                data: {},
+                success: false,
+                msg: `Operator was not set correctly. Operator must be one of: eq, gt, lt, gte, or lte.`,
+                code: Errors.DB_INVALID,
+            });
         }
         var params = [data.value];
         return await utils.retrieve(
             sql,
             params,
             new constants.Messages({
-                dbSuccess: `Successfully fetched lessons based on filter ${data.property} ${op} ${data.value}.`,
+                success: `Successfully fetched lessons based on filter ${data.property} ${op} ${data.value}.`,
             })
         );
     }
@@ -164,7 +170,7 @@ async function filterLessons(data) {
 
 /** Fetches lessons based on a specific filter (i.e. id, date) */
 async function getLessonById(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = simpleValidation(data, {
         lesson_id: "integer",
     });
     if (invalid) {
@@ -176,7 +182,7 @@ async function getLessonById(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully fetched lesson with id ${data.lesson_id}.`,
+            success: `Successfully fetched lesson with id ${data.lesson_id}.`,
         })
     );
 }
@@ -196,9 +202,9 @@ async function getLessonVerses(data) {
     for (let i = 0; i <= num_verses; i++) {
         let temp = await verseInfo.getVerseInfo({ verse_id: currentVerse });
         lesson_content[i] = temp.data;
-        if (temp.ecode != utils.Errors.NONE) {
+        if (temp.code != utils.Errors.NONE) {
             errors.push(
-                `Error on verse with id ${temp.data.verse_index}: ${temp.error}`
+                `Error on verse with id ${temp.data.verse_index}: ${temp.msg}`
             );
         }
         currentVerse++;
@@ -206,19 +212,18 @@ async function getLessonVerses(data) {
     if (errors.length == 0) {
         errors = "Successfully fetched complete lesson info";
     }
-
-    let res = utils.setResult(
-        { ...lesson.data[0], num_verses, lesson_content },
-        lesson.success,
-        errors,
-        lesson.ecode
-    );
+    let res = new Result({
+        data: { ...lesson.data[0], num_verses, lesson_content },
+        success: lesson.success,
+        msg: errors,
+        code: lesson.code,
+    });
     return res;
 }
 
 /** Update a lesson, requires all attributes of the lesson. */
 async function updateLesson(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = simpleValidation(data, {
         lesson_id: "integer",
         lesson_date: "date",
         source: "string",
@@ -241,7 +246,7 @@ async function updateLesson(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully update lesson with id ${data.lesson_id}.`,
+            success: `Successfully update lesson with id ${data.lesson_id}.`,
             dbNotFound: `Could not find a lesson with id ${data.lesson_id}.`,
         })
     );
@@ -249,7 +254,7 @@ async function updateLesson(data) {
 
 /** Update a lesson, requires all attributes of the lesson. */
 async function deleteLesson(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = simpleValidation(data, {
         lesson_id: "integer",
     });
     if (invalid) {
@@ -261,7 +266,7 @@ async function deleteLesson(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully deleted lesson with id ${data.lesson_id}.`,
+            success: `Successfully deleted lesson with id ${data.lesson_id}.`,
             dbNotFound: `Could not find a lesson with id ${data.lesson_id}.`,
         })
     );

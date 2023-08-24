@@ -1,12 +1,13 @@
-const db = require("./connect");
+const db = require("../postgres/connect");
 const fs = require("fs");
 require("dotenv");
-const { setResult, Errors } = require("./postgres");
+const { Result } = require("../../utils/validation");
+const { Errors } = require("../../utils/constants");
 
 /* 
 NOTE: Only needs to be executed when db is being initialized.
 INSTRUCTIONS: 
-1. copy .env file into models directory (if not there)
+1. copy .env file into services/selenium directory (if not there)
 2. the usual docker stuff (run code inside db directory)
     a. 'docker-compose up'
 3. make sure to run insert_data.py (give it some time)
@@ -42,18 +43,18 @@ async function retrieve(relation_name, message = "defaultMsg") {
         .query(sql, params)
         .then((result) => {
             if (result.rows[0] == null) {
-                return setResult([], false, message.none, Errors.DNE);
+                return new Result({data: [], success: false, msg: message.none, code: Errors.DB_DNE});
             }
-            return setResult(
-                result.rows,
-                true,
-                "Successfully fetched rows.\n",
-                Errors.NONE
-            );
+            return new Result({
+                data: result.rows,
+                success: true,
+                msg: "Successfully fetched rows.\n",
+                code: Errors.NONE
+            });
         })
         .catch((e) => {
             console.log("\nERROR!\n", e);
-            return setResult([], false, "An error occured in the PSQL server.", Errors.SERVER);
+            return new Result({data: [], succes: false, msg: "An error occured in the PSQL server.", code: Errors.DB_SERVER});
         });
 }
 

@@ -1,2 +1,3 @@
-### Quran Journey routes
-This folder will contain all of the api routes that we will be creating.
+# Routes
+
+This folder contains the api routes specific to this project. `index.js` contains all of the routes 

@@ -27,7 +27,7 @@ const utils = require("../utils");
  */
 router.get("/root/:root_id", async (request, response) => {
     await root.getrootWordById(request.params).then(async function (result) {
-        return utils.simpleResponse(result, response);
+        return response.simpleResponse(result, response);
     });
 });
 
@@ -61,7 +61,7 @@ router.get("/root/:root_id", async (request, response) => {
  */
 router.post("/root", async (request, response) => {
     await root.createrootWord(request.body).then(async function (result) {
-        return utils.simpleResponse(result, response);
+        return response.simpleResponse(result, response);
     });
 });
 
@@ -88,7 +88,7 @@ router.post("/root", async (request, response) => {
  */
 router.patch("/root", async (request, response) => {
     await root.updaterootWord(request.body).then(async function (result) {
-        return utils.simpleResponse(result, response);
+        return response.simpleResponse(result, response);
     });
 });
 
@@ -117,7 +117,7 @@ router.patch("/root", async (request, response) => {
  */
 router.delete("/root/:root_id", async (request, response) => {
     await root.deleterootWord(request.params).then(async function (result) {
-        return utils.simpleResponse(result, response);
+        return response.simpleResponse(result, response);
     });
 });
 
@@ -139,7 +139,7 @@ router.delete("/root/:root_id", async (request, response) => {
  */
 router.get("/roots", async (request, response) => {
     await root.getAllrootWords().then(async function (result) {
-        return utils.simpleResponse(result, response);
+        return response.simpleResponse(result, response);
     });
 });
 

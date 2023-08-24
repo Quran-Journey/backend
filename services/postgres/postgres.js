@@ -1,5 +1,6 @@
 const db = require("./connect");
-const {Errors, Messages} = require("../../utils/constants")
+const { Errors, Messages } = require("../../utils/constants");
+const { Result } = require("../../utils/validation");
 
 const defaultMsg = new Messages({});
 
@@ -40,9 +41,12 @@ function paginate(data) {
         return "";
     }
     if (isNaN(page) || isNaN(results_per_page)) {
-        return returnInvalid(
-            `Invalid value for pagination. Either "page" or "results_per_page" is not a number.`
-        );
+        return new Result({
+            data: [],
+            success: false,
+            msg: `Invalid value for pagination. Either "page" or "results_per_page" is not a number.`,
+            code: Errors.INVALID_REQUEST,
+        });
     }
     return `LIMIT ${results_per_page} OFFSET ${page * results_per_page};s`;
 }
@@ -76,18 +80,28 @@ async function retrieve(sql, params = [], message = defaultMsg) {
         .query(sql, params)
         .then((result) => {
             if (result.rows[0] == null) {
-                return setResult([], false, message.notFound, Errors.DB_DNE);
+                return new Result({
+                    data: [],
+                    success: false,
+                    msg: message.dbNotFound,
+                    code: Errors.DB_DNE,
+                });
             }
-            return setResult(
-                result.rows,
-                true,
-                message.fetched,
-                Errors.DB_NONE
-            );
+            return new Result({
+                data: result.rows,
+                success: true,
+                msg: message.success,
+                code: Errors.NONE,
+            });
         })
         .catch((e) => {
-            console.log("\nERROR!\n", e);
-            return setResult([], false, message.server, Errors.DB_SERVER);
+            console.log("\nError while fetching!\n", e);
+            return new Result({
+                data: [],
+                success: false,
+                msg: message.dbServer,
+                code: Errors.DB_SERVER,
+            });
         });
 }
 
@@ -111,18 +125,22 @@ async function update(sql, params = [], message = defaultMsg) {
         .query(sql, params)
         .then((result) => {
             if (result.rows[0] == null) {
-                return setResult({}, false, message.notFound, Errors.DB_DNE);
+                return new Result({
+                    data: result.rows,
+                    success: true,
+                    msg: message.success,
+                    code: Errors.NONE,
+                });
             }
-            return setResult(
-                result.rows,
-                true,
-                message.fetched,
-                Errors.DB_NONE
-            );
         })
         .catch((e) => {
-            console.log("\nUpdate error!\n", e);
-            return setResult({}, false, message.server, Errors.DB_SERVER);
+            console.log("\nError while updating!\n", e);
+            return new Result({
+                data: [],
+                success: false,
+                msg: message.dbServer,
+                code: Errors.DB_SERVER,
+            });
         });
 }
 
@@ -147,48 +165,63 @@ async function create(sql, params = [], message = defaultMsg) {
             if (result.rows[0] == null) {
                 // Items were not inserted, but an error was not raised. Be confused.
                 console.log("\n!Nothing was inserted!\n");
-                return setResult({}, false, message.notFound, Errors.DB_DNE);
+                return new Result({
+                    data: {},
+                    success: false,
+                    msg: message.dbNotFound,
+                    code: Errors.DB_DNE,
+                });
             }
             // Succesfully inserted items.
             console.log("\nSuccess!\n");
-            return setResult(
-                result.rows,
-                true,
-                message.fetched,
-                Errors.DB_NONE
-            );
+            return new Result({
+                data: result.rows,
+                success: true,
+                msg: message.success,
+                code: Errors.NONE,
+            });
         })
         .catch((e) => {
             if (e.code == "23505") {
                 // This implies we are inserting something that violates a unique key constraint
                 console.log("\n!Creation Failure: Duplicate!\n");
-                return setResult(
-                    {},
-                    false,
-                    message.duplicate,
-                    Errors.DB_UNIQUE
-                );
+                return new Result({
+                    data: {},
+                    success: false,
+                    msg: message.dbDuplicate,
+                    code: Errors.DB_UNIQUE,
+                });
             }
             if (e.code == "42601") {
                 // This implies we are inserting something that violates a unique key constraint
                 console.log(
                     "\n!Creation Failure: Improper number of parameters passed in!\n"
                 );
-                return setResult(
-                    {},
-                    false,
-                    "Improper number of parameters passed in.",
-                    Errors.DB_INVALID
-                );
+                return new Result({
+                    data: {},
+                    success: false,
+                    msg: message.invalidParams,
+                    code: Errors.DB_INVALID,
+                });
             }
             if (e.code == "23503") {
                 // This implies we are inserting something that violates a unique key constraint
                 console.log("\n!Creation Failure: Foreign Key Constraints!\n");
-                return setResult({}, false, message.foreign, Errors.DB_FOREIGN);
+                return new Result({
+                    data: {},
+                    success: false,
+                    msg: message.dbForeign,
+                    code: Errors.DB_FOREIGN,
+                });
             }
             // There was an uncaught error due to our query.
-            console.log("\n!Creation error!\n", message.server, e);
-            return setResult({}, false, message.server, Errors.DB_SERVER);
+            console.log("\nError during creation!\n", message.dbServer, e);
+            return new Result({
+                data: {},
+                success: false,
+                msg: message.dbServer,
+                code: Errors.DB_SERVER,
+            });
         });
 }
 
@@ -213,18 +246,28 @@ async function remove(sql, params = [], message = defaultMsg) {
         .query(sql, params)
         .then((result) => {
             if (result.rows[0] == null) {
-                return setResult({}, false, message.notFound, Errors.DB_DNE);
+                return new Result({
+                    data: {},
+                    success: false,
+                    msg: message.dbNotFound,
+                    code: Errors.DB_DNE,
+                });
             }
-            return setResult(
-                result.rows,
-                true,
-                message.fetched,
-                Errors.DB_NONE
-            );
+            return new Result({
+                data: result.rows,
+                success: true,
+                msg: message.success,
+                code: Errors.NONE,
+            });
         })
         .catch((e) => {
-            console.log("\n!Deletion error!\n", message.server, e);
-            return setResult({}, false, message.server, Errors.DB_SERVER);
+            console.log("\n!Deletion error!\n", message.dbServer, e);
+            return new Result({
+                data: {},
+                success: false,
+                msg: message.dbServer,
+                code: Errors.DB_SERVER,
+            });
         });
 }
 

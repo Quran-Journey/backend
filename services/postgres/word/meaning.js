@@ -1,4 +1,4 @@
-const utils = require("../utils");
+const { Result, simpleValidation } = require("../../../utils/validation");
 const root = require("./root");
 
 /**
@@ -63,7 +63,7 @@ const root = require("./root");
 
 // To be used when adding the different meanings to the sentences.
 async function getRootWordMeanings(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = simpleValidation(data, {
         root_id: "integer",
     });
     if (invalid) {
@@ -71,18 +71,18 @@ async function getRootWordMeanings(data) {
     }
     let sql = "SELECT * FROM RootMeaning WHERE root_id=$1;";
     var params = [data.root_id];
-    return await utils.retrieve(
+    return await validate.retrieve(
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully fetched roots for verse with id ${data.verse_id}.`,
+            success: `Successfully fetched roots for verse with id ${data.verse_id}.`,
         })
     );
 }
 
 async function getVerseRootWordsSentences(data) {
     var all_roots = await root.getVerseRootWords(data);
-    let msg = all_roots.error;
+    let msg = all_roots.msg;
     let root, word, rootmeanings, sentence;
     if (all_roots.success) {
         for (let item of all_roots.data) {
@@ -96,12 +96,12 @@ async function getVerseRootWordsSentences(data) {
         }
         msg = `Successfully retreived sentences for each word in verse with id ${data.verse_id}`;
     }
-    return utils.setResult(
-        all_roots.data,
-        all_roots.success,
-        msg,
-        all_roots.ecode
-    );
+    return new Result({
+        data: all_roots.data,
+        success: all_roots.success,
+        msg: msg,
+        code: all_roots.code
+    });
 }
 
 async function stringifyMeanings(root) {
@@ -116,7 +116,7 @@ async function stringifyMeanings(root) {
 }
 
 async function getMeaning(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = simpleValidation(data, {
         meaning_id: "integer",
     });
     if (invalid) {
@@ -124,18 +124,18 @@ async function getMeaning(data) {
     }
     var sql = "SELECT * FROM RootMeaning WHERE meaning_id=$1;";
     var params = [data.meaning_id];
-    return await utils.create(
+    return await validate.create(
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully fetched a meaning with id ${data.meaning_id}.`,
+            success: `Successfully fetched a meaning with id ${data.meaning_id}.`,
             dbNotFound: `Could not find root meaning with id ${data.meaning_id}.`,
         })
     );
 }
 
 async function addMeaning(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = simpleValidation(data, {
         root_id: "integer",
         meaning: "string",
     });
@@ -145,17 +145,17 @@ async function addMeaning(data) {
     var sql =
         "INSERT INTO RootMeaning (root_id, meaning) VALUES ($1, $2) RETURNING *;";
     var params = [data.root_id, data.meaning];
-    return await utils.create(
+    return await validate.create(
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully added a meaning to root word with id ${data.root_id}.`,
+            success: `Successfully added a meaning to root word with id ${data.root_id}.`,
         })
     );
 }
 
 async function editMeaning(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = simpleValidation(data, {
         meaning_id: "integer",
         root_id: "integer",
         meaning: "string",
@@ -166,18 +166,18 @@ async function editMeaning(data) {
     var sql =
         "UPDATE RootMeaning SET meaning=$2, root_id=$3 WHERE meaning_id=$1 RETURNING *;";
     var params = [data.meaning_id, data.meaning, data.root_id];
-    return await utils.create(
+    return await validate.create(
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully edited meaning with id ${data.meaning_id}.`,
+            success: `Successfully edited meaning with id ${data.meaning_id}.`,
             dbNotFound: `Could not find a meaning with id ${data.meaning_id}.`,
         })
     );
 }
 
 async function deleteMeaning(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = simpleValidation(data, {
         meaning_id: "integer",
     });
     if (invalid) {
@@ -185,11 +185,11 @@ async function deleteMeaning(data) {
     }
     var sql = "DELETE FROM RootMeaning WHERE meaning_id=$1 RETURNING *;";
     var params = [data.meaning_id];
-    return await utils.create(
+    return await validate.create(
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully deleted meaning with id ${data.meaning_id}.`,
+            success: `Successfully deleted meaning with id ${data.meaning_id}.`,
             dbNotFound: `Could not find meaning with id ${data.meaning_id}.`,
         })
     );

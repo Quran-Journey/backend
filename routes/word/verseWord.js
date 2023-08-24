@@ -29,7 +29,7 @@ router.get("/verse/:verse_word_id", async (request, response) => {
     await verseWord
         .getVerseWordById(request.params)
         .then(async function (result) {
-            return utils.simpleResponse(result, response);
+            return response.simpleResponse(result, response);
         });
 });
 
@@ -75,7 +75,7 @@ router.get("/verse/:verse_word_id", async (request, response) => {
  */
 router.post("/verse", async (request, response) => {
     await verseWord.linkVerseToWord(request.body).then(async function (result) {
-        return utils.simpleResponse(result, response);
+        return response.simpleResponse(result, response);
     });
 });
 
@@ -102,7 +102,7 @@ router.post("/verse", async (request, response) => {
  */
 router.patch("/verse", async (request, response) => {
     await verseWord.updateVerseWord(request.body).then(async function (result) {
-        return utils.simpleResponse(result, response);
+        return response.simpleResponse(result, response);
     });
 });
 
@@ -132,7 +132,7 @@ router.delete("/verse/:verse_word_id", async (request, response) => {
     await verseWord
         .deleteVerseWord(request.params)
         .then(async function (result) {
-            return utils.simpleResponse(result, response);
+            return response.simpleResponse(result, response);
         });
 });
 

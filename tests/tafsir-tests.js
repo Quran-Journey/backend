@@ -52,7 +52,7 @@ function tafsirTests() {
         expect(res.data.success).toEqual(true)
 
         let res2 = await apiGET(`/tafsir/1`)
-        expect(res2.data.ecode).toEqual(3)
+        expect(res2.data.code).toEqual(3)
         expect(res2.data.success).toEqual(false)
 
         //to make sure future tests have complete seedData

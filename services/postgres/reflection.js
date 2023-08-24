@@ -45,7 +45,7 @@ async function createReflection(data) {
     return await utils.create(
         sql_reflec,
         params,
-        new constants.Messages({ dbSuccess: "Successfully created a reflection." })
+        new constants.Messages({ success: "Successfully created a reflection." })
     );
 }
 
@@ -55,7 +55,7 @@ async function getAllReflections() {
         sql,
         [],
         new constants.Messages({
-            dbSuccess: `Successfully fetched reflections.`,
+            success: `Successfully fetched reflections.`,
         })
     );
 }
@@ -74,7 +74,7 @@ async function getReflectionById(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully fetched reflection with id ${data.reflection_id}.`,
+            success: `Successfully fetched reflection with id ${data.reflection_id}.`,
         })
     );
 }
@@ -94,7 +94,7 @@ async function getReflectionBySurahVerseId(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully fetched reflection by verse id ${data.verse_id} and surah id ${data.surah_id}.`
+            success: `Successfully fetched reflection by verse id ${data.verse_id} and surah id ${data.surah_id}.`
         })
     );
 }
@@ -116,7 +116,7 @@ async function updateReflection(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully update reflection with id ${data.reflection_id}.`,
+            success: `Successfully update reflection with id ${data.reflection_id}.`,
             dbNotFound: `Could not find a reflection with id ${data.reflection_id}.`,
         })
     );
@@ -136,7 +136,7 @@ async function deleteReflection(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully deleted reflection with id ${data.reflection_id}.`,
+            success: `Successfully deleted reflection with id ${data.reflection_id}.`,
             dbNotFound: `Could not find a reflection with id ${data.reflection_id}.`,
         })
     );

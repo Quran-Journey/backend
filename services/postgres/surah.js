@@ -24,7 +24,7 @@ async function getSurahById(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully fetched Surah with id ${data.surah_id}.`,
+            success: `Successfully fetched Surah with id ${data.surah_id}.`,
             dbNotFound: `Could not find a Surah with id ${data.surah_id}.`,
         })
     );
@@ -53,7 +53,7 @@ async function updateSurah(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully update Surah with id ${data.surah_id}.`,
+            success: `Successfully update Surah with id ${data.surah_id}.`,
             dbNotFound: `Could not find a Surah with id ${data.surah_id}.`,
         })
     );
@@ -91,7 +91,7 @@ async function getSurahs() {
         sql,
         [],
         new constants.Messages({
-            dbSuccess: `Successfully fetched all surahs.`,
+            success: `Successfully fetched all surahs.`,
         })
     );
 }
@@ -135,7 +135,7 @@ async function getSurahVerses(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully fetched verses for sura number ${data.surah_id}.`,
+            success: `Successfully fetched verses for sura number ${data.surah_id}.`,
         })
     );
     if (verses.data.length > 0) {
@@ -157,7 +157,7 @@ async function getSurahLessons(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully fetched verses for sura number ${data.surah_id}.`,
+            success: `Successfully fetched verses for sura number ${data.surah_id}.`,
         })
     );
     if (verses.data.length > 0) {

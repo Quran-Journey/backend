@@ -36,7 +36,7 @@ async function getMufasir(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully fetched mufasir with ID ${data.mufasir_id}.`,
+            success: `Successfully fetched mufasir with ID ${data.mufasir_id}.`,
         })
     );
 }
@@ -48,7 +48,7 @@ async function getMufasireen() {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully fetched all mufasireen.`,
+            success: `Successfully fetched all mufasireen.`,
         })
     );
 }
@@ -68,7 +68,7 @@ async function addMufasir(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully created mufasir.`,
+            success: `Successfully created mufasir.`,
         })
     );
 }
@@ -89,7 +89,7 @@ async function updateMufasir(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully updated mufasir with id ${data.mufasir_id}.`,
+            success: `Successfully updated mufasir with id ${data.mufasir_id}.`,
         })
     );
 }
@@ -107,7 +107,7 @@ async function deleteMufasir(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully updated mufasir with id ${data.mufasir_id}.`,
+            success: `Successfully updated mufasir with id ${data.mufasir_id}.`,
         })
     );
 }

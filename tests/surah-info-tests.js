@@ -65,7 +65,7 @@ function surahInfoTests() {
         expect(resp1.data.success).toEqual(true);
 
         let resp2 = await apiGET(`/surah/info?surah_info_id=1`);
-        expect(resp2.data.ecode).toEqual(3); // Ecode 3 implies None found (i.e. DNE)
+        expect(resp2.data.code).toEqual(3); // code 3 implies None found (i.e. DNE)
         expect(resp2.data.success).toEqual(false);
     });
 }

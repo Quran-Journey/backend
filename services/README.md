@@ -1,2 +1,10 @@
-### MODEL
-This folder contains all of the logic that's needed to interact with the model (in this case, the database). We have a module named constants that handles all necessary database interactions. This module should be imported into all modules that require database interaction. The db module is used to connect to the database.
+# Services
+This folder hosts all of the code that interacts with the different services that we use.
+
+## Current services
+
+### Firebase
+Primarily used for authentication, we connect to a firebase account and use `firebase-admin` to verify user credentials.
+
+### Postgres
+We use the `postgres` folder to interact with the tables in the database. Services should make use of models to structure data pulled from the database.

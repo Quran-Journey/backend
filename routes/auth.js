@@ -1,9 +1,12 @@
+/**
+ * Contains routes specific to authentication (authorization is handled in middleware)
+ */
 const router = require("express").Router();
-const user = require("../../services/postgres/auth");
-const utils = require("../utils");
+const FireBaseAuthService = require("../services/firebase/auth");
+const response = require("../utils/responses");
 
 /*
- * @api [get] /sessionLogin
+ * @api [get] /login
  *  summary: "create session cookie"
  *  description: "This endpoint uses firebase to create cookies for the admin to access privliged endpoints."
  *  tags:
@@ -20,12 +23,11 @@ const utils = require("../utils");
 router.post("/login", async (req, res) => {
     const idToken = req.body.idToken.toString();
     // Set session expiration to 5 days
-    const expiresIn = 60 * 60 * 24 * 5 * 1000;
-    const options = { maxAge: expiresIn, httpOnly: true };
 
-    user.login.then(
+    FireBaseAuthService.authenticate(idToken).then(
         (sessionCookie) => {
-            res.cookie("session", sessionCookie, options);
+            res.cookie("session", sessionCookie, FireBaseAuthService.OPTIONS);
+            
             res.end(JSON.stringify({ status: "success" }));
         },
         (error) => {
@@ -35,9 +37,9 @@ router.post("/login", async (req, res) => {
 });
 
 /*
- * @api [get] /sessionLogout
- *  summary: "clears cookies"
- *  description: "This endpoint clears cookies, removing state history of user."
+ * @api [get] /logout
+ *  summary: "clears session cookies"
+ *  description: "This endpoint clears session cookies, removing state history of user."
  *  tags:
  *    - Test Endpoints
  *  produces:
@@ -49,13 +51,8 @@ router.post("/login", async (req, res) => {
  */
 router.get("/logout", (req, res) => {
     res.clearCookie("session");
-    res.status(200);
-    res.json({
-        data: "User Logout Successful",
-        error: "",
-        success: "Pass",
-        ecode: 0,
-    });
+    res.status(302).redirect("offlinequran.com"); // TODO: This should not be hardcoded
+    response.authResponse();
 });
 
 module.exports = router;

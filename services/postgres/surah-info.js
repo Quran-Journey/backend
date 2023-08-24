@@ -36,7 +36,7 @@ async function getSurahInfo(data) {
     if (data.surah_info_id != undefined) {
         result = await getSurahInfoBySurahInfoID(data);
     }
-    return result;
+    return new Result;
 }
 
 async function getSurahInfoBySurahInfoID(data) {
@@ -52,7 +52,7 @@ async function getSurahInfoBySurahInfoID(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully fetched surah info with id ${data.surah_info_id}.`,
+            success: `Successfully fetched surah info with id ${data.surah_info_id}.`,
         })
     );
 }
@@ -69,7 +69,7 @@ async function getSurahInfoBySurahID(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully fetched surah info with id ${data.surah}.`,
+            success: `Successfully fetched surah info with id ${data.surah}.`,
         })
     );
 }
@@ -114,7 +114,7 @@ async function updateSurahIntroInfo(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully updated surah info with id ${data.surah_info_id}.`,
+            success: `Successfully updated surah info with id ${data.surah_info_id}.`,
             dbNotFound: `Could not find a surah info with id ${data.surah_info_id}.`,
         })
     );
@@ -133,7 +133,7 @@ async function deleteSurahIntroInfo(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully deleted surah info with id ${data.surah_info_id}.`,
+            success: `Successfully deleted surah info with id ${data.surah_info_id}.`,
             dbNotFound: `Could not find a surah info with id ${data.surah_info_id}.`,
         })
     );

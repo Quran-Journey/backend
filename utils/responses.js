@@ -1,4 +1,4 @@
-const c = require("../services/postgres/postgres");
+const c = require("./constants");
 
 /**
  * Prepares a generic response template for all requests.
@@ -8,19 +8,19 @@ const c = require("../services/postgres/postgres");
  * @returns true if successful, none otherwise.
  */
 function simpleResponse(result, response) {
-    // A result takes the following format: { data: d, error: msg, success: pass, ecode: code }
+    // A result takes the following format: { data: d, msg: msg, success: pass, code: code }
     var success = result.success;
-    var ecode = result.ecode;
+    var code = result.code;
 
     if (success) {
         response.status(200);
-    } else if (ecode == c.Errors.SERVER) {
+    } else if (code == c.Errors.DB_SERVER) {
         response.status(500);
-    } else if (ecode == c.Errors.UNIQUE || ecode == c.Errors.FOREIGN) {
+    } else if (code == c.Errors.DB_UNIQUE || code == c.Errors.DB_FOREIGN) {
         response.status(409);
-    } else if (ecode == c.Errors.DNE) {
+    } else if (code == c.Errors.DB_DNE) {
         response.status(404);
-    } else if (ecode == c.Errors.INVALID) {
+    } else if (code == c.Errors.DB_INVALID) {
         response.status(400);
     } else {
         console.log("Could not set a valid response status.");
@@ -32,18 +32,19 @@ function simpleResponse(result, response) {
 /**
  * Prepares a response template for auth requests.
  *
- * @param {*} result the result of the operation conducted based on the request
- * @param {*} response the response that will be modified and sent back to the user
+ * @param {} result the result of the operation conducted based on the request
+ * @param {} response the response that will be modified and sent back to the user
  * @returns true if successful, none otherwise.
  */
 function authResponse(result, response) {
-    // A result takes the following format: { data: d, error: msg, success: pass, ecode: code }
+    // A result takes the following format: { data: d, msg: msg, success: pass, code: code }
     var success = result.success;
-    var ecode = result.ecode;
+    var code = result.code;
 
     if (success) {
         response.status(200);
-    } else if (ecode == c.Errors.UNAUTHORIZED) {
+        response.redirect()
+    } else if (code == c.Errors.AUTH_UNAUTHORIZED) {
         response.status(403);
     } else {
         console.log("Could not set a valid response status.");

@@ -14,43 +14,15 @@ const surah = require("./routes/surah");
 const setup = require("./tests/setup");
 const cors = require("cors");
 const path = require("path");
-const db = require("./model/db");
+const db = require("./services/postgres/connect");
 const verseInfo = require("./routes/verseInfo");
 const tafsir = require("./routes/tafsir");
-const authentication = require("./routes/auth/user");
+const authentication = require("./routes/auth");
 const { checkAuth } = require("./services/firebase/auth");
-
-// const csrfMiddleware = csrf({ cookie: true });
 
 var port = process.env.PORT || 3001;
 
 var app = express();
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
-// app.use(csrfMiddleware);
-
-
-app.use(async (req, res, next) => {
-    console.log(`\nEndpoint Hit: ${req.method} ${req.originalUrl}\n`);
-    next();
-});
-
-
-app.use("/api", lesson);
-app.use("/api", reflection);
-app.use("/api", surahInfo);
-app.use("/api", mufasir);
-app.use("/api", surah);
-app.use("/api", word);
-app.use("/api", verseInfo);
-app.use("/api", tafsir);
-app.use("/api", authentication);
-app.all("*", (req, res, next) => {
-    checkAuth(req, res, next)
-    next();
-});
 
 // Serve static documentation files
 app.use(express.static(path.join(__dirname, "/docs")));

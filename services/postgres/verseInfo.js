@@ -1,5 +1,5 @@
 const postgres = require("./postgres");
-const validate = require("../../utils/validation");
+const { Result, simpleValidation } = require("../../utils/validation");
 const constants = require("../../utils/constants");
 
 /**
@@ -42,7 +42,7 @@ const constants = require("../../utils/constants");
  *             type: integer
  *             description: the id of the word
  *             example: 1
- * 
+ *
  */
 
 /**
@@ -90,7 +90,7 @@ const constants = require("../../utils/constants");
  *
  */
 async function getVerseInfo(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = simpleValidation(data, {
         verse_id: "integer",
     });
     if (invalid) {
@@ -109,41 +109,41 @@ async function getVerseInfo(data) {
 async function verseInfoResult(data, verse, reflections, tafsirs, words) {
     let validEnums = [0, 3];
     let success = false;
-    let error, ecode;
-    if (validEnums.includes(reflections.ecode)) {
-        if (validEnums.includes(tafsirs.ecode)) {
-            if (validEnums.includes(words.ecode)) {
+    let msg, code;
+    if (validEnums.includes(reflections.code)) {
+        if (validEnums.includes(tafsirs.code)) {
+            if (validEnums.includes(words.code)) {
                 success = true;
-                error = `Successfully fetched all information pertaining to verse with id ${data.verse_id}`;
-                ecode = utils.Errors.NONE;
+                msg = `Successfully fetched all information pertaining to verse with id ${data.verse_id}`;
+                code = utils.Errors.NONE;
             } else {
-                error = words.error;
-                ecode = words.ecode;
+                msg = words.msg;
+                code = words.code;
             }
         } else {
-            error = tafsirs.error;
-            ecode = tafsirs.ecode;
+            msg = tafsirs.msg;
+            code = tafsirs.code;
         }
     } else {
-        error = reflections.error;
-        ecode = reflections.ecode;
+        msg = reflections.msg;
+        code = reflections.code;
     }
-    let res = utils.setResult(
-        {
+    let res = new Result({
+        data: {
             ...verse.data[0],
             reflections: reflections.data,
             tafsirs: tafsirs.data,
             words: words.data,
         },
-        success,
-        error,
-        ecode
-    );
+        success: success,
+        msg: msg,
+        code: code,
+    });
     return res;
 }
 
 async function getVerse(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = simpleValidation(data, {
         verse_id: "integer",
     });
     if (invalid) {
@@ -155,14 +155,14 @@ async function getVerse(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully fetched verse reflections with verse id ${data.verse_id}.`,
+            success: `Successfully fetched verse reflections with verse id ${data.verse_id}.`,
             dbServer: `An error occured while trying to access reflections for verse with id ${data.verse_id}`,
         })
     );
 }
 
 async function getVerseReflections(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = simpleValidation(data, {
         verse_id: "integer",
     });
     if (invalid) {
@@ -174,14 +174,14 @@ async function getVerseReflections(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully fetched verse reflections with verse id ${data.verse_id}.`,
+            success: `Successfully fetched verse reflections with verse id ${data.verse_id}.`,
             dbServer: `An error occured while trying to access reflections for verse with id ${data.verse_id}`,
         })
     );
 }
 
 async function getVerseTafsir(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = simpleValidation(data, {
         verse_id: "integer",
     });
     if (invalid) {
@@ -194,14 +194,14 @@ async function getVerseTafsir(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully fetched verse tafsirs with verse id ${data.verse_id}.`,
+            success: `Successfully fetched verse tafsirs with verse id ${data.verse_id}.`,
             dbServer: `An error occured while trying to access tafsirs for verse with id ${data.verse_id}`,
         })
     );
 }
 
 async function getVerseWordExplanations(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = simpleValidation(data, {
         verse_id: "integer",
     });
     if (invalid) {
@@ -218,7 +218,7 @@ async function getVerseWordExplanations(data) {
         sql,
         params,
         new constants.Messages({
-            dbSuccess: `Successfully fetched verse words and roots with verse id ${data.verse_id}.`,
+            success: `Successfully fetched verse words and roots with verse id ${data.verse_id}.`,
             dbServer: `An error occured while trying to access word explanations for verse with id ${data.verse_id}`,
         })
     );

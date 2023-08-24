@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const reflection = require("../services/postgres/reflection");
-const utils = require("./utils");
+const response = require("../responses");
 
 /*
  * @api [get] /reflection/{reflection_id}
@@ -29,7 +29,7 @@ router.get("/reflection/:reflection_id", async (request, response) => {
     await reflection
         .getReflectionById(request.params)
         .then(async function (result) {
-            return utils.simpleResponse(result, response);
+            return response.simpleResponse(result, response);
         });
 });
 
@@ -65,7 +65,7 @@ router.get("/reflection/:surah_id/:verse_id", async (request, response) => {
     await reflection
         .getReflectionBySurahVerseId(request.params)
         .then(async function (result) {
-            return utils.simpleResponse(result, response);
+            return response.simpleResponse(result, response);
         });
 });
 
@@ -111,7 +111,7 @@ router.post("/reflection", async (request, response) => {
     await reflection
         .createReflection(request.body)
         .then(async function (result) {
-            return utils.simpleResponse(result, response);
+            return response.simpleResponse(result, response);
         });
 });
 
@@ -140,7 +140,7 @@ router.patch("/reflection", async (request, response) => {
     await reflection
         .updateReflection(request.body)
         .then(async function (result) {
-            return utils.simpleResponse(result, response);
+            return response.simpleResponse(result, response);
         });
 });
 
@@ -170,7 +170,7 @@ router.delete("/reflection/:reflection_id", async (request, response) => {
     await reflection
         .deleteReflection(request.params)
         .then(async function (result) {
-            return utils.simpleResponse(result, response);
+            return response.simpleResponse(result, response);
         });
 });
 
@@ -193,7 +193,7 @@ router.delete("/reflection/:reflection_id", async (request, response) => {
  */
 router.get("/reflection", async (request, response) => {
     await reflection.getAllReflections().then(async function (result) {
-        return utils.simpleResponse(result, response);
+        return response.simpleResponse(result, response);
     });
 });
 

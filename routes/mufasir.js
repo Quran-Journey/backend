@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const lesson = require("../services/postgres/mufasir");
-const utils = require("./utils");
+const response = require("../responses");
 
 /*
  * @api [get] /mufasir
@@ -21,7 +21,7 @@ const utils = require("./utils");
  */
 router.get("/mufasir", async (request, response) => {
     await lesson.getMufasireen().then(async function (result) {
-        return utils.simpleResponse(result, response);
+        return response.simpleResponse(result, response);
     });
 });
 
@@ -51,7 +51,7 @@ router.get("/mufasir", async (request, response) => {
  */
 router.get("/mufasir/:mufasir_id", async (request, response) => {
     await lesson.getMufasir(request.params).then(async function (result) {
-        return utils.simpleResponse(result, response);
+        return response.simpleResponse(result, response);
     });
 });
 
@@ -91,7 +91,7 @@ router.get("/mufasir/:mufasir_id", async (request, response) => {
  */
 router.post("/mufasir", async (request, response) => {
     await lesson.addMufasir(request.body).then(async function (result) {
-        return utils.simpleResponse(result, response);
+        return response.simpleResponse(result, response);
     });
 });
 
@@ -119,7 +119,7 @@ router.post("/mufasir", async (request, response) => {
  */
 router.put("/mufasir", async (request, response) => {
     await lesson.updateMufasir(request.body).then(async function (result) {
-        return utils.simpleResponse(result, response);
+        return response.simpleResponse(result, response);
     });
 });
 
@@ -148,7 +148,7 @@ router.put("/mufasir", async (request, response) => {
  */
 router.delete("/mufasir/:mufasir_id", async (request, response) => {
     await lesson.deleteMufasir(request.params).then(async function (result) {
-        return utils.simpleResponse(result, response);
+        return response.simpleResponse(result, response);
     });
 });
 
