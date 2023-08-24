@@ -1,4 +1,5 @@
 const utils = require("./utils");
+const constants = require("../../utils/constants");
 
 /**
  * @schema VerseWordInformation
@@ -152,9 +153,9 @@ async function getVerse(data) {
     return await utils.retrieve(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully fetched verse reflections with verse id ${data.verse_id}.`,
-            server: `An error occured while trying to access reflections for verse with id ${data.verse_id}`,
+        new constants.Messages({
+            dbSuccess: `Successfully fetched verse reflections with verse id ${data.verse_id}.`,
+            dbServer: `An error occured while trying to access reflections for verse with id ${data.verse_id}`,
         })
     );
 }
@@ -171,9 +172,9 @@ async function getVerseReflections(data) {
     return await utils.retrieve(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully fetched verse reflections with verse id ${data.verse_id}.`,
-            server: `An error occured while trying to access reflections for verse with id ${data.verse_id}`,
+        new constants.Messages({
+            dbSuccess: `Successfully fetched verse reflections with verse id ${data.verse_id}.`,
+            dbServer: `An error occured while trying to access reflections for verse with id ${data.verse_id}`,
         })
     );
 }
@@ -191,9 +192,9 @@ async function getVerseTafsir(data) {
     return await utils.retrieve(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully fetched verse tafsirs with verse id ${data.verse_id}.`,
-            server: `An error occured while trying to access tafsirs for verse with id ${data.verse_id}`,
+        new constants.Messages({
+            dbSuccess: `Successfully fetched verse tafsirs with verse id ${data.verse_id}.`,
+            dbServer: `An error occured while trying to access tafsirs for verse with id ${data.verse_id}`,
         })
     );
 }
@@ -215,9 +216,9 @@ async function getVerseWordExplanations(data) {
     return await utils.retrieve(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully fetched verse words and roots with verse id ${data.verse_id}.`,
-            server: `An error occured while trying to access word explanations for verse with id ${data.verse_id}`,
+        new constants.Messages({
+            dbSuccess: `Successfully fetched verse words and roots with verse id ${data.verse_id}.`,
+            dbServer: `An error occured while trying to access word explanations for verse with id ${data.verse_id}`,
         })
     );
 }

@@ -74,8 +74,8 @@ async function getRootWordMeanings(data) {
     return await utils.retrieve(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully fetched roots for verse with id ${data.verse_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully fetched roots for verse with id ${data.verse_id}.`,
         })
     );
 }
@@ -127,9 +127,9 @@ async function getMeaning(data) {
     return await utils.create(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully fetched a meaning with id ${data.meaning_id}.`,
-            none: `Could not find root meaning with id ${data.meaning_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully fetched a meaning with id ${data.meaning_id}.`,
+            dbNotFound: `Could not find root meaning with id ${data.meaning_id}.`,
         })
     );
 }
@@ -148,8 +148,8 @@ async function addMeaning(data) {
     return await utils.create(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully added a meaning to root word with id ${data.root_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully added a meaning to root word with id ${data.root_id}.`,
         })
     );
 }
@@ -169,9 +169,9 @@ async function editMeaning(data) {
     return await utils.create(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully edited meaning with id ${data.meaning_id}.`,
-            none: `Could not find a meaning with id ${data.meaning_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully edited meaning with id ${data.meaning_id}.`,
+            dbNotFound: `Could not find a meaning with id ${data.meaning_id}.`,
         })
     );
 }
@@ -188,9 +188,9 @@ async function deleteMeaning(data) {
     return await utils.create(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully deleted meaning with id ${data.meaning_id}.`,
-            none: `Could not find meaning with id ${data.meaning_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully deleted meaning with id ${data.meaning_id}.`,
+            dbNotFound: `Could not find meaning with id ${data.meaning_id}.`,
         })
     );
 }

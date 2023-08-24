@@ -1,4 +1,5 @@
 const utils = require("./utils");
+const constants = require("../../utils/constants");
 
 /**
  *  @schema Tafsir
@@ -46,7 +47,7 @@ async function getTafsirById(data) {
     return await utils.retrieve(
         sql,
         params,
-        new utils.Message({ success: "Successfully fetched a tafsir." })
+        new constants.Messages({ dbSuccess: "Successfully fetched a tafsir." })
     );
 }
 
@@ -67,7 +68,7 @@ async function createTafsir(data) {
     return await utils.create(
         sql,
         params,
-        new utils.Message({ success: "Successfully created a tafsir." })
+        new constants.Messages({ dbSuccess: "Successfully created a tafsir." })
     );
 }
 async function updateTafsir(data) {
@@ -87,7 +88,7 @@ async function updateTafsir(data) {
     return await utils.update(
         sql,
         params,
-        new utils.Message({ success: "Successfully updated a tafsir." })
+        new constants.Messages({ dbSuccess: "Successfully updated a tafsir." })
     );
 }
 async function deleteTafsir(data) {
@@ -103,7 +104,7 @@ async function deleteTafsir(data) {
     return await utils.remove(
         sql,
         params,
-        new utils.Message({ success: "Successfully deleted a tafsir." })
+        new constants.Messages({ dbSuccess: "Successfully deleted a tafsir." })
     );
 }
 

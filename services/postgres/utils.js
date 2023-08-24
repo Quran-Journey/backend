@@ -1,14 +1,5 @@
 const db = require("./db");
-
-// Error codes
-const errorEnum = {
-    NONE: 0,
-    UNIQUE: 1,
-    SERVER: 2,
-    DNE: 3,
-    INVALID: 4,
-    FOREIGN: 5
-};
+const {errorEnum, ErrorMessage} = require("../../utils/constants")
 
 // This is a constant response return format so that all of our responses have the same format.
 function setResult(d, pass, msg, code) {
@@ -18,24 +9,10 @@ function setResult(d, pass, msg, code) {
 
 /** Simply prepare an response for invalid inputs */
 function returnInvalid(msg) {
-    return setResult({}, false, msg, utils.errorEnum.INVALID);
+    return setResult({}, false, msg, utils.errorEnum.DB_INVALID);
 }
 
-/**
- * This class represents messages that will be returned as errors or to the user.
- * Either the values are passed into the options object, or they are set to the default values
- */
-class Message {
-    constructor(options) {
-        this.success = options.success || "Successfully fetched rows.";
-        this.none = options.none || "No rows found.";
-        this.server = options.server || "An error occured in the PSQL server.";
-        this.duplicate = options.duplicate || "Duplicate.";
-        this.foreign = options.foreign || "Violating foreign key constraint.";
-    }
-}
-
-const defaultMsg = new Message({});
+const defaultMsg = new Messages({});
 
 /**
  * Check to see if the values of a request body are empty.
@@ -48,7 +25,7 @@ function checkEmptyBody(data) {
             {},
             false,
             "Request data is empty.",
-            errorEnum.INVALID
+            errorEnum.DB_INVALID
         );
     }
     for (var i = 0; i < keys.length; i++) {
@@ -57,7 +34,7 @@ function checkEmptyBody(data) {
                 data,
                 false,
                 "data is missing atleast one key, value pair.",
-                errorEnum.INVALID
+                errorEnum.DB_INVALID
             );
         }
     }
@@ -94,7 +71,7 @@ function checkBodyTypes(data, required) {
                 data,
                 false,
                 "Undefined value set for: " + key,
-                errorEnum.INVALID
+                errorEnum.DB_INVALID
             );
         }
         if (
@@ -107,7 +84,7 @@ function checkBodyTypes(data, required) {
                 data,
                 false,
                 "Invalid value set for: " + key,
-                errorEnum.INVALID
+                errorEnum.DB_INVALID
             );
         }
     }
@@ -135,7 +112,7 @@ function checkBodyKeys(data, required, p = true) {
                 data,
                 false,
                 "data is missing the key: " + requiredKeys[i],
-                errorEnum.INVALID
+                errorEnum.DB_INVALID
             );
         }
     }
@@ -243,18 +220,18 @@ async function retrieve(sql, params = [], message = defaultMsg) {
         .query(sql, params)
         .then((result) => {
             if (result.rows[0] == null) {
-                return setResult([], false, message.none, errorEnum.DNE);
+                return setResult([], false, message.notFound, errorEnum.DB_DNE);
             }
             return setResult(
                 result.rows,
                 true,
-                message.success,
-                errorEnum.NONE
+                message.fetched,
+                errorEnum.DB_NONE
             );
         })
         .catch((e) => {
             console.log("\nERROR!\n", e);
-            return setResult([], false, message.server, errorEnum.SERVER);
+            return setResult([], false, message.server, errorEnum.DB_SERVER);
         });
 }
 
@@ -278,18 +255,18 @@ async function update(sql, params = [], message = defaultMsg) {
         .query(sql, params)
         .then((result) => {
             if (result.rows[0] == null) {
-                return setResult({}, false, message.none, errorEnum.DNE);
+                return setResult({}, false, message.notFound, errorEnum.DB_DNE);
             }
             return setResult(
                 result.rows,
                 true,
-                message.success,
-                errorEnum.NONE
+                message.fetched,
+                errorEnum.DB_NONE
             );
         })
         .catch((e) => {
             console.log("\nUpdate error!\n", e);
-            return setResult({}, false, message.server, errorEnum.SERVER);
+            return setResult({}, false, message.server, errorEnum.DB_SERVER);
         });
 }
 
@@ -314,15 +291,15 @@ async function create(sql, params = [], message = defaultMsg) {
             if (result.rows[0] == null) {
                 // Items were not inserted, but an error was not raised. Be confused.
                 console.log("\n!Nothing was inserted!\n");
-                return setResult({}, false, message.none, errorEnum.DNE);
+                return setResult({}, false, message.notFound, errorEnum.DB_DNE);
             }
             // Succesfully inserted items.
             console.log("\nSuccess!\n");
             return setResult(
                 result.rows,
                 true,
-                message.success,
-                errorEnum.NONE
+                message.fetched,
+                errorEnum.DB_NONE
             );
         })
         .catch((e) => {
@@ -333,7 +310,7 @@ async function create(sql, params = [], message = defaultMsg) {
                     {},
                     false,
                     message.duplicate,
-                    errorEnum.UNIQUE
+                    errorEnum.DB_UNIQUE
                 );
             }
             if (e.code == "42601") {
@@ -345,17 +322,17 @@ async function create(sql, params = [], message = defaultMsg) {
                     {},
                     false,
                     "Improper number of parameters passed in.",
-                    errorEnum.INVALID
+                    errorEnum.DB_INVALID
                 );
             }
             if (e.code == "23503") {
                 // This implies we are inserting something that violates a unique key constraint
                 console.log("\n!Creation Failure: Foreign Key Constraints!\n");
-                return setResult({}, false, message.foreign, errorEnum.FOREIGN);
+                return setResult({}, false, message.foreign, errorEnum.DB_FOREIGN);
             }
             // There was an uncaught error due to our query.
             console.log("\n!Creation error!\n", message.server, e);
-            return setResult({}, false, message.server, errorEnum.SERVER);
+            return setResult({}, false, message.server, errorEnum.DB_SERVER);
         });
 }
 
@@ -380,18 +357,18 @@ async function remove(sql, params = [], message = defaultMsg) {
         .query(sql, params)
         .then((result) => {
             if (result.rows[0] == null) {
-                return setResult({}, false, message.none, errorEnum.DNE);
+                return setResult({}, false, message.notFound, errorEnum.DB_DNE);
             }
             return setResult(
                 result.rows,
                 true,
-                message.success,
-                errorEnum.NONE
+                message.fetched,
+                errorEnum.DB_NONE
             );
         })
         .catch((e) => {
             console.log("\n!Deletion error!\n", message.server, e);
-            return setResult({}, false, message.server, errorEnum.SERVER);
+            return setResult({}, false, message.server, errorEnum.DB_SERVER);
         });
 }
 

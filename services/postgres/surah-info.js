@@ -1,5 +1,6 @@
-const { fi } = require("faker/lib/locales");
 const utils = require("./utils");
+const constants = require("../../utils/constants");
+
 /**
  *  @schema SurahInfo
  *  type: object
@@ -49,8 +50,8 @@ async function getSurahInfoBySurahInfoID(data) {
     return await utils.retrieve(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully fetched surah info with id ${data.surah_info_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully fetched surah info with id ${data.surah_info_id}.`,
         })
     );
 }
@@ -66,8 +67,8 @@ async function getSurahInfoBySurahID(data) {
     return await utils.retrieve(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully fetched surah info with id ${data.surah}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully fetched surah info with id ${data.surah}.`,
         })
     );
 }
@@ -87,7 +88,7 @@ async function createSurahIntroInfo(data) {
     return await utils.create(
         sql_surah_info,
         params,
-        new utils.Message({
+        new constants.Messages({
             success: "Successfully created a Surah Info.",
             foreign:
                 "Invalid Surah. The surah must be valid and enabled first.",
@@ -111,9 +112,9 @@ async function updateSurahIntroInfo(data) {
     return await utils.update(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully updated surah info with id ${data.surah_info_id}.`,
-            none: `Could not find a surah info with id ${data.surah_info_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully updated surah info with id ${data.surah_info_id}.`,
+            dbNotFound: `Could not find a surah info with id ${data.surah_info_id}.`,
         })
     );
 }
@@ -130,9 +131,9 @@ async function deleteSurahIntroInfo(data) {
     return await utils.remove(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully deleted surah info with id ${data.surah_info_id}.`,
-            none: `Could not find a surah info with id ${data.surah_info_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully deleted surah info with id ${data.surah_info_id}.`,
+            dbNotFound: `Could not find a surah info with id ${data.surah_info_id}.`,
         })
     );
 }

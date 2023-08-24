@@ -1,4 +1,5 @@
 const utils = require("./utils");
+const constants = require("../../utils/constants");
 
 /**
  *  @schema Reflection
@@ -43,7 +44,7 @@ async function createReflection(data) {
     return await utils.create(
         sql_reflec,
         params,
-        new utils.Message({ success: "Successfully created a reflection." })
+        new constants.Messages({ dbSuccess: "Successfully created a reflection." })
     );
 }
 
@@ -52,8 +53,8 @@ async function getAllReflections() {
     return await utils.retrieve(
         sql,
         [],
-        new utils.Message({
-            success: `Successfully fetched reflections.`,
+        new constants.Messages({
+            dbSuccess: `Successfully fetched reflections.`,
         })
     );
 }
@@ -71,8 +72,8 @@ async function getReflectionById(data) {
     return await utils.retrieve(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully fetched reflection with id ${data.reflection_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully fetched reflection with id ${data.reflection_id}.`,
         })
     );
 }
@@ -91,8 +92,8 @@ async function getReflectionBySurahVerseId(data) {
     return await utils.retrieve(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully fetched reflection by verse id ${data.verse_id} and surah id ${data.surah_id}.`
+        new constants.Messages({
+            dbSuccess: `Successfully fetched reflection by verse id ${data.verse_id} and surah id ${data.surah_id}.`
         })
     );
 }
@@ -113,9 +114,9 @@ async function updateReflection(data) {
     return await utils.update(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully update reflection with id ${data.reflection_id}.`,
-            none: `Could not find a reflection with id ${data.reflection_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully update reflection with id ${data.reflection_id}.`,
+            dbNotFound: `Could not find a reflection with id ${data.reflection_id}.`,
         })
     );
 }
@@ -133,9 +134,9 @@ async function deleteReflection(data) {
     return await utils.remove(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully deleted reflection with id ${data.reflection_id}.`,
-            none: `Could not find a reflection with id ${data.reflection_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully deleted reflection with id ${data.reflection_id}.`,
+            dbNotFound: `Could not find a reflection with id ${data.reflection_id}.`,
         })
     );
 }

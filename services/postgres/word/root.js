@@ -54,7 +54,7 @@ async function createrootWord(data) {
     return await utils.create(
         sql,
         params,
-        new utils.Message({ success: "Successfully created a rootWord." })
+        new constants.Messages({ dbSuccess: "Successfully created a rootWord." })
     );
 }
 
@@ -70,8 +70,8 @@ async function getrootWordById(data) {
     return await utils.retrieve(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully fetched rootWord with id ${data.root_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully fetched rootWord with id ${data.root_id}.`,
         })
     );
 }
@@ -83,8 +83,8 @@ async function getAllrootWords(data) {
     return await utils.retrieve(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully fetched all root words.`,
+        new constants.Messages({
+            dbSuccess: `Successfully fetched all root words.`,
         })
     );
 }
@@ -103,9 +103,9 @@ async function updaterootWord(data) {
     return await utils.update(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully update rootWord with id ${data.root_id}.`,
-            none: `Could not find a rootWord with id ${data.root_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully update rootWord with id ${data.root_id}.`,
+            dbNotFound: `Could not find a rootWord with id ${data.root_id}.`,
         })
     );
 }
@@ -123,9 +123,9 @@ async function deleterootWord(data) {
     return await utils.remove(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully deleted rootWord with id ${data.root_id}.`,
-            none: `Could not find a rootWord with id ${data.root_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully deleted rootWord with id ${data.root_id}.`,
+            dbNotFound: `Could not find a rootWord with id ${data.root_id}.`,
         })
     );
 }
@@ -143,8 +143,8 @@ async function getVerseRootWords(data) {
     return await utils.retrieve(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully fetched roots for verse with id ${data.verse_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully fetched roots for verse with id ${data.verse_id}.`,
         })
     );
 }

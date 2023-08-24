@@ -1,4 +1,5 @@
 const utils = require("./utils");
+const constants = require("../../utils/constants");
 
 /**
  *  @schema Mufasir
@@ -33,8 +34,8 @@ async function getMufasir(data) {
     return await utils.retrieve(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully fetched mufasir with ID ${data.mufasir_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully fetched mufasir with ID ${data.mufasir_id}.`,
         })
     );
 }
@@ -45,8 +46,8 @@ async function getMufasireen() {
     return await utils.retrieve(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully fetched all mufasireen.`,
+        new constants.Messages({
+            dbSuccess: `Successfully fetched all mufasireen.`,
         })
     );
 }
@@ -65,8 +66,8 @@ async function addMufasir(data) {
     return await utils.create(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully created mufasir.`,
+        new constants.Messages({
+            dbSuccess: `Successfully created mufasir.`,
         })
     );
 }
@@ -86,8 +87,8 @@ async function updateMufasir(data) {
     return await utils.update(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully updated mufasir with id ${data.mufasir_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully updated mufasir with id ${data.mufasir_id}.`,
         })
     );
 }
@@ -104,8 +105,8 @@ async function deleteMufasir(data) {
     return await utils.remove(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully updated mufasir with id ${data.mufasir_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully updated mufasir with id ${data.mufasir_id}.`,
         })
     );
 }

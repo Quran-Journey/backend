@@ -1,4 +1,5 @@
 const utils = require("./utils");
+const constants = require("../../utils/constants");
 
 // Note: this list contains key value pairs of the attribute and types within the schema.
 const attributes = {
@@ -21,9 +22,9 @@ async function getSurahById(data) {
     return await utils.retrieve(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully fetched Surah with id ${data.surah_id}.`,
-            none: `Could not find a Surah with id ${data.surah_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully fetched Surah with id ${data.surah_id}.`,
+            dbNotFound: `Could not find a Surah with id ${data.surah_id}.`,
         })
     );
 }
@@ -50,9 +51,9 @@ async function updateSurah(data) {
     return await utils.update(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully update Surah with id ${data.surah_id}.`,
-            none: `Could not find a Surah with id ${data.surah_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully update Surah with id ${data.surah_id}.`,
+            dbNotFound: `Could not find a Surah with id ${data.surah_id}.`,
         })
     );
 }
@@ -88,8 +89,8 @@ async function getSurahs() {
     return await utils.retrieve(
         sql,
         [],
-        new utils.Message({
-            success: `Successfully fetched all surahs.`,
+        new constants.Messages({
+            dbSuccess: `Successfully fetched all surahs.`,
         })
     );
 }
@@ -132,8 +133,8 @@ async function getSurahVerses(data) {
     let verses = await utils.retrieve(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully fetched verses for sura number ${data.surah_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully fetched verses for sura number ${data.surah_id}.`,
         })
     );
     if (verses.data.length > 0) {
@@ -154,8 +155,8 @@ async function getSurahLessons(data) {
     let verses = await utils.retrieve(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully fetched verses for sura number ${data.surah_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully fetched verses for sura number ${data.surah_id}.`,
         })
     );
     if (verses.data.length > 0) {

@@ -1,4 +1,5 @@
 const utils = require("./utils");
+const constants = require("../../utils/constants");
 const verseInfo = require("./verseInfo");
 
 // Note: this list contains key value pairs of the attribute and types within the schema.
@@ -101,7 +102,7 @@ async function createLesson(data) {
     return await utils.create(
         sql,
         params,
-        new utils.Message({ success: "Successfully created a lesson." })
+        new constants.Messages({ dbSuccess: "Successfully created a lesson." })
     );
 }
 
@@ -121,8 +122,8 @@ async function filterLessons(data) {
         return await utils.retrieve(
             `SELECT * FROM Lesson ${pagination};`,
             [],
-            new utils.Message({
-                success: `Fetched all lessons since no query was properly defined.`,
+            new constants.Messages({
+                dbSuccess: `Fetched all lessons since no query was properly defined.`,
             })
         );
     } else {
@@ -153,8 +154,8 @@ async function filterLessons(data) {
         return await utils.retrieve(
             sql,
             params,
-            new utils.Message({
-                success: `Successfully fetched lessons based on filter ${data.property} ${op} ${data.value}.`,
+            new constants.Messages({
+                dbSuccess: `Successfully fetched lessons based on filter ${data.property} ${op} ${data.value}.`,
             })
         );
     }
@@ -173,8 +174,8 @@ async function getLessonById(data) {
     return await utils.retrieve(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully fetched lesson with id ${data.lesson_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully fetched lesson with id ${data.lesson_id}.`,
         })
     );
 }
@@ -238,9 +239,9 @@ async function updateLesson(data) {
     return await utils.update(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully update lesson with id ${data.lesson_id}.`,
-            none: `Could not find a lesson with id ${data.lesson_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully update lesson with id ${data.lesson_id}.`,
+            dbNotFound: `Could not find a lesson with id ${data.lesson_id}.`,
         })
     );
 }
@@ -258,9 +259,9 @@ async function deleteLesson(data) {
     return await utils.remove(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully deleted lesson with id ${data.lesson_id}.`,
-            none: `Could not find a lesson with id ${data.lesson_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully deleted lesson with id ${data.lesson_id}.`,
+            dbNotFound: `Could not find a lesson with id ${data.lesson_id}.`,
         })
     );
 }

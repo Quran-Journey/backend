@@ -48,8 +48,8 @@ async function linkVerseToWord(data) {
     return await utils.create(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully linked a verse with id ${data.verse_id} to word with id ${data.word_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully linked a verse with id ${data.verse_id} to word with id ${data.word_id}.`,
         })
     );
 }
@@ -66,8 +66,8 @@ async function getVerseWordById(data) {
     return await utils.retrieve(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully fetched verse word with id ${data.verse_word_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully fetched verse word with id ${data.verse_word_id}.`,
         })
     );
 }
@@ -96,9 +96,9 @@ async function updateVerseWord(data) {
     return await utils.update(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully update VerseWord with id ${data.verse_word_id}.`,
-            none: `Could not find a VerseWord with id ${data.verse_word_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully update VerseWord with id ${data.verse_word_id}.`,
+            dbNotFound: `Could not find a VerseWord with id ${data.verse_word_id}.`,
         })
     );
 }
@@ -116,9 +116,9 @@ async function deleteVerseWord(data) {
     return await utils.remove(
         sql,
         params,
-        new utils.Message({
-            success: `Successfully deleted VerseWord with id ${data.verse_word_id}.`,
-            none: `Could not find a VerseWord with id ${data.verse_word_id}.`,
+        new constants.Messages({
+            dbSuccess: `Successfully deleted VerseWord with id ${data.verse_word_id}.`,
+            dbNotFound: `Could not find a VerseWord with id ${data.verse_word_id}.`,
         })
     );
 }
