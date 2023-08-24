@@ -7,4 +7,4 @@ The purpose of this folder is to interact with the tables in the database. Servi
 
 Ideally, in the future, `connect.js` and `postgres.js` should be moved into a separate repository and treated as part of a separate library (to be used in other projects as well).
 
-The remaining files in this folder are named after the sql tables they primarily interact with.
+The remaining files in this folder are named after the sql tables they primarily interact with, although there is some overlap.

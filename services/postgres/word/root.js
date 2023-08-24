@@ -1,22 +1,6 @@
 const utils = require("../utils");
 
-/**
- *  @schema RootWord
- *  type: object
- *  required:
- *      - root_id
- *      - rootword
- *      - meanings
- *  properties:
- *      root_id:
- *          type: integer
- *          description: the id of the root word
- *          example: 936
- *      rootword:
- *          type: string
- *          description: string representaiton of the root word with spaces in between each letter.
- *          example: س م و
- */
+
 
 /**
  *  @schema ArabicWord

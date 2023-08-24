@@ -59,32 +59,6 @@ async function updateSurah(data) {
     );
 }
 
-/**
- *  @schema Surah
- *  type: object
- *  required:
- *      - surah_id
- *      - surah_number
- *      - name_complex
- *      - name_arabic
- *  properties:
- *      surah_number:
- *          type: integer
- *          description: the number of the surah (acting as the surah id)
- *          example: 1
- *      surah_id:
- *          type: integer
- *          description: the id of the surah
- *          example: 1
- *      name_complex:
- *          type: string
- *          description: the name of the surah in english (with complex characters)
- *          example: al-Fātihah
- *      name_arabic:
- *          type: string
- *          description: the name of the surah in arabic
- *          example: al-Fātihah
- */
 async function getSurahs() {
     let sql = "SELECT * FROM surah;";
     return await postgres.retrieve(
@@ -96,32 +70,6 @@ async function getSurahs() {
     );
 }
 
-/**
- *  @schema Verse
- *  type: object
- *  required:
- *      - index
- *      - surah
- *      - aya
- *      - text
- *  properties:
- *      verse_index:
- *          type: integer
- *          description: the index of the verse in the quran
- *          example: 1
- *      surah:
- *          type: integer
- *          description: the surah id/number that the verse belongs to
- *          example: 1
- *      verse_number:
- *          type: integer
- *          description: the ayah number within the surah
- *          example: 1
- *      verse_text:
- *          type: string
- *          description: the text representation of the verse
- *          example: بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ
- */
 async function getSurahVerses(data) {
     var invalid = validate(data, {
         surah_id: "integer",
