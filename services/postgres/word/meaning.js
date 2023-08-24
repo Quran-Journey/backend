@@ -63,7 +63,7 @@ const root = require("./root");
 
 // To be used when adding the different meanings to the sentences.
 async function getRootWordMeanings(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         root_id: "integer",
     });
     if (invalid) {
@@ -116,7 +116,7 @@ async function stringifyMeanings(root) {
 }
 
 async function getMeaning(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         meaning_id: "integer",
     });
     if (invalid) {
@@ -135,7 +135,7 @@ async function getMeaning(data) {
 }
 
 async function addMeaning(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         root_id: "integer",
         meaning: "string",
     });
@@ -155,7 +155,7 @@ async function addMeaning(data) {
 }
 
 async function editMeaning(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         meaning_id: "integer",
         root_id: "integer",
         meaning: "string",
@@ -177,7 +177,7 @@ async function editMeaning(data) {
 }
 
 async function deleteMeaning(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         meaning_id: "integer",
     });
     if (invalid) {

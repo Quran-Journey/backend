@@ -1,7 +1,7 @@
-const db = require("./db");
+const db = require("./connect");
 const fs = require("fs");
 require("dotenv");
-const { setResult, errorEnum } = require("./utils");
+const { setResult, Errors } = require("./postgres");
 
 /* 
 NOTE: Only needs to be executed when db is being initialized.
@@ -42,18 +42,18 @@ async function retrieve(relation_name, message = "defaultMsg") {
         .query(sql, params)
         .then((result) => {
             if (result.rows[0] == null) {
-                return setResult([], false, message.none, errorEnum.DNE);
+                return setResult([], false, message.none, Errors.DNE);
             }
             return setResult(
                 result.rows,
                 true,
                 "Successfully fetched rows.\n",
-                errorEnum.NONE
+                Errors.NONE
             );
         })
         .catch((e) => {
             console.log("\nERROR!\n", e);
-            return setResult([], false, "An error occured in the PSQL server.", errorEnum.SERVER);
+            return setResult([], false, "An error occured in the PSQL server.", Errors.SERVER);
         });
 }
 

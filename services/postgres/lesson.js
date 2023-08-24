@@ -1,4 +1,5 @@
-const utils = require("./utils");
+const postgres = require("./postgres");
+const validate = require("../../utils/validation");
 const constants = require("../../utils/constants");
 const verseInfo = require("./verseInfo");
 
@@ -81,7 +82,7 @@ const attributes = {
 async function createLesson(data) {
     // Frontend note: also add a feature where we guess that the
     //  lesson's date is the next saturday after the last lesson's date
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         lesson_date: "date",
         source: "string",
         surah_id: "string",
@@ -113,7 +114,7 @@ async function createLesson(data) {
  *  Value is the value we are filtering by.
  */
 async function filterLessons(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         property: "string",
         operator: "string",
     });
@@ -133,7 +134,7 @@ async function filterLessons(data) {
                 `${property} is not an attribute of the Lesson type.`
             );
         }
-        invalid = utils.simpleValidation(data, {
+        invalid = validate.simpleValidation(data, {
             value: attributes[data.property],
         });
         if (invalid) {
@@ -163,7 +164,7 @@ async function filterLessons(data) {
 
 /** Fetches lessons based on a specific filter (i.e. id, date) */
 async function getLessonById(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         lesson_id: "integer",
     });
     if (invalid) {
@@ -195,7 +196,7 @@ async function getLessonVerses(data) {
     for (let i = 0; i <= num_verses; i++) {
         let temp = await verseInfo.getVerseInfo({ verse_id: currentVerse });
         lesson_content[i] = temp.data;
-        if (temp.ecode != utils.errorEnum.NONE) {
+        if (temp.ecode != utils.Errors.NONE) {
             errors.push(
                 `Error on verse with id ${temp.data.verse_index}: ${temp.error}`
             );
@@ -217,7 +218,7 @@ async function getLessonVerses(data) {
 
 /** Update a lesson, requires all attributes of the lesson. */
 async function updateLesson(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         lesson_id: "integer",
         lesson_date: "date",
         source: "string",
@@ -248,7 +249,7 @@ async function updateLesson(data) {
 
 /** Update a lesson, requires all attributes of the lesson. */
 async function deleteLesson(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         lesson_id: "integer",
     });
     if (invalid) {

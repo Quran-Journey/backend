@@ -1,4 +1,5 @@
-const utils = require("./utils");
+const postgres = require("./postgres");
+const validate = require("../../utils/validation");
 const constants = require("../../utils/constants");
 
 /**
@@ -89,7 +90,7 @@ const constants = require("../../utils/constants");
  *
  */
 async function getVerseInfo(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         verse_id: "integer",
     });
     if (invalid) {
@@ -114,7 +115,7 @@ async function verseInfoResult(data, verse, reflections, tafsirs, words) {
             if (validEnums.includes(words.ecode)) {
                 success = true;
                 error = `Successfully fetched all information pertaining to verse with id ${data.verse_id}`;
-                ecode = utils.errorEnum.NONE;
+                ecode = utils.Errors.NONE;
             } else {
                 error = words.error;
                 ecode = words.ecode;
@@ -142,7 +143,7 @@ async function verseInfoResult(data, verse, reflections, tafsirs, words) {
 }
 
 async function getVerse(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         verse_id: "integer",
     });
     if (invalid) {
@@ -161,7 +162,7 @@ async function getVerse(data) {
 }
 
 async function getVerseReflections(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         verse_id: "integer",
     });
     if (invalid) {
@@ -180,7 +181,7 @@ async function getVerseReflections(data) {
 }
 
 async function getVerseTafsir(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         verse_id: "integer",
     });
     if (invalid) {
@@ -200,7 +201,7 @@ async function getVerseTafsir(data) {
 }
 
 async function getVerseWordExplanations(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         verse_id: "integer",
     });
     if (invalid) {

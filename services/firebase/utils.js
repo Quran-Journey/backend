@@ -2,7 +2,7 @@ const c = require("./auth");
 
 
 // Auth Error codes
-const errorEnum = {
+const Errors = {
     NONE: 0,
     UNAUTHORIZED: 1, // Unauthorized access
     INVALID: 2, // Invalid Credentials
@@ -33,7 +33,7 @@ function authResponse(result, response) {
 
     if (success) {
         response.status(200);
-    } else if (ecode == c.errorEnum.UNAUTHORIZED) {
+    } else if (ecode == c.Errors.UNAUTHORIZED) {
         response.status(403);
     } else {
         console.log("Could not set a valid response status.");

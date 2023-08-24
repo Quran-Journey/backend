@@ -33,7 +33,7 @@ const utils = require("../utils");
  */
 
 async function linkVerseToWord(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         verse_id: "integer",
         word_id: "integer",
         word_explanation: "string",
@@ -55,7 +55,7 @@ async function linkVerseToWord(data) {
 }
 
 async function getVerseWordById(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         verse_word_id: "integer",
     });
     if (invalid) {
@@ -74,7 +74,7 @@ async function getVerseWordById(data) {
 
 /** Update a rootWord, requires all attributes of the rootWord. */
 async function updateVerseWord(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         verse_word_id: "integer",
         verse_id: "integer",
         word_id: "integer",
@@ -105,7 +105,7 @@ async function updateVerseWord(data) {
 
 /** Update a rootWord, requires all attributes of the rootWord. */
 async function deleteVerseWord(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         verse_word_id: "integer",
     });
     if (invalid) {

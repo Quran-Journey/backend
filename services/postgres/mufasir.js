@@ -1,4 +1,5 @@
-const utils = require("./utils");
+const postgres = require("./postgres");
+const validate = require("../../utils/validation");
 const constants = require("../../utils/constants");
 
 /**
@@ -23,7 +24,7 @@ const constants = require("../../utils/constants");
  *          example: 1203 H
  */
 async function getMufasir(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         mufasir_id: "integer",
     });
     if (invalid) {
@@ -53,7 +54,7 @@ async function getMufasireen() {
 }
 
 async function addMufasir(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         mufasir_name: "string",
         death: "string",
     });
@@ -73,7 +74,7 @@ async function addMufasir(data) {
 }
 
 async function updateMufasir(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         mufasir_id: "integer",
         mufasir_name: "string",
         death: "string",
@@ -94,7 +95,7 @@ async function updateMufasir(data) {
 }
 
 async function deleteMufasir(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         mufasir_id: "integer",
     });
     if (invalid) {

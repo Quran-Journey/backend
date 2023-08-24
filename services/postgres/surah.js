@@ -1,4 +1,5 @@
-const utils = require("./utils");
+const postgres = require("./postgres");
+const validate = require("../../utils/validation");
 const constants = require("../../utils/constants");
 
 // Note: this list contains key value pairs of the attribute and types within the schema.
@@ -11,7 +12,7 @@ const attributes = {
 
 /** Fetches a surah and it's verses by surah id */
 async function getSurahById(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         surah_id: "integer",
     });
     if (invalid) {
@@ -31,7 +32,7 @@ async function getSurahById(data) {
 
 /** Update a Surah, requires all attributes of the Surah. */
 async function updateSurah(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         surah_id: "integer",
         surah_number: "integer",
         name_complex: "string",
@@ -122,7 +123,7 @@ async function getSurahs() {
  *          example: بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ
  */
 async function getSurahVerses(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         surah_id: "integer",
     });
     if (invalid) {
@@ -144,7 +145,7 @@ async function getSurahVerses(data) {
 }
 
 async function getSurahLessons(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         surah_id: "integer",
     });
     if (invalid) {

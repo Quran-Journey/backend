@@ -1,4 +1,5 @@
-const utils = require("./utils");
+const postgres = require("./postgres");
+const validate = require("../../utils/validation");
 const constants = require("../../utils/constants");
 
 /**
@@ -29,7 +30,7 @@ const constants = require("../../utils/constants");
  */
 async function createReflection(data) {
 
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         verse_id: "integer",
         title: "string",
         reflection: "string",
@@ -61,7 +62,7 @@ async function getAllReflections() {
 
 /** Fetches Reflections based on a specific filter */
 async function getReflectionById(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         reflection_id: "integer",
     });
     if (invalid) {
@@ -79,7 +80,7 @@ async function getReflectionById(data) {
 }
 
 async function getReflectionBySurahVerseId(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         surah_id: "integer",
         verse_id: "integer",
     });
@@ -100,7 +101,7 @@ async function getReflectionBySurahVerseId(data) {
 
 /** Update a reflection, requires all attributes of the reflection. */
 async function updateReflection(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         reflection_id: "integer",
         verse_id: "integer",
         title: "string",
@@ -123,7 +124,7 @@ async function updateReflection(data) {
 
 /** Delete a reflection, requires all attributes of the reflection. */
 async function deleteReflection(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         reflection_id: "integer",
     });
     if (invalid) {

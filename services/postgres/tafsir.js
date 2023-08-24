@@ -1,4 +1,5 @@
-const utils = require("./utils");
+const postgres = require("./postgres");
+const validate = require("../../utils/validation");
 const constants = require("../../utils/constants");
 
 /**
@@ -35,7 +36,7 @@ const constants = require("../../utils/constants");
  */
 
 async function getTafsirById(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         tafsir_id: "integer",
     });
     if (invalid) {
@@ -52,7 +53,7 @@ async function getTafsirById(data) {
 }
 
 async function createTafsir(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         tafsir_id: "integer",
         tafsir_text: "string",
         book: "integer",
@@ -72,7 +73,7 @@ async function createTafsir(data) {
     );
 }
 async function updateTafsir(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         tafsir_id: "integer",
         tafsir_text: "string",
         book: "integer",
@@ -92,7 +93,7 @@ async function updateTafsir(data) {
     );
 }
 async function deleteTafsir(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         tafsir_id: "integer",
     });
     if (invalid) {

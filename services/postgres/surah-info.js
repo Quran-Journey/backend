@@ -1,4 +1,5 @@
-const utils = require("./utils");
+const postgres = require("./postgres");
+const validate = require("../../utils/validation");
 const constants = require("../../utils/constants");
 
 /**
@@ -39,7 +40,7 @@ async function getSurahInfo(data) {
 }
 
 async function getSurahInfoBySurahInfoID(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         surah_info_id: "integer",
     });
     if (invalid) {
@@ -56,7 +57,7 @@ async function getSurahInfoBySurahInfoID(data) {
     );
 }
 async function getSurahInfoBySurahID(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         surah: "integer",
     });
     if (invalid) {
@@ -74,7 +75,7 @@ async function getSurahInfoBySurahID(data) {
 }
 
 async function createSurahIntroInfo(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         surah: "integer",
         title: "string",
         info: "string",
@@ -97,7 +98,7 @@ async function createSurahIntroInfo(data) {
 }
 
 async function updateSurahIntroInfo(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         surah_info_id: "integer",
         surah: "integer",
         title: "string",
@@ -120,7 +121,7 @@ async function updateSurahIntroInfo(data) {
 }
 
 async function deleteSurahIntroInfo(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         surah_info_id: "integer",
     });
     if (invalid) {

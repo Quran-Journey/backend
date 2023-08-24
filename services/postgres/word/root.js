@@ -43,7 +43,7 @@ const utils = require("../utils");
 async function createrootWord(data) {
     // Frontend note: also add a feature where we guess that the
     //  rootWord's date is the next saturday after the last rootWord's date
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         root_word: "string",
     });
     if (invalid) {
@@ -59,7 +59,7 @@ async function createrootWord(data) {
 }
 
 async function getrootWordById(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         root_id: "integer",
     });
     if (invalid) {
@@ -91,7 +91,7 @@ async function getAllrootWords(data) {
 
 /** Update a rootWord, requires all attributes of the rootWord. */
 async function updaterootWord(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         root_id: "integer",
         root_word: "string",
     });
@@ -112,7 +112,7 @@ async function updaterootWord(data) {
 
 /** Update a rootWord, requires all attributes of the rootWord. */
 async function deleterootWord(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         root_id: "integer",
     });
     if (invalid) {
@@ -131,7 +131,7 @@ async function deleterootWord(data) {
 }
 
 async function getVerseRootWords(data) {
-    var invalid = utils.simpleValidation(data, {
+    var invalid = validate.simpleValidation(data, {
         verse_id: "integer",
     });
     if (invalid) {
