@@ -17,10 +17,10 @@ const path = require("path");
 const db = require("./model/db");
 const verseInfo = require("./routes/verseInfo");
 const tafsir = require("./routes/tafsir");
-const authentication = require("./routes/auth");
-const { checkAuth } = require("./routes/utils");
+const authentication = require("./routes/auth/user");
+const { checkAuth } = require("./services/firebase/auth");
 
-const csrfMiddleware = csrf({ cookie: true });
+// const csrfMiddleware = csrf({ cookie: true });
 
 var port = process.env.PORT || 3001;
 
@@ -46,20 +46,20 @@ app.use("/api", surah);
 app.use("/api", word);
 app.use("/api", verseInfo);
 app.use("/api", tafsir);
-app.use("/api", checkAuth, authentication);
+app.use("/api", authentication);
+app.all("*", (req, res, next) => {
+    checkAuth(req, res, next)
+    next();
+});
 
-// app.all("*", (req, res, next) => {
-//     res.cookie("XSRF-TOKEN", req.csrfToken());
-//     next();
-// });
-
+// Serve static documentation files
 app.use(express.static(path.join(__dirname, "/docs")));
 app.route("/").get((req, res) => {
     res.sendFile(path.join(__dirname + "/docs/index.html"));
 });
 
 if (process.env.NODE_ENV == "production") {
-    // This sets the options for https so that it finds the ssl certificates
+    // Find and use SSL certificates for HTTPS
     var privateKey = fs.readFileSync(
         "/etc/letsencrypt/live/offlinequran.com/privkey.pem"
     );
@@ -79,14 +79,16 @@ if (process.env.NODE_ENV == "production") {
         console.log("Serving on https");
     });
 } else if (process.env.NODE_ENV == "development") {
+    // After setting up the process's port, we seed the database with mock data.
     app.listen(port, async () => {
         console.log("Listening on port " + port);
         await setup.seedDatabase(db, true);
     });
 }
 else if (process.env.NODE_ENV == "staging") {
+    // Database is not seeded by this node process for staging environment
     app.listen(port, async () => {
-        // Database should be seeded externally
+        // Database should be seeded externally (i.e. using a separate script)
         console.log("Listening on port " + port);
     });
 }
