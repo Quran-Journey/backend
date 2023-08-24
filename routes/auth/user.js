@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const user = require("../../middleware/auth/user");
+const user = require("../../services/postgres/auth");
 const utils = require("../utils");
 
 /*

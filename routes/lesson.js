@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const lesson = require("../services/lesson");
+const lesson = require("../services/postgres/lesson");
 const utils = require("./utils");
 
 /*

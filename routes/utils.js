@@ -1,4 +1,4 @@
-const c = require("../services/utils");
+const c = require("../services/postgres/postgres");
 
 /**
  * Prepares a generic response template for all requests.
@@ -14,13 +14,13 @@ function simpleResponse(result, response) {
 
     if (success) {
         response.status(200);
-    } else if (ecode == c.errorEnum.SERVER) {
+    } else if (ecode == c.Errors.SERVER) {
         response.status(500);
-    } else if (ecode == c.errorEnum.UNIQUE || ecode == c.errorEnum.FOREIGN) {
+    } else if (ecode == c.Errors.UNIQUE || ecode == c.Errors.FOREIGN) {
         response.status(409);
-    } else if (ecode == c.errorEnum.DNE) {
+    } else if (ecode == c.Errors.DNE) {
         response.status(404);
-    } else if (ecode == c.errorEnum.INVALID) {
+    } else if (ecode == c.Errors.INVALID) {
         response.status(400);
     } else {
         console.log("Could not set a valid response status.");
@@ -43,7 +43,7 @@ function authResponse(result, response) {
 
     if (success) {
         response.status(200);
-    } else if (ecode == c.errorEnum.UNAUTHORIZED) {
+    } else if (ecode == c.Errors.UNAUTHORIZED) {
         response.status(403);
     } else {
         console.log("Could not set a valid response status.");

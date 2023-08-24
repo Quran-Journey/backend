@@ -1,41 +1,47 @@
-const serviceAccount = require("../../serviceAccountKey.json");
-const auth = require('firebase/auth');
-const admin = require('firebase-admin');
 
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-});
 
-/**
- * Check if the user accessing the resource is authorized or not.
- * 
- * @param {*} req the request object
- * @param {*} res the response object
- * @param {*} next the next middleware function
- * @returns a boolean value indicating whether the user is authenticated or not.
+
+/*
+ * @api [post] /login
+ *  summary: "Creates a session cookie"
+ *  description: "This endpoint uses firebase to create cookies for the admin to access privliged endpoints."
+ *  tags:
+ *    - Test Endpoints
+ *  produces:
+ *    - application/json
+ *  responses:
+ *    200:
+ *      description: creates session cookie.
+ *    401:
+ *      description: unauthorized request.
+ *
  */
-function checkAuth(req, res, next) {
-    if (req.method === 'GET') {
-        // Allow GET requests to proceed without authentication
-        next();
-        return true;
-    }
-    if (req.cookies.session) {
-        return admin.auth().verifySessionCookie(req.cookies.session)
-            .then(() => {
-                next();
-                return true;
-            }).catch(() => {
-                res.status(403).send('Unauthorized!');
-                return false;
-            });
-    } else {
-        res.status(403).send('Unauthorized!');
-        return false;
-    }
+
+/*
+ * @api [post] /logout
+ *  summary: "Clears the session cookie"
+ *  description: "This endpoint clears cookies, effectively unauthorizing the user."
+ *  tags:
+ *    - Auth
+ *  produces:
+ *    - application/json
+ *  responses:
+ *    301:
+ *      description: successfully clears the session cookies.
+ *
+ */
+async function logout(data, sessionCookie) {
+    res.clearCookie("session");
+    res.status(302).redirect("offlinequran.com"); // TODO: This should not be hardcoded
+    res.json({
+        data: "User Logout Successful",
+        error: "",
+        success: "Pass",
+        ecode: 0,
+    });
 }
 
 module.exports = {
-    checkAuth,
-    admin,
-}
+    login,
+    logout,
+};
