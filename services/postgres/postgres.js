@@ -1,6 +1,6 @@
 const db = require("./connect");
-const { Errors, Messages } = require("../../utils/constants");
-const { Result } = require("../../utils/validation");
+const { Errors, Messages, Result } = require("../../utils/constants");
+const validate = require("../../utils/validation");
 
 const defaultMsg = new Messages({});
 
@@ -33,7 +33,7 @@ function getOperator(operator) {
  */
 function paginate(data) {
     // Here, we just need make sure that the page and results per page are valid inputs
-    var invalid = simpleValidation(data, {
+    var invalid = validate(data, {
         page: "integer",
         results_per_page: "integer",
     });

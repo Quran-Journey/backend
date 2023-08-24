@@ -1,7 +1,6 @@
 const serviceAccount = require("../../serviceAccountKey.json");
 const admin = require("firebase-admin");
-const { Result } = require("../../utils/validation");
-const { fa } = require("faker/lib/locales");
+const { Result } = require("../../utils/constants");
 
 /**
  * We use firebase for SSO instead of storing user credentials in our own servers.

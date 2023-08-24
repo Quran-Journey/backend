@@ -1,36 +1,4 @@
-const { Errors, Messages } = require("./constants");
-
-class Result {
-    /**
-     * This is a constant response return format so that all of our responses have the same format.
-     *
-     * @param {Object} d the data that is to be returned to the user
-     * @param {boolean} pass Whether other not the request passed successfully
-     * @param {string} msg
-     * @param {integer} code
-     * @returns
-     */
-    constructor(options) {
-        console.log(msg);
-        this.data = options.data || {};
-        this.success = options.success || true;
-        this.msg = options.msg || new Messages().default;
-        this.code = options.code || Errors.NONE;
-    }
-}
-
-/**
- * This is a constant response return format so that all of our responses have the same format.
- *
- * @param {Object} d the data that is to be returned to the user
- * @param {boolean} pass Whether other not the request passed successfully
- * @param {string} msg
- * @param {integer} code
- * @returns
- */
-function setResult(d, pass, msg, code) {
-    return { data: d, success: pass, msg: msg, code: code };
-}
+const { Errors } = require("./constants");
 
 /**
  * Check to see if the values of a request body are empty.
@@ -149,7 +117,7 @@ function checkBodyKeys(data, required, p = true) {
  * @param {List[String]} types
  * The types of the values that should be in the parameters
  */
-function simpleValidation(data, required, p = true) {
+function validate(data, required, p = true) {
     var empty = checkEmptyBody(data);
     if (empty) {
         return empty;
@@ -165,7 +133,4 @@ function simpleValidation(data, required, p = true) {
     return;
 }
 
-module.exports = {
-    Result,
-    simpleValidation,
-};
+module.exports = validate

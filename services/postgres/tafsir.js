@@ -1,6 +1,7 @@
 const postgres = require("./postgres");
 const validate = require("../../utils/validation");
-const constants = require("../../utils/constants");
+const { Messages } = require("../../utils/constants")
+
 
 /**
  *  @schema Tafsir
@@ -36,7 +37,7 @@ const constants = require("../../utils/constants");
  */
 
 async function getTafsirById(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         tafsir_id: "integer",
     });
     if (invalid) {
@@ -45,15 +46,15 @@ async function getTafsirById(data) {
 
     let sql = "SELECT * FROM Tafsir WHERE tafsir_id=$1;";
     let params = [data.tafsir_id]
-    return await utils.retrieve(
+    return await postgres.retrieve(
         sql,
         params,
-        new constants.Messages({ success: "Successfully fetched a tafsir." })
+        new Messages({ success: "Successfully fetched a tafsir." })
     );
 }
 
 async function createTafsir(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         tafsir_id: "integer",
         tafsir_text: "string",
         book: "integer",
@@ -66,14 +67,14 @@ async function createTafsir(data) {
 
     let sql = "INSERT INTO Tafsir (tafsir_id,tafsir_text,book,verse_id,visible) VALUES ($1,$2,$3,$4,$5) RETURNING *;"
     let params = [data.tafsir_id, data.tafsir_text, data.book, data.verse_id, data.visible]
-    return await utils.create(
+    return await postgres.create(
         sql,
         params,
-        new constants.Messages({ success: "Successfully created a tafsir." })
+        new Messages({ success: "Successfully created a tafsir." })
     );
 }
 async function updateTafsir(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         tafsir_id: "integer",
         tafsir_text: "string",
         book: "integer",
@@ -86,14 +87,14 @@ async function updateTafsir(data) {
 
     let sql = "UPDATE Tafsir SET tafsir_text=$2, book=$3, verse_id=$4, visible=$5 WHERE tafsir_id=$1 RETURNING*;"
     let params = [data.tafsir_id, data.tafsir_text, data.book, data.verse_id, data.visible]
-    return await utils.update(
+    return await postgres.update(
         sql,
         params,
-        new constants.Messages({ success: "Successfully updated a tafsir." })
+        new Messages({ success: "Successfully updated a tafsir." })
     );
 }
 async function deleteTafsir(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         tafsir_id: "integer",
     });
     if (invalid) {
@@ -102,10 +103,10 @@ async function deleteTafsir(data) {
 
     let sql = "DELETE FROM Tafsir WHERE tafsir_id=$1 RETURNING *;"
     let params = [data.tafsir_id]
-    return await utils.remove(
+    return await postgres.remove(
         sql,
         params,
-        new constants.Messages({ success: "Successfully deleted a tafsir." })
+        new Messages({ success: "Successfully deleted a tafsir." })
     );
 }
 

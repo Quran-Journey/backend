@@ -1,6 +1,6 @@
 const postgres = require("./postgres");
 const validate = require("../../utils/validation");
-const constants = require("../../utils/constants");
+const { Messages } = require("../../utils/constants");
 
 /**
  *  @schema Mufasir
@@ -24,7 +24,7 @@ const constants = require("../../utils/constants");
  *          example: 1203 H
  */
 async function getMufasir(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         mufasir_id: "integer",
     });
     if (invalid) {
@@ -32,10 +32,10 @@ async function getMufasir(data) {
     }
     let sql = "SELECT * FROM mufasir WHERE mufasir_id=$1;";
     var params = [data.mufasir_id];
-    return await utils.retrieve(
+    return await postgres.retrieve(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully fetched mufasir with ID ${data.mufasir_id}.`,
         })
     );
@@ -44,17 +44,17 @@ async function getMufasir(data) {
 async function getMufasireen() {
     let sql = "SELECT * FROM mufasir;";
     var params = [];
-    return await utils.retrieve(
+    return await postgres.retrieve(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully fetched all mufasireen.`,
         })
     );
 }
 
 async function addMufasir(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         mufasir_name: "string",
         death: "string",
     });
@@ -64,17 +64,17 @@ async function addMufasir(data) {
     let sql =
         "INSERT INTO mufasir (mufasir_name, death) VALUES ($1, $2) RETURNING *;";
     var params = [data.mufasir_name, data.death];
-    return await utils.create(
+    return await postgres.create(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully created mufasir.`,
         })
     );
 }
 
 async function updateMufasir(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         mufasir_id: "integer",
         mufasir_name: "string",
         death: "string",
@@ -85,17 +85,17 @@ async function updateMufasir(data) {
     let sql =
         "UPDATE mufasir SET mufasir_name=$2, death=$3 WHERE mufasir_id=$1 RETURNING *;";
     var params = [data.mufasir_id, data.mufasir_name, data.death];
-    return await utils.update(
+    return await postgres.update(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully updated mufasir with id ${data.mufasir_id}.`,
         })
     );
 }
 
 async function deleteMufasir(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         mufasir_id: "integer",
     });
     if (invalid) {
@@ -103,10 +103,10 @@ async function deleteMufasir(data) {
     }
     let sql = "DELETE FROM mufasir WHERE mufasir_id=$1 RETURNING *;";
     var params = [data.mufasir_id];
-    return await utils.remove(
+    return await postgres.remove(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully updated mufasir with id ${data.mufasir_id}.`,
         })
     );

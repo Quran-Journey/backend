@@ -1,4 +1,5 @@
-const { Result, simpleValidation } = require("../../../utils/validation");
+const validate = require("../../../utils/validation");
+const { Result } = require("../../../utils/constants");
 const root = require("./root");
 
 /**
@@ -63,7 +64,7 @@ const root = require("./root");
 
 // To be used when adding the different meanings to the sentences.
 async function getRootWordMeanings(data) {
-    var invalid = simpleValidation(data, {
+    var invalid = validate(data, {
         root_id: "integer",
     });
     if (invalid) {
@@ -74,7 +75,7 @@ async function getRootWordMeanings(data) {
     return await validate.retrieve(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully fetched roots for verse with id ${data.verse_id}.`,
         })
     );
@@ -116,7 +117,7 @@ async function stringifyMeanings(root) {
 }
 
 async function getMeaning(data) {
-    var invalid = simpleValidation(data, {
+    var invalid = validate(data, {
         meaning_id: "integer",
     });
     if (invalid) {
@@ -127,7 +128,7 @@ async function getMeaning(data) {
     return await validate.create(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully fetched a meaning with id ${data.meaning_id}.`,
             dbNotFound: `Could not find root meaning with id ${data.meaning_id}.`,
         })
@@ -135,7 +136,7 @@ async function getMeaning(data) {
 }
 
 async function addMeaning(data) {
-    var invalid = simpleValidation(data, {
+    var invalid = validate(data, {
         root_id: "integer",
         meaning: "string",
     });
@@ -148,14 +149,14 @@ async function addMeaning(data) {
     return await validate.create(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully added a meaning to root word with id ${data.root_id}.`,
         })
     );
 }
 
 async function editMeaning(data) {
-    var invalid = simpleValidation(data, {
+    var invalid = validate(data, {
         meaning_id: "integer",
         root_id: "integer",
         meaning: "string",
@@ -169,7 +170,7 @@ async function editMeaning(data) {
     return await validate.create(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully edited meaning with id ${data.meaning_id}.`,
             dbNotFound: `Could not find a meaning with id ${data.meaning_id}.`,
         })
@@ -177,7 +178,7 @@ async function editMeaning(data) {
 }
 
 async function deleteMeaning(data) {
-    var invalid = simpleValidation(data, {
+    var invalid = validate(data, {
         meaning_id: "integer",
     });
     if (invalid) {
@@ -188,7 +189,7 @@ async function deleteMeaning(data) {
     return await validate.create(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully deleted meaning with id ${data.meaning_id}.`,
             dbNotFound: `Could not find meaning with id ${data.meaning_id}.`,
         })

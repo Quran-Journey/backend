@@ -1,6 +1,6 @@
 const postgres = require("./postgres");
 const validate = require("../../utils/validation");
-const constants = require("../../utils/constants");
+const { Messages, Result } = require("../../utils/constants");
 
 /**
  *  @schema SurahInfo
@@ -36,11 +36,11 @@ async function getSurahInfo(data) {
     if (data.surah_info_id != undefined) {
         result = await getSurahInfoBySurahInfoID(data);
     }
-    return new Result;
+    return new Result();
 }
 
 async function getSurahInfoBySurahInfoID(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         surah_info_id: "integer",
     });
     if (invalid) {
@@ -48,16 +48,16 @@ async function getSurahInfoBySurahInfoID(data) {
     }
     let sql = "SELECT * FROM SurahInfo WHERE surah_info_id=$1";
     var params = [data.surah_info_id];
-    return await utils.retrieve(
+    return await postgres.retrieve(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully fetched surah info with id ${data.surah_info_id}.`,
         })
     );
 }
 async function getSurahInfoBySurahID(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         surah: "integer",
     });
     if (invalid) {
@@ -65,17 +65,17 @@ async function getSurahInfoBySurahID(data) {
     }
     let sql = "SELECT * FROM SurahInfo WHERE surah=$1";
     var params = [data.surah];
-    return await utils.retrieve(
+    return await postgres.retrieve(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully fetched surah info with id ${data.surah}.`,
         })
     );
 }
 
 async function createSurahIntroInfo(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         surah: "integer",
         title: "string",
         info: "string",
@@ -86,10 +86,10 @@ async function createSurahIntroInfo(data) {
     var sql_surah_info =
         "INSERT INTO SurahInfo (surah, title, info) VALUES ($1, $2, $3) RETURNING *;";
     var params = [data.surah, data.title, data.info];
-    return await utils.create(
+    return await postgres.create(
         sql_surah_info,
         params,
-        new constants.Messages({
+        new Messages({
             success: "Successfully created a Surah Info.",
             foreign:
                 "Invalid Surah. The surah must be valid and enabled first.",
@@ -98,7 +98,7 @@ async function createSurahIntroInfo(data) {
 }
 
 async function updateSurahIntroInfo(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         surah_info_id: "integer",
         surah: "integer",
         title: "string",
@@ -110,10 +110,10 @@ async function updateSurahIntroInfo(data) {
     let sql =
         "UPDATE SurahInfo SET surah=$2, title=$3, info=$4 WHERE surah_info_id=$1 RETURNING *;";
     var params = [data.surah_info_id, data.surah, data.title, data.info];
-    return await utils.update(
+    return await postgres.update(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully updated surah info with id ${data.surah_info_id}.`,
             dbNotFound: `Could not find a surah info with id ${data.surah_info_id}.`,
         })
@@ -121,7 +121,7 @@ async function updateSurahIntroInfo(data) {
 }
 
 async function deleteSurahIntroInfo(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         surah_info_id: "integer",
     });
     if (invalid) {
@@ -129,10 +129,10 @@ async function deleteSurahIntroInfo(data) {
     }
     let sql = "DELETE FROM SurahInfo WHERE surah_info_id=$1 RETURNING *;";
     var params = [data.surah_info_id];
-    return await utils.remove(
+    return await postgres.remove(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully deleted surah info with id ${data.surah_info_id}.`,
             dbNotFound: `Could not find a surah info with id ${data.surah_info_id}.`,
         })

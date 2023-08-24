@@ -33,7 +33,7 @@ const utils = require("../utils");
  */
 
 async function linkVerseToWord(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         verse_id: "integer",
         word_id: "integer",
         word_explanation: "string",
@@ -45,17 +45,17 @@ async function linkVerseToWord(data) {
     var sql =
         "INSERT INTO verseWord (verse_id, word_id, word_explanation, visible) VALUES ($1, $2, $3, $4) RETURNING *;";
     var params = [data.verse_id, data.word_id, data.word_explanation, data.visible];
-    return await utils.create(
+    return await postgres.create(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully linked a verse with id ${data.verse_id} to word with id ${data.word_id}.`,
         })
     );
 }
 
 async function getVerseWordById(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         verse_word_id: "integer",
     });
     if (invalid) {
@@ -63,10 +63,10 @@ async function getVerseWordById(data) {
     }
     let sql = "SELECT * FROM verseWord WHERE verse_word_id=$1;";
     var params = [data.verse_word_id];
-    return await utils.retrieve(
+    return await postgres.retrieve(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully fetched verse word with id ${data.verse_word_id}.`,
         })
     );
@@ -74,7 +74,7 @@ async function getVerseWordById(data) {
 
 /** Update a rootWord, requires all attributes of the rootWord. */
 async function updateVerseWord(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         verse_word_id: "integer",
         verse_id: "integer",
         word_id: "integer",
@@ -93,10 +93,10 @@ async function updateVerseWord(data) {
         data.word_explanation,
         data.visible,
     ];
-    return await utils.update(
+    return await postgres.update(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully update VerseWord with id ${data.verse_word_id}.`,
             dbNotFound: `Could not find a VerseWord with id ${data.verse_word_id}.`,
         })
@@ -105,7 +105,7 @@ async function updateVerseWord(data) {
 
 /** Update a rootWord, requires all attributes of the rootWord. */
 async function deleteVerseWord(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         verse_word_id: "integer",
     });
     if (invalid) {
@@ -113,10 +113,10 @@ async function deleteVerseWord(data) {
     }
     let sql = "DELETE FROM verseWord WHERE verse_word_id=$1 RETURNING *;";
     var params = [data.verse_word_id];
-    return await utils.remove(
+    return await postgres.remove(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully deleted VerseWord with id ${data.verse_word_id}.`,
             dbNotFound: `Could not find a VerseWord with id ${data.verse_word_id}.`,
         })

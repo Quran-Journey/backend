@@ -36,7 +36,27 @@ class Messages {
     }
 }
 
+class Result {
+    /**
+     * This is a constant response return format so that all of our responses have the same format.
+     *
+     * @param {Object} d The data that is to be returned to the user
+     * @param {boolean} pass Whether other not the request passed successfully
+     * @param {string} msg The message associated with a result
+     * @param {integer} code The error code associated with a result.
+     * @returns
+     */
+    constructor(options) {
+        console.log(msg);
+        this.data = options.data || {};
+        this.success = options.success || true;
+        this.msg = options.msg || new Messages().default;
+        this.code = options.code || Errors.NONE;
+    }
+}
+
 module.exports = {
     Errors,
-    Messages
+    Messages,
+    Result
 };

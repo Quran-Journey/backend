@@ -1,8 +1,7 @@
 const db = require("../postgres/connect");
 const fs = require("fs");
 require("dotenv");
-const { Result } = require("../../utils/validation");
-const { Errors } = require("../../utils/constants");
+const { Errors, Result } = require("../../utils/constants");
 
 /* 
 NOTE: Only needs to be executed when db is being initialized.

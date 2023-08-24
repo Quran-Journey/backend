@@ -1,6 +1,6 @@
 const postgres = require("./postgres");
 const validate = require("../../utils/validation");
-const constants = require("../../utils/constants");
+const { Messages } = require("../../utils/constants")
 
 // Note: this list contains key value pairs of the attribute and types within the schema.
 const attributes = {
@@ -12,7 +12,7 @@ const attributes = {
 
 /** Fetches a surah and it's verses by surah id */
 async function getSurahById(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         surah_id: "integer",
     });
     if (invalid) {
@@ -20,10 +20,10 @@ async function getSurahById(data) {
     }
     let sql = "SELECT * FROM Surah WHERE surah_id=$1";
     var params = [data.surah_id];
-    return await utils.retrieve(
+    return await postgres.retrieve(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully fetched Surah with id ${data.surah_id}.`,
             dbNotFound: `Could not find a Surah with id ${data.surah_id}.`,
         })
@@ -32,7 +32,7 @@ async function getSurahById(data) {
 
 /** Update a Surah, requires all attributes of the Surah. */
 async function updateSurah(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         surah_id: "integer",
         surah_number: "integer",
         name_complex: "string",
@@ -49,10 +49,10 @@ async function updateSurah(data) {
         data.name_complex,
         data.name_arabic,
     ];
-    return await utils.update(
+    return await postgres.update(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully update Surah with id ${data.surah_id}.`,
             dbNotFound: `Could not find a Surah with id ${data.surah_id}.`,
         })
@@ -87,10 +87,10 @@ async function updateSurah(data) {
  */
 async function getSurahs() {
     let sql = "SELECT * FROM surah;";
-    return await utils.retrieve(
+    return await postgres.retrieve(
         sql,
         [],
-        new constants.Messages({
+        new Messages({
             success: `Successfully fetched all surahs.`,
         })
     );
@@ -123,7 +123,7 @@ async function getSurahs() {
  *          example: بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ
  */
 async function getSurahVerses(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         surah_id: "integer",
     });
     if (invalid) {
@@ -131,10 +131,10 @@ async function getSurahVerses(data) {
     }
     let sql = "SELECT * FROM Verse WHERE surah=$1";
     var params = [data.surah_id];
-    let verses = await utils.retrieve(
+    let verses = await postgres.retrieve(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully fetched verses for sura number ${data.surah_id}.`,
         })
     );
@@ -145,7 +145,7 @@ async function getSurahVerses(data) {
 }
 
 async function getSurahLessons(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         surah_id: "integer",
     });
     if (invalid) {
@@ -153,10 +153,10 @@ async function getSurahLessons(data) {
     }
     let sql = "SELECT * FROM Lesson WHERE surah_id=$1";
     var params = [data.surah_id];
-    let verses = await utils.retrieve(
+    let verses = await postgres.retrieve(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully fetched verses for sura number ${data.surah_id}.`,
         })
     );

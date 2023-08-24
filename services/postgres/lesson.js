@@ -1,9 +1,10 @@
 const postgres = require("./postgres");
-const { Result, simpleValidation } = require("../../utils/validation");
-const constants = require("../../utils/constants");
+const validate = require("../../utils/validation");
+const { Result, Messages } = require("../../utils/constants");
 const verseInfo = require("./verseInfo");
 
 // Note: this list contains key value pairs of the attribute and types within the schema.
+// TODO: replace with model attribute references
 const attributes = {
     lesson_id: "integer",
     lesson_date: "date",
@@ -82,7 +83,7 @@ const attributes = {
 async function createLesson(data) {
     // Frontend note: also add a feature where we guess that the
     //  lesson's date is the next saturday after the last lesson's date
-    var invalid = simpleValidation(data, {
+    var invalid = validate(data, {
         lesson_date: "date",
         source: "string",
         surah_id: "string",
@@ -100,10 +101,10 @@ async function createLesson(data) {
         data.start_verse,
         data.end_verse,
     ];
-    return await utils.create(
+    return await postgres.create(
         sql,
         params,
-        new constants.Messages({ success: "Successfully created a lesson." })
+        new Messages({ success: "Successfully created a lesson." })
     );
 }
 
@@ -114,16 +115,16 @@ async function createLesson(data) {
  *  Value is the value we are filtering by.
  */
 async function filterLessons(data) {
-    var invalid = simpleValidation(data, {
+    var invalid = validate(data, {
         property: "string",
         operator: "string",
     });
     let pagination = utils.paginate(data);
     if (invalid) {
-        return await utils.retrieve(
+        return await postgres.retrieve(
             `SELECT * FROM Lesson ${pagination};`,
             [],
-            new constants.Messages({
+            new Messages({
                 success: `Fetched all lessons since no query was properly defined.`,
             })
         );
@@ -137,7 +138,7 @@ async function filterLessons(data) {
                 code: Errors.DB_INVALID,
             });
         }
-        invalid = simpleValidation(data, {
+        invalid = validate(data, {
             value: attributes[data.property],
         });
         if (invalid) {
@@ -158,10 +159,10 @@ async function filterLessons(data) {
             });
         }
         var params = [data.value];
-        return await utils.retrieve(
+        return await postgres.retrieve(
             sql,
             params,
-            new constants.Messages({
+            new Messages({
                 success: `Successfully fetched lessons based on filter ${data.property} ${op} ${data.value}.`,
             })
         );
@@ -170,7 +171,7 @@ async function filterLessons(data) {
 
 /** Fetches lessons based on a specific filter (i.e. id, date) */
 async function getLessonById(data) {
-    var invalid = simpleValidation(data, {
+    var invalid = validate(data, {
         lesson_id: "integer",
     });
     if (invalid) {
@@ -178,10 +179,10 @@ async function getLessonById(data) {
     }
     let sql = "SELECT * FROM Lesson WHERE lesson_id=$1";
     var params = [data.lesson_id];
-    return await utils.retrieve(
+    return await postgres.retrieve(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully fetched lesson with id ${data.lesson_id}.`,
         })
     );
@@ -223,7 +224,7 @@ async function getLessonVerses(data) {
 
 /** Update a lesson, requires all attributes of the lesson. */
 async function updateLesson(data) {
-    var invalid = simpleValidation(data, {
+    var invalid = validate(data, {
         lesson_id: "integer",
         lesson_date: "date",
         source: "string",
@@ -242,10 +243,10 @@ async function updateLesson(data) {
         data.start_verse,
         data.end_verse,
     ];
-    return await utils.update(
+    return await postgres.update(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully update lesson with id ${data.lesson_id}.`,
             dbNotFound: `Could not find a lesson with id ${data.lesson_id}.`,
         })
@@ -254,7 +255,7 @@ async function updateLesson(data) {
 
 /** Update a lesson, requires all attributes of the lesson. */
 async function deleteLesson(data) {
-    var invalid = simpleValidation(data, {
+    var invalid = validate(data, {
         lesson_id: "integer",
     });
     if (invalid) {
@@ -262,10 +263,10 @@ async function deleteLesson(data) {
     }
     let sql = "DELETE FROM Lesson WHERE lesson_id=$1 RETURNING *;";
     var params = [data.lesson_id];
-    return await utils.remove(
+    return await postgres.remove(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully deleted lesson with id ${data.lesson_id}.`,
             dbNotFound: `Could not find a lesson with id ${data.lesson_id}.`,
         })

@@ -1,6 +1,6 @@
 const postgres = require("./postgres");
-const { Result, simpleValidation } = require("../../utils/validation");
-const constants = require("../../utils/constants");
+const validate = require("../../utils/validation");
+const { Result, Messages } = require("../../utils/constants");
 
 /**
  * @schema VerseWordInformation
@@ -90,7 +90,7 @@ const constants = require("../../utils/constants");
  *
  */
 async function getVerseInfo(data) {
-    var invalid = simpleValidation(data, {
+    var invalid = validate(data, {
         verse_id: "integer",
     });
     if (invalid) {
@@ -143,7 +143,7 @@ async function verseInfoResult(data, verse, reflections, tafsirs, words) {
 }
 
 async function getVerse(data) {
-    var invalid = simpleValidation(data, {
+    var invalid = validate(data, {
         verse_id: "integer",
     });
     if (invalid) {
@@ -151,10 +151,10 @@ async function getVerse(data) {
     }
     let sql = "SELECT * FROM Verse WHERE verse_index=$1";
     var params = [data.verse_id];
-    return await utils.retrieve(
+    return await postgres.retrieve(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully fetched verse reflections with verse id ${data.verse_id}.`,
             dbServer: `An error occured while trying to access reflections for verse with id ${data.verse_id}`,
         })
@@ -162,7 +162,7 @@ async function getVerse(data) {
 }
 
 async function getVerseReflections(data) {
-    var invalid = simpleValidation(data, {
+    var invalid = validate(data, {
         verse_id: "integer",
     });
     if (invalid) {
@@ -170,10 +170,10 @@ async function getVerseReflections(data) {
     }
     let sql = "SELECT * FROM Reflection WHERE verse_id=$1";
     var params = [data.verse_id];
-    return await utils.retrieve(
+    return await postgres.retrieve(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully fetched verse reflections with verse id ${data.verse_id}.`,
             dbServer: `An error occured while trying to access reflections for verse with id ${data.verse_id}`,
         })
@@ -181,7 +181,7 @@ async function getVerseReflections(data) {
 }
 
 async function getVerseTafsir(data) {
-    var invalid = simpleValidation(data, {
+    var invalid = validate(data, {
         verse_id: "integer",
     });
     if (invalid) {
@@ -190,10 +190,10 @@ async function getVerseTafsir(data) {
     let sql =
         "SELECT tafsir_id, tafsir_text, book, visible FROM Tafsir JOIN Verse ON Verse.verse_index=Tafsir.verse_id WHERE Tafsir.verse_id=$1";
     var params = [data.verse_id];
-    return await utils.retrieve(
+    return await postgres.retrieve(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully fetched verse tafsirs with verse id ${data.verse_id}.`,
             dbServer: `An error occured while trying to access tafsirs for verse with id ${data.verse_id}`,
         })
@@ -201,7 +201,7 @@ async function getVerseTafsir(data) {
 }
 
 async function getVerseWordExplanations(data) {
-    var invalid = simpleValidation(data, {
+    var invalid = validate(data, {
         verse_id: "integer",
     });
     if (invalid) {
@@ -214,10 +214,10 @@ async function getVerseWordExplanations(data) {
                 FROM VerseWord as vw JOIN ArabicWord as aw ON aw.word_id = vw.word_id WHERE vw.verse_id = $1) as vwa \
                 JOIN RootWord ON RootWord.root_id = vwa.root_id) as vwar JOIN RootMeaning ON RootMeaning.root_id = vwar.root_id";
     var params = [data.verse_id];
-    return await utils.retrieve(
+    return await postgres.retrieve(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully fetched verse words and roots with verse id ${data.verse_id}.`,
             dbServer: `An error occured while trying to access word explanations for verse with id ${data.verse_id}`,
         })

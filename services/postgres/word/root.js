@@ -43,7 +43,7 @@ const utils = require("../utils");
 async function createrootWord(data) {
     // Frontend note: also add a feature where we guess that the
     //  rootWord's date is the next saturday after the last rootWord's date
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         root_word: "string",
     });
     if (invalid) {
@@ -51,15 +51,15 @@ async function createrootWord(data) {
     }
     var sql = "INSERT INTO rootWord (root_word) VALUES ($1) RETURNING *;";
     var params = [data.root_word];
-    return await utils.create(
+    return await postgres.create(
         sql,
         params,
-        new constants.Messages({ success: "Successfully created a rootWord." })
+        new Messages({ success: "Successfully created a rootWord." })
     );
 }
 
 async function getrootWordById(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         root_id: "integer",
     });
     if (invalid) {
@@ -67,10 +67,10 @@ async function getrootWordById(data) {
     }
     let sql = "SELECT * FROM rootWord WHERE root_id=$1";
     var params = [data.root_id];
-    return await utils.retrieve(
+    return await postgres.retrieve(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully fetched rootWord with id ${data.root_id}.`,
         })
     );
@@ -80,10 +80,10 @@ async function getrootWordById(data) {
 async function getAllrootWords(data) {
     let sql = "SELECT * FROM rootWord;";
     var params = [];
-    return await utils.retrieve(
+    return await postgres.retrieve(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully fetched all root words.`,
         })
     );
@@ -91,7 +91,7 @@ async function getAllrootWords(data) {
 
 /** Update a rootWord, requires all attributes of the rootWord. */
 async function updaterootWord(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         root_id: "integer",
         root_word: "string",
     });
@@ -100,10 +100,10 @@ async function updaterootWord(data) {
     }
     let sql = "UPDATE rootWord SET root_word=$2 WHERE root_id=$1";
     var params = [data.root_id, data.root_word];
-    return await utils.update(
+    return await postgres.update(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully update rootWord with id ${data.root_id}.`,
             dbNotFound: `Could not find a rootWord with id ${data.root_id}.`,
         })
@@ -112,7 +112,7 @@ async function updaterootWord(data) {
 
 /** Update a rootWord, requires all attributes of the rootWord. */
 async function deleterootWord(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         root_id: "integer",
     });
     if (invalid) {
@@ -120,10 +120,10 @@ async function deleterootWord(data) {
     }
     let sql = "DELETE FROM rootWord WHERE root_id=$1 RETURNING *;";
     var params = [data.root_id];
-    return await utils.remove(
+    return await postgres.remove(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully deleted rootWord with id ${data.root_id}.`,
             dbNotFound: `Could not find a rootWord with id ${data.root_id}.`,
         })
@@ -131,7 +131,7 @@ async function deleterootWord(data) {
 }
 
 async function getVerseRootWords(data) {
-    var invalid = validate.simpleValidation(data, {
+    var invalid = validate(data, {
         verse_id: "integer",
     });
     if (invalid) {
@@ -140,10 +140,10 @@ async function getVerseRootWords(data) {
     let sql =
         "SELECT * FROM (SELECT verse_id, aw.word_id, word, root_id FROM VerseWord as vw JOIN ArabicWord as aw on aw.word_id=vw.word_id WHERE verse_id=$1) as vtaw JOIN RootWord as rt ON rt.root_id=vtaw.root_id;";
     var params = [data.verse_id];
-    return await utils.retrieve(
+    return await postgres.retrieve(
         sql,
         params,
-        new constants.Messages({
+        new Messages({
             success: `Successfully fetched roots for verse with id ${data.verse_id}.`,
         })
     );
