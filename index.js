@@ -2,27 +2,14 @@ require("dotenv");
 const https = require("https");
 const fs = require("fs");
 const express = require("express");
-const cookieParser = require("cookie-parser");
-const csrf = require("csurf");
-const bodyParser = require("body-parser");
-const lesson = require("./routes/lesson");
-const reflection = require("./routes/reflection");
-const surahInfo = require("./routes/surah-info");
-const word = require("./routes/word/main");
-const mufasir = require("./routes/mufasir");
-const surah = require("./routes/surah");
-const setup = require("./tests/setup");
-const cors = require("cors");
+const setup = require("./tests/seed");
 const path = require("path");
 const db = require("./services/postgres/connect");
-const verseInfo = require("./routes/verseInfo");
-const tafsir = require("./routes/tafsir");
-const authentication = require("./routes/auth");
-const { checkAuth } = require("./services/firebase/auth");
+const routes = require("./middleware/index");
 
 var port = process.env.PORT || 3001;
-
 var app = express();
+app.use(routes);
 
 // Serve static documentation files
 app.use(express.static(path.join(__dirname, "/docs")));
@@ -31,7 +18,8 @@ app.route("/").get((req, res) => {
 });
 
 if (process.env.NODE_ENV == "production") {
-    // Find and use SSL certificates for HTTPS
+    
+    // Use SSL certificates for HTTPS
     var privateKey = fs.readFileSync(
         "/etc/letsencrypt/live/offlinequran.com/privkey.pem"
     );
@@ -47,20 +35,23 @@ if (process.env.NODE_ENV == "production") {
         ca: chain,
     };
 
-    var httpsServer = https.createServer(httpsOptions, app).listen(port, () => {
+    https.createServer(httpsOptions, app).listen(port, () => {
         console.log("Serving on https");
     });
+
 } else if (process.env.NODE_ENV == "development") {
+    
     // After setting up the process's port, we seed the database with mock data.
     app.listen(port, async () => {
         console.log("Listening on port " + port);
         await setup.seedDatabase(db, true);
     });
-}
-else if (process.env.NODE_ENV == "staging") {
-    // Database is not seeded by this node process for staging environment
+
+} else if (process.env.NODE_ENV == "staging") {
+
+    // Note: The database should be seeded externally (i.e. using a separate script)
     app.listen(port, async () => {
-        // Database should be seeded externally (i.e. using a separate script)
         console.log("Listening on port " + port);
     });
+
 }
