@@ -47,7 +47,7 @@ class Result {
      * @returns
      */
     constructor(options) {
-        console.log(msg);
+        console.log(options.msg);
         this.data = options.data || {};
         this.success = options.success || true;
         this.msg = options.msg || new Messages().default;

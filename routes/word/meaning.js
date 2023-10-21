@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const meaning = require("../../model/word/meaning");
-const utils = require("../utils");
+const meaning = require("../../services/postgres/word/meaning");
+const responses = require("../../utils/responses");
 
 /*
  * @api [get] /word/root/meanings/verse/{verse_id}
@@ -31,7 +31,7 @@ router.get("/root/meanings/verse/:verse_id/", async (request, response) => {
     await meaning
         .getVerseRootWordsSentences(request.params)
         .then(async function (result) {
-            return response.simpleResponse(result, response);
+            return responses.simpleResponse(result, response);
         });
 });
 
@@ -61,7 +61,7 @@ router.get("/root/meanings/verse/:verse_id/", async (request, response) => {
  */
 router.get("/root/meaning/:meaning_id", async (request, response) => {
     await meaning.getMeaning(request.params).then(async function (result) {
-        return response.simpleResponse(result, response);
+        return responses.simpleResponse(result, response);
     });
 });
 
@@ -98,7 +98,7 @@ router.get("/root/meaning/:meaning_id", async (request, response) => {
  */
 router.post("/root/meaning", async (request, response) => {
     await meaning.addMeaning(request.body).then(async function (result) {
-        return response.simpleResponse(result, response);
+        return responses.simpleResponse(result, response);
     });
 });
 
@@ -126,7 +126,7 @@ router.post("/root/meaning", async (request, response) => {
  */
 router.put("/root/meaning", async (request, response) => {
     await meaning.editMeaning(request.body).then(async function (result) {
-        return response.simpleResponse(result, response);
+        return responses.simpleResponse(result, response);
     });
 });
 
@@ -155,7 +155,7 @@ router.put("/root/meaning", async (request, response) => {
  */
 router.delete("/root/meaning/:meaning_id", async (request, response) => {
     await meaning.deleteMeaning(request.params).then(async function (result) {
-        return response.simpleResponse(result, response);
+        return responses.simpleResponse(result, response);
     });
 });
 

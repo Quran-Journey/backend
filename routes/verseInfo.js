@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const verseInfo = require("../services/postgres/verseInfo");
-const response = require("../responses");
+const responses = require("../utils/responses");
 
 /*
  * @api [get] /verse/{verse_id}
@@ -28,7 +28,7 @@ const response = require("../responses");
  */
 router.get("/verse/:verse_id", async (request, response) => {
     await verseInfo.getVerseInfo(request.params).then(async function (result) {
-        return response.simpleResponse(result, response);
+        return responses.simpleResponse(result, response);
     })
 })
 module.exports = router;

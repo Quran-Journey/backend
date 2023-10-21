@@ -1,9 +1,9 @@
 const faker = require("faker");
 const requests = require("./request");
-const apiGET = utils.apiGET;
-const apiPOST = utils.apiPOST;
-const apiPUT = utils.apiPUT;
-const apiDELETE = utils.apiDELETE;
+const apiGET = requests.apiGET;
+const apiPOST = requests.apiPOST;
+const apiPUT = requests.apiPUT;
+const apiDELETE = requests.apiDELETE;
 const { seedData } = require("../services/postgres/seed");
 
 function mufasirTests() {

@@ -1,4 +1,5 @@
-const utils = require("../utils");
+const validate = require("../../../utils/validation");
+const { Messages } = require("../../../utils/constants");
 
 /**
  *  @schema VerseWord

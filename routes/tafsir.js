@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const tafsir = require("../services/postgres/tafsir");
-const response = require("../responses");
+const responses = require("../utils/responses");
 
 
 /*
@@ -28,7 +28,7 @@ const response = require("../responses");
  */
 router.get("/tafsir/:tafsir_id", async (request, response) => {
     await tafsir.getTafsirById(request.params).then(async function (result) {
-        return response.simpleResponse(result, response);
+        return responses.simpleResponse(result, response);
     });
 });
 
@@ -51,7 +51,7 @@ router.get("/tafsir/:tafsir_id", async (request, response) => {
  */
 router.post("/tafsir", async (request, response) => {
     await tafsir.createTafsir(request.body).then(async function (result) {
-        return response.simpleResponse(result, response);
+        return responses.simpleResponse(result, response);
     });
 });
 
@@ -77,7 +77,7 @@ router.post("/tafsir", async (request, response) => {
  */
 router.patch("/tafsir", async (request, response) => {
     await tafsir.updateTafsir(request.body).then(async function (result) {
-        return response.simpleResponse(result, response);
+        return responses.simpleResponse(result, response);
     });
 });
 /*
@@ -104,7 +104,7 @@ router.patch("/tafsir", async (request, response) => {
  */
 router.delete("/tafsir", async (request, response) => {
     await tafsir.deleteTafsir(request.body).then(async function (result) {
-        return response.simpleResponse(result, response);
+        return responses.simpleResponse(result, response);
     });
 });
 

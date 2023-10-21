@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const surah = require("../services/postgres/surah");
-const response = require("../responses");
+const responses = require("../utils/responses");
 
 /*
  * @api [get] /surah/{surah_id}
@@ -32,7 +32,7 @@ const response = require("../responses");
  */
 router.get("/surah/:surah_id?", async (request, response) => {
     await surah.getSurahById(request.params).then(async function (result) {
-        return response.simpleResponse(result, response);
+        return responses.simpleResponse(result, response);
     });
 });
 
@@ -63,7 +63,7 @@ router.get("/surah/:surah_id?", async (request, response) => {
  */
 router.get("/surah/:surah_id/verses", async (request, response) => {
     await surah.getSurahVerses(request.params).then(async function (result) {
-        return response.simpleResponse(result, response);
+        return responses.simpleResponse(result, response);
     });
 });
 
@@ -94,7 +94,7 @@ router.get("/surah/:surah_id/verses", async (request, response) => {
  */
 router.get("/surah/:surah_id/lessons", async (request, response) => {
     await surah.getSurahLessons(request.params).then(async function (result) {
-        return response.simpleResponse(result, response);
+        return responses.simpleResponse(result, response);
     });
 });
 
@@ -120,7 +120,7 @@ router.get("/surah/:surah_id/lessons", async (request, response) => {
  */
 router.put("/surah", async (request, response) => {
     await surah.updateSurah(request.body).then(async function (result) {
-        return response.simpleResponse(result, response);
+        return responses.simpleResponse(result, response);
     });
 });
 
@@ -143,7 +143,7 @@ router.put("/surah", async (request, response) => {
  */
 router.get("/surahs", async (request, response) => {
     await surah.getSurahs().then(async function (result) {
-        return response.simpleResponse(result, response);
+        return responses.simpleResponse(result, response);
     });
 });
 

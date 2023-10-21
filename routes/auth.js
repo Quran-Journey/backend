@@ -3,7 +3,7 @@
  */
 const router = require("express").Router();
 const AuthMiddlware = require("../middleware/auth");
-const response = require("../utils/responses");
+const responses = require("../utils/responses");
 
 /*
  * @api [get] /login

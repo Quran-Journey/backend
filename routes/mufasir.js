@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const lesson = require("../services/postgres/mufasir");
-const response = require("../responses");
+const mufasir = require("../services/postgres/mufasir");
+const responses = require("../utils/responses");
 
 /*
  * @api [get] /mufasir
@@ -20,8 +20,8 @@ const response = require("../responses");
  *
  */
 router.get("/mufasir", async (request, response) => {
-    await lesson.getMufasireen().then(async function (result) {
-        return response.simpleResponse(result, response);
+    await mufasir.getMufasireen().then(async function (result) {
+        return responses.simpleResponse(result, response);
     });
 });
 
@@ -50,8 +50,8 @@ router.get("/mufasir", async (request, response) => {
  *
  */
 router.get("/mufasir/:mufasir_id", async (request, response) => {
-    await lesson.getMufasir(request.params).then(async function (result) {
-        return response.simpleResponse(result, response);
+    await mufasir.getMufasir(request.params).then(async function (result) {
+        return responses.simpleResponse(result, response);
     });
 });
 
@@ -90,8 +90,10 @@ router.get("/mufasir/:mufasir_id", async (request, response) => {
  *
  */
 router.post("/mufasir", async (request, response) => {
-    await lesson.addMufasir(request.body).then(async function (result) {
-        return response.simpleResponse(result, response);
+    console.log("\n\nFALAFEL\n\n")
+    console.log(request)
+    await mufasir.addMufasir(request.body).then(async function (result) {
+        return responses.simpleResponse(result, response);
     });
 });
 
@@ -118,8 +120,8 @@ router.post("/mufasir", async (request, response) => {
  *
  */
 router.put("/mufasir", async (request, response) => {
-    await lesson.updateMufasir(request.body).then(async function (result) {
-        return response.simpleResponse(result, response);
+    await mufasir.updateMufasir(request.body).then(async function (result) {
+        return responses.simpleResponse(result, response);
     });
 });
 
@@ -147,8 +149,8 @@ router.put("/mufasir", async (request, response) => {
  *
  */
 router.delete("/mufasir/:mufasir_id", async (request, response) => {
-    await lesson.deleteMufasir(request.params).then(async function (result) {
-        return response.simpleResponse(result, response);
+    await mufasir.deleteMufasir(request.params).then(async function (result) {
+        return responses.simpleResponse(result, response);
     });
 });
 

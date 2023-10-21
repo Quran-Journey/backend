@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const lesson = require("../services/postgres/lesson");
-const response = require("../responses");
+const responses = require("../utils/responses");
 
 /*
  * @api [get] /lessons
@@ -39,7 +39,7 @@ const response = require("../responses");
  */
 router.get("/lessons", async (request, response) => {
     await lesson.filterLessons(request.query).then(async function (result) {
-        return response.simpleResponse(result, response);
+        return responses.simpleResponse(result, response);
     });
 });
 
@@ -68,7 +68,7 @@ router.get("/lessons", async (request, response) => {
  */
 router.get("/lesson/:lesson_id", async (request, response) => {
     await lesson.getLessonById(request.params).then(async function (result) {
-        return response.simpleResponse(result, response);
+        return responses.simpleResponse(result, response);
     });
 });
 
@@ -97,7 +97,7 @@ router.get("/lesson/:lesson_id", async (request, response) => {
  */
 router.get("/lesson/:lesson_id/verses", async (request, response) => {
     await lesson.getLessonVerses(request.params).then(async function (result) {
-        return response.simpleResponse(result, response);
+        return responses.simpleResponse(result, response);
     });
 });
 
@@ -137,7 +137,7 @@ router.get("/lesson/:lesson_id/verses", async (request, response) => {
  */
 router.post("/lesson", async (request, response) => {
     await lesson.createLesson(request.body).then(async function (result) {
-        return response.simpleResponse(result, response);
+        return responses.simpleResponse(result, response);
     });
 });
 
@@ -165,7 +165,7 @@ router.post("/lesson", async (request, response) => {
  */
 router.patch("/lesson", async (request, response) => {
     await lesson.updateLesson(request.body).then(async function (result) {
-        return response.simpleResponse(result, response);
+        return responses.simpleResponse(result, response);
     });
 });
 
@@ -194,7 +194,7 @@ router.patch("/lesson", async (request, response) => {
  */
 router.delete("/lesson/:lesson_id", async (request, response) => {
     await lesson.deleteLesson(request.params).then(async function (result) {
-        return response.simpleResponse(result, response);
+        return responses.simpleResponse(result, response);
     });
 });
 

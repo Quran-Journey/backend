@@ -1,6 +1,6 @@
 const postgres = require("./postgres");
 const validate = require("../../utils/validation");
-const { Result, Messages } = require("../../utils/constants");
+const { Result, Messages, Errors } = require("../../utils/constants");
 const verseInfo = require("./verseInfo");
 
 // Note: this list contains key value pairs of the attribute and types within the schema.
@@ -171,7 +171,7 @@ async function getLessonVerses(data) {
     for (let i = 0; i <= num_verses; i++) {
         let temp = await verseInfo.getVerseInfo({ verse_id: currentVerse });
         lesson_content[i] = temp.data;
-        if (temp.code != utils.Errors.NONE) {
+        if (temp.code != Errors.NONE) {
             errors.push(
                 `Error on verse with id ${temp.data.verse_index}: ${temp.msg}`
             );

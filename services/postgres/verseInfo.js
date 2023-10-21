@@ -1,6 +1,6 @@
 const postgres = require("./postgres");
 const validate = require("../../utils/validation");
-const { Result, Messages } = require("../../utils/constants");
+const { Result, Messages, Errors } = require("../../utils/constants");
 
 /**
  * @schema VerseWordInformation
@@ -115,7 +115,7 @@ async function verseInfoResult(data, verse, reflections, tafsirs, words) {
             if (validEnums.includes(words.code)) {
                 success = true;
                 msg = `Successfully fetched all information pertaining to verse with id ${data.verse_id}`;
-                code = utils.Errors.NONE;
+                code = Errors.NONE;
             } else {
                 msg = words.msg;
                 code = words.code;

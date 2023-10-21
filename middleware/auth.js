@@ -1,4 +1,4 @@
-const serviceAccount = require("../../serviceAccountKey.json");
+const serviceAccount = require("../services/firebase/serviceAccountKey.json");
 const admin = require("firebase-admin");
 const { Result } = require("../utils/constants");
 
@@ -10,7 +10,7 @@ class AuthenticationMiddlware {
     // Default session expiration to 5 days
     static EXPIRATION_TIME_LIMIT = 60 * 60 * 24 * 5 * 1000;
     static HTTP_ONLY = true;
-    static OPTIONS = { maxAge: EXPIRATION_TIME_LIMIT, httpOnly: HTTP_ONLY };
+    static OPTIONS = { maxAge: this.EXPIRATION_TIME_LIMIT, httpOnly: this.HTTP_ONLY };
     
     constructor() {
         admin.initializeApp({

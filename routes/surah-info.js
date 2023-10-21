@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const surahInfo = require("../services/postgres/surah-info");
-const response = require("../responses");
+const responses = require("../utils/responses");
 
 /*
  * @api [get] /surah/info
@@ -30,7 +30,7 @@ const response = require("../responses");
  */
 router.get("/surah/info", async (request, response) => {
     await surahInfo.getSurahInfo(request.query).then(async function (result) {
-        return response.simpleResponse(result, response);
+        return responses.simpleResponse(result, response);
     });
 });
 
@@ -75,7 +75,7 @@ router.post("/surah/info", async (request, response) => {
     await surahInfo
         .createSurahIntroInfo(request.body)
         .then(async function (result) {
-            return response.simpleResponse(result, response);
+            return responses.simpleResponse(result, response);
         });
 });
 
@@ -104,7 +104,7 @@ router.patch("/surah/info", async (request, response) => {
     await surahInfo
         .updateSurahIntroInfo(request.body)
         .then(async function (result) {
-            return response.simpleResponse(result, response);
+            return responses.simpleResponse(result, response);
         });
 });
 
@@ -134,7 +134,7 @@ router.delete("/surah/info", async (request, response) => {
     await surahInfo
         .deleteSurahIntroInfo(request.body)
         .then(async function (result) {
-            return response.simpleResponse(result, response);
+            return responses.simpleResponse(result, response);
         });
 });
 

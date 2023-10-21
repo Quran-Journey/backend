@@ -1,11 +1,9 @@
-// Middleware Imports
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const csrf = require("csurf");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-// routes to be used in application
 const lesson = require("../routes/lesson");
 const reflection = require("../routes/reflection");
 const surahInfo = require("../routes/surah-info");
@@ -16,65 +14,68 @@ const verseInfo = require("../routes/verseInfo");
 const tafsir = require("../routes/tafsir");
 const authentication = require("../routes/auth");
 
-// Services and Middleware
-const AuthMiddlware = require("../middleware/auth");
+const AuthMiddleware = require("../middleware/auth");
 
-// Initialize app and routes
-const app = express();
-const router = express.Router();
-
-// Apply middleware at the application level
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
-const csrfMiddleware = csrf({ cookie: true });
-app.use(csrfMiddleware);
-
-// Create a function to log routes
-const logRoutes = (req, res, next) => {
-    console.log(`\nEndpoint: ${req.method} ${req.originalUrl}\n`);
-    next();
-};
-
-// Shared middleware for all routes under "/api"
-const apiRouter = express.Router();
-apiRouter.use((req, res, next) => {
-    // catch all non get requests
-    if (req.method != "GET") {
-        AuthMiddlware.authorize(req, res, next);
+class AppRouter {
+    constructor(app) {
+        this.app = app;
+        // this.router = express.Router();
     }
-    next();
-});
 
-// Define your route handlers for different paths under "/api"
-const apiRoutes = [
-    lesson,
-    reflection,
-    surahInfo,
-    mufasir,
-    surah,
-    word,
-    verseInfo,
-    tafsir,
-];
-apiRoutes.forEach((route) => {
-    apiRouter.use(route);
-});
+    route() {
+        this.applyMiddleware();
+        this.mountApiRoutes();
+        this.mountAuthenticationRoutes();
+    }
 
-// Define a catch-all route for unmatched routes
-apiRouter.all("*", (req, res) => {
-    res.status(404).json({ error: "It seems this endpoint doesn't exist." });
-});
+    applyMiddleware() {
+        this.app.use(cors());
+        this.app.use(bodyParser.json());
+        this.app.use(bodyParser.urlencoded({ extended: true }));
+        this.app.use(cookieParser());
+        // const csrfMiddleware = csrf({ cookie: true });
+        // this.app.use(csrfMiddleware);
+        this.app.use(this.logRoutes);
+    }
 
-// Use the logRoutes middleware for logging
-apiRouter.use(logRoutes);
+    logRoutes(req, res, next) {
+        console.log(`\nEndpoint: ${req.method} ${req.originalUrl}\n`);
+        next();
+    }
 
-// Mount the API router under "/api"
-router.use("/api", apiRouter);
+    mountApiRoutes() {
+        console.log("mounting");
+        const apiRouter = express.Router();
+        apiRouter.use(this.apiRouteMiddleware);
+        const apiRoutes = [
+            lesson,
+            reflection,
+            surahInfo,
+            mufasir,
+            surah,
+            word,
+            verseInfo,
+            tafsir,
+        ];
+        apiRoutes.forEach((route) => {
+            apiRouter.use(route);
+        });
+        apiRouter.all("*", (req, res) => {
+            res.status(404).json({ error: "This endpoint doesn't exist." });
+        });
+        this.app.use("/api", apiRouter);
+    }
 
-// Authentication routes
-router.use("/auth", authentication);
+    apiRouteMiddleware(req, res, next) {
+        if (req.method !== "GET") {
+            AuthMiddleware.authorize(req, res, next);
+        }
+        next();
+    }
 
-// Export the router
-module.exports = router;
+    mountAuthenticationRoutes() {
+        this.app.use("/auth", authentication);
+    }
+}
+
+module.exports = AppRouter;
