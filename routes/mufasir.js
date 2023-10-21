@@ -90,8 +90,6 @@ router.get("/mufasir/:mufasir_id", async (request, response) => {
  *
  */
 router.post("/mufasir", async (request, response) => {
-    console.log("\n\nFALAFEL\n\n")
-    console.log(request)
     await mufasir.addMufasir(request.body).then(async function (result) {
         return responses.simpleResponse(result, response);
     });
