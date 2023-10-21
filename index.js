@@ -2,10 +2,10 @@ require("dotenv");
 const https = require("https");
 const fs = require("fs");
 const express = require("express");
-const setup = require("./tests/seed");
+const setup = require("./services/postgres/seed");
 const path = require("path");
 const db = require("./services/postgres/connect");
-const routes = require("./middleware/index");
+const routes = require("./routes/index");
 
 var port = process.env.PORT || 3001;
 var app = express();

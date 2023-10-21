@@ -2,7 +2,7 @@
  * Contains routes specific to authentication (authorization is handled in middleware)
  */
 const router = require("express").Router();
-const FireBaseAuthService = require("../services/firebase/auth");
+const AuthMiddlware = require("../middleware/auth");
 const response = require("../utils/responses");
 
 /*
@@ -24,9 +24,9 @@ router.post("/login", async (req, res) => {
     const idToken = req.body.idToken.toString();
     // Set session expiration to 5 days
 
-    FireBaseAuthService.authenticate(idToken).then(
+    AuthMiddlware.authenticate(idToken).then(
         (sessionCookie) => {
-            res.cookie("session", sessionCookie, FireBaseAuthService.OPTIONS);
+            res.cookie("session", sessionCookie, AuthMiddlware.OPTIONS);
             
             res.end(JSON.stringify({ status: "success" }));
         },
