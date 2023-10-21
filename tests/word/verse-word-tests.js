@@ -1,10 +1,10 @@
-const utils = require("../utils");
+const utils = require("../request");
 const apiGET = utils.apiGET;
 const apiPOST = utils.apiPOST;
 const apiPATCH = utils.apiPATCH;
 const apiDELETE = utils.apiDELETE;
 const setup = require("../setup");
-const seedData = setup.seedData;
+const seedData = seed.seedData;
 
 function verseWordTests() {
     it("getting a verseWord by id", async () => {

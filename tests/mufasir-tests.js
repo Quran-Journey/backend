@@ -1,11 +1,10 @@
 const faker = require("faker");
-const utils = require("./utils");
+const requests = require("./request");
 const apiGET = utils.apiGET;
 const apiPOST = utils.apiPOST;
 const apiPUT = utils.apiPUT;
 const apiDELETE = utils.apiDELETE;
-const setup = require("./setup");
-const seedData = setup.seedData;
+const { seedData } = require("../services/postgres/seed");
 
 function mufasirTests() {
     it("getting all the mufasireen", async () => {

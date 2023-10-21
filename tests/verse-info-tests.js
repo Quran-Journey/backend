@@ -1,7 +1,6 @@
-const utils = require("./utils");
+const requests = require("./request");
 const { apiGET } = utils;
-const setup = require("./setup");
-const seedData = setup.seedData;
+const { seedData } = require("../services/postgres/seed");
 
 function verseInfoTests() {
     it("get complete verse info", async () => {

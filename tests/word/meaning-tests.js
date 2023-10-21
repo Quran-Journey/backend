@@ -1,10 +1,10 @@
-const utils = require("../utils");
+const utils = require("../request");
 const apiGET = utils.apiGET;
 const apiPOST = utils.apiPOST;
 const apiPUT = utils.apiPUT;
 const apiDELETE = utils.apiDELETE;
 const setup = require("../setup");
-const seedData = setup.seedData;
+const seedData = seed.seedData;
 
 function meaningTests() {
     it("getting a root meaning by id", async () => {

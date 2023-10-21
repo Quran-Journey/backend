@@ -1,7 +1,6 @@
-const utils = require("./utils");
-const { apiGET, apiPOST, apiPATCH, apiDELETE } = utils;
-const setup = require("./setup");
-const seedData = setup.seedData;
+const requests = require("./request");
+const { apiGET, apiPOST, apiPATCH, apiDELETE } = requests;
+const { seedData } = require("../services/postgres/seed");
 
 function tafsirTests() {
     it("getting a tafsir", async () => {

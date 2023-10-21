@@ -1,12 +1,12 @@
 const faker = require("faker");
-const utils = require("../utils");
+const utils = require("../request");
 const apiGET = utils.apiGET;
 const apiPOST = utils.apiPOST;
 const apiPATCH = utils.apiPATCH;
 const apiDELETE = utils.apiDELETE;
 const setup = require("../setup");
 const moment = require("moment");
-const seedData = setup.seedData;
+const seedData = seed.seedData;
 
 function lessonTests() {
     it("getting a lesson's information", async () => {

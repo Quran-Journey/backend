@@ -1,8 +1,8 @@
-const utils = require("../utils");
+const utils = require("../request");
 const apiGET = utils.apiGET;
 const setup = require("../setup");
 const moment = require("moment");
-const seedData = setup.seedData;
+const seedData = seed.seedData;
 
 function lessonInfoTests() {
     it("getting verse info linked to a lesson", async () => {
