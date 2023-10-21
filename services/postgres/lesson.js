@@ -1,5 +1,6 @@
-const postgres = require("./postgres");
+const postgres = require(".");
 const validate = require("../../utils/validation");
+const { paginate, getOperator } = require("../../services/postgres");
 const { Result, Messages, Errors } = require("../../utils/constants");
 const verseInfo = require("./verseInfo");
 
@@ -87,7 +88,7 @@ async function filterLessons(data) {
         property: "string",
         operator: "string",
     });
-    let pagination = utils.paginate(data);
+    let pagination = paginate(data);
     if (invalid) {
         return await postgres.retrieve(
             `SELECT * FROM Lesson ${pagination};`,
@@ -113,7 +114,7 @@ async function filterLessons(data) {
             return invalid;
         }
         let sql = `SELECT * FROM Lesson WHERE ${data.property}`;
-        let op = utils.getOperator(data.operator);
+        let op = getOperator(data.operator);
         if (op) {
             // Add the operator and any pagination
             sql = sql + `${op}$1 ${pagination};`;
@@ -215,7 +216,7 @@ async function updateLesson(data) {
         sql,
         params,
         new Messages({
-            success: `Successfully update lesson with id ${data.lesson_id}.`,
+            success: `Successfully updated lesson with id ${data.lesson_id}.`,
             dbNotFound: `Could not find a lesson with id ${data.lesson_id}.`,
         })
     );

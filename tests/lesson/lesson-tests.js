@@ -1,12 +1,8 @@
 const faker = require("faker");
-const utils = require("../request");
-const apiGET = utils.apiGET;
-const apiPOST = utils.apiPOST;
-const apiPATCH = utils.apiPATCH;
-const apiDELETE = utils.apiDELETE;
-const setup = require("../setup");
+const requests = require("../request");
+const { apiGET, apiPOST, apiPATCH, apiDELETE } = requests;
 const moment = require("moment");
-const seedData = seed.seedData;
+const { seedData } = require("../../services/postgres/seed");
 
 function lessonTests() {
     it("getting a lesson's information", async () => {

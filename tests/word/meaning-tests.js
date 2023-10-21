@@ -1,10 +1,6 @@
-const utils = require("../request");
-const apiGET = utils.apiGET;
-const apiPOST = utils.apiPOST;
-const apiPUT = utils.apiPUT;
-const apiDELETE = utils.apiDELETE;
-const setup = require("../setup");
-const seedData = seed.seedData;
+const requests = require("../request");
+const { apiGET, apiPOST, apiDELETE } = requests;
+const { seedData } = require("../../services/postgres/seed");
 
 function meaningTests() {
     it("getting a root meaning by id", async () => {

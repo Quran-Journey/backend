@@ -1,5 +1,5 @@
 const requests = require("./request");
-const { apiGET } = utils;
+const { apiGET } = requests;
 const { seedData } = require("../services/postgres/seed");
 
 function verseInfoTests() {

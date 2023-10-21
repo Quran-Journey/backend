@@ -132,6 +132,12 @@ async function update(sql, params = [], message = defaultMsg) {
                     code: Errors.NONE,
                 });
             }
+            return new Result({
+                    data: result.rows,
+                    success: false,
+                    msg: message.dbNotFound,
+                    code: Errors.DB_DNE,
+                });
         })
         .catch((e) => {
             console.log("\nError while updating!\n", e);

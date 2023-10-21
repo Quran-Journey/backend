@@ -1,4 +1,4 @@
-const { Errors } = require("./constants");
+const { Result, Errors } = require("./constants");
 
 /**
  * Check to see if the values of a request body are empty.

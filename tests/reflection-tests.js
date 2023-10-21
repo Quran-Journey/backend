@@ -1,8 +1,6 @@
-const faker = require("faker");
 const requests = require("./request");
 const { apiGET, apiPOST, apiPATCH, apiDELETE } = requests;
 const { seedData } = require("../services/postgres/seed");
-const seedData = seed.seedData;
 
 function reflectionTests() {
 

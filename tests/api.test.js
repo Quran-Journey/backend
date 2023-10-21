@@ -11,13 +11,13 @@ const verseInfoTests = require("./verse-info-tests").verseInfoTests;
 const lessonInfoTests = require("./lesson/lesson-info-tests").lessonInfoTests;
 const verseWordTests = require("./word/verse-word-tests").verseWordTests;
 const tafsirTests = require("./tafsir-tests").tafsirTests;
-const seed = require("./seed.js");
+const { seedDatabase } = require("../services/postgres/seed.js");
 const { connect_to_db } = require("../services/postgres/connect.js");
 
 describe("Set up", () => {
     test("setup database", async () => {
         let db = await connect_to_db();
-        await seed.seedDatabase(db);
+        await seedDatabase(db);
     }, 30000);
 });
 

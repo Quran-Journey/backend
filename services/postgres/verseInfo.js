@@ -1,4 +1,4 @@
-const postgres = require("./postgres");
+const postgres = require(".");
 const validate = require("../../utils/validation");
 const { Result, Messages, Errors } = require("../../utils/constants");
 

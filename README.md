@@ -28,7 +28,6 @@ Compile the documentation by executing `cd docs; sh run.sh;` Serve the docs loca
 ├── docs
 ├── middleware
 ├── models
-├── pgdata
 ├── routes
 ├── services
 │   ├── firebase

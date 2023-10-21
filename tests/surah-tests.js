@@ -1,9 +1,7 @@
-const faker = require("faker");
 const requests = require("./request");
 const lessonsCheckMatch = require("./lesson/lesson-tests").checkMatch;
-const { apiGET, apiPUT } = utils;
+const { apiGET, apiPUT } = requests;
 const { seedData } = require("../services/postgres/seed");
-const seedData = seed.seedData;
 
 function surahTests() {
     it("getting a surah by id", async () => {

@@ -1,10 +1,6 @@
-const utils = require("../request");
-const apiGET = utils.apiGET;
-const apiPOST = utils.apiPOST;
-const apiPATCH = utils.apiPATCH;
-const apiDELETE = utils.apiDELETE;
-const setup = require("../setup");
-const seedData = seed.seedData;
+const requests = require("../request");
+const { apiGET, apiPOST, apiPATCH, apiDELETE } = requests;
+const { seedData } = require("../../services/postgres/seed");
 
 function verseWordTests() {
     it("getting a verseWord by id", async () => {
