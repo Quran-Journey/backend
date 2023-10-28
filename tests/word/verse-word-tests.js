@@ -1,6 +1,7 @@
 const requests = require("../request");
 const { apiGET, apiPOST, apiPATCH, apiDELETE } = requests;
 const { seedData } = require("../../services/postgres/seed");
+const { Errors } = require("../../utils/constants")
 
 function verseWordTests() {
     it("getting a verseWord by id", async () => {
@@ -60,7 +61,7 @@ function verseWordTests() {
             expect(resp1.data.success).toEqual(true);
 
             let resp2 = await apiGET(`/word/verse/1`);
-            expect(resp2.data.code).toEqual(3); // code 3 implies None found (i.e. DNE)
+            expect(resp2.data.code).toEqual(Errors.DB_DNE);
             expect(resp2.data.success).toEqual(false);
         };
     });

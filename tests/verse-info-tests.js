@@ -1,6 +1,7 @@
 const requests = require("./request");
 const { apiGET } = requests;
 const { seedData } = require("../services/postgres/seed");
+const { Errors } = require("../utils/constants")
 
 function verseInfoTests() {
     it("get complete verse info", async () => {
@@ -29,7 +30,7 @@ function verseInfoTests() {
     });
     it("get verse info for a verse that does not exist", async () => {
         const resp = await apiGET(`/verse/${seedData.Verse.length + 1}`);
-        expect(resp.data.code).toEqual(3);
+        expect(resp.data.code).toEqual(Errors.DB_DNE);
         expect(resp.data.success).toEqual(false);
     });
 }

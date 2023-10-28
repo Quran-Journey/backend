@@ -4,3 +4,4 @@ secretKey.json
 output.txt
 **/.DS_Store
 .env
+**/.vscode

@@ -33,4 +33,4 @@ async function connect_to_db() {
 
 connect_to_db();
 
-module.exports = db;
+module.exports = { db, connect_to_db };

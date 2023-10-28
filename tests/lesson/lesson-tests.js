@@ -3,6 +3,7 @@ const requests = require("../request");
 const { apiGET, apiPOST, apiPATCH, apiDELETE } = requests;
 const moment = require("moment");
 const { seedData } = require("../../services/postgres/seed");
+const { Errors } = require("../../utils/constants")
 
 function lessonTests() {
     it("getting a lesson's information", async () => {
@@ -81,7 +82,7 @@ function lessonTests() {
         expect(resp1.data.success).toEqual(true);
 
         let resp2 = await apiGET(`/lesson/4`);
-        expect(resp2.data.code).toEqual(3); // code 3 implies None found (i.e. DNE)
+        expect(resp2.data.code).toEqual(Errors.DB_DNE);
         expect(resp2.data.success).toEqual(false);
     });
 }

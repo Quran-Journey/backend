@@ -106,8 +106,22 @@ async function getVerseInfo(data) {
     return verseInfoResult(data, verse, reflections, tafsirs, words);
 }
 
+/**
+ * Constructs a result object based on the provided data, reflecting the outcome
+ * of operations related to a specific verse.
+ *
+ * @param {object} data - Information pertaining to the verse.
+ * @param {object} verse - Details of the verse.
+ * @param {object} reflections - A list of reflections associated with the verse.
+ * @param {object} tafsirs - A list of tafsirs associated with the verse.
+ * @param {object} words - A list of words within the verse.
+ *
+ * @returns {Result} - An object encapsulating the verse data and the outcome of
+ * the reflections, tafsirs, and words operations, including success status, a message,
+ * and a code.
+ */
 async function verseInfoResult(data, verse, reflections, tafsirs, words) {
-    let validEnums = [0, 3];
+    let validEnums = [Errors.NONE, Errors.DB_DNE];
     let success = false;
     let msg, code;
     if (validEnums.includes(reflections.code)) {

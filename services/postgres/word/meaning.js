@@ -1,7 +1,6 @@
+const postgres = require("..");
 const validate = require("../../../utils/validation");
 const { Result, Messages } = require("../../../utils/constants");
-
-
 
 /**
  *  @schema RootMeaning
@@ -35,7 +34,7 @@ async function getRootWordMeanings(data) {
     }
     let sql = "SELECT * FROM RootMeaning WHERE root_id=$1;";
     var params = [data.root_id];
-    return await validate.retrieve(
+    return await postgres.retrieve(
         sql,
         params,
         new Messages({
@@ -88,7 +87,7 @@ async function getMeaning(data) {
     }
     var sql = "SELECT * FROM RootMeaning WHERE meaning_id=$1;";
     var params = [data.meaning_id];
-    return await validate.create(
+    return await postgres.retrieve(
         sql,
         params,
         new Messages({
@@ -109,7 +108,7 @@ async function addMeaning(data) {
     var sql =
         "INSERT INTO RootMeaning (root_id, meaning) VALUES ($1, $2) RETURNING *;";
     var params = [data.root_id, data.meaning];
-    return await validate.create(
+    return await postgres.create(
         sql,
         params,
         new Messages({
@@ -130,7 +129,7 @@ async function editMeaning(data) {
     var sql =
         "UPDATE RootMeaning SET meaning=$2, root_id=$3 WHERE meaning_id=$1 RETURNING *;";
     var params = [data.meaning_id, data.meaning, data.root_id];
-    return await validate.create(
+    return await postgres.update(
         sql,
         params,
         new Messages({
@@ -149,7 +148,7 @@ async function deleteMeaning(data) {
     }
     var sql = "DELETE FROM RootMeaning WHERE meaning_id=$1 RETURNING *;";
     var params = [data.meaning_id];
-    return await validate.create(
+    return await postgres.remove(
         sql,
         params,
         new Messages({

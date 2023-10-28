@@ -1,6 +1,7 @@
 const requests = require("../request");
 const { apiGET, apiPOST, apiPATCH, apiDELETE } = requests;
 const { seedData } = require("../../services/postgres/seed");
+const { Errors } = require("../../utils/constants")
 
 function rootTests() {
     it("getting a root word by id", async () => {
@@ -49,7 +50,7 @@ function rootTests() {
             expect(resp1.data.success).toEqual(true);
 
             let resp2 = await apiGET(`/word/root/1`);
-            expect(resp2.data.code).toEqual(3); // code 3 implies None found (i.e. DNE)
+            expect(resp2.data.code).toEqual(Errors.DB_DNE);
             expect(resp2.data.success).toEqual(false);
         };
     });

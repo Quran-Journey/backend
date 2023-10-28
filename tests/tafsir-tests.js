@@ -1,6 +1,8 @@
 const requests = require("./request");
 const { apiGET, apiPOST, apiPATCH, apiDELETE } = requests;
 const { seedData } = require("../services/postgres/seed");
+const { Errors } = require("../utils/constants")
+
 
 function tafsirTests() {
     it("getting a tafsir", async () => {
@@ -51,7 +53,7 @@ function tafsirTests() {
         expect(res.data.success).toEqual(true)
 
         let res2 = await apiGET(`/tafsir/1`)
-        expect(res2.data.code).toEqual(3)
+        expect(res2.data.code).toEqual(Errors.DB_DNE);
         expect(res2.data.success).toEqual(false)
 
         //to make sure future tests have complete seedData

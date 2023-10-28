@@ -30,7 +30,7 @@ class AuthenticationMiddlware {
                 .auth()
                 .verifySessionCookie(cookies.session)
                 .then(() => {
-                    return new Result();
+                    return new Result({});
                 })
                 .catch(() => {
                     return new Result({

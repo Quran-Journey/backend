@@ -47,11 +47,11 @@ class Result {
      * @returns
      */
     constructor(options) {
-        console.log(options.msg);
         this.data = options.data || {};
-        this.success = options.success || true;
+        this.success = options.success || false;
         this.msg = options.msg || new Messages().default;
         this.code = options.code || Errors.NONE;
+        console.log(this.msg)
     }
 }
 

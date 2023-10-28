@@ -4,7 +4,7 @@ const fs = require("fs");
 const express = require("express");
 const setup = require("./services/postgres/seed");
 const path = require("path");
-const db = require("./services/postgres/connect");
+const { db } = require("./services/postgres/connect");
 const AppRouter = require("./routes/index");
 
 const port = process.env.PORT || 3001;

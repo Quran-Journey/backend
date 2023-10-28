@@ -1,4 +1,4 @@
-const db = require("./connect");
+const { db } = require("./connect");
 const { Errors, Messages, Result } = require("../../utils/constants");
 const validate = require("../../utils/validation");
 
@@ -124,7 +124,7 @@ async function update(sql, params = [], message = defaultMsg) {
     return await db
         .query(sql, params)
         .then((result) => {
-            if (result.rows[0] == null) {
+            if (result.rows[0] != null) {
                 return new Result({
                     data: result.rows,
                     success: true,

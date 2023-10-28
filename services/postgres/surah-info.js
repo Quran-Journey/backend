@@ -4,14 +4,13 @@ const { Messages, Result } = require("../../utils/constants");
 
 
 async function getSurahInfo(data) {
-    let result;
     if (data.surah != undefined) {
-        result = await getSurahInfoBySurahID(data);
+        return await getSurahInfoBySurahID(data);
     }
     if (data.surah_info_id != undefined) {
-        result = await getSurahInfoBySurahInfoID(data);
+        return await getSurahInfoBySurahInfoID(data);
     }
-    return new Result();
+    return new Result({});
 }
 
 async function getSurahInfoBySurahInfoID(data) {
