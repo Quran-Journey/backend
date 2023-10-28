@@ -2,7 +2,7 @@
 rm output.txt
 cd db; docker-compose down; docker-compose up -d > ../output.txt; cd ..; sleep 10;
 # We sleep 10 seconds to give the db enough time to set up. Should probably change that soon.
-node index.js >> ./output.txt 2>> ./output.txt &
+npm run start >> ./output.txt 2>> ./output.txt &
 backend=$!;
 npm test;
 exit_code=$?

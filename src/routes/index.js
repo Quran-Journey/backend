@@ -44,7 +44,7 @@ class AppRouter {
     }
 
     mountApiRoutes() {
-        console.log("adding API routes");
+        console.log("Setting up API routes");
         const apiRouter = express.Router();
         apiRouter.use(this.apiRouteMiddleware);
         const apiRoutes = [
