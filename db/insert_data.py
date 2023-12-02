@@ -15,7 +15,7 @@ PG_USER = os.getenv('POSTGRES_USER')
 PG_DB = os.getenv('POSTGRES_DB')
 
 # Read in the data file that we need to insert
-df = pd.read_excel("./Data/Cleaned_Root_letters.xlsx")
+df = pd.read_excel("./data/Cleaned_Root_letters.xlsx")
 
 # Clean the data right at the start
 df = df.convert_dtypes()

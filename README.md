@@ -20,6 +20,23 @@ Run the backend tests by executing `sh run_tests.sh`.
 
 Compile the documentation by executing `cd docs; sh run.sh;` Serve the docs locally using `sh serve.sh`.
 
+### Folder Structure
+```
+./
+├── db
+│   ├── data
+├── docs
+├── middleware
+├── models
+├── routes
+├── services
+│   ├── firebase
+│   ├── postgres
+│   └── selenium
+├── tests
+└── utils
+```
+
 ## High-Level Architecture 
 
 [An image depicting the technologies used in this project.](https://user-images.githubusercontent.com/35634011/171746819-db404bc7-ed8f-4ad5-a65c-7d1d43051e62.png) 

@@ -2,14 +2,14 @@
     "name": "quran-journey",
     "version": "1.0.0",
     "description": "Contains all of the back-end server code for the Quran Journey.",
-    "main": "index.js",
+    "main": "./src/index.js",
     "directories": {
         "test": "tests"
     },
     "scripts": {
         "test": "jest --detectOpenHandles",
-        "dev": "nodemon index.js",
-        "start": "node index.js",
+        "dev": "nodemon src/index.js",
+        "start": "node src/index.js",
         "test-ci": "sh run_tests.sh"
     },
     "repository": {
