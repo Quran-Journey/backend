@@ -60,17 +60,16 @@ function reflectionTests() {
         expect(resp2.data.success).toEqual(true);
     });
 
-    // it("delete a reflection", async () => {
-    //     let resp = await apiGET(`/reflection/1`);
-    //     let resp1 = await apiDELETE(`/reflection/1`);
-    //     // We want to ensure that the deleted lesson is the correct lesson.
-    //     expect(resp1.data.data[0]).toEqual(resp.data.data[0]);
-    //     expect(resp1.data.success).toEqual(true);
-    //     console.log(resp1, "response");
-    //     let resp2 = await apiGET(`/reflection/1`);
-    //     expect(resp2.data.code).toEqual(Errors.DB_DNE);
-    //     expect(resp2.data.success).toEqual(false);
-    // });
+    it("delete a reflection", async () => {
+        let resp = await apiGET(`/reflection/1`);
+        let resp1 = await apiDELETE(`/reflection/1`);
+        // We want to ensure that the deleted lesson is the correct lesson.
+        expect(resp1.data.data[0]).toEqual(resp.data.data[0]);
+        expect(resp1.data.success).toEqual(true);
+        let resp2 = await apiGET(`/reflection/1`);
+        expect(resp2.data.code).toEqual(Errors.DB_DNE);
+        expect(resp2.data.success).toEqual(false);
+    });
 }
 
 function checkMatch(reflectionA: Reflection, reflectionB: Reflection) {

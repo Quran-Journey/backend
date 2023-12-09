@@ -49,19 +49,20 @@ async function tafsirTests() {
         expect(t2.data.success).toEqual(true);
     });
 
-    // it("deleting a tafsir", async () => {
-    //     let deleteTafsir: Tafsir = seedData.Tafsir[0];
-    //     let res = await apiDELETE(`/tafsir`, { data: { tafsir_id: 1 } });
-    //     expect(res.data.data[0]).toEqual(deleteTafsir);
-    //     expect(res.data.success).toEqual(true);
-    //
-    //     let res2 = await apiGET(`/tafsir/1`);
-    //     expect(res2.data.code).toEqual(Errors.DB_DNE);
-    //     expect(res2.data.success).toEqual(false);
-    //
-    //     // to make sure future tests have complete seedData
-    //     await apiPOST(`/tafsir`, deleteTafsir);
-    // });
+    it("deleting a tafsir", async () => {
+        let deleteTafsir: Tafsir = seedData.Tafsir[0];
+        let res = await apiDELETE(`/tafsir`, { tafsir_id: 1  });
+        console.log(res);
+        expect(res.data.data[0]).toEqual(deleteTafsir);
+        expect(res.data.success).toEqual(true);
+
+        let res2 = await apiGET(`/tafsir/1`);
+        expect(res2.data.code).toEqual(Errors.DB_DNE);
+        expect(res2.data.success).toEqual(false);
+
+        // to make sure future tests have complete seedData
+        await apiPOST(`/tafsir`, deleteTafsir);
+    });
 }
 
 export { tafsirTests };

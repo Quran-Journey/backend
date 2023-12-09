@@ -62,17 +62,17 @@ function surahInfoTests() {
         expect(resp2.data.success).toEqual(true);
     });
 
-    // it("delete a surah info", async () => {
-    //     let resp = await apiGET(`/surah/info?surah_info_id=1`);
-    //     let resp1 = await apiDELETE(`/surah/info`, { data: { surah_info_id: 1 } });
-    //     // We want to ensure that the deleted lesson is the correct lesson.
-    //     expect(resp1.data.data[0]).toEqual(resp.data.data[0]);
-    //     expect(resp1.data.success).toEqual(true);
-    //
-    //     let resp2 = await apiGET(`/surah/info?surah_info_id=1`);
-    //     expect(resp2.data.code).toEqual(Errors.DB_DNE);
-    //     expect(resp2.data.success).toEqual(false);
-    // });
+    it("delete a surah info", async () => {
+        let resp = await apiGET(`/surah/info?surah_info_id=1`);
+        let resp1 = await apiDELETE(`/surah/info`, { surah_info_id: 1  });
+        // We want to ensure that the deleted lesson is the correct lesson.
+        expect(resp1.data.data[0]).toEqual(resp.data.data[0]);
+        expect(resp1.data.success).toEqual(true);
+
+        let resp2 = await apiGET(`/surah/info?surah_info_id=1`);
+        expect(resp2.data.code).toEqual(Errors.DB_DNE);
+        expect(resp2.data.success).toEqual(false);
+    });
 }
 
 function checkMatch(surahInfoA: SurahInfo, surahInfoB: SurahInfo) {

@@ -27,6 +27,7 @@ router.patch("/tafsir", async (request: Request, response: Response) => {
 });
 
 router.delete("/tafsir", async (request: Request, response: Response) => {
+    console.log(request.body)
     await tafsir.deleteTafsir(request.body).then(async (result) => {
         return responses.simpleResponse(result, response);
     });
