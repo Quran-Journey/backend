@@ -7,7 +7,7 @@ We are using the PERN stack (Postgres, Node/Express, React, Nginx). These script
 
 Note: the following scripts are to be executed from the top level folder.
 
-Execute just the backend using `sh run_backend.sh`
+Execute just the backend using `sh script/run_backend.sh`
 
 Use an nginx docker image to run a small webserver locally:
 `cd html; sh run.sh`
@@ -16,7 +16,7 @@ Run postgres alone using docker: `cd db; docker-compose up`. You can kill this b
 
 To run everything together the first time, execute `docker-compose up --build`. Every other time you can use `docker-compose up`.
 
-Run the backend tests by executing `sh run_tests.sh`.
+Run the backend tests by executing `sh script/run_tests.sh`.
 
 Compile the documentation by executing `cd docs; sh run.sh;` Serve the docs locally using `sh serve.sh`.
 
