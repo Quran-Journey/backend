@@ -20,20 +20,31 @@ Run the backend tests by executing `sh run_tests.sh`.
 
 Compile the documentation by executing `cd docs; sh run.sh;` Serve the docs locally using `sh serve.sh`.
 
-### Folder Structure
 ```
-./
+.
 ├── db
-│   ├── data
-├── docs
+│   ├── data 
+├── docs 
+│   └── assets
+└── src
+```
+
+The `src` folder contains all of the node related files.
+
+```
+src/
 ├── middleware
 ├── models
 ├── routes
+│   └── word
 ├── services
 │   ├── firebase
 │   ├── postgres
 │   └── selenium
 ├── tests
+│   ├── lesson
+│   └── word
+├── types
 └── utils
 ```
 
