@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
-import verseInfo from "../services/postgres/verseInfo";
-import responses from "../utils/responses";
+import verseInfo from "../../services/postgres/verseInfo";
+import responses from "../../utils/responses";
 
 const router: Router = Router();
 

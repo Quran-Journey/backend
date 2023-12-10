@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
-import reflection from "../services/postgres/reflection";
-import responses from "../utils/responses";
-import Reflection from "../models/reflection";
+import reflection from "../../services/postgres/reflection";
+import responses from "../../utils/responses";
+import Reflection from "../../models/reflection";
 
 const router: Router = Router();
 

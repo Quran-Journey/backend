@@ -3,15 +3,15 @@ import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import cors from "cors";
 
-import lesson from "./lesson";
-import reflection from "./reflection";
-import surahInfo from "./surah-info";
+import lesson from "./lesson/lesson";
+import reflection from "./reflection/reflection";
+import surahInfo from "./surah-info/surah-info";
 import word from "../routes/word/main";
-import mufasir from "./mufasir";
-import surah from "./surah";
-import verseInfo from "./verseInfo";
-import tafsir from "./tafsir";
-import authentication from "./auth";
+import mufasir from "./mufasir/mufasir";
+import surah from "./surah/surah";
+import verseInfo from "./verseInfo/verseInfo";
+import tafsir from "./tafsir/tafsir";
+import authentication from "./auth/auth";
 
 import AuthMiddleware from "../middleware/auth";
 

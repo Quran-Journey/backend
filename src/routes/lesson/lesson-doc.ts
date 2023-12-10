@@ -1,13 +1,3 @@
-import app, { Router, Request, Response } from "express";
-import lesson from "../services/postgres/lesson";
-import responses from "../utils/responses";
-
-const router = app.Router();
-
-interface lessonParam{
-    lesson_id: number;
-}
-
 /*
  * @api [get] /lessons
  *  summary: "Filter lessons"
@@ -43,11 +33,6 @@ interface lessonParam{
  *      description: No lessons found.
  *
  */
-router.get("/lessons", async (request, response) => {
-    await lesson.filterLessons(request.query).then(async function (result) {
-        return responses.simpleResponse(result, response);
-    });
-});
 
 /*
  * @api [get] /lesson/{lesson_id}
@@ -72,11 +57,6 @@ router.get("/lessons", async (request, response) => {
  *      description: No lessons found with that ID.
  *
  */
-router.get("/lesson/:lesson_id", async (request: Request<lessonParam>, response) => {
-    await lesson.getLessonById(request.params).then(async function (result) {
-        return responses.simpleResponse(result, response);
-    });
-});
 
 /*
  * @api [get] /lesson/{lesson_id}/verses
@@ -101,11 +81,6 @@ router.get("/lesson/:lesson_id", async (request: Request<lessonParam>, response)
  *      description: No lessons found with that ID.
  *
  */
-router.get("/lesson/:lesson_id/verses", async (request:Request<lessonParam>, response) => {
-    await lesson.getLessonVerses(request.params).then(async function (result) {
-        return responses.simpleResponse(result, response);
-    });
-});
 
 /*
  * @api [post] /lesson
@@ -141,11 +116,6 @@ router.get("/lesson/:lesson_id/verses", async (request:Request<lessonParam>, res
  *          $ref: '#/definitions/Lesson'
  *
  */
-router.post("/lesson", async (request, response) => {
-    await lesson.createLesson(request.body).then(async function (result) {
-        return responses.simpleResponse(result, response);
-    });
-});
 
 /*
  * @api [patch] /lesson
@@ -169,11 +139,6 @@ router.post("/lesson", async (request, response) => {
  *      description: Could not find a lesson with that id.
  *
  */
-router.patch("/lesson", async (request, response) => {
-    await lesson.updateLesson(request.body).then(async function (result) {
-        return responses.simpleResponse(result, response);
-    });
-});
 
 /*
  * @api [delete] /lesson/{lesson_id}
@@ -198,10 +163,3 @@ router.patch("/lesson", async (request, response) => {
  *      description: Could not find a lesson with that id.
  *
  */
-router.delete("/lesson/:lesson_id", async (request:Request<lessonParam>, response) => {
-    await lesson.deleteLesson(request.params).then(async function (result) {
-        return responses.simpleResponse(result, response);
-    });
-});
-
-export  default router;

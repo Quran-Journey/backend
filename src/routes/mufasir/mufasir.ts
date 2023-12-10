@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
-import mufasir from "../services/postgres/mufasir";
-import responses from "../utils/responses";
+import mufasir from "../../services/postgres/mufasir";
+import responses from "../../utils/responses";
 
 const router: Router = Router();
 

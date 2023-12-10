@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
-import surahInfo from "../services/postgres/surah-info";
-import responses from "../utils/responses";
+import surahInfo from "../../services/postgres/surah-info";
+import responses from "../../utils/responses";
 
 const router: Router = Router();
 
