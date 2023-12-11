@@ -3,16 +3,6 @@ import postgres from '.'; // Update the import path as needed
 import validate from '../../utils/validation';
 import { Result, Messages, Errors } from '../../utils/constants';
 
-/**
- * @schema VerseWordInformation
- * ... (The schema remains the same)
- */
-
-/**
- * @schema VerseInformation
- * ... (The schema remains the same)
- */
-
 interface MeaningParams {
     verse_id: number;
 }
