@@ -2,7 +2,7 @@
 
 The steps to document code are simple:
 1. Add inline comments that describe the endpoints or schemas using OAS.
-2. execute `sh run.sh` to process the docs
+2. execute `sh /script/document.sh` to process the docs
 You can serve them by running the project in the top level directory with `node index.ts`. 
 
 It's that simple.
@@ -43,12 +43,12 @@ router.get("/lesson", async (request, response) => {
 
 Notice how little effort that comment is. You are able to document the endpoint so that other people can see it in an easy and visually appealing way with less than 20 lines!
 
-Here's how that inline documentation looks after it's been processed with `run.sh`:
+Here's how that inline documentation looks after it's been processed with `/script/document.sh`:
 
 ![image](./assets/img/docsExample.png)
 
 
-To see how you can document the code yourself in more detail, take a look at the files inside of the model and routes folders (particularly lesson.ts). Notice that the models are documented slightly differently from how the routes are documented. After running `sh run.sh`, you can see the documentation at `http://localhost/redoc-static.html`.
+To see how you can document the code yourself in more detail, take a look at the files inside of the model and routes folders (particularly lesson.ts). Notice that the models are documented slightly differently from how the routes are documented. After running `sh /script/document.sh`, you can see the documentation at `http://localhost/redoc-static.html`.
 
 You'll also see that an `oas.json` and `redoc-static.html` file have been generated. You can ignore those unless you need to debug something in the documentation process, in which case you can see one of the references below.
 

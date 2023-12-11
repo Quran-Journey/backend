@@ -20,6 +20,8 @@ Run the backend tests by executing `sh script/run_tests.sh`.
 
 Compile the documentation by executing `cd docs; sh run.sh;` Serve the docs locally using `sh serve.sh`.
 
+## Folders
+
 ```
 .
 ├── db
@@ -29,7 +31,7 @@ Compile the documentation by executing `cd docs; sh run.sh;` Serve the docs loca
 └── src
 ```
 
-The `src` folder contains all of the node related files.
+The `src` folder contains all of the ts-node files.
 
 ```
 src/
