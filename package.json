@@ -10,7 +10,7 @@
         "test": "jest --detectOpenHandles",
         "dev": "nodemon --exec ts-node src/index.ts",
         "start": "ts-node src/index.ts",
-        "test-ci": "sh run_tests.sh"
+        "test-ci": "sh script/run_tests.sh"
     },
     "repository": {
         "type": "git",
