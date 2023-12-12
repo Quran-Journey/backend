@@ -4,16 +4,16 @@ import responses from "../../utils/responses";
 
 const router: Router = Router();
 interface MeaningParams{
-    verse_id: number;
-    meaning_id:number
+    verseId: number;
+    meaningId:number
 }
-router.get("/meanings/verse/:verse_id/", async (request: Request<MeaningParams>, response: Response) => {
+router.get("/meanings/verse/:verseId/", async (request: Request<MeaningParams>, response: Response) => {
     await meaningService.getVerseRootWordsSentences(request.params).then(async function (result:any) {
         return responses.simpleResponse(result, response);
     });
 });
 
-router.get("/meaning/:meaning_id", async (request: Request<MeaningParams>, response: Response) => {
+router.get("/meaning/:meaningId", async (request: Request<MeaningParams>, response: Response) => {
     await meaningService.getMeaning(request.params).then(async function (result:any) {
         return responses.simpleResponse(result, response);
     });
@@ -31,7 +31,7 @@ router.put("/meaning", async (request: Request, response: Response) => {
     });
 });
 
-router.delete("/meaning/:meaning_id", async (request: Request<MeaningParams>, response: Response) => {
+router.delete("/meaning/:meaningId", async (request: Request<MeaningParams>, response: Response) => {
     await meaningService.deleteMeaning(request.params).then(async function (result:any) {
         return responses.simpleResponse(result, response);
     });

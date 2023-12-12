@@ -29,12 +29,12 @@ const dataTypeRegex: DataTypeRegex = {
  * Check to see if the values of a request body are empty.
  * This is a helper function for checkBody
  */
-function checkEmptyBody(data: any): Result | undefined {
+function checkEmptyBody(data: any): Result<any> | undefined {
     const keys = Object.keys(data);
 
     if (keys.length === 0) {
         return new Result({
-            data: {},
+            data: [],
             success: false,
             msg: "Request data is empty.",
             code: Errors.INVALID_REQUEST,
@@ -60,7 +60,7 @@ function checkEmptyBody(data: any): Result | undefined {
  *
  * @param {Object[key, type]} required
  */
-function checkBodyTypes(data: any, required: Record<string, string>): Result | undefined {
+function checkBodyTypes(data: any, required: Record<string, string>): Result<any> | undefined {
     const keys = Object.keys(required);
 
     for (let i = 0; i < keys.length; i++) {
@@ -97,7 +97,7 @@ function checkBodyTypes(data: any, required: Record<string, string>): Result | u
  * @param {Object[key, type]} required
  * @param {bool} print
  */
-function checkBodyKeys(data: any, required: Record<string, string>, p = true): Result | undefined {
+function checkBodyKeys(data: any, required: Record<string, string>, p = true): Result<any> | undefined {
     const keys = Object.keys(data);
     const requiredKeys = Object.keys(required);
 
@@ -131,7 +131,7 @@ function checkBodyKeys(data: any, required: Record<string, string>, p = true): R
  * @param {List[String]} types
  * The types of the values that should be in the parameters
  */
-function validate(data: any, required: Record<string, string>, p = true): Result | undefined {
+function validate(data: any, required: Record<string, string>, p = true): Result<any> {
     let empty = checkEmptyBody(data);
 
     if (empty) {
@@ -150,7 +150,7 @@ function validate(data: any, required: Record<string, string>, p = true): Result
         return empty;
     }
 
-    return;
+    return Result.createDefault(true);
 }
 
 export default validate;

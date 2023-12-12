@@ -1,20 +1,14 @@
-import { apiGET, apiPUT } from './request';
-import { checkMatch as lessonsCheckMatch } from './lesson/lesson-tests';
-import  data from '../services/postgres/seed';
-const seedData = data.seedData;
-
-interface Surah {
-    surah_id: number;
-    surah_number: number;
-    name_complex: string;
-    name_arabic: string;
-}
+import { apiGET, apiPUT } from "./request";
+import { checkLessonMatch } from "./lesson/lesson-tests";
+import { seedData } from "../services/postgres/seed";
+import { Surah } from "../models/surah/surah";
+import { Verse } from "../models/verse/verse";
 
 function surahTests() {
     it("getting a surah by id", async () => {
         let surahA: Surah = seedData.Surah[0];
 
-        const resp1 = await apiGET(`/surah/${surahA.surah_id}`);
+        const resp1 = await apiGET(`/surah/${surahA.surahId}`);
         let surahB: Surah = resp1.data.data[0];
         checkMatch(surahA, surahB);
         expect(resp1.data.success).toEqual(true);
@@ -23,71 +17,71 @@ function surahTests() {
     it("getting all surahs", async () => {
         let surahs: Surah[] = seedData.Surah;
         let resp1 = await apiGET(`/surahs`);
-        let surahs_resp: Surah[] = resp1.data.data;
+        let surahsResp: Surah[] = resp1.data.data;
         for (let surah = 1; surah < surahs.length; surah++) {
-            checkMatch(surahs[surah], surahs_resp[surah]);
+            checkMatch(surahs[surah], surahsResp[surah]);
         }
     });
 
     it("updating a surah", async () => {
         let newsurah: Surah = {
-            surah_id: 2,
-            surah_number: 2,
-            name_complex: "al-Baqarah",
-            name_arabic: "",
+            surahId: 2,
+            surahNumber: 2,
+            nameComplex: "al-Baqarah",
+            nameArabic: "",
         };
 
-        let resp1 = await apiGET(`/surah/${newsurah.surah_id}`);
-        let original_surah: Surah = resp1.data.data[0];
-        expect(original_surah.name_complex).not.toEqual(newsurah.name_complex);
+        let resp1 = await apiGET(`/surah/${newsurah.surahId}`);
+        let originalSurah: Surah = resp1.data.data[0];
+        expect(originalSurah.nameComplex).not.toEqual(newsurah.nameComplex);
 
         await apiPUT(`/surah`, newsurah);
-        let resp2 = await apiGET(`/surah/${newsurah.surah_id}`);
+        let resp2 = await apiGET(`/surah/${newsurah.surahId}`);
         checkMatch(newsurah, resp2.data.data[0]);
         expect(resp2.data.success).toEqual(true);
     });
 
     it("getting verses associated with a specific Surah", async () => {
         let surahA: Surah = seedData.Surah[0];
-        let verses = seedData.Verse.filter((verse:any) => {
-            verse.surah = surahA.surah_id;
+        let verses = seedData.Verse.filter((verse: any) => {
+            verse.surah = surahA.surahId;
         });
 
-        const resp1 = await apiGET(`/surah/${surahA.surah_id}/verses`);
+        const resp1 = await apiGET(`/surah/${surahA.surahId}/verses`);
         checkVerses(verses, resp1.data.data);
     });
 
     it("getting lessons associated with a specific Surah", async () => {
         let surahA: Surah = seedData.Surah[0];
-        let lessons = seedData.Lesson.filter((lesson:any) => {
-            lesson.surah = surahA.surah_id;
+        let lessons = seedData.Lesson.filter((lesson: any) => {
+            lesson.surah = surahA.surahId;
         });
 
-        const resp1 = await apiGET(`/surah/${surahA.surah_id}/verses`);
+        const resp1 = await apiGET(`/surah/${surahA.surahId}/verses`);
         checkLessons(lessons, resp1.data.data);
     });
 }
 
 function checkMatch(surahA: Surah, surahB: Surah) {
-    expect(surahA.surah_number).toEqual(surahB.surah_number);
-    expect(surahA.name_complex).toEqual(surahB.name_complex);
-    expect(surahA.name_arabic).toEqual(surahB.name_arabic);
+    expect(surahA.surahNumber).toEqual(surahB.surahNumber);
+    expect(surahA.nameComplex).toEqual(surahB.nameComplex);
+    expect(surahA.nameArabic).toEqual(surahB.nameArabic);
 }
 
-function checkVerses(versesA:any[], versesB:any[]) {
+function checkVerses(versesA: Verse[], versesB: Verse[]) {
     for (let verse = 0; verse < versesA.length; verse++) {
         expect(versesA[verse].surah).toEqual(versesB[verse].surah);
-        expect(versesA[verse].verse_index).toEqual(versesB[verse].verse_index);
-        expect(versesA[verse].verse_number).toEqual(
-            versesB[verse].verse_number
+        expect(versesA[verse].verseIndex).toEqual(versesB[verse].verseIndex);
+        expect(versesA[verse].verseNumber).toEqual(
+            versesB[verse].verseNumber
         );
-        expect(versesA[verse].verse_text).toEqual(versesB[verse].verse_text);
+        expect(versesA[verse].verseText).toEqual(versesB[verse].verseText);
     }
 }
 
-function checkLessons(lessonsA:any[], lessonsB:any[]) {
+function checkLessons(lessonsA: any[], lessonsB: any[]) {
     for (let lesson = 0; lesson < lessonsA.length; lesson++) {
-        lessonsCheckMatch(lessonsA[lesson], lessonsB[lesson]);
+        checkLessonMatch(lessonsA[lesson], lessonsB[lesson]);
     }
 }
 

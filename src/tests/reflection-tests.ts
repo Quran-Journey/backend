@@ -1,18 +1,15 @@
-import { apiGET, apiPOST, apiPATCH, apiDELETE } from './request';
-import data from '../services/postgres/seed';
-import { Errors } from '../utils/constants';
-import {Reflection} from "../types/Reflection";
+import { apiGET, apiPOST, apiPATCH, apiDELETE } from "./request";
+import { seedData } from "../services/postgres/seed";
+import { Errors } from "../utils/constants";
+import { Reflection } from "../models/reflection/reflection";
 
-const seedData = data.seedData;
-
-
-function reflectionTests() {
+export function reflectionTests() {
     it("getting reflection's information", async () => {
         let ReflectionA: Reflection = seedData.Reflection[0];
 
         const resp1 = await apiGET(`/reflection/1`);
         let ReflectionB: Reflection = resp1.data.data[0];
-        checkMatch(ReflectionA, ReflectionB);
+        checkReflectionMatch(ReflectionA, ReflectionB);
         expect(resp1.data.success).toEqual(true);
     });
 
@@ -23,28 +20,28 @@ function reflectionTests() {
         let reflectionB: Reflection = resp1.data.data[0];
         expect(ReflectionA.title).toEqual(reflectionB.title);
         expect(ReflectionA.reflection).toEqual(reflectionB.reflection);
-        expect(ReflectionA.reflection_id).toEqual(reflectionB.reflection_id);
+        expect(ReflectionA.reflectionId).toEqual(reflectionB.reflectionId);
         expect(resp1.data.success).toEqual(true);
     });
 
     it("creating a reflection", async () => {
         let newreflection: Reflection = {
-            verse_id: 1,
+            verseId: 1,
             title: "Inshallah",
             reflection: "My Second Reflection",
-            reflection_id: 0, // assuming reflection_id is auto-incremented
+            reflectionId: 0, // assuming reflectionId is auto-incremented
         };
 
         let resp1 = await apiPOST(`/reflection`, newreflection);
         let reflection: Reflection = resp1.data.data[0];
-        checkMatch(newreflection, reflection);
+        checkReflectionMatch(newreflection, reflection);
         expect(resp1.data.success).toEqual(true);
     });
 
     it("updating a reflection", async () => {
         let newreflection: Reflection = {
-            reflection_id: 1,
-            verse_id: 1,
+            reflectionId: 1,
+            verseId: 1,
             title: "Alhamdulillah",
             reflection: "My Last Reflection",
         };
@@ -52,11 +49,13 @@ function reflectionTests() {
         let resp1 = await apiGET(`/reflection/1`);
         let original_reflection: Reflection = resp1.data.data[0];
         expect(original_reflection.title).not.toEqual(newreflection.title);
-        expect(original_reflection.reflection).not.toEqual(newreflection.reflection);
+        expect(original_reflection.reflection).not.toEqual(
+            newreflection.reflection
+        );
 
         await apiPATCH(`/reflection`, newreflection);
         let resp2 = await apiGET(`/reflection/1`);
-        checkMatch(newreflection, resp2.data.data[0]);
+        checkReflectionMatch(newreflection, resp2.data.data[0]);
         expect(resp2.data.success).toEqual(true);
     });
 
@@ -72,10 +71,11 @@ function reflectionTests() {
     });
 }
 
-function checkMatch(reflectionA: Reflection, reflectionB: Reflection) {
+export function checkReflectionMatch(
+    reflectionA: Reflection,
+    reflectionB: Reflection
+) {
     expect(reflectionA.title).toEqual(reflectionB.title);
     expect(reflectionA.reflection).toEqual(reflectionB.reflection);
-    expect(reflectionA.verse_id).toEqual(reflectionB.verse_id);
+    expect(reflectionA.verseId).toEqual(reflectionB.verseId);
 }
-
-export { reflectionTests };

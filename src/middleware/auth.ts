@@ -1,4 +1,4 @@
-import serviceAccount  from "../services/firebase/serviceAccountKey.json";
+import serviceAccount from "../services/firebase/serviceAccountKey.json";
 import * as admin from "firebase-admin";
 import { Result } from "../utils/constants";
 
@@ -9,7 +9,10 @@ class AuthenticationMiddleware {
     // Default session expiration to 5 days
     static EXPIRATION_TIME_LIMIT = 60 * 60 * 24 * 5 * 1000;
     static HTTP_ONLY = true;
-    static OPTIONS = { maxAge: this.EXPIRATION_TIME_LIMIT, httpOnly: this.HTTP_ONLY };
+    static OPTIONS = {
+        maxAge: this.EXPIRATION_TIME_LIMIT,
+        httpOnly: this.HTTP_ONLY,
+    };
 
     constructor() {
         admin.initializeApp({
@@ -23,12 +26,14 @@ class AuthenticationMiddleware {
      * @param {*} cookies the request cookies
      * @returns a boolean value indicating whether the user is authenticated or not.
      */
-    static async authorize(cookies: { session?: string }): Promise<Result | boolean> {
+    static async authorize(cookies: {
+        session?: string;
+    }): Promise<Result<any> | boolean> {
         if (cookies.session) {
             try {
                 await admin.auth().verifySessionCookie(cookies.session);
-                return new Result({});
-            } catch (error:any) {
+                return Result.createDefault();
+            } catch (error: any) {
                 return new Result({
                     data: error.data, // Replace with appropriate data
                     success: false,

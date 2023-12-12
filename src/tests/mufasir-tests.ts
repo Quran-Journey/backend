@@ -1,8 +1,7 @@
 import { apiGET, apiPOST, apiPUT, apiDELETE } from './request';
-import data  from '../services/postgres/seed';
+import { seedData } from "../services/postgres/seed";
 import { Errors } from '../utils/constants';
-
-const seedData = data.seedData;
+import { Mufasir } from '../models/tafsir/mufasir';
 
 function mufasirTests() {
   it('getting all the mufasireen', async () => {
@@ -16,7 +15,7 @@ function mufasirTests() {
 
   it('adding a mufasir', async () => {
     let new_mufasir = {
-      mufasir_name: 'Ibn Abbas',
+      mufasirName: 'Ibn Abbas',
       death: '687 AD',
     };
 
@@ -28,14 +27,14 @@ function mufasirTests() {
 
   it('updating a mufasir', async () => {
     let new_mufasir = {
-      mufasir_id: 3,
-      mufasir_name: 'Muqatil',
+      mufasirId: 3,
+      mufasirName: 'Muqatil',
       death: '767 AD',
     };
 
     let resp1 = await apiGET('/mufasir/3');
     let original_mufasir = resp1.data.data[0];
-    expect(original_mufasir.mufasir_name).not.toEqual(new_mufasir.mufasir_name);
+    expect(original_mufasir.mufasirName).not.toEqual(new_mufasir.mufasirName);
     expect(original_mufasir.death).not.toEqual(new_mufasir.death);
 
     await apiPUT('/mufasir', new_mufasir);
@@ -57,8 +56,8 @@ function mufasirTests() {
   });
 }
 
-function checkMatch(mufasirA: any, mufasirB: any) {
-  expect(mufasirA.mufasir_name).toEqual(mufasirB.mufasir_name);
+function checkMatch(mufasirA: Mufasir, mufasirB: Mufasir) {
+  expect(mufasirA.mufasirName).toEqual(mufasirB.mufasirName);
   expect(mufasirA.death).toEqual(mufasirB.death);
 }
 

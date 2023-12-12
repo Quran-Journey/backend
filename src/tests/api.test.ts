@@ -10,11 +10,9 @@ import { verseInfoTests } from './verse-info-tests';
 import { lessonInfoTests } from './lesson/lesson-info-tests';
 import { verseWordTests } from './word/verse-word-tests';
 import { tafsirTests } from './tafsir-tests';
-import  data  from '../services/postgres/seed';
+import { seedData, seedDatabase } from "../services/postgres/seed";
 import connect from '../services/postgres/connect';
 
-
-const seedDatabase = data.seedDatabase;
 const db = connect.db;
 
 describe('Set up', () => {

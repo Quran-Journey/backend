@@ -6,16 +6,16 @@ For example, lets say we store root words and their meanings in our database lik
 ```
 CREATE TABLE
     IF NOT EXISTS RootWord (
-        root_id SERIAL PRIMARY KEY,
-        root_word VARCHAR(225) NOT NULL UNIQUE
+        rootId SERIAL PRIMARY KEY,
+        rootWord VARCHAR(225) NOT NULL UNIQUE
     );
 
 CREATE TABLE
     IF NOT EXISTS RootMeaning (
-        meaning_id SERIAL PRIMARY KEY,
-        root_id INTEGER NOT NULL,
+        meaningId SERIAL PRIMARY KEY,
+        rootId INTEGER NOT NULL,
         meaning TEXT,
-        FOREIGN KEY (root_id) REFERENCES RootWord(root_id) ON DELETE CASCADE ON UPDATE CASCADE
+        FOREIGN KEY (rootId) REFERENCES RootWord(rootId) ON DELETE CASCADE ON UPDATE CASCADE
     );
 ```
 

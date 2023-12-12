@@ -1,53 +1,51 @@
 import { Result } from "../../utils/constants";
-import postgres from "."; // Assuming there's an index.ts file in the postgres directory
+import { retrieve, update, remove, create } from "."; // Assuming there's an index.ts file in the postgres directory
 import validate from "../../utils/validation";
 import { Messages } from "../../utils/constants";
+import { SurahInfo } from "../../models/surah/surahInfo";
 
-interface SurahInfoData {
-    surah_info_id?: number;
-    surah?: number;
-    title?: string;
-    info?: string;
-}
-
-async function getSurahInfo(data: SurahInfoData): Promise<Result> {
+export async function getSurahInfo(
+    data: SurahInfo
+): Promise<Result<SurahInfo> | Result<any>> {
     if (data.surah !== undefined) {
         return await getSurahInfoBySurahID(data);
     }
-    if (data.surah_info_id !== undefined) {
+    if (data.surahInfoId !== undefined) {
         return await getSurahInfoBySurahInfoID(data);
     }
-    return new Result({});
+    return Result.createDefault();
 }
 
-async function getSurahInfoBySurahInfoID(data: SurahInfoData): Promise<Result> {
+export async function getSurahInfoBySurahInfoID(
+    data: SurahInfo
+): Promise<Result<SurahInfo> | Result<any>> {
     const invalid = validate(data, {
-        surah_info_id: "integer",
+        surahInfoId: "integer",
     });
-    if (invalid) {
+    if (!invalid.success) {
         return invalid;
     }
     const sql = "SELECT * FROM SurahInfo WHERE surah_info_id=$1";
-    const params = [data.surah_info_id!];
-    return await postgres.retrieve(
+    const params = [data.surahInfoId!];
+    return await retrieve(
         sql,
         params,
         new Messages({
-            success: `Successfully fetched surah info with id ${data.surah_info_id}.`,
+            success: `Successfully fetched surah info with id ${data.surahInfoId}.`,
         })
     );
 }
 
-async function getSurahInfoBySurahID(data: SurahInfoData): Promise<Result> {
+export async function getSurahInfoBySurahID(data: SurahInfo): Promise<Result<SurahInfo> | Result<any>> {
     const invalid = validate(data, {
         surah: "integer",
     });
-    if (invalid) {
+    if (!invalid.success) {
         return invalid;
     }
     const sql = "SELECT * FROM SurahInfo WHERE surah=$1";
     const params = [data.surah!];
-    return await postgres.retrieve(
+    return await retrieve(
         sql,
         params,
         new Messages({
@@ -56,19 +54,19 @@ async function getSurahInfoBySurahID(data: SurahInfoData): Promise<Result> {
     );
 }
 
-async function createSurahIntroInfo(data: SurahInfoData): Promise<Result> {
+export async function createSurahIntroInfo(data: SurahInfo): Promise<Result<SurahInfo> | Result<any>> {
     const invalid = validate(data, {
         surah: "integer",
         title: "string",
         info: "string",
     });
-    if (invalid) {
+    if (!invalid.success) {
         return invalid;
     }
     const sql_surah_info =
         "INSERT INTO SurahInfo (surah, title, info) VALUES ($1, $2, $3) RETURNING *;";
     const params = [data.surah!, data.title!, data.info!];
-    return await postgres.create(
+    return await create(
         sql_surah_info,
         params,
         new Messages({
@@ -79,53 +77,44 @@ async function createSurahIntroInfo(data: SurahInfoData): Promise<Result> {
     );
 }
 
-async function updateSurahIntroInfo(data: SurahInfoData): Promise<Result> {
+export async function updateSurahIntroInfo(data: SurahInfo): Promise<Result<SurahInfo> | Result<any>> {
     const invalid = validate(data, {
-        surah_info_id: "integer",
+        surahInfoId: "integer",
         surah: "integer",
         title: "string",
         info: "string",
     });
-    if (invalid) {
+    if (!invalid.success) {
         return invalid;
     }
     const sql =
         "UPDATE SurahInfo SET surah=$2, title=$3, info=$4 WHERE surah_info_id=$1 RETURNING *;";
-    const params = [data.surah_info_id!, data.surah!, data.title!, data.info!];
-    return await postgres.update(
+    const params = [data.surahInfoId!, data.surah!, data.title!, data.info!];
+    return await update(
         sql,
         params,
         new Messages({
-            success: `Successfully updated surah info with id ${data.surah_info_id}.`,
-            dbNotFound: `Could not find a surah info with id ${data.surah_info_id}.`,
+            success: `Successfully updated surah info with id ${data.surahInfoId}.`,
+            dbNotFound: `Could not find a surah info with id ${data.surahInfoId}.`,
         })
     );
 }
 
-async function deleteSurahIntroInfo(data: SurahInfoData): Promise<Result> {
+export async function deleteSurahIntroInfo(data: SurahInfo): Promise<Result<SurahInfo> | Result<any>> {
     const invalid = validate(data, {
-        surah_info_id: "integer",
+        surahInfoId: "integer",
     });
-    if (invalid) {
+    if (!invalid.success) {
         return invalid;
     }
     const sql = "DELETE FROM SurahInfo WHERE surah_info_id=$1 RETURNING *;";
-    const params = [data.surah_info_id!];
-    return await postgres.remove(
+    const params = [data.surahInfoId!];
+    return await remove(
         sql,
         params,
         new Messages({
-            success: `Successfully deleted surah info with id ${data.surah_info_id}.`,
-            dbNotFound: `Could not find a surah info with id ${data.surah_info_id}.`,
+            success: `Successfully deleted surah info with id ${data.surahInfoId}.`,
+            dbNotFound: `Could not find a surah info with id ${data.surahInfoId}.`,
         })
     );
 }
-
-export default {
-    getSurahInfo,
-    getSurahInfoBySurahInfoID,
-    getSurahInfoBySurahID,
-    createSurahIntroInfo,
-    updateSurahIntroInfo,
-    deleteSurahIntroInfo,
-};

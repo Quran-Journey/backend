@@ -1,9 +1,8 @@
-
-class Surah {
-  surahId: number;
-  surahNumber: number;
-  nameComplex: string;
-  nameArabic: string;
+export class Surah {
+  surahId?: number;
+  surahNumber?: number;
+  nameComplex?: string;
+  nameArabic?: string;
 
   constructor(surahId: number, surahNumber: number, nameComplex: string, nameArabic: string) {
       this.surahId = surahId;
@@ -15,4 +14,3 @@ class Surah {
   // Define any model methods here
 }
 
-export default Surah;

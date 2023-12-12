@@ -2,15 +2,15 @@
  *  @schema Mufasir
  *  type: object
  *  required:
- *      - mufasir_id
- *      - mufasir_name
+ *      - mufasirId
+ *      - mufasirName
  *      - death
  *  properties:
- *      mufasir_id:
+ *      mufasirId:
  *          type: integer
  *          description: the id of the mufasir
  *          example: 1
- *      mufasir_name:
+ *      mufasirName:
  *          type: string
  *          description: The name of the mufasir
  *          example: "Ibn Kathir"
@@ -24,17 +24,17 @@
  *  @schema Tafsir
  *  type: object
  *  required:
- *      -tafsir_id,
- *      -tafsir_text,
+ *      -tafsirId,
+ *      -tafsirText,
  *      -book,
- *      -verse_id,
+ *      -verseId,
  *      -visible
  *  properties:
- *      tafsir_id:
+ *      tafsirId:
  *          type: integer
  *          description: to identify the tafsir from others
  *          example: 1
- *      tafsir_text:
+ *      tafsirText:
  *          type: string
  *          description: content of verse tafsir
  *          example: "In the Name of Allah—the Most Compassionate, Most Merciful."
@@ -42,7 +42,7 @@
  *          type: integer
  *          description: unique identifier for book in which tafsir is
  *          example: 3
- *      verse_id:
+ *      verseId:
  *          type: integer
  *          description: the verse id
  *          example: 23

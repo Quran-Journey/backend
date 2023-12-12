@@ -2,16 +2,16 @@
  *  @schema Reflection
  *  type: object
  *  required:
- *      - reflection_id
- *      - verse_id
+ *      - reflectionId
+ *      - verseId
  *      - title
  *      - reflection
  *  properties:
- *      reflection_id:
+ *      reflectionId:
  *          type: integer
  *          description: to identify the reflection from others
  *          example: 1
- *      verse_id:
+ *      verseId:
  *          type: integer
  *          description: to identify the verse that the reflection is refering to
  *          example: 23

@@ -1,67 +1,67 @@
-import postgres from ".";
+import { retrieve, update } from ".";
 import validate from "../../utils/validation";
-import { Messages } from "../../utils/constants";
+import { Messages, Result } from "../../utils/constants";
 
 // Note: this list contains key value pairs of the attribute and types within the schema.
 interface SurahAttributes {
-    surah_id: number;
-    surah_number: number;
-    name_complex: string;
-    name_arabic: string;
+    surahId: number;
+    surahNumber: number;
+    nameComplex: string;
+    nameArabic: string;
 }
 
 /** Fetches a surah and its verses by surah id */
-async function getSurahById(data: { surah_id: number }): Promise<any> {
-    var invalid = validate(data, {
-        surah_id: "integer",
+export async function getSurahById(data: { surahId: number }): Promise<any> {
+    var invalid: Result<any> = validate(data, {
+        surahId: "integer",
     });
-    if (invalid) {
+    if (!invalid.success) {
         return invalid;
     }
     let sql = "SELECT * FROM Surah WHERE surah_id=$1";
-    var params = [data.surah_id];
-    return await postgres.retrieve(
+    var params = [data.surahId];
+    return await retrieve(
         sql,
         params,
         new Messages({
-            success: `Successfully fetched Surah with id ${data.surah_id}.`,
-            dbNotFound: `Could not find a Surah with id ${data.surah_id}.`,
+            success: `Successfully fetched Surah with id ${data.surahId}.`,
+            dbNotFound: `Could not find a Surah with id ${data.surahId}.`,
         })
     );
 }
 
 /** Update a Surah, requires all attributes of the Surah. */
-async function updateSurah(data: SurahAttributes): Promise<any> {
-    var invalid = validate(data, {
-        surah_id: "integer",
-        surah_number: "integer",
-        name_complex: "string",
-        name_arabic: "string",
+export async function updateSurah(data: SurahAttributes): Promise<any> {
+    var invalid: Result<any> = validate(data, {
+        surahId: "integer",
+        surahNumber: "integer",
+        nameComplex: "string",
+        nameArabic: "string",
     });
-    if (invalid) {
+    if (!invalid.success) {
         return invalid;
     }
     let sql =
         "UPDATE Surah SET surah_number=$2, name_complex=$3, name_arabic=$4 WHERE surah_id=$1";
     var params = [
-        data.surah_id,
-        data.surah_number,
-        data.name_complex,
-        data.name_arabic,
+        data.surahId,
+        data.surahNumber,
+        data.nameComplex,
+        data.nameArabic,
     ];
-    return await postgres.update(
+    return await update(
         sql,
         params,
         new Messages({
-            success: `Successfully update Surah with id ${data.surah_id}.`,
-            dbNotFound: `Could not find a Surah with id ${data.surah_id}.`,
+            success: `Successfully update Surah with id ${data.surahId}.`,
+            dbNotFound: `Could not find a Surah with id ${data.surahId}.`,
         })
     );
 }
 
-async function getSurahs(): Promise<any> {
+export async function getSurahs(): Promise<any> {
     let sql = "SELECT * FROM surah;";
-    return await postgres.retrieve(
+    return await retrieve(
         sql,
         [],
         new Messages({
@@ -70,20 +70,20 @@ async function getSurahs(): Promise<any> {
     );
 }
 
-async function getSurahVerses(data: { surah_id: number }): Promise<any> {
-    var invalid = validate(data, {
-        surah_id: "integer",
+export async function getSurahVerses(data: { surahId: number }): Promise<any> {
+    var invalid: Result<any> = validate(data, {
+        surahId: "integer",
     });
-    if (invalid) {
+    if (!invalid.success) {
         return invalid;
     }
     let sql = "SELECT * FROM Verse WHERE surah=$1";
-    var params = [data.surah_id];
-    let verses = await postgres.retrieve(
+    var params = [data.surahId];
+    let verses = await retrieve(
         sql,
         params,
         new Messages({
-            success: `Successfully fetched verses for sura number ${data.surah_id}.`,
+            success: `Successfully fetched verses for sura number ${data.surahId}.`,
         })
     );
     if (verses.data.length > 0) {
@@ -92,20 +92,20 @@ async function getSurahVerses(data: { surah_id: number }): Promise<any> {
     return verses;
 }
 
-async function getSurahLessons(data: { surah_id: number }): Promise<any> {
-    var invalid = validate(data, {
-        surah_id: "integer",
+export async function getSurahLessons(data: { surahId: number }): Promise<any> {
+    var invalid: Result<any> = validate(data, {
+        surahId: "integer",
     });
-    if (invalid) {
+    if (!invalid.success) {
         return invalid;
     }
     let sql = "SELECT * FROM Lesson WHERE surah_id=$1";
-    var params = [data.surah_id];
-    let verses = await postgres.retrieve(
+    var params = [data.surahId];
+    let verses = await retrieve(
         sql,
         params,
         new Messages({
-            success: `Successfully fetched verses for sura number ${data.surah_id}.`,
+            success: `Successfully fetched verses for sura number ${data.surahId}.`,
         })
     );
     if (verses.data.length > 0) {
@@ -113,11 +113,3 @@ async function getSurahLessons(data: { surah_id: number }): Promise<any> {
     }
     return verses;
 }
-
-export default {
-    getSurahById,
-    updateSurah,
-    getSurahVerses,
-    getSurahLessons,
-    getSurahs,
-};

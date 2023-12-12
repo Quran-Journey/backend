@@ -2,24 +2,24 @@
  *  @schema Surah
  *  type: object
  *  required:
- *      - surah_id
- *      - surah_number
- *      - name_complex
- *      - name_arabic
+ *      - surahId
+ *      - surahNumber
+ *      - nameComplex
+ *      - nameArabic
  *  properties:
- *      surah_number:
+ *      surahNumber:
  *          type: integer
  *          description: the number of the surah (acting as the surah id)
  *          example: 1
- *      surah_id:
+ *      surahId:
  *          type: integer
  *          description: the id of the surah
  *          example: 1
- *      name_complex:
+ *      nameComplex:
  *          type: string
  *          description: the name of the surah in english (with complex characters)
  *          example: al-Fātihah
- *      name_arabic:
+ *      nameArabic:
  *          type: string
  *          description: the name of the surah in arabic
  *          example: al-Fātihah
@@ -29,12 +29,12 @@
  *  @schema SurahInfo
  *  type: object
  *  required:
- *      - surah_info_id
+ *      - surahInfoId
  *      - surah
  *      - title
  *      - info
  *  properties:
- *      surah_info_id:
+ *      surahInfoId:
  *          type: integer
  *          description: to uniquely identify the surah info from others
  *          example: 1

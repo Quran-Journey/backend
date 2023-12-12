@@ -5,10 +5,10 @@ import responses from "../../utils/responses";
 const router: Router = Router();
 
 interface rootParams {
-    root_id: number;
+    rootId: number;
 }
 
-router.get("/root/:root_id", async (request: Request<rootParams>, response: Response) => {
+router.get("/root/:rootId", async (request: Request<rootParams>, response: Response) => {
     await rootService.getRootWordById(request.params).then(async function (result:any) {
         return responses.simpleResponse(result, response);
     });
@@ -26,7 +26,7 @@ router.patch("/root", async (request: Request, response: Response) => {
     });
 });
 
-router.delete("/root/:root_id", async (request: Request<rootParams>, response: Response) => {
+router.delete("/root/:rootId", async (request: Request<rootParams>, response: Response) => {
     await rootService.deleteRootWord(request.params).then(async function (result:any) {
         return responses.simpleResponse(result, response);
     });

@@ -5,10 +5,10 @@ import responses from "../../utils/responses";
 const router: Router = Router();
 
 interface verseParam{
-    verse_word_id:number
+    verseWordId:number
 }
 
-router.get("/verse/:verse_word_id", async (request: Request<verseParam>, response: Response) => {
+router.get("/verse/:verseWordId", async (request: Request<verseParam>, response: Response) => {
     await verseWordService
         .getVerseWordById(request.params)
         .then(async function (result:any) {
@@ -28,7 +28,7 @@ router.patch("/verse", async (request: Request, response: Response) => {
     });
 });
 
-router.delete("/verse/:verse_word_id", async (request: Request<verseParam>, response: Response) => {
+router.delete("/verse/:verseWordId", async (request: Request<verseParam>, response: Response) => {
     await verseWordService
         .deleteVerseWord(request.params)
         .then(async function (result:any) {

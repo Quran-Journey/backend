@@ -18,7 +18,7 @@ options.headless();
  * 5. Go to the next page containing the next letter, repeat from step 2 until all root word meanings are scraped.
  */
 
-async function go_through_letters(): Promise<void> {
+export async function go_through_letters(): Promise<void> {
     const driver: WebDriver = await new Builder()
         .forBrowser("chrome")
         .setChromeOptions(options)
@@ -53,7 +53,7 @@ async function go_through_letters(): Promise<void> {
     }
 }
 
-async function refreshLetters(driver: WebDriver, rows: any, row: number) {
+export async function refreshLetters(driver: WebDriver, rows: any, row: number) {
     let table = await driver.findElements(By.id("roots_table"));
     rows = await table[0].findElements(By.css("tr"));
     let letters = await rows[row].findElements(By.css("td"));
@@ -63,7 +63,7 @@ async function refreshLetters(driver: WebDriver, rows: any, row: number) {
 /**
  * We want to scrape all of the meanings for all of the root words for that start with a specific letter.
  */
-async function scrape_page(driver: WebDriver): Promise<Record<string, string>> {
+export async function scrape_page(driver: WebDriver): Promise<Record<string, string>> {
     console.log("Scraping a new page");
     let page_roots: Record<string, string> = {};
     let rootElements = await driver.findElements(By.className("rootname"));

@@ -1,3 +1,4 @@
+
 /**
  * Error Codes. i.e. Enums associated with Errors.
  */
@@ -29,38 +30,56 @@ export class Messages {
     authUnauthorized: string;
 
     constructor(options: any) {
-        this.default = options.default || "";
-        this.invalidParams = options.invalidParams || "Improper number of parameters passed in.";
+        this.default = options.default || "No details.";
+        this.invalidParams =
+            options.invalidParams || "Improper number of parameters passed in.";
         this.success = options.success || "Successful.";
         this.dbNotFound = options.dbNotFound || "No rows found.";
-        this.dbServer = options.dbServer || "An error occurred in the PostgreSQL server.";
-        this.dbDuplicate = options.dbDuplicate || "Duplicate item in the PostgreSQL database.";
-        this.dbForeign = options.dbForeign || "Violating foreign key constraint.";
+        this.dbServer =
+            options.dbServer || "An error occurred in the PostgreSQL server.";
+        this.dbDuplicate =
+            options.dbDuplicate || "Duplicate item in the PostgreSQL database.";
+        this.dbForeign =
+            options.dbForeign || "Violating foreign key constraint.";
         this.authAuthorized = options.authAuthorized || "User is authorized.";
-        this.authAuthenticated = options.authAuthenticated || "Authentication Successful.";
+        this.authAuthenticated =
+            options.authAuthenticated || "Authentication Successful.";
         this.authUnauthorized = options.authUnauthorized || "Not authorized.";
     }
 }
 
-export class Result {
-    data: any;
+export type ResultData<T> = {
+    data: T[];
     success: boolean;
-    msg: string;
+    msg: string | string[];
+    code: Errors;
+};
+
+export class Result<T> {
+    data: T[];
+    success: boolean;
+    msg: string | string[];
     code: Errors;
 
-    /**
-     * This is a constant response return format so that all of our responses have the same format.
-     *
-     * @param {Object} d The data that is to be returned to the user
-     * @param {boolean} pass Whether or not the request passed successfully
-     * @param {string} msg The message associated with a result
-     * @param {integer} code The error code associated with a result.
-     */
-    constructor(options: any) {
-        this.data = options.data || {};
-        this.success = options.success || false;
-        this.msg = options.msg || new Messages({}).default;
-        this.code = options.code || Errors.NONE;
+    constructor(options: ResultData<T>) {
+        this.data = options.data;
+        this.success = options.success;
+        if (typeof options.msg == "string"){
+            this.msg = [options.msg]
+        } else {
+            this.msg = options.msg;
+        }
+        this.code = options.code;
         console.log(this.msg);
+    }
+
+    // Static method to create a default result
+    static createDefault<T>(success = false): Result<T> {
+        return new Result<T>({
+            data: [],
+            success: success,
+            msg: new Messages({}).default,
+            code: Errors.NONE,
+        });
     }
 }

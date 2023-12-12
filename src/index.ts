@@ -2,9 +2,9 @@ require("dotenv");
 import https from "https";
 import fs from "fs";
 import express from "express";
-import setup from "./services/postgres/seed";
+import { seedDatabase } from "./services/postgres/seed";
 import path from "path";
-import connect  from "./services/postgres/connect";
+import connect from "./services/postgres/connect";
 import AppRouter from "./routes/index";
 
 const port = process.env.PORT || 3001;
@@ -42,7 +42,7 @@ if (process.env.NODE_ENV == "production") {
     // After setting up the process's port, we seed the database with mock data.
     app.listen(port, async () => {
         console.log("Listening on port " + port);
-        await setup.seedDatabase(db, true);
+        await seedDatabase(db, true);
     });
 } else if (process.env.NODE_ENV == "staging") {
     // Note: The database should be seeded externally (i.e. using a separate script)

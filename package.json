@@ -45,6 +45,7 @@
         "@types/csurf": "^1.11.5",
         "@types/faker": "^6.6.9",
         "@types/jest": "^29.5.11",
+        "@types/lodash": "^4.14.202",
         "@types/pg": "^8.10.9",
         "@types/selenium-webdriver": "^4.1.21",
         "@typescript-eslint/eslint-plugin": "^6.13.2",

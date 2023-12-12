@@ -1,8 +1,7 @@
-
-class Mufasir {
-    mufasirId: number;
-    mufasirName: string;
-    death: string;
+export class Mufasir {
+    mufasirId?: number;
+    mufasirName?: string;
+    death?: string;
 
     constructor(mufasirId: number, mufasirName: string, death: string) {
         this.mufasirId = mufasirId;
@@ -12,5 +11,3 @@ class Mufasir {
 
     // Define any model methods here
 }
-
-export default Mufasir;

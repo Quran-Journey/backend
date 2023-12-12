@@ -1,20 +1,20 @@
-import postgres from "..";
 import validate from "../../../utils/validation";
 import { Messages } from "../../../utils/constants";
+import { create, remove, retrieve, update } from "..";
 
 /**
  * @schema ArabicWord
  * type: object
  * required:
- *   - word_id
- *   - root_id
+ *   - wordId
+ *   - rootId
  *   - word
  * properties:
- *   word_id:
+ *   wordId:
  *     type: integer
  *     description: the id of the arabic word
  *     example: 1
- *   root_id:
+ *   rootId:
  *     type: integer
  *     description: the id of the root word associated with the arabic word
  *     example: 936
@@ -24,54 +24,54 @@ import { Messages } from "../../../utils/constants";
  *     example: بِسْمِ
  */
 
-async function createRootWord(data: { root_word: string }) {
+export async function createRootWord(data: { rootWord: string }) {
   // Frontend note: also add a feature where we guess that the
   //  rootWord's date is the next Saturday after the last rootWord's date
   const invalid = validate(data, {
-    root_word: "string",
+    rootWord: "string",
   });
 
-  if (invalid) {
+  if (!invalid.success) {
     return invalid;
   }
 
   const sql = "INSERT INTO rootWord (root_word) VALUES ($1) RETURNING *;";
-  const params = [data.root_word];
+  const params = [data.rootWord];
 
-  return await postgres.create(
+  return await create(
     sql,
     params,
     new Messages({ success: "Successfully created a rootWord." })
   );
 }
 
-async function getRootWordById(data: { root_id: number }) {
+export async function getRootWordById(data: { rootId: number }) {
   const invalid = validate(data, {
-    root_id: "integer",
+    rootId: "integer",
   });
 
-  if (invalid) {
+  if (!invalid.success) {
     return invalid;
   }
 
   const sql = "SELECT * FROM rootWord WHERE root_id=$1";
-  const params = [data.root_id];
+  const params = [data.rootId];
 
-  return await postgres.retrieve(
+  return await retrieve(
     sql,
     params,
     new Messages({
-      success: `Successfully fetched rootWord with id ${data.root_id}.`,
+      success: `Successfully fetched rootWord with id ${data.rootId}.`,
     })
   );
 }
 
 /** Fetches rootWords based on a specific filter (i.e. id, date) */
-async function getAllRootWords() {
+export async function getAllRootWords() {
   const sql = "SELECT * FROM rootWord;";
   const params: any[] = [];
 
-  return await postgres.retrieve(
+  return await retrieve(
     sql,
     params,
     new Messages({
@@ -81,79 +81,71 @@ async function getAllRootWords() {
 }
 
 /** Update a rootWord, requires all attributes of the rootWord. */
-async function updateRootWord(data: { root_id: number; root_word: string }) {
+export async function updateRootWord(data: { rootId: number; rootWord: string }) {
   const invalid = validate(data, {
-    root_id: "integer",
-    root_word: "string",
+    rootId: "integer",
+    rootWord: "string",
   });
 
-  if (invalid) {
+  if (!invalid.success) {
     return invalid;
   }
 
   const sql = "UPDATE rootWord SET root_word=$2 WHERE root_id=$1";
-  const params = [data.root_id, data.root_word];
+  const params = [data.rootId, data.rootWord];
 
-  return await postgres.update(
+  return await update(
     sql,
     params,
     new Messages({
-      success: `Successfully update rootWord with id ${data.root_id}.`,
-      dbNotFound: `Could not find a rootWord with id ${data.root_id}.`,
+      success: `Successfully update rootWord with id ${data.rootId}.`,
+      dbNotFound: `Could not find a rootWord with id ${data.rootId}.`,
     })
   );
 }
 
 /** Update a rootWord, requires all attributes of the rootWord. */
-async function deleteRootWord(data: { root_id: number }) {
+export async function deleteRootWord(data: { rootId: number }) {
   const invalid = validate(data, {
-    root_id: "integer",
+    rootId: "integer",
   });
 
-  if (invalid) {
+  if (!invalid.success) {
     return invalid;
   }
 
   const sql = "DELETE FROM rootWord WHERE root_id=$1 RETURNING *;";
-  const params = [data.root_id];
+  const params = [data.rootId];
 
-  return await postgres.remove(
+  return await remove(
     sql,
     params,
     new Messages({
-      success: `Successfully deleted rootWord with id ${data.root_id}.`,
-      dbNotFound: `Could not find a rootWord with id ${data.root_id}.`,
+      success: `Successfully deleted rootWord with id ${data.rootId}.`,
+      dbNotFound: `Could not find a rootWord with id ${data.rootId}.`,
     })
   );
 }
 
-async function getVerseRootWords(data: { verse_id: number }) {
+export async function getVerseRootWords(data: { verseId: number }) {
   const invalid = validate(data, {
-    verse_id: "integer",
+    verseId: "integer",
   });
 
-  if (invalid) {
+  if (!invalid.success) {
     return invalid;
   }
 
   const sql =
-    "SELECT * FROM (SELECT verse_id, aw.word_id, word, root_id FROM VerseWord as vw JOIN ArabicWord as aw on aw.word_id=vw.word_id WHERE verse_id=$1) as vtaw JOIN RootWord as rt ON rt.root_id=vtaw.root_id;";
-  const params = [data.verse_id];
+    "SELECT * FROM (SELECT verse_id, aw.word_id, word, root_id FROM VerseWord as vw JOIN ArabicWord as aw on aw.word_id=vw.wordId WHERE verse_id=$1) as vtaw JOIN RootWord as rt ON rt.root_id=vtaw.root_id;";
+  const params = [data.verseId];
 
-  return await postgres.retrieve(
+  return await retrieve(
     sql,
     params,
     new Messages({
-      success: `Successfully fetched roots for verse with id ${data.verse_id}.`,
+      success: `Successfully fetched roots for verse with id ${data.verseId}.`,
     })
   );
 }
 
-export {
-  getRootWordById,
-  createRootWord,
-  updateRootWord,
-  deleteRootWord,
-  getVerseRootWords,
-  getAllRootWords,
-};

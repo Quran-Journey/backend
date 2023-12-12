@@ -1,12 +1,17 @@
+export class Tafsir {
+    tafsirId?: number;
+    tafsirText?: string;
+    book?: number;
+    verseId?: number;
+    visible?: boolean;
 
-class Tafsir {
-    tafsirId: number;
-    tafsirText: string;
-    book: number;
-    verseId: number;
-    visible: number;
-
-    constructor(tafsirId: number, tafsirText: string, book: number, verseId: number, visible: number) {
+    constructor(
+        tafsirId: number,
+        tafsirText: string,
+        book: number,
+        verseId: number,
+        visible: boolean
+    ) {
         this.tafsirId = tafsirId;
         this.tafsirText = tafsirText;
         this.book = book;
@@ -16,5 +21,3 @@ class Tafsir {
 
     // Define any model methods here
 }
-
-export default Tafsir;

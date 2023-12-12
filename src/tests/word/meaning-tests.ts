@@ -1,7 +1,7 @@
 import { apiGET, apiPOST, apiDELETE, apiPUT } from '../request';
-import data  from '../../services/postgres/seed';
+import { seedData } from "../../services/postgres/seed";
 import { Errors } from '../../utils/constants';
-const seedData = data.seedData;
+import { RootMeaning } from '../../models/word/rootMeaning';
 
 function meaningTests() {
   it('getting a root meaning by id', async () => {
@@ -14,8 +14,8 @@ function meaningTests() {
   });
 
   it('adding a root meaning', async () => {
-    let newMeaning = {
-      root_id: 1,
+    let newMeaning: RootMeaning = {
+      rootId: 1,
       meaning: 'high',
     };
 
@@ -26,18 +26,18 @@ function meaningTests() {
   });
 
   it('updating a root meaning', async () => {
-    let newMeaning = {
-      meaning_id: 1,
-      root_id: 1,
+    let newMeaning: RootMeaning = {
+      meaningId: 1,
+      rootId: 1,
       meaning: 'elevated',
     };
 
-    let resp1 = await apiGET(`/word/root/meaning/${newMeaning.root_id}`);
+    let resp1 = await apiGET(`/word/root/meaning/${newMeaning.rootId}`);
     let originalMeaning = resp1.data.data[0];
     expect(originalMeaning.meaning).not.toEqual(newMeaning.meaning);
 
     await apiPUT('/word/root/meaning', newMeaning);
-    let resp2 = await apiGET(`/word/root/meaning/${newMeaning.root_id}`);
+    let resp2 = await apiGET(`/word/root/meaning/${newMeaning.rootId}`);
     checkMatch(newMeaning, resp2.data.data[0]);
     expect(resp2.data.success).toEqual(true);
   });
@@ -55,8 +55,8 @@ function meaningTests() {
   });
 }
 
-function checkMatch(meaningA: any, meaningB: any) {
-  expect(meaningA.root_id).toEqual(meaningB.root_id);
+function checkMatch(meaningA: RootMeaning, meaningB: RootMeaning) {
+  expect(meaningA.rootId).toEqual(meaningB.rootId);
   expect(meaningA.meaning).toEqual(meaningB.meaning);
 }
 

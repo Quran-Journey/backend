@@ -1,190 +1,191 @@
 import moment from 'moment';
+import lodash from "lodash";
 
 /**
  * In this seeded database there is:
  * - 2 lessons
  * new Date() is just for fake 
  */
-const seedData:ISeedData = {
+export const seedData:ISeedData = {
     Surah: [
         {
-            surah_id: 1,
-            surah_number: 1,
-            name_complex: "Al-Fātiĥah",
-            name_arabic: "الفاتحة",
+            "surahId": 1,
+            "surahNumber": 1,
+            "nameComplex": "Al-Fātiĥah",
+            "nameArabic": "الفاتحة",
         },
         {
-            surah_id: 2,
-            surah_number: 2,
-            name_complex: "The cow",
-            name_arabic: "",
+            "surahId": 2,
+            "surahNumber": 2,
+            "nameComplex": "The cow",
+            "nameArabic": "",
         },
     ],
     Lesson: [
         {
-            lesson_id: 1,
-            surah_id: 1,
-            lesson_date: moment(new Date()).format("YYYY-MM-DD"),
-            start_verse: 1,
-            end_verse: 3,
-            source: "youtube.com/url_to_video",
+            "lessonId": 1,
+            "surahId": 1,
+            "lessonDate": moment(new Date()).format("YYYY-MM-DD"),
+            "startVerse": 1,
+            "endVerse": 3,
+            "source": "youtube.com/url_to_video",
         },
         {
-            lesson_id: 2,
-            surah_id: 1,
-            lesson_date: moment(new Date()).format("YYYY-MM-DD"),
-            start_verse: 1,
-            end_verse: 2,
-            source: "facebook.com/url_to_video",
+            "lessonId": 2,
+            "surahId": 1,
+            "lessonDate": moment(new Date()).format("YYYY-MM-DD"),
+            "startVerse": 1,
+            "endVerse": 2,
+            "source": "facebook.com/url_to_video",
         },
     ],
     SurahInfo: [
         {
-            surah_info_id: 1,
-            surah: 1,
-            title: "The Opener",
-            info: "Al-Fātiĥah consists of 7 ayah which are a prayer for guidance and mercy",
+            "surahInfoId": 1,
+            "surah": 1,
+            "title": "The Opener",
+            "info": "Al-Fātiĥah consists of 7 ayah which are a prayer for guidance and mercy",
         },
     ],
     Verse: [
         {
-            verse_index: 1,
-            surah: 1,
-            verse_number: 1,
-            verse_text: "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ",
+            "verseIndex": 1,
+            "surah": 1,
+            "verseNumber": 1,
+            "verseText": "بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ",
         },
         {
-            verse_index: 2,
-            surah: 1,
-            verse_number: 2,
-            verse_text: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
+            "verseIndex": 2,
+            "surah": 1,
+            "verseNumber": 2,
+            "verseText": "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
         },
         {
-            verse_index: 3,
-            surah: 1,
-            verse_number: 3,
-            verse_text: "الرَّحْمَـٰنِ الرَّحِيمِ",
+            "verseIndex": 3,
+            "surah": 1,
+            "verseNumber": 3,
+            "verseText": "الرَّحْمَـٰنِ الرَّحِيمِ",
         },
     ],
     Reflection: [
         {
-            reflection_id: 1,
-            verse_id: 1,
-            title: "Bismillah",
-            reflection: "My First Reflection",
+            "reflectionId": 1,
+            "verseId": 1,
+            "title": "Bismillah",
+            "reflection": "My First Reflection",
         },
         {
-            reflection_id: 2,
-            verse_id: 1,
-            title: "Inshallah",
-            reflection: "My Second Reflection",
+            "reflectionId": 2,
+            "verseId": 1,
+            "title": "Inshallah",
+            "reflection": "My Second Reflection",
         },
         {
-            reflection_id: 3,
-            verse_id: 2,
-            title: "Allahu Akbar",
-            reflection: "Inshallah my last reflection!",
+            "reflectionId": 3,
+            "verseId": 2,
+            "title": "Allahu Akbar",
+            "reflection": "Inshallah my last reflection!",
         },
         {
-            reflection_id: 4,
-            verse_id: 3,
-            title: "Subhanallah",
-            reflection: "Allah SWT is the most most merciful",
+            "reflectionId": 4,
+            "verseId": 3,
+            "title": "Subhanallah",
+            "reflection": "Allah SWT is the most most merciful",
         },
     ],
     RootWord: [
         {
-            root_id: 1,
-            root_word: "س م و",
+            "rootId": 1,
+            "rootWord": "س م و",
         },
         {
-            root_id: 2,
-            root_word: "ر ح م",
+            "rootId": 2,
+            "rootWord": "ر ح م",
         },
         {
-            root_id: 3,
-            root_word: "ح م د",
+            "rootId": 3,
+            "rootWord": "ح م د",
         },
     ],
     RootMeaning: [
         {
-            meaning_id: 1,
-            root_id: 1,
-            meaning: "to be high",
+            "meaningId": 1,
+            "rootId": 1,
+            "meaning": "to be high",
         },
         {
-            meaning_id: 2,
-            root_id: 1,
-            meaning: "raised",
+            "meaningId": 2,
+            "rootId": 1,
+            "meaning": "raised",
         },
         {
-            meaning_id: 3,
-            root_id: 3,
-            meaning: "To praise",
+            "meaningId": 3,
+            "rootId": 3,
+            "meaning": "To praise",
         },
     ],
     ArabicWord: [
         {
-            word_id: 1,
-            word: "بِسْمِ",
-            root_id: 1,
+            "wordId": 1,
+            "word": "بِسْمِ",
+            "rootId": 1,
         },
         {
-            word_id: 2,
-            word: "الرَّحِيمِ",
-            root_id: 2,
+            "wordId": 2,
+            "word": "الرَّحِيمِ",
+            "rootId": 2,
         },
         {
-            word_id: 3,
-            word: "الْحَمْدُ",
-            root_id: 3,
+            "wordId": 3,
+            "word": "الْحَمْدُ",
+            "rootId": 3,
         },
     ],
     VerseWord: [
         {
-            verse_word_id: 1,
-            verse_id: 1,
-            word_id: 1,
-            visible: false,
-            word_explanation: "An explanation of the basmalla goes here.",
+            "verseWordId": 1,
+            "verseId": 1,
+            "wordId": 1,
+            "visible": false,
+            "wordExplanation": "An explanation of the basmalla goes here.",
         },
         {
-            verse_word_id: 2,
-            verse_id: 2,
-            word_id: 3,
-            visible: true,
-            word_explanation: "All Praise is for Allah",
+            "verseWordId": 2,
+            "verseId": 2,
+            "wordId": 3,
+            "visible": true,
+            "wordExplanation": "All Praise is for Allah",
         },
         {
-            verse_word_id: 3,
-            verse_id: 3,
-            word_id: 3,
-            visible: true,
-            word_explanation: "Name of Allah",
+            "verseWordId": 3,
+            "verseId": 3,
+            "wordId": 3,
+            "visible": true,
+            "wordExplanation": "Name of Allah",
         },
     ],
     Mufasir: [
         {
-            mufasir_id: 1,
-            mufasir_name: "Ibn Kathir",
-            death: "774 H",
+            "mufasirId": 1,
+            "mufasirName": "Ibn Kathir",
+            "death": "774 H",
         },
     ],
     Book: [
         {
-            book_id: 1,
-            author: 1,
-            title: "Tafsir Ibn Kathir",
+            "bookId": 1,
+            "author": 1,
+            "title": "Tafsir Ibn Kathir",
         },
     ],
     Tafsir: [
         {
-            tafsir_id: 1,
-            tafsir_text:
+            "tafsirId": 1,
+            "tafsirText":
                 "In the name of Allah, The Most Gracious, The Most Merciful",
-            book: 1,
-            verse_id: 1,
-            visible: false,
+            "book": 1,
+            "verseId": 1,
+            "visible": false,
         },
     ],
 };
@@ -218,7 +219,7 @@ function prepareTableSQL(table: string): [string, any[]] {
     let columns_string = "(";
 
     for (let i = 0; i < columns.length; i++) {
-        columns_string = columns_string + `${columns[i]}, `;
+        columns_string = columns_string + `${lodash.snakeCase(columns[i])}, `;
     }
 
     columns_string =
@@ -240,7 +241,7 @@ function prepareTableSQL(table: string): [string, any[]] {
 /**
  * This is where we actually put all of the mock data above into the database
  */
-async function seedDatabase(db: any, isDev?: boolean) {
+export async function seedDatabase(db: any, isDev?: boolean) {
     await clearDatabase(db);
 
     const tables = Object.keys(seedData);
@@ -258,7 +259,7 @@ async function seedDatabase(db: any, isDev?: boolean) {
         }
 
         // Resetting the sequence for each table because manual inserts caused them to get out of sync
-        const primary_key = Object.keys(seedData[table][0])[0];
+        const primary_key = lodash.snakeCase(Object.keys(seedData[table][0])[0]);
         const resetSql = `SELECT setval(pg_get_serial_sequence('${table}', '${primary_key}'), (SELECT MAX(${primary_key}) FROM ${table})+1);`;
 
         try {
@@ -272,8 +273,3 @@ async function seedDatabase(db: any, isDev?: boolean) {
     if (!isDev) await db.end();
     console.log("Database setup complete.");
 }
-
-export default {
-    seedDatabase,
-    seedData,
-};

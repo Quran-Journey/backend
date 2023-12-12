@@ -2,11 +2,11 @@
  *  @schema RootWord
  *  type: object
  *  required:
- *      - root_id
+ *      - rootId
  *      - rootword
  *      - meanings
  *  properties:
- *      root_id:
+ *      rootId:
  *          type: integer
  *          description: the id of the root word
  *          example: 936

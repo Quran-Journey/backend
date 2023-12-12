@@ -1,4 +1,4 @@
-import postgres from "../index";
+import { create, remove, retrieve, update } from "..";
 import validate from "../../../utils/validation";
 import { Result, Messages } from "../../../utils/constants";
 import {getVerseRootWords} from "./root";
@@ -7,15 +7,15 @@ import {getVerseRootWords} from "./root";
  * @schema RootMeaning
  * type: object
  * required:
- *   - meaning_id
- *   - root_id
+ *   - meaningId
+ *   - rootId
  *   - meaning
  * properties:
- *   meaning_id:
+ *   meaningId:
  *     type: integer
  *     description: the id of the meaning
  *     example: 1
- *   root_id:
+ *   rootId:
  *     type: integer
  *     description: the id of the root word
  *     example: 936
@@ -26,35 +26,35 @@ import {getVerseRootWords} from "./root";
  */
 
 // To be used when adding the different meanings to the sentences.
-async function getRootWordMeanings(data: { root_id: number,verse_id:number }) {
+export async function getRootWordMeanings(data: { rootId: number,verseId:number }) {
   const invalid = validate(data, {
-    root_id: "integer",
+    rootId: "integer",
   });
 
-  if (invalid) {
+  if (!invalid.success) {
     return invalid;
   }
 
   const sql = "SELECT * FROM RootMeaning WHERE root_id=$1;";
-  const params = [data.root_id];
+  const params = [data.rootId];
 
-  return await postgres.retrieve(
+  return await retrieve(
     sql,
     params,
     new Messages({
-      success: `Successfully fetched roots for verse with id ${data.verse_id}.`,
+      success: `Successfully fetched roots for verse with id ${data.verseId}.`,
     })
   );
 }
 
-async function getVerseRootWordsSentences(data: { verse_id: number }) {
+export async function getVerseRootWordsSentences(data: { verseId: number }) {
   const all_roots = await getVerseRootWords(data);
   let msg = all_roots.msg;
   let root, word, rootmeanings, sentence;
 
   if (all_roots.success) {
     for (const item of all_roots.data) {
-      root = item.root_word;
+      root = item.rootWord;
       word = item.word;
       rootmeanings = await stringifyMeanings(item);
 
@@ -67,7 +67,7 @@ async function getVerseRootWordsSentences(data: { verse_id: number }) {
       item.sentence = sentence;
     }
 
-    msg = `Successfully retrieved sentences for each word in verse with id ${data.verse_id}`;
+    msg = `Successfully retrieved sentences for each word in verse with id ${data.verseId}`;
   }
 
   return new Result({
@@ -78,7 +78,7 @@ async function getVerseRootWordsSentences(data: { verse_id: number }) {
   });
 }
 
-async function stringifyMeanings(root: any) {
+export async function stringifyMeanings(root: any) {
   const meanings = await getRootWordMeanings(root);
   let meaningsString = "";
 
@@ -91,102 +91,94 @@ async function stringifyMeanings(root: any) {
   return meaningsString;
 }
 
-async function getMeaning(data: { meaning_id: number }) {
+export async function getMeaning(data: { meaningId: number }) {
   const invalid = validate(data, {
-    meaning_id: "integer",
+    meaningId: "integer",
   });
 
-  if (invalid) {
+  if (!invalid.success) {
     return invalid;
   }
 
   const sql = "SELECT * FROM RootMeaning WHERE meaning_id=$1;";
-  const params = [data.meaning_id];
+  const params = [data.meaningId];
 
-  return await postgres.retrieve(
+  return await retrieve(
     sql,
     params,
     new Messages({
-      success: `Successfully fetched a meaning with id ${data.meaning_id}.`,
-      dbNotFound: `Could not find root meaning with id ${data.meaning_id}.`,
+      success: `Successfully fetched a meaning with id ${data.meaningId}.`,
+      dbNotFound: `Could not find root meaning with id ${data.meaningId}.`,
     })
   );
 }
 
-async function addMeaning(data: { root_id: number; meaning: string }) {
+export async function addMeaning(data: { rootId: number; meaning: string }) {
   const invalid = validate(data, {
-    root_id: "integer",
+    rootId: "integer",
     meaning: "string",
   });
 
-  if (invalid) {
+  if (!invalid.success) {
     return invalid;
   }
 
   const sql =
     "INSERT INTO RootMeaning (root_id, meaning) VALUES ($1, $2) RETURNING *;";
-  const params = [data.root_id, data.meaning];
+  const params = [data.rootId, data.meaning];
 
-  return await postgres.create(
+  return await create(
     sql,
     params,
     new Messages({
-      success: `Successfully added a meaning to root word with id ${data.root_id}.`,
+      success: `Successfully added a meaning to root word with id ${data.rootId}.`,
     })
   );
 }
 
-async function editMeaning(data: { meaning_id: number; root_id: number; meaning: string }) {
+export async function editMeaning(data: { meaningId: number; rootId: number; meaning: string }) {
   const invalid = validate(data, {
-    meaning_id: "integer",
-    root_id: "integer",
+    meaningId: "integer",
+    rootId: "integer",
     meaning: "string",
   });
 
-  if (invalid) {
+  if (!invalid.success) {
     return invalid;
   }
 
   const sql =
     "UPDATE RootMeaning SET meaning=$2, root_id=$3 WHERE meaning_id=$1 RETURNING *;";
-  const params = [data.meaning_id, data.meaning, data.root_id];
+  const params = [data.meaningId, data.meaning, data.rootId];
 
-  return await postgres.update(
+  return await update(
     sql,
     params,
     new Messages({
-      success: `Successfully edited meaning with id ${data.meaning_id}.`,
-      dbNotFound: `Could not find a meaning with id ${data.meaning_id}.`,
+      success: `Successfully edited meaning with id ${data.meaningId}.`,
+      dbNotFound: `Could not find a meaning with id ${data.meaningId}.`,
     })
   );
 }
 
-async function deleteMeaning(data: { meaning_id: number }) {
+export async function deleteMeaning(data: { meaningId: number }) {
   const invalid = validate(data, {
-    meaning_id: "integer",
+    meaningId: "integer",
   });
 
-  if (invalid) {
+  if (!invalid.success) {
     return invalid;
   }
 
   const sql = "DELETE FROM RootMeaning WHERE meaning_id=$1 RETURNING *;";
-  const params = [data.meaning_id];
+  const params = [data.meaningId];
 
-  return await postgres.remove(
+  return await remove(
     sql,
     params,
     new Messages({
-      success: `Successfully deleted meaning with id ${data.meaning_id}.`,
-      dbNotFound: `Could not find meaning with id ${data.meaning_id}.`,
+      success: `Successfully deleted meaning with id ${data.meaningId}.`,
+      dbNotFound: `Could not find meaning with id ${data.meaningId}.`,
     })
   );
 }
-
-export {
-  getVerseRootWordsSentences,
-  getMeaning,
-  addMeaning,
-  editMeaning,
-  deleteMeaning,
-};

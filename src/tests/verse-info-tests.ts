@@ -1,16 +1,12 @@
-import { apiGET } from './request';
-import data from '../services/postgres/seed';
-import { Errors } from '../utils/constants';
-import {Word} from "../types/Word";
-import {Tafsir} from "../types/Tafsir";
-const seedData = data.seedData;
+import { apiGET } from "./request";
+import { seedData } from "../services/postgres/seed";
+import { Errors } from "../utils/constants";
+import { Tafsir } from "../models/tafsir/tafsir";
+import { VerseWord } from "../models/verse/verseWord";
+import { VerseWordExplanations } from "../models/word";
+import { ArabicWord } from "../models/word/arabicWord";
 
-interface ArabicWord {
-    root_id: number;
-    word: string;
-}
-
-async function verseInfoTests() {
+export async function verseInfoTests() {
     it("get complete verse info", async () => {
         let verse = seedData.Verse[0];
         let reflectionInfo = seedData.Reflection[0];
@@ -21,7 +17,7 @@ async function verseInfoTests() {
         const resp1 = await apiGET(`/verse/1`);
         expect(resp1.data.data.reflections[0]).toEqual(reflectionInfo);
         expect(resp1.data.data.reflections.length).toEqual(2);
-        expect(resp1.data.data.verse_index).toEqual(verse.verse_index);
+        expect(resp1.data.data.verseIndex).toEqual(verse.verseIndex);
 
         checkTafsirMatch(resp1.data.data.tafsirs[0], tafsirInfo);
         checkWordMatch(resp1.data.data.words[0], verseWord, arabicWord);
@@ -44,16 +40,18 @@ async function verseInfoTests() {
     });
 }
 
-function checkTafsirMatch(t1: Tafsir, t2: Tafsir) {
-    expect(t1.tafsir_id).toEqual(t2.tafsir_id);
-    expect(t1.tafsir_text).toEqual(t2.tafsir_text);
+export function checkTafsirMatch(t1: Tafsir, t2: Tafsir) {
+    expect(t1.tafsirId).toEqual(t2.tafsirId);
+    expect(t1.tafsirText).toEqual(t2.tafsirText);
 }
 
-function checkWordMatch(t1: Word, vw: Word, aw: ArabicWord) {
-    expect(t1.root_id).toEqual(aw.root_id);
-    expect(t1.word_id).toEqual(vw.word_id);
+export function checkWordMatch(
+    t1: VerseWordExplanations,
+    vw: VerseWord,
+    aw: ArabicWord
+) {
+    expect(t1.rootId).toEqual(aw.rootId);
+    expect(t1.wordId).toEqual(vw.wordId);
     expect(t1.visible).toEqual(vw.visible);
-    expect(t1.word_explanation).toEqual(vw.word_explanation);
+    expect(t1.wordExplanation).toEqual(vw.wordExplanation);
 }
-
-export { verseInfoTests };

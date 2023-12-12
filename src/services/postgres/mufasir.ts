@@ -1,39 +1,34 @@
-import postgres from ".";
+import { retrieve, update, remove, create } from ".";
 import validate from "../../utils/validation";
 import { Messages } from "../../utils/constants";
+import { Mufasir } from "../../models/tafsir/mufasir";
 
-interface MufasirData {
-    mufasir_id?: number;
-    mufasir_name?: string;
-    death?: string;
-}
-
-async function getMufasir(data: MufasirData): Promise<any> {
+export async function getMufasir(data: Mufasir): Promise<any> {
     const invalid = validate(data, {
-        mufasir_id: "integer",
+        mufasirId: "integer",
     });
 
-    if (invalid) {
+    if (!invalid.success) {
         return invalid;
     }
 
     const sql = "SELECT * FROM mufasir WHERE mufasir_id=$1;";
-    const params = [data.mufasir_id!];
+    const params = [data.mufasirId!];
 
-    return await postgres.retrieve(
+    return await retrieve(
         sql,
         params,
         new Messages({
-            success: `Successfully fetched mufasir with ID ${data.mufasir_id}.`,
+            success: `Successfully fetched mufasir with ID ${data.mufasirId}.`,
         })
     );
 }
 
-async function getMufasireen(): Promise<any> {
+export async function getMufasireen(): Promise<any> {
     const sql = "SELECT * FROM mufasir;";
     const params: any[] = [];
 
-    return await postgres.retrieve(
+    return await retrieve(
         sql,
         params,
         new Messages({
@@ -42,21 +37,21 @@ async function getMufasireen(): Promise<any> {
     );
 }
 
-async function addMufasir(data: MufasirData): Promise<any> {
+export async function addMufasir(data: Mufasir): Promise<any> {
     const invalid = validate(data, {
-        mufasir_name: "string",
+        mufasirName: "string",
         death: "string",
     });
 
-    if (invalid) {
+    if (!invalid.success) {
         return invalid;
     }
 
     const sql =
         "INSERT INTO mufasir (mufasir_name, death) VALUES ($1, $2) RETURNING *;";
-    const params = [data.mufasir_name!, data.death!];
+    const params = [data.mufasirName!, data.death!];
 
-    return await postgres.create(
+    return await create(
         sql,
         params,
         new Messages({
@@ -65,55 +60,47 @@ async function addMufasir(data: MufasirData): Promise<any> {
     );
 }
 
-async function updateMufasir(data: MufasirData): Promise<any> {
+export async function updateMufasir(data: Mufasir): Promise<any> {
     const invalid = validate(data, {
-        mufasir_id: "integer",
-        mufasir_name: "string",
+        mufasirId: "integer",
+        mufasirName: "string",
         death: "string",
     });
 
-    if (invalid) {
+    if (!invalid.success) {
         return invalid;
     }
 
     const sql =
         "UPDATE mufasir SET mufasir_name=$2, death=$3 WHERE mufasir_id=$1 RETURNING *;";
-    const params = [data.mufasir_id!, data.mufasir_name!, data.death!];
+    const params = [data.mufasirId!, data.mufasirName!, data.death!];
 
-    return await postgres.update(
+    return await update(
         sql,
         params,
         new Messages({
-            success: `Successfully updated mufasir with id ${data.mufasir_id}.`,
+            success: `Successfully updated mufasir with id ${data.mufasirId}.`,
         })
     );
 }
 
-async function deleteMufasir(data: MufasirData): Promise<any> {
+export async function deleteMufasir(data: Mufasir): Promise<any> {
     const invalid = validate(data, {
-        mufasir_id: "integer",
+        mufasirId: "integer",
     });
 
-    if (invalid) {
+    if (!invalid.success) {
         return invalid;
     }
 
     const sql = "DELETE FROM mufasir WHERE mufasir_id=$1 RETURNING *;";
-    const params = [data.mufasir_id!];
+    const params = [data.mufasirId!];
 
-    return await postgres.remove(
+    return await remove(
         sql,
         params,
         new Messages({
-            success: `Successfully updated mufasir with id ${data.mufasir_id}.`,
+            success: `Successfully updated mufasir with id ${data.mufasirId}.`,
         })
     );
 }
-
-export default {
-    getMufasireen,
-    getMufasir,
-    addMufasir,
-    updateMufasir,
-    deleteMufasir,
-};

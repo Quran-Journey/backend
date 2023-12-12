@@ -1,26 +1,26 @@
-import postgres from "..";
+import { create, remove, retrieve, update } from "..";
 import validate from "../../../utils/validation";
-import { Messages } from "../../../utils/constants";
+import { Messages, Result } from "../../../utils/constants";
 
 /**
  *  @schema VerseWord
  *  type: object
  *  required:
- *      - verse_word_id
- *      - word_id
- *      - verse_id
+ *      - verseWordId
+ *      - wordId
+ *      - verseId
  *      - visible
- *      - word_explanation
+ *      - wordExplanation
  *  properties:
- *      verse_word_id:
+ *      verseWordId:
  *          type: integer
  *          description: the id of the arabic word being associated with the verse
  *          example: 1
- *      word_id:
+ *      wordId:
  *          type: integer
  *          description: the id of the arabic word being associated with the verse
  *          example: 1
- *      verse_id:
+ *      verseId:
  *          type: integer
  *          description: the id of the verse that is being associated with the word
  *          example: 1
@@ -28,122 +28,122 @@ import { Messages } from "../../../utils/constants";
  *          type: boolean
  *          description: whether the value is visible or not
  *          example: true
- *      word_explanation:
+ *      wordExplanation:
  *          type: string
- *          description: The word_explanation that is made for the word in the verse.
+ *          description: The wordExplanation that is made for the word in the verse.
  *          example: The وَ in the word وَالْعَادِيَاتِ is for taking an oath. Thus we can look for the response to the oath in ayah 6.
  */
 
-async function linkVerseToWord(data: {
-  verse_id: number;
-  word_id: number;
-  word_explanation: string;
-  visible: boolean;
+export async function linkVerseToWord(data: {
+    verseId: number;
+    wordId: number;
+    wordExplanation: string;
+    visible: boolean;
 }) {
-  var invalid = validate(data, {
-    verse_id: "integer",
-    word_id: "integer",
-    word_explanation: "string",
-    visible: "boolean",
-  });
-  if (invalid) {
-    return invalid;
-  }
-  var sql =
-    "INSERT INTO verseWord (verse_id, word_id, word_explanation, visible) VALUES ($1, $2, $3, $4) RETURNING *;";
-  var params = [
-    data.verse_id,
-    data.word_id,
-    data.word_explanation,
-    data.visible,
-  ];
-  return await postgres.create(
-    sql,
-    params,
-    new Messages({
-      success: `Successfully linked a verse with id ${data.verse_id} to word with id ${data.word_id}.`,
-    })
-  );
+    var invalid: Result<any> = validate(data, {
+        verseId: "integer",
+        wordId: "integer",
+        wordExplanation: "string",
+        visible: "boolean",
+    });
+    if (!invalid.success) {
+        return invalid;
+    }
+    var sql =
+        "INSERT INTO verseWord (verse_id, word_id, word_explanation, visible) VALUES ($1, $2, $3, $4) RETURNING *;";
+    var params = [
+        data.verseId,
+        data.wordId,
+        data.wordExplanation,
+        data.visible,
+    ];
+    return await create(
+        sql,
+        params,
+        new Messages({
+            success: `Successfully linked a verse with id ${data.verseId} to word with id ${data.wordId}.`,
+        })
+    );
 }
 
-async function getVerseWordById(data: { verse_word_id: number }) {
-  var invalid = validate(data, {
-    verse_word_id: "integer",
-  });
-  if (invalid) {
-    return invalid;
-  }
-  let sql = "SELECT * FROM verseWord WHERE verse_word_id=$1;";
-  var params = [data.verse_word_id];
-  return await postgres.retrieve(
-    sql,
-    params,
-    new Messages({
-      success: `Successfully fetched verse word with id ${data.verse_word_id}.`,
-    })
-  );
+export async function getVerseWordById(data: { verseWordId: number }) {
+    var invalid: Result<any> = validate(data, {
+        verseWordId: "integer",
+    });
+    if (!invalid.success) {
+        return invalid;
+    }
+    let sql = "SELECT * FROM verseWord WHERE verse_word_id=$1;";
+    var params = [data.verseWordId];
+    return await retrieve(
+        sql,
+        params,
+        new Messages({
+            success: `Successfully fetched verse word with id ${data.verseWordId}.`,
+        })
+    );
 }
 
 /** Update a rootWord, requires all attributes of the rootWord. */
-async function updateVerseWord(data: {
-  verse_word_id: number;
-  verse_id: number;
-  word_id: number;
-  word_explanation: string;
-  visible: boolean;
+export async function updateVerseWord(data: {
+    verseWordId: number;
+    verseId: number;
+    wordId: number;
+    wordExplanation: string;
+    visible: boolean;
 }) {
-  var invalid = validate(data, {
-    verse_word_id: "integer",
-    verse_id: "integer",
-    word_id: "integer",
-    word_explanation: "string",
-    visible: "boolean",
-  });
-  if (invalid) {
-    return invalid;
-  }
-  let sql =
-    "UPDATE VerseWord SET verse_id=$2, word_id=$3, word_explanation=$4, visible=$5 WHERE verse_word_id=$1 RETURNING *;";
-  var params = [
-    data.verse_word_id,
-    data.verse_id,
-    data.word_id,
-    data.word_explanation,
-    data.visible,
-  ];
-  return await postgres.update(
-    sql,
-    params,
-    new Messages({
-      success: `Successfully update VerseWord with id ${data.verse_word_id}.`,
-      dbNotFound: `Could not find a VerseWord with id ${data.verse_word_id}.`,
-    })
-  );
+    var invalid: Result<any> = validate(data, {
+        verseWordId: "integer",
+        verseId: "integer",
+        wordId: "integer",
+        wordExplanation: "string",
+        visible: "boolean",
+    });
+    if (!invalid.success) {
+        return invalid;
+    }
+    let sql =
+        "UPDATE VerseWord SET verse_id=$2, word_id=$3, word_explanation=$4, visible=$5 WHERE verse_word_id=$1 RETURNING *;";
+    var params = [
+        data.verseWordId,
+        data.verseId,
+        data.wordId,
+        data.wordExplanation,
+        data.visible,
+    ];
+    return await update(
+        sql,
+        params,
+        new Messages({
+            success: `Successfully update VerseWord with id ${data.verseWordId}.`,
+            dbNotFound: `Could not find a VerseWord with id ${data.verseWordId}.`,
+        })
+    );
 }
 
 /** Update a rootWord, requires all attributes of the rootWord. */
-async function deleteVerseWord(data: { verse_word_id: number }) {
-  var invalid = validate(data, {
-    verse_word_id: "integer",
-  });
-  if (invalid) {
-    return invalid;
-  }
-  let sql = "DELETE FROM verseWord WHERE verse_word_id=$1 RETURNING *;";
-  var params = [data.verse_word_id];
-  return await postgres.remove(
-    sql,
-    params,
-    new Messages({
-      success: `Successfully deleted VerseWord with id ${data.verse_word_id}.`,
-      dbNotFound: `Could not find a VerseWord with id ${data.verse_word_id}.`,
-    })
-  );
+export async function deleteVerseWord(data: { verseWordId: number }) {
+    var invalid: Result<any> = validate(data, {
+        verseWordId: "integer",
+    });
+    if (!invalid.success) {
+        return invalid;
+    }
+    let sql = "DELETE FROM verseWord WHERE verse_word_id=$1 RETURNING *;";
+    var params = [data.verseWordId];
+    return await remove(
+        sql,
+        params,
+        new Messages({
+            success: `Successfully deleted VerseWord with id ${data.verseWordId}.`,
+            dbNotFound: `Could not find a VerseWord with id ${data.verseWordId}.`,
+        })
+    );
 }
 
 export default {
-  linkVerseToWord,
-  getVerseWordById,
-  updateVerseWord,
-  deleteVerseWord,
+    linkVerseToWord,
+    getVerseWordById,
+    updateVerseWord,
+    deleteVerseWord,
 };

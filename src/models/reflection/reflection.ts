@@ -1,11 +1,15 @@
+export class Reflection {
+    reflectionId?: number;
+    verseId?: number;
+    title?: string;
+    reflection?: string;
 
-class Reflection {
-    reflectionId: number;
-    verseId: number;
-    title: string;
-    reflection: string;
-
-    constructor(reflectionId: number, verseId: number, title: string, reflection: string) {
+    constructor(
+        reflectionId: number,
+        verseId: number,
+        title: string,
+        reflection: string
+    ) {
         this.reflectionId = reflectionId;
         this.verseId = verseId;
         this.title = title;
@@ -14,5 +18,3 @@ class Reflection {
 
     // Define any model methods here
 }
-
-export default Reflection;

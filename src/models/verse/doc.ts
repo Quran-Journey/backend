@@ -7,7 +7,7 @@
  *      - aya
  *      - text
  *  properties:
- *      verse_index:
+ *      verseIndex:
  *          type: integer
  *          description: the index of the verse in the quran
  *          example: 1
@@ -15,11 +15,11 @@
  *          type: integer
  *          description: the surah id/number that the verse belongs to
  *          example: 1
- *      verse_number:
+ *      verseNumber:
  *          type: integer
  *          description: the ayah number within the surah
  *          example: 1
- *      verse_text:
+ *      verseText:
  *          type: string
  *          description: the text representation of the verse
  *          example: بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ
@@ -30,22 +30,22 @@
  *     type: object
  *     required:
  *         - word
- *         - root_id
- *         - word_explanation
+ *         - rootId
+ *         - wordExplanation
  *         - visible
- *         - root_word
+ *         - rootWord
  *         - meaning
- *         - word_id
+ *         - wordId
  *     properties:
  *         word:
  *             type: string
  *             description: the arabic word in the verse
  *             example: الْعَالَمِينَ
- *         root_word:
+ *         rootWord:
  *             type: string
  *             description: the root word
  *             example: س م و
- *         word_explanation:
+ *         wordExplanation:
  *             type: string
  *             description: the explanation of the word in the verse.
  *             example: this is the explanation for the word in the verse using the root word
@@ -53,7 +53,7 @@
  *             type: boolean
  *             description: whether this explanation is visible
  *             example: true
- *         root_id:
+ *         rootId:
  *             type: integer
  *             description: the id of the root word
  *             example: 1
@@ -61,7 +61,7 @@
  *             type: string
  *             description: the meaning of the root word
  *             example: A name.
- *         word_id:
+ *         wordId:
  *             type: integer
  *             description: the id of the word
  *             example: 1
@@ -72,18 +72,18 @@
  *  @schema VerseWordMeaning
  *  type: object
  *  required:
- *      - index_id
- *      - word_id
+ *      - indexId
+ *      - wordId
  *      - word
- *      - root_id
+ *      - rootId
  *      - rootword
  *      - meanings
  *  properties:
- *      index_id:
+ *      indexId:
  *          type: integer
  *          description: the index of the verse in the quran
  *          example: 1
- *      word_id:
+ *      wordId:
  *          type: integer
  *          description: the id pertaining to a specific word in the verse
  *          example: 2000
@@ -91,7 +91,7 @@
  *          type: string
  *          description: a specific word in the verse
  *          example: بِسْمِ
- *      root_id:
+ *      rootId:
  *          type: integer
  *          description: the id of the root word associated with the specific word in the verse
  *          example: 936
@@ -104,4 +104,49 @@
  *          items:
  *              $ref: '#/definitions/RootMeaning'
  *          description: the meanings associated with the word in the verse
+ */
+
+/**
+ *  @schema VerseInformation
+ *  type: object
+ *  required:
+ *      - verseIndex
+ *      - surah
+ *      - verseNumber
+ *      - verseText
+ *      - reflections
+ *      - tafsirs
+ *      - roots
+ *  properties:
+ *      verseIndex:
+ *          type: integer
+ *          description: the index of the verse in the quran
+ *          example: 1
+ *      surah:
+ *          type: integer
+ *          description: the sura id/number that the verse belongs to
+ *          example: 1
+ *      verseNumber:
+ *          type: integer
+ *          description: the aya number within the surah
+ *          example: 1
+ *      verseText:
+ *          type: string
+ *          description: the text representation of the verse
+ *          example: بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ
+ *      reflections:
+ *          type: array
+ *          items:
+ *              $ref: "#/definitions/Reflection"
+ *          description: collection of reflections associated with a verse
+ *      tafsirs:
+ *          type: array
+ *          description: collection of tafsirs for a verse from different mufasirs
+ *          items:
+ *              $ref: "#/definitions/Tafsir"
+ *      words:
+ *          type: array
+ *          items:
+ *              $ref: "#/definitions/VerseWordInformation"
+ *
  */

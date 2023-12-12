@@ -1,11 +1,9 @@
-import { apiGET, apiPOST, apiPATCH, apiDELETE } from './request';
-import  data from '../services/postgres/seed';
-import { Errors } from '../utils/constants';
-import {Tafsir} from "../types/Tafsir";
-const seedData = data.seedData;
+import { apiGET, apiPOST, apiPATCH, apiDELETE } from "./request";
+import { seedData } from "../services/postgres/seed";
+import { Errors } from "../utils/constants";
+import { Tafsir } from "../models/tafsir/tafsir";
 
-
-async function tafsirTests() {
+export async function tafsirTests() {
     it("getting a tafsir", async () => {
         let tafsir: Tafsir = seedData.Tafsir[0];
 
@@ -16,10 +14,10 @@ async function tafsirTests() {
 
     it("adding a tafsir", async () => {
         let newTafsir: Tafsir = {
-            tafsir_id: 2,
-            tafsir_text: "All praise is for Allah—Lord of all worlds,",
+            tafsirId: 2,
+            tafsirText: "All praise is for Allah—Lord of all worlds,",
             book: 1,
-            verse_id: 2,
+            verseId: 2,
             visible: true,
         };
 
@@ -32,10 +30,10 @@ async function tafsirTests() {
 
     it("updating a tafsir", async () => {
         let updateTafsir: Tafsir = {
-            tafsir_id: 2,
-            tafsir_text: "the Most Compassionate, Most Merciful",
+            tafsirId: 2,
+            tafsirText: "the Most Compassionate, Most Merciful",
             book: 1,
-            verse_id: 3,
+            verseId: 3,
             visible: false,
         };
 
@@ -43,15 +41,15 @@ async function tafsirTests() {
         await apiPATCH(`/tafsir`, updateTafsir);
         let t2 = await apiGET(`/tafsir/2`);
 
-        expect(t1.data.data[0].tafsir_text).not.toEqual(updateTafsir.tafsir_text);
-        expect(t1.data.data[0].verse_id).not.toEqual(updateTafsir.verse_id);
+        expect(t1.data.data[0].tafsirText).not.toEqual(updateTafsir.tafsirText);
+        expect(t1.data.data[0].verseId).not.toEqual(updateTafsir.verseId);
         expect(t2.data.data[0]).toEqual(updateTafsir);
         expect(t2.data.success).toEqual(true);
     });
 
     it("deleting a tafsir", async () => {
         let deleteTafsir: Tafsir = seedData.Tafsir[0];
-        let res = await apiDELETE(`/tafsir`, { tafsir_id: 1  });
+        let res = await apiDELETE(`/tafsir`, { tafsirId: 1 });
         console.log(res);
         expect(res.data.data[0]).toEqual(deleteTafsir);
         expect(res.data.success).toEqual(true);
@@ -64,5 +62,3 @@ async function tafsirTests() {
         await apiPOST(`/tafsir`, deleteTafsir);
     });
 }
-
-export { tafsirTests };

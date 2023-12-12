@@ -1,40 +1,34 @@
-import postgres from ".";
+import { retrieve, update, remove, create } from ".";
 import validate from "../../utils/validation";
 import { Messages } from "../../utils/constants";
+import { Reflection } from "../../models/reflection/reflection";
+import { Surah } from "../../models/surah/surah";
 
-interface ReflectionData {
-    reflection_id?: number;
-    verse_id: number;
-    title: string;
-    reflection: string;
-    surah_id?: number;
-}
-
-async function createReflection(data: ReflectionData): Promise<any> {
+export async function createReflection(data: Reflection): Promise<any> {
     const invalid = validate(data, {
-        verse_id: "integer",
+        verseId: "integer",
         title: "string",
         reflection: "string",
     });
 
-    if (invalid) {
+    if (!invalid.success) {
         return invalid;
     }
 
     const sql_reflec =
         "INSERT INTO Reflection (verse_id, title, reflection) VALUES ($1, $2, $3) RETURNING *;";
-    const params = [data.verse_id, data.title, data.reflection];
+    const params = [data.verseId!, data.title!, data.reflection!];
 
-    return await postgres.create(
+    return await create(
         sql_reflec,
         params,
         new Messages({ success: "Successfully created a reflection." })
     );
 }
 
-async function getAllReflections(): Promise<any> {
+export async function getAllReflections(): Promise<any> {
     const sql = "SELECT * FROM Reflection";
-    return await postgres.retrieve(
+    return await retrieve(
         sql,
         [],
         new Messages({
@@ -44,105 +38,98 @@ async function getAllReflections(): Promise<any> {
 }
 
 /** Fetches Reflections based on a specific filter */
-async function getReflectionById(data: ReflectionData): Promise<any> {
+export async function getReflectionById(data: Reflection): Promise<any> {
     const invalid = validate(data, {
-        reflection_id: "integer",
+        reflectionId: "integer",
     });
 
-    if (invalid) {
+    if (!invalid.success) {
         return invalid;
     }
 
     const sql = "SELECT * FROM Reflection WHERE reflection_id=$1";
-    const params = [data.reflection_id!];
+    const params = [data.reflectionId!];
 
-    return await postgres.retrieve(
+    return await retrieve(
         sql,
         params,
         new Messages({
-            success: `Successfully fetched reflection with id ${data.reflection_id}.`,
+            success: `Successfully fetched reflection with id ${data.reflectionId}.`,
         })
     );
 }
 
-async function getReflectionBySurahVerseId(data: ReflectionData): Promise<any> {
+export async function getReflectionBySurahVerseId(
+    data: Reflection & Surah
+): Promise<any> {
     const invalid = validate(data, {
-        surah_id: "integer",
-        verse_id: "integer",
+        surahId: "integer",
+        verseId: "integer",
     });
 
-    if (invalid) {
+    if (!invalid.success) {
         return invalid;
     }
 
     const sql =
         "SELECT * FROM(SELECT reflection_id, verse_id, title, reflection FROM Reflection as r JOIN Verse as v on r.verse_id = v.verse_index) as rve JOIN Verse as v on rve.verse_id = v.verse_index WHERE surah = $1 and verse_id = $2;";
-    const params = [data.surah_id!, data.verse_id!];
+    const params = [data.surahId!, data.verseId!];
 
-    return await postgres.retrieve(
+    return await retrieve(
         sql,
         params,
         new Messages({
-            success: `Successfully fetched reflection by verse id ${data.verse_id} and surah id ${data.surah_id}.`,
+            success: `Successfully fetched reflection by verse id ${data.verseId} and surah id ${data.surahId}.`,
         })
     );
 }
 
 /** Update a reflection, requires all attributes of the reflection. */
-async function updateReflection(data: ReflectionData): Promise<any> {
+export async function updateReflection(data: Reflection): Promise<any> {
     const invalid = validate(data, {
-        reflection_id: "integer",
-        verse_id: "integer",
+        reflectionId: "integer",
+        verseId: "integer",
         title: "string",
         reflection: "string",
     });
 
-    if (invalid) {
+    if (!invalid.success) {
         return invalid;
     }
 
     const sql =
         "UPDATE Reflection SET title=$2, reflection=$3 WHERE reflection_id=$1 RETURNING *;";
-    const params = [data.reflection_id!, data.title, data.reflection];
+    const params = [data.reflectionId!, data.title!, data.reflection!];
 
-    return await postgres.update(
+    return await update(
         sql,
         params,
         new Messages({
-            success: `Successfully update reflection with id ${data.reflection_id}.`,
-            dbNotFound: `Could not find a reflection with id ${data.reflection_id}.`,
+            success: `Successfully update reflection with id ${data.reflectionId}.`,
+            dbNotFound: `Could not find a reflection with id ${data.reflectionId}.`,
         })
     );
 }
 
 /** Delete a reflection, requires all attributes of the reflection. */
-async function deleteReflection(data: ReflectionData): Promise<any> {
+export async function deleteReflection(data: Reflection): Promise<any> {
     const invalid = validate(data, {
-        reflection_id: "integer",
+        reflectionId: "integer",
     });
 
-    if (invalid) {
+    if (!invalid.success) {
         return invalid;
     }
 
     const sql = "DELETE FROM Reflection WHERE reflection_id=$1 RETURNING *;";
-    const params = [data.reflection_id!];
+    const params = [data.reflectionId!];
 
-    return await postgres.remove(
+    return await remove(
         sql,
         params,
         new Messages({
-            success: `Successfully deleted reflection with id ${data.reflection_id}.`,
-            dbNotFound: `Could not find a reflection with id ${data.reflection_id}.`,
+            success: `Successfully deleted reflection with id ${data.reflectionId}.`,
+            dbNotFound: `Could not find a reflection with id ${data.reflectionId}.`,
         })
     );
 }
-
-export default {
-    getReflectionById,
-    getReflectionBySurahVerseId,
-    createReflection,
-    updateReflection,
-    deleteReflection,
-    getAllReflections,
-};

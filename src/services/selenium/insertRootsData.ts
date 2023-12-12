@@ -16,7 +16,7 @@ INSTRUCTIONS:
     b. you should see roots_data.json created 
 */
 
-async function retrieve(relationName: string, message:any = "defaultMsg"): Promise<Result> {
+export async function retrieve(relationName: string, message:any = "defaultMsg"): Promise<Result<any>> {
     console.log("-- retrieve function is being executed -- ");
     let sql = "";
     const params: never[] = [];
@@ -59,11 +59,11 @@ async function retrieve(relationName: string, message:any = "defaultMsg"): Promi
     }
 }
 
-async function main(): Promise<void> {
+export async function main(): Promise<void> {
     let data = {
-        RootWords: [],
-        ArabicWord: [],
-        VerseWord: [],
+        RootWords: [] as any[],
+        ArabicWord: [] as any[],
+        VerseWord: [] as any[],
     };
 
     await retrieve("RootWords").then(async function (result) {

@@ -1,10 +1,9 @@
 import { apiGET, apiPOST, apiPATCH, apiDELETE } from '../request';
-import data from '../../services/postgres/seed';
+import { seedData } from "../../services/postgres/seed";
 import { Errors } from '../../utils/constants';
+import { RootWord } from '../../models/word/rootWord';
 
-const seedData = data.seedData;
-
-function rootTests() {
+export function rootTests() {
   it('getting a root word by id', async () => {
     let rootA = seedData.RootWord[0];
 
@@ -15,10 +14,7 @@ function rootTests() {
   });
 
   it('adding a root word', async () => {
-    let newRoot = {
-      root_id: seedData.RootWord.length + 2,
-      root_word: 'ر ب',
-    };
+    let newRoot :RootWord = new RootWord(seedData.RootWord.length + 2, 'ر ب');
 
     let resp1 = await apiPOST(`/word/root`, newRoot);
     let root = resp1.data.data[0];
@@ -27,17 +23,14 @@ function rootTests() {
   });
 
   it('updating a root word', async () => {
-    let newRoot = {
-      root_id: seedData.RootWord.length + 2,
-      root_word: 'ر ب ب',
-    };
+    let newRoot = new RootWord(seedData.RootWord.length + 2, 'ر ب ب');
 
-    let resp1 = await apiGET(`/word/root/${newRoot.root_id}`);
+    let resp1 = await apiGET(`/word/root/${newRoot.rootId}`);
     let originalRoot = resp1.data.data[0];
-    expect(originalRoot.root_word).not.toEqual(newRoot.root_word);
+    expect(originalRoot.rootWord).not.toEqual(newRoot.rootWord);
 
     await apiPATCH(`/word/root`, newRoot);
-    let resp2 = await apiGET(`/word/root/${newRoot.root_id}`);
+    let resp2 = await apiGET(`/word/root/${newRoot.rootId}`);
     checkMatch(newRoot, resp2.data.data[0]);
     expect(resp2.data.success).toEqual(true);
   });
@@ -57,9 +50,7 @@ function rootTests() {
   });
 }
 
-function checkMatch(rootA: any, rootB: any) {
-  expect(rootA.root_id).toEqual(rootB.root_id);
-  expect(rootA.root_word).toEqual(rootB.root_word);
+function checkMatch(rootA: RootWord, rootB: RootWord) {
+  expect(rootA.rootId).toEqual(rootB.rootId);
+  expect(rootA.rootWord).toEqual(rootB.rootWord);
 }
-
-export { rootTests };

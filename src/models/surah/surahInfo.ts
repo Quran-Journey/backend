@@ -1,9 +1,8 @@
-
-class SurahInfo {
-    surahInfoId: number;
-    surah: number;
-    title: string;
-    info: string;
+export class SurahInfo {
+    surahInfoId?: number;
+    surah?: number;
+    title?: string;
+    info?: string;
 
     constructor(surahInfoId: number, surah: number, title: string, info: string) {
         this.surahInfoId = surahInfoId;
@@ -14,5 +13,3 @@ class SurahInfo {
 
     // Define any model methods here
 }
-
-export default SurahInfo;

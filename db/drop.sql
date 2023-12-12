@@ -1,6 +1,14 @@
-drop table RootWords cascade;
-drop table quran_text cascade;
-drop table suras cascade;
-drop table texttoword cascade;
-drop table arabicword cascade;
--- TODO: drop the rest of the tables
+-- Drop tables with CASCADE
+DROP TABLE IF EXISTS MufasirTafsir CASCADE;
+DROP TABLE IF EXISTS Tafsir CASCADE;
+DROP TABLE IF EXISTS Book CASCADE;
+DROP TABLE IF EXISTS Mufasir CASCADE;
+DROP TABLE IF EXISTS RootMeaning CASCADE;
+DROP TABLE IF EXISTS VerseWord CASCADE;
+DROP TABLE IF EXISTS ArabicWord CASCADE;
+DROP TABLE IF EXISTS RootWord CASCADE;
+DROP TABLE IF EXISTS Reflection CASCADE;
+DROP TABLE IF EXISTS Lesson CASCADE;
+DROP TABLE IF EXISTS Verse CASCADE;
+DROP TABLE IF EXISTS SurahInfo CASCADE;
+DROP TABLE IF EXISTS Surah CASCADE;

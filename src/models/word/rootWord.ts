@@ -1,10 +1,10 @@
+export class RootWord {
+    rootId?: number;
+    rootWord?: string;
+    meanings?: string[];
 
-class RootWord {
-    rootId: number;
-    rootWord: string;
-    meanings: string[];
-
-    constructor(rootId: number, rootWord: string) {
+    // TODO:  
+    constructor(rootId?: number, rootWord?: string) {
         this.rootId = rootId;
         this.rootWord = rootWord;
         this.meanings = [];
@@ -16,7 +16,7 @@ class RootWord {
      * @param {string} meaning the meaning to be added
      */
     addMeaning(meaning: string) {
-        this.meanings.push(meaning);
+        this.meanings?.push(meaning);
     }
 
     /**
@@ -25,10 +25,8 @@ class RootWord {
      * @param {string[]} newMeanings the meanings to be added
      */
     addMeanings(newMeanings: string[]) {
-        this.meanings = [...this.meanings, ...newMeanings];
+        this.meanings = [...this.meanings!, ...newMeanings];
     }
 
     // Define any model methods here
 }
-
-export default RootWord;
