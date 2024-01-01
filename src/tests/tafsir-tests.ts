@@ -50,7 +50,6 @@ export async function tafsirTests() {
     it("deleting a tafsir", async () => {
         let deleteTafsir: Tafsir = seedData.Tafsir[0];
         let res = await apiDELETE(`/tafsir`, { tafsirId: 1 });
-        console.log(res);
         expect(res.data.data[0]).toEqual(deleteTafsir);
         expect(res.data.success).toEqual(true);
 

@@ -4,7 +4,7 @@ import lodash from "lodash";
 /**
  * In this seeded database there is:
  * - 2 lessons
- * new Date() is just for fake 
+ * new Date() is just for fake
  */
 export const seedData:ISeedData = {
     Surah: [
