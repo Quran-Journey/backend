@@ -11,30 +11,30 @@ import { RootMeaning } from "../../models/word/rootMeaning";
 import { VerseWordExplanations } from "../../models/word";
 import { VerseInformation } from "../../models/verse/verseInformation";
 
-export async function getVerseInfo(data: Reflection): Promise<Result<any> | Result<VerseInformation>>  {
-    const invalid = validate(data, {
-        verseIndex: "integer",
-    });
-
-    if (!invalid.success) {
-        return invalid;
-    }
-
-    const verse = await getVerse(data);
+export async function getVerseInfo(data: {
+    verseId: number;
+}): Promise<Result<VerseInformation>> {
+    var verse: Result<Verse> = await getVerse(data);
+    var reflections: Result<Reflection> = Result.createDefault();
+    var tafsirs: Result<Tafsir> = Result.createDefault();
+    var words: Result<VerseWordExplanations> = Result.createDefault();
 
     if (!verse.success) {
-        return verse;
+        console.log("Verse fetch unsuccessful.");
+        console.log("Verse:");
+        console.log(verse);
+        return verseInfoResult(data, verse, reflections, tafsirs, words);
     }
 
-    const reflections = await getVerseReflections(data);
-    const tafsirs = await getVerseTafsir(data);
-    const words = await getVerseWordExplanations(data);
+    reflections = await getVerseReflections(data);
+    tafsirs = await getVerseTafsir(data);
+    words = await getVerseWordExplanations(data);
 
     return verseInfoResult(data, verse, reflections, tafsirs, words);
 }
 
 export async function verseInfoResult(
-    data: Reflection,
+    data: { verseId: number },
     verse: Result<Verse>,
     reflections: Result<Reflection>,
     tafsirs: Result<Tafsir>,
@@ -66,7 +66,7 @@ export async function verseInfoResult(
     const res = new Result({
         data: [
             new VerseInformation(
-                [verse.data[0]],
+                verse.data[0],
                 reflections.data,
                 tafsirs.data,
                 words.data
@@ -81,14 +81,6 @@ export async function verseInfoResult(
 }
 
 export async function getVerse(data: Reflection): Promise<Result<Verse>> {
-    const invalid = validate(data, {
-        verseId: "integer",
-    });
-
-    if (!invalid.success) {
-        return invalid;
-    }
-
     const sql = "SELECT * FROM Verse WHERE verse_index=$1";
     const params = [data.verseId!];
 
@@ -96,7 +88,7 @@ export async function getVerse(data: Reflection): Promise<Result<Verse>> {
         sql,
         params,
         new Messages({
-            success: `Successfully fetched verse reflections with verse id ${data.verseId}.`,
+            success: `Successfully fetched verse with verse id ${data.verseId}.`,
             dbServer: `An error occurred while trying to access reflections for verse with id ${data.verseId}`,
         })
     );
@@ -116,7 +108,7 @@ export async function getVerseReflections(
     const sql = "SELECT * FROM Reflection WHERE verse_id=$1";
     const params = [data.verseId!];
 
-    return await retrieve(
+    var reflections: Result<Reflection> = await retrieve(
         sql,
         params,
         new Messages({
@@ -124,6 +116,7 @@ export async function getVerseReflections(
             dbServer: `An error occurred while trying to access reflections for verse with id ${data.verseId}`,
         })
     );
+    return reflections;
 }
 
 export async function getVerseTafsir(
@@ -138,7 +131,7 @@ export async function getVerseTafsir(
     }
 
     const sql =
-        "SELECT tafsir_id, tafsir_text, book, visible FROM Tafsir JOIN Verse ON Verse.verse_index=Tafsir.verseId WHERE Tafsir.verse_id=$1";
+        "SELECT tafsir_id, tafsir_text, book, visible FROM Tafsir JOIN Verse ON Verse.verse_index=Tafsir.verse_id WHERE Tafsir.verse_id=$1";
     const params = [data.verseId!];
 
     return await retrieve(

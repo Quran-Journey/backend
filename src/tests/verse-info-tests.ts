@@ -1,10 +1,13 @@
 import { apiGET } from "./request";
 import { seedData } from "../services/postgres/seed";
-import { Errors } from "../utils/constants";
+import { Errors, Result } from "../utils/constants";
 import { Tafsir } from "../models/tafsir/tafsir";
 import { VerseWord } from "../models/verse/verseWord";
 import { VerseWordExplanations } from "../models/word";
 import { ArabicWord } from "../models/word/arabicWord";
+import { VerseInformation } from "../models/verse/verseInformation";
+import { AxiosResponse } from "axios";
+import { getVerseWordExplanations } from "../services/postgres/verseInfo";
 
 export async function verseInfoTests() {
     it("get complete verse info", async () => {
@@ -14,22 +17,26 @@ export async function verseInfoTests() {
         let arabicWord = seedData.ArabicWord[0];
         let verseWord = seedData.VerseWord[0];
 
-        const resp1 = await apiGET(`/verse/1`);
-        expect(resp1.data.data.reflections[0]).toEqual(reflectionInfo);
-        expect(resp1.data.data.reflections.length).toEqual(2);
-        expect(resp1.data.data.verseIndex).toEqual(verse.verseIndex);
+        const resp : AxiosResponse = await apiGET(`/verse/1`);
+        expect(resp.data.success).toEqual(true);
 
-        checkTafsirMatch(resp1.data.data.tafsirs[0], tafsirInfo);
-        checkWordMatch(resp1.data.data.words[0], verseWord, arabicWord);
-        expect(resp1.data.success).toEqual(true);
+        const result: VerseInformation = resp.data.data[0];
+        expect(result.reflection!.length).toEqual(2);
+        expect(result.reflection![0]).toEqual(reflectionInfo);
+        expect(result.verse!.verseIndex).toEqual(verse.verseIndex);
+
+        checkTafsirMatch(result.tafsir![0], tafsirInfo);
+        checkWordMatch(result.words![0], verseWord, arabicWord);
     });
 
     it("get verse info with only verse explanation and one reflection", async () => {
         let arabicWord = seedData.ArabicWord[2];
         let verseWord = seedData.VerseWord[1];
-        const resp = await apiGET(`/verse/2`);
-        expect(resp.data.data.reflections.length).toEqual(1);
-        checkWordMatch(resp.data.data.words[0], verseWord, arabicWord);
+        const resp : AxiosResponse = await apiGET(`/verse/2`);
+        const result: VerseInformation = resp.data.data[0];
+        // TODO: #173 include proper typing in, see verse info test example.
+        expect(result.reflection?.length).toEqual(1);
+        checkWordMatch(result.words![0], verseWord, arabicWord);
         expect(resp.data.success).toEqual(true);
     });
 

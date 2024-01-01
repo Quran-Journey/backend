@@ -4,6 +4,8 @@ import { Result, Messages, Errors } from "../../utils/constants";
 import { Lesson } from "../../models/lesson/lesson";
 import { getVerseInfo } from "./verseInfo";
 import lodash from "lodash";
+import { LessonContent } from "../../models/lesson/lessonContent";
+import { VerseInformation } from "../../models/verse/verseInformation";
 
 // Note: this list contains key value pairs of the attribute and types within the schema.
 // TODO: replace with model attribute references
@@ -13,9 +15,7 @@ const attributes: { [key: string]: string } = {
     source: "string",
 };
 
-export async function createLesson(
-    data: Lesson
-): Promise<Result<Lesson | any>> {
+export async function createLesson(data: Lesson): Promise<Result<Lesson>> {
     // Frontend note: also add a feature where we guess that the
     //  lesson's date is the next saturday after the last lesson's date
     var invalid: Result<any> = validate(data, {
@@ -36,11 +36,12 @@ export async function createLesson(
         data.startVerse!,
         data.endVerse!,
     ];
-    return await create(
+    var lessons: Result<Lesson> = await create(
         sql,
         params,
         new Messages({ success: "Successfully created a lesson." })
     );
+    return lessons;
 }
 
 /**
@@ -49,7 +50,7 @@ export async function createLesson(
  *  Operator must be one of: eq, gt, lt, gte, or lte.
  *  Value is the value we are filtering by.
  */
-export async function filterLessons(data: any): Promise<Result<Lesson | any>> {
+export async function filterLessons(data: any): Promise<Result<Lesson>> {
     let invalid = validate(data, {
         property: "string",
         operator: "string",
@@ -81,7 +82,9 @@ export async function filterLessons(data: any): Promise<Result<Lesson | any>> {
         if (!invalid.success) {
             return invalid;
         }
-        let sql = `SELECT * FROM Lesson WHERE ${lodash.snakeCase(data.property)}`;
+        let sql = `SELECT * FROM Lesson WHERE ${lodash.snakeCase(
+            data.property
+        )}`;
         let op = getOperator(data.operator);
         if (op) {
             // Add the operator and any pagination
@@ -96,20 +99,21 @@ export async function filterLessons(data: any): Promise<Result<Lesson | any>> {
             });
         }
         var params = [data.value];
-        return await retrieve(
+        var lessons: Result<Lesson> = await retrieve(
             sql,
             params,
             new Messages({
                 success: `Successfully fetched lessons based on filter ${data.property} ${op} ${data.value}.`,
             })
         );
+        return lessons;
     }
 }
 
 /** Fetches lessons based on a specific filter (i.e. id, date) */
 export async function getLessonById(data: {
     lessonId: string;
-}): Promise<Result<Lesson | any>> {
+}): Promise<Result<Lesson>> {
     var invalid: Result<any> = validate(data, {
         lessonId: "integer",
     });
@@ -118,32 +122,41 @@ export async function getLessonById(data: {
     }
     let sql = "SELECT * FROM Lesson WHERE lesson_id=$1";
     var params = [data.lessonId!];
-    return await retrieve(
+    var lessons: Result<Lesson> = await retrieve(
         sql,
         params,
         new Messages({
             success: `Successfully fetched lesson with id ${data.lessonId}.`,
         })
     );
+    return lessons;
 }
 
 /*Fetches verses in a lesson based*/
 //ASSUMPTIONS: Verses in a Lesson are contigous
 export async function getLessonVerses(data: {
     lessonId: string;
-}): Promise<Result<Lesson | any>> {
+}): Promise<Result<LessonContent>> {
     let lesson = await getLessonById(data);
-    if (!lesson.success) {
-        return lesson;
+    if (!lesson.success || lesson.data.length == 0) {
+        return new Result({
+            data: [],
+            success: lesson.success,
+            msg: `Lesson with id ${data.lessonId} not found.`,
+            code: lesson.code,
+        });
     }
 
-    let lessonContent: any[] = [];
+    let lessonContent: VerseInformation[] = [];
     let errors: string[] = [];
-    let currentVerse = lesson.data[0].startVerse;
-    let numVerses = lesson.data[0].endVerse - lesson.data[0].startVerse;
+    let currentVerse = lesson.data[0].startVerse ?? 0;
+    let numVerses: number =
+        (lesson.data[0].endVerse ?? 0) - (lesson.data[0].startVerse ?? 0);
     for (let i = 0; i <= numVerses; i++) {
-        let temp = await getVerseInfo({ verseId: currentVerse });
-        lessonContent[i] = temp.data;
+        let temp: Result<VerseInformation> = await getVerseInfo({
+            verseId: currentVerse,
+        });
+        lessonContent[i] = temp.data[0];
         if (temp.code != Errors.NONE) {
             errors.push(
                 `Error on verse with id ${temp.data[0].verse}: ${temp.msg}`
@@ -154,8 +167,13 @@ export async function getLessonVerses(data: {
     if (errors.length == 0) {
         errors = ["Successfully fetched complete lesson info"];
     }
+    const lessonVerses = new LessonContent(
+        lesson.data[0],
+        numVerses,
+        lessonContent
+    );
     let res = new Result({
-        data: { ...lesson.data[0], numVerses, lessonContent },
+        data: [lessonVerses],
         success: lesson.success,
         msg: errors,
         code: lesson.code,
@@ -170,7 +188,7 @@ export async function updateLesson(data: {
     source: string;
     startVerse: number;
     endVerse: number;
-}): Promise<Result<Lesson | any>> {
+}): Promise<Result<Lesson>> {
     var invalid: Result<any> = validate(data, {
         lessonId: "integer",
         lessonDate: "date",
@@ -190,7 +208,7 @@ export async function updateLesson(data: {
         data.startVerse,
         data.endVerse,
     ];
-    return await update(
+    var lessons: Result<Lesson> = await update(
         sql,
         params,
         new Messages({
@@ -198,12 +216,13 @@ export async function updateLesson(data: {
             dbNotFound: `Could not find a lesson with id ${data.lessonId}.`,
         })
     );
+    return lessons;
 }
 
 /** Update a lesson, requires all attributes of the lesson. */
 export async function deleteLesson(data: {
     lessonId: string;
-}): Promise<Result<Lesson | any>> {
+}): Promise<Result<Lesson>> {
     var invalid: Result<any> = validate(data, {
         lessonId: "integer",
     });
@@ -212,7 +231,7 @@ export async function deleteLesson(data: {
     }
     let sql = "DELETE FROM Lesson WHERE lesson_id=$1 RETURNING *;";
     var params = [data.lessonId];
-    return await remove(
+    var lessons: Result<Lesson> = await remove(
         sql,
         params,
         new Messages({
@@ -220,4 +239,5 @@ export async function deleteLesson(data: {
             dbNotFound: `Could not find a lesson with id ${data.lessonId}.`,
         })
     );
+    return lessons;
 }

@@ -4,13 +4,13 @@ import { VerseWordExplanations } from "../word";
 import { Verse } from "./verse";
 
 export class VerseInformation {
-    verse?: Verse[];
+    verse?: Verse;
     reflection?: Reflection[];
     tafsir?: Tafsir[];
     words?: VerseWordExplanations[];
 
     constructor(
-        verse: Verse[],
+        verse: Verse,
         reflection: Reflection[],
         tafsir: Tafsir[],
         words: VerseWordExplanations[]

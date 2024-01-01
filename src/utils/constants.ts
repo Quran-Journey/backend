@@ -1,3 +1,4 @@
+import _ from "lodash";
 
 /**
  * Error Codes. i.e. Enums associated with Errors.
@@ -61,25 +62,44 @@ export class Result<T> {
     msg: string | string[];
     code: Errors;
 
-    constructor(options: ResultData<T>) {
+    constructor(options: ResultData<T>, log = true) {
         this.data = options.data;
+        if (Array.isArray(this.data)) {
+            this.data = this.data.map((item: any) => this.convertKeysToCamelCase(item))
+        }
         this.success = options.success;
-        if (typeof options.msg == "string"){
-            this.msg = [options.msg]
+        if (typeof options.msg == "string") {
+            this.msg = [options.msg];
         } else {
             this.msg = options.msg;
         }
         this.code = options.code;
-        console.log(this.msg);
+        if (log) {
+            console.log(this.msg);
+        }
+    }
+
+    private convertKeysToCamelCase(obj: any): T {
+        const camelCaseData = _.mapKeys(obj, (value, key) =>
+            _.camelCase(key)
+        );
+        return camelCaseData as T;
     }
 
     // Static method to create a default result
-    static createDefault<T>(success = false): Result<T> {
-        return new Result<T>({
-            data: [],
-            success: success,
-            msg: new Messages({}).default,
-            code: Errors.NONE,
-        });
+    static createDefault<T>(
+        success = false,
+        msg = new Messages({}).default,
+        log = false
+    ): Result<T> {
+        return new Result<T>(
+            {
+                data: [],
+                success: success,
+                msg: msg,
+                code: Errors.NONE,
+            },
+            log
+        );
     }
 }

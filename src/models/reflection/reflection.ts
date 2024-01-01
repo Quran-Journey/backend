@@ -5,10 +5,10 @@ export class Reflection {
     reflection?: string;
 
     constructor(
-        reflectionId: number,
-        verseId: number,
-        title: string,
-        reflection: string
+        reflectionId?: number,
+        verseId?: number,
+        title?: string,
+        reflection?: string
     ) {
         this.reflectionId = reflectionId;
         this.verseId = verseId;
