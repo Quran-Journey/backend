@@ -7,13 +7,11 @@ import { Tafsir } from "../../models/tafsir/tafsir";
 import { checkTafsirMatch, checkWordMatch } from "../verse-info-tests";
 import { checkLessonMatch } from "./lesson-tests";
 import { checkReflectionMatch } from "../reflection-tests";
+import { AxiosResponse } from "axios";
+import { LessonContent } from "../../models/lesson/lessonContent";
+import { Verse } from "../../models/verse/verse";
 
-interface Verse {
-    verseIndex: number;
-    verseText: string;
-}
-
-export async function lessonInfoTests(): Promise<void> {
+export async function lessonInfoTests() {
     it("getting verse info linked to a lesson", async () => {
         let lesson: Lesson = seedData.Lesson[1];
         let verseWord = seedData.VerseWord;
@@ -22,36 +20,41 @@ export async function lessonInfoTests(): Promise<void> {
         let tafsirs: Tafsir[] = seedData.Tafsir;
         let reflections: Reflection[] = seedData.Reflection;
 
-        let result: any = await apiGET("/lesson/2/verses");
-        expect(result.data.data.lesson_content.length).toEqual(2);
-
-        checkLessonMatch(result.data.data, lesson);
-
-        checkVerseMatch(result.data.data.lesson_content[0], verses[0]);
-        checkVerseMatch(result.data.data.lesson_content[1], verses[1]);
+        let result: AxiosResponse = await apiGET("/lesson/2/verses");
+        let lessonContent: LessonContent = result.data.data[0];
+        console.log(lessonContent)
+        console.log(lessonContent.lesson)
+        console.log(lessonContent.content)
+        expect(lessonContent.content!.length).toEqual(2);
+        expect(lessonContent.lesson).not.toBeNull();
+        expect(lessonContent.content).not.toBeNull();
+        expect(lessonContent.verseCount).not.toBeNull();
+        checkLessonMatch(lessonContent.lesson!, lesson);
+        checkVerseMatch(lessonContent.content![0].verse!, verses[0]);
+        checkVerseMatch(lessonContent.content![1].verse!, verses[1]);
 
         checkReflectionMatch(
-            result.data.data.lesson_content[0].reflections[0],
+            lessonContent.content![0].reflection![0],
             reflections[0]
         );
-        expect(result.data.data.lesson_content[0].reflections.length).toEqual(
+        expect(lessonContent.content![0].reflection!.length).toEqual(
             2
         );
 
         checkTafsirMatch(
-            result.data.data.lesson_content[0].tafsirs[0],
+            lessonContent.content![0].tafsir![0],
             tafsirs[0]
         );
 
         checkWordMatch(
-            result.data.data.lesson_content[1].words[0],
+            lessonContent.content![0].words![0],
             verseWord[1],
             arabicWord[2]
         );
     });
 }
 
-function checkVerseMatch(t1: Verse, t2: Verse): void {
+function checkVerseMatch(t1: Verse, t2: Verse) {
     expect(t1.verseIndex).toEqual(t2.verseIndex);
     expect(t1.verseText).toEqual(t2.verseText);
 }

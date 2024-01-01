@@ -18,6 +18,4 @@ export class VerseWord {
         this.visible = visible;
         this.wordExplanation = wordExplanation;
     }
-
-    // Define any model methods here
 }

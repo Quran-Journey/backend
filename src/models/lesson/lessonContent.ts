@@ -3,17 +3,17 @@ import { Lesson } from "./lesson";
 
 export class LessonContent {
     lesson?: Lesson;
-    numberOfVerses?: number;
-    lessonContent?: VerseInformation[];
-
+    content?: VerseInformation[];
+    verseCount?: number;
+    
     constructor(
         lesson?: Lesson,
-        numberOfVerses?: number,
-        lessonContent?: VerseInformation[]
+        verseCount?: number,
+        content?: VerseInformation[]
     ) {
         this.lesson = lesson;
-        this.numberOfVerses = numberOfVerses;
-        this.lessonContent = lessonContent;
+        this.verseCount = verseCount;
+        this.content = content;
     }
 
     // Define any model methods here

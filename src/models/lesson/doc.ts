@@ -34,36 +34,19 @@
  *  @schema LessonContent
  *  type: object
  *  required:
- *      - lessonContent
- *      - lessonId
- *      - lessonDate
- *      - startVerse
- *      - endVerse
- *      - source
+ *      - lesson
+ *      - content
+ *      - verseCount
  *  properties:
- *      lessonContent:
+ *      lesson:
+ *          $ref: "#/definitions/Lesson"
+ *      content:
  *          type: array
  *          items:
  *              $ref: "#/definitions/VerseInformation"
  *          description: collection of complete verse Information for verses assocaited with a lesson
- *      lessonId:
+ *      verseCount:
  *          type: integer
- *          description: to identify the lesson from others
  *          example: 1
- *      lessonDate:
- *          type: string
- *          description: to identify the day that the lesson was taught
- *          example: 2021-10-30
- *      startVerse:
- *          type: integer
- *          description: first verse in a lesson
- *          example: 1
- *      endVerse:
- *          type: integer
- *          description: last verse in a lesson
- *          example: 3
- *      source:
- *          type: string
- *          description: a URL to the lesson recording
- *          example: "https://www.facebook.com/watch/live/?ref=watch_permalink&v=244235014324418"
+ *          description: the number of verses in the lesson.
  */

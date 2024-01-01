@@ -1,4 +1,4 @@
-export class Lesson {
+export class Lesson{
     lessonId?: number;
     lessonDate?: string;
     startVerse?: number;
