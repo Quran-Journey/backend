@@ -3,7 +3,7 @@ import { seedData } from "../services/postgres/seed";
 import { Errors, Result } from "../utils/constants";
 import { Tafsir } from "../models/tafsir/tafsir";
 import { VerseWord } from "../models/verse/verseWord";
-import { VerseWordExplanations } from "../models/word";
+import { VerseWordExplanation } from "../models/word";
 import { ArabicWord } from "../models/word/arabicWord";
 import { VerseInformation } from "../models/verse/verseInformation";
 import { AxiosResponse } from "axios";
@@ -53,12 +53,12 @@ export function checkTafsirMatch(t1: Tafsir, t2: Tafsir) {
 }
 
 export function checkWordMatch(
-    t1: VerseWordExplanations,
+    t1: VerseWordExplanation,
     vw: VerseWord,
     aw: ArabicWord
 ) {
-    expect(t1.rootId).toEqual(aw.rootId);
-    expect(t1.wordId).toEqual(vw.wordId);
     expect(t1.visible).toEqual(vw.visible);
     expect(t1.wordExplanation).toEqual(vw.wordExplanation);
+    expect(t1.wordId).toEqual(vw.wordId);
+    expect(t1.rootWord?.rootId).toEqual(aw.rootId);
 }

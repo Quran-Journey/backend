@@ -149,24 +149,32 @@ export async function getLessonVerses(data: {
 
     let lessonContent: VerseInformation[] = [];
     let errors: string[] = [];
-    let currentVerse = lesson.data[0].startVerse ?? 0;
+    let currentVerse = lesson.data[0].startVerse ?? 1;
     let numVerses: number =
         (lesson.data[0].endVerse ?? 0) - (lesson.data[0].startVerse ?? 0);
     for (let i = 0; i <= numVerses; i++) {
         let temp: Result<VerseInformation> = await getVerseInfo({
             verseId: currentVerse,
         });
-        lessonContent[i] = temp.data[0];
+        lessonContent.push(temp.data[0]);
+        console.log("temp.data[0].words", temp.data[0].words);
+        for (var word = 0;  word < temp.data[0].words!.length; word ++) {
+            console.log("meanings", temp.data[0].words![word].rootWord?.meanings);
+        }
         if (temp.code != Errors.NONE) {
             errors.push(
                 `Error on verse with id ${temp.data[0].verse}: ${temp.msg}`
             );
         }
+        console.log("currentVerse", currentVerse);
         currentVerse++;
     }
     if (errors.length == 0) {
         errors = ["Successfully fetched complete lesson info"];
     }
+    console.log("lessonContent", lessonContent);
+    console.log(lessonContent[0].words);
+    console.log(lessonContent[1].words);
     const lessonVerses = new LessonContent(
         lesson.data[0],
         numVerses,

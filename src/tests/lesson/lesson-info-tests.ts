@@ -22,9 +22,6 @@ export async function lessonInfoTests() {
 
         let result: AxiosResponse = await apiGET("/lesson/2/verses");
         let lessonContent: LessonContent = result.data.data[0];
-        console.log(lessonContent)
-        console.log(lessonContent.lesson)
-        console.log(lessonContent.content)
         expect(lessonContent.content!.length).toEqual(2);
         expect(lessonContent.lesson).not.toBeNull();
         expect(lessonContent.content).not.toBeNull();
@@ -46,6 +43,9 @@ export async function lessonInfoTests() {
             tafsirs[0]
         );
 
+        console.log(verseWord[1])
+        console.log(arabicWord[2])
+        console.log(lessonContent.content![0].words)
         checkWordMatch(
             lessonContent.content![0].words![0],
             verseWord[1],

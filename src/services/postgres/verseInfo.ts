@@ -8,16 +8,19 @@ import { VerseWord } from "../../models/verse/verseWord";
 import { RootWord } from "../../models/word/rootWord";
 import { ArabicWord } from "../../models/word/arabicWord";
 import { RootMeaning } from "../../models/word/rootMeaning";
-import { VerseWordExplanations } from "../../models/word";
+import {
+    VerseArabicWordRootJoin,
+    VerseWordExplanation,
+} from "../../models/word";
 import { VerseInformation } from "../../models/verse/verseInformation";
 
 export async function getVerseInfo(data: {
-    verseId: number;
+    verseId?: number;
 }): Promise<Result<VerseInformation>> {
     var verse: Result<Verse> = await getVerse(data);
     var reflections: Result<Reflection> = Result.createDefault();
     var tafsirs: Result<Tafsir> = Result.createDefault();
-    var words: Result<VerseWordExplanations> = Result.createDefault();
+    var words: Result<VerseWordExplanation> = Result.createDefault();
 
     if (!verse.success) {
         console.log("Verse fetch unsuccessful.");
@@ -34,15 +37,24 @@ export async function getVerseInfo(data: {
 }
 
 export async function verseInfoResult(
-    data: { verseId: number },
+    data: { verseId?: number },
     verse: Result<Verse>,
     reflections: Result<Reflection>,
     tafsirs: Result<Tafsir>,
-    words: Result<VerseWordExplanations>
+    words: Result<VerseWordExplanation>
 ) {
     const validEnums = [Errors.NONE, Errors.DB_DNE];
     let success = false;
     let msg, code;
+
+    if (verse.code === Errors.DB_DNE) {
+        return new Result({
+            data: [],
+            success: false,
+            msg: `Verse with id ${data.verseId} does not exist.`,
+            code: Errors.DB_DNE,
+        });
+    }
 
     if (validEnums.includes(reflections.code)) {
         if (validEnums.includes(tafsirs.code)) {
@@ -146,7 +158,7 @@ export async function getVerseTafsir(
 
 export async function getVerseWordExplanations(
     data: Reflection
-): Promise<Result<VerseWordExplanations>> {
+): Promise<Result<VerseWordExplanation>> {
     const invalid = validate(data, {
         verseId: "integer",
     });
@@ -163,7 +175,7 @@ export async function getVerseWordExplanations(
                 JOIN RootWord ON RootWord.root_id = vwa.root_id) as vwar JOIN RootMeaning ON RootMeaning.root_id = vwar.root_id";
     const params = [data.verseId!];
 
-    return await retrieve(
+    let vWE: Result<VerseArabicWordRootJoin> = await retrieve(
         sql,
         params,
         new Messages({
@@ -171,4 +183,53 @@ export async function getVerseWordExplanations(
             dbServer: `An error occurred while trying to access word explanations for verse with id ${data.verseId}`,
         })
     );
+    var verseWordExplanations: VerseWordExplanation[] = [];
+    if (vWE.success) {
+        verseWordExplanations = vWE.data.map((row) => {
+            var verseWord = new VerseWord(
+                row.wordId,
+                data.verseId!,
+                row.wordId,
+                row.visible!,
+                row.wordExplanation!
+            );
+            var arabicWord = new ArabicWord(row.wordId, row.word!, row.rootId);
+            var rootWord = new RootWord(row.rootId, row.rootWord!);
+            rootWord.addMeaning(
+                new RootMeaning(row.meaningId!, row.rootId, row.meaning!)
+            );
+            return new VerseWordExplanation(rootWord, verseWord, arabicWord);
+        }).filter(
+            (verseWordExplanation, index, self) => {
+                var is_first = self.findIndex((v) => v.wordId === verseWordExplanation.wordId) === index
+                if (!is_first){
+                    for (var i = 0; i < verseWordExplanation!.rootWord!.meanings!.length; i++){
+                        self[index - 1].rootWord?.addMeaning(
+                            verseWordExplanation!.rootWord!.meanings[i]
+                        )
+                    }
+                    return;
+                }
+                return self;
+            }
+        )
+        // .filter(
+        //     (verseWordExplanation, index, self) =>
+        //         self.findIndex((v) => v.wordId === verseWordExplanation.wordId) === index
+        // );;
+        console.log("verseWordExplanation", vWE.data);
+        console.log("verseWordExplanation", vWE.data[0].meanings);
+        return new Result({
+            data: verseWordExplanations,
+            success: vWE.success,
+            msg: vWE.msg,
+            code: vWE.code,
+        });
+    }
+    return new Result({
+        data: verseWordExplanations,
+        success: false,
+        msg: vWE.msg,
+        code: Errors.DB_DNE,
+    });
 }
