@@ -1,5 +1,5 @@
 import moment from "moment";
-import lodash from "lodash";
+import lodash, { add } from "lodash";
 import { Surah } from "../../models/surah/surah";
 import { Lesson } from "../../models/lesson/lesson";
 import { SurahInfo } from "../../models/surah/surahInfo";
@@ -12,6 +12,9 @@ import { VerseWord } from "../../models/verse/verseWord";
 import { Mufasir } from "../../models/tafsir/mufasir";
 import { Book } from "../../models/tafsir/book";
 import { Tafsir } from "../../models/tafsir/tafsir";
+import { VerseWordExplanation } from "../../models/word";
+import { LessonContent } from "../../models/lesson/lessonContent";
+import { VerseInformation } from "../../models/verse/verseInformation";
 
 type SeedData = {
     Surah: Surah[];
@@ -26,6 +29,8 @@ type SeedData = {
     Mufasir: Mufasir[];
     Book: Book[];
     Tafsir: Tafsir[];
+    _VerseWordExplanation: VerseWordExplanation[];
+    _LessonContent: LessonContent[];
 };
 
 type SeedRows =
@@ -42,7 +47,7 @@ type SeedRows =
     | Book
     | Tafsir;
 
-export const seedData: SeedData = {
+export var seedData: SeedData = {
     Surah: [
         new Surah(1, 1, "Al-Fātiĥah", "الفاتحة"),
         new Surah(2, 2, "The Cow", ""),
@@ -53,14 +58,16 @@ export const seedData: SeedData = {
             moment(new Date()).format("YYYY-MM-DD"),
             1,
             3,
-            "youtube.com/url_to_video"
+            "youtube.com/url_to_video",
+            1
         ),
         new Lesson(
             2,
             moment(new Date()).format("YYYY-MM-DD"),
             1,
             2,
-            "facebook.com/url_to_video"
+            "facebook.com/url_to_video",
+            1
         ),
     ],
     SurahInfo: [
@@ -119,7 +126,31 @@ export const seedData: SeedData = {
             true
         ),
     ],
+    _VerseWordExplanation: [],
+    _LessonContent: [],
 };
+
+// TODO: #176 Fix verseWordExplanaiton and lessonContent seedData and tests
+
+seedData._VerseWordExplanation.push(
+    new VerseWordExplanation(
+        seedData.RootWord[0],
+        seedData.VerseWord[0],
+        seedData.ArabicWord[0]
+    )
+);
+let verseInformation = new VerseInformation(
+    seedData.Verse[0],
+    [seedData.Reflection[0], seedData.Reflection[0]],
+    [seedData.Tafsir[0]],
+    [seedData._VerseWordExplanation[0]]
+);
+
+seedData._LessonContent.push(
+    new LessonContent(seedData.Lesson[0], seedData.VerseWord[0].verseId, [
+        verseInformation,
+    ])
+);
 
 /**
  * Before we start testing, we should wipe the database clean.
@@ -128,6 +159,9 @@ async function clearDatabase(db: any) {
     const tables = Object.keys(seedData);
 
     for (const table of tables) {
+        // If table starts with an underscore, skip it
+        if (table.startsWith("_")) continue;
+
         const sql = `DELETE FROM ${table}`;
         try {
             await db.query(sql, []);
@@ -137,8 +171,11 @@ async function clearDatabase(db: any) {
     }
 }
 
-function prepareTableSQL(table: keyof SeedData): [string, any[]] {
+function prepareTableSQL(table: keyof SeedData): [any, any[]] {
     const rows = seedData[table];
+    if (rows.length === 0) {
+        return [false, []];
+    }
     const columns = Object.keys(rows[0]);
     const publicKeys = columns.filter((column) => !column.startsWith("_"));
 
@@ -167,6 +204,9 @@ export async function seedDatabase(db: any, isDev?: boolean) {
 
     // Iterate over each table in the seedData object
     for (const table of Object.keys(seedData)) {
+        // If table starts with an underscore, skip it
+        if (table.startsWith("_")) continue;
+
         // Prepare the SQL statement and rows to be inserted
         const [sql, rows] = prepareTableSQL(table as keyof SeedData);
 
@@ -198,6 +238,8 @@ export async function seedDatabase(db: any, isDev?: boolean) {
     if (!isDev) {
         await db.end();
     }
-
+    // Add the remaining test values to the seedData object
     console.log("Database setup complete.");
 }
+
+// export { seedData };
