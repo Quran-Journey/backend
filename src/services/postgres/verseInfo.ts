@@ -168,7 +168,7 @@ export async function getVerseWordExplanations(
     }
 
     const sql =
-        "SELECT word, vwar.root_id, word_explanation, visible, root_word, meaning, word_id \
+        "SELECT word, meaning_id, vwar.root_id, word_explanation, visible, root_word, meaning, word_id \
          FROM (SELECT word, vwa.root_id, word_explanation, visible, root_word, word_id \
             FROM (SELECT word, root_id, word_explanation, visible, aw.word_id as word_id \
                 FROM VerseWord as vw JOIN ArabicWord as aw ON aw.word_id = vw.word_id WHERE vw.verse_id = $1) as vwa \
@@ -185,40 +185,45 @@ export async function getVerseWordExplanations(
     );
     var verseWordExplanations: VerseWordExplanation[] = [];
     if (vWE.success) {
-        verseWordExplanations = vWE.data.map((row) => {
-            var verseWord = new VerseWord(
-                row.wordId,
-                data.verseId!,
-                row.wordId,
-                row.visible!,
-                row.wordExplanation!
-            );
-            var arabicWord = new ArabicWord(row.wordId, row.word!, row.rootId);
-            var rootWord = new RootWord(row.rootId, row.rootWord!);
-            rootWord.addMeaning(
-                new RootMeaning(row.meaningId!, row.rootId, row.meaning!)
-            );
-            return new VerseWordExplanation(rootWord, verseWord, arabicWord);
-        }).filter(
-            (verseWordExplanation, index, self) => {
-                var is_first = self.findIndex((v) => v.wordId === verseWordExplanation.wordId) === index
-                if (!is_first){
-                    for (var i = 0; i < verseWordExplanation!.rootWord!.meanings!.length; i++){
-                        self[index - 1].rootWord?.addMeaning(
-                            verseWordExplanation!.rootWord!.meanings[i]
-                        )
-                    }
+        verseWordExplanations = vWE.data
+            .map((row) => {
+                var verseWord = new VerseWord(
+                    row.wordId,
+                    data.verseId!,
+                    row.wordId,
+                    row.visible!,
+                    row.wordExplanation!
+                );
+                var arabicWord = new ArabicWord(
+                    row.wordId,
+                    row.word!,
+                    row.rootId
+                );
+                var rootWord = new RootWord(row.rootId, row.rootWord!);
+                rootWord.addMeaning(
+                    new RootMeaning(row.meaningId!, row.rootId, row.meaning!)
+                );
+                return new VerseWordExplanation(
+                    rootWord,
+                    verseWord,
+                    arabicWord
+                );
+            })
+            .filter((verseWordExplanation, index, self) => {
+                var firstIndex = self.findIndex(
+                    (v) => v.wordId === verseWordExplanation.wordId
+                );
+                if (firstIndex != index) {
+                    self[firstIndex].rootWord?.addMeaning(
+                        verseWordExplanation!.rootWord!.meanings[0]
+                    );
                     return;
                 }
                 return self;
-            }
-        )
-        // .filter(
-        //     (verseWordExplanation, index, self) =>
-        //         self.findIndex((v) => v.wordId === verseWordExplanation.wordId) === index
-        // );;
-        console.log("verseWordExplanation", vWE.data);
-        console.log("verseWordExplanation", vWE.data[0].meanings);
+            });
+        console.log("Not Processed verseWordExplanation", vWE.data);
+        console.log("Processed verseWordExplanations", verseWordExplanations);
+        console.log("Processed root word", verseWordExplanations[0]?.rootWord);
         return new Result({
             data: verseWordExplanations,
             success: vWE.success,
