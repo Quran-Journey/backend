@@ -1,7 +1,7 @@
 /**
  * @api [get] /note/s3
  * summary: Get S3 Bucket Url
- * description: returns a temporary secure url to s3 bucket 
+ * description: returns a temporary secure url to s3 bucket (pre-signed url) for upploading and deleting files
  * tags:
  *    - Note Endpoints
  * produces:
@@ -11,7 +11,7 @@
 */
 
 /**
- * @api [get] /note/{fileName}
+ * @api [get] /note/{fileId}
  * summary:
  * description:
  * tags:
@@ -35,7 +35,7 @@
 */
 
 /**
- * @api [patch] /note/{fileName}
+ * @api [patch] /note
  * summary:
  * description:
  * tags:
@@ -47,7 +47,7 @@
 */
 
 /**
- * @api [delete] /note/{fileName}
+ * @api [delete] /note/{fileId}
  * summary:
  * description:
  * tags:
