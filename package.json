@@ -36,7 +36,9 @@
         "moment": "^2.29.4",
         "nodemon": "^2.0.19",
         "pg": "^8.7.1",
-        "ts-node": "^10.9.1"
+        "pg-pool": "^3.6.1",
+        "ts-node": "^10.9.1",
+        "twilio": "^4.21.0"
     },
     "devDependencies": {
         "@faker-js/faker": "^8.3.1",
@@ -47,6 +49,7 @@
         "@types/jest": "^29.5.11",
         "@types/lodash": "^4.14.202",
         "@types/pg": "^8.10.9",
+        "@types/pg-pool": "^2.0.6",
         "@types/selenium-webdriver": "^4.1.21",
         "@typescript-eslint/eslint-plugin": "^6.13.2",
         "@typescript-eslint/parser": "^6.13.2",
