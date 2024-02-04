@@ -24,7 +24,6 @@ export async function verseInfoTests() {
         expect(result.reflection!.length).toEqual(2);
         expect(result.reflection![0]).toEqual(reflectionInfo);
         expect(result.verse!.verseIndex).toEqual(verse.verseIndex);
-        console.log("tafsir");
         checkTafsirMatch(result.tafsir![0], tafsirInfo);
         checkWordMatch(result.words![0], verseWord, arabicWord);
     });
