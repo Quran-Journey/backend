@@ -15,8 +15,9 @@ const router = app.Router();
 //FIXME: Only authorized users (include auth middleware)
 // method: {putObject, deleteObject}
 // note: getObject is a fixed link stored in the backend
-router.get("/note/s3", async (request, response) => {
-    const url = await generateUploadURL(request.body.type, request.body.key, request.body.method)
+router.post("/note/s3", async (request, response) => {
+    console.log(request.body)
+    const url = await generateUploadURL(request.body.type, request.body.key, request.body.s3method)
     response.send({ url })
 });
 
