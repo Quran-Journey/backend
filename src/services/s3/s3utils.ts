@@ -25,3 +25,18 @@ export async function generateUploadURL(fileType: string, key: string, s3method:
      
     return url;
 }
+
+export async function doesObjectExist(s3BucketName: string, s3ObjectKey: string) {
+    const params = {
+        Bucket: s3BucketName,
+        Key: s3ObjectKey 
+    }
+    try {
+        await s3.headObject(params).promise()
+        console.log("File Found in S3")
+        return true
+    } catch (err: any) {
+        console.log("File not Found ERROR : " + err.code)
+        return false
+    }
+}

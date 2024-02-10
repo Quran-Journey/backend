@@ -13,7 +13,18 @@ const attributes: { [key: string]: string } = {
     dateModified: "date",
 };
 
-/** Fetches note based on fileName */
+export async function getNotes(): Promise<Result<Note>> {
+    let sql = "SELECT * FROM Note";
+    var note: Result<Note> = await retrieve(
+        sql,
+        [],
+        new Messages({
+            success: `Successfully fetched Note all notes.`,
+        })
+    );
+    return note;
+}
+
 export async function getNoteById(data: {
     fileId: string;
 }): Promise<Result<Note>> {
@@ -40,7 +51,7 @@ export async function createNote(data: Note): Promise<Result<Note>> {
         fileName: "string",
         fileSize: "integer",
         url: "string",
-        dateModified: "date",
+        dateModified: "string",
     });
     if (!invalid.success) {
         return invalid;
