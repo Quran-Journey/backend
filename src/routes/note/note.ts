@@ -7,7 +7,7 @@ import {
     deleteNote
 } from "../../services/postgres/note";
 import responses from "../../utils/responses";
-import { generateUploadURL, doesObjectExist } from "../../services/s3/s3utils"
+import { generateUploadURL, doesObjectExist } from "../../services/aws/s3"
 
 
 
