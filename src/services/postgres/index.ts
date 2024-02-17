@@ -1,10 +1,12 @@
-import connect from "./connect";
+import { get_db_client, setup_pool } from "./connect";
 import { Errors, Messages, Result } from "../../utils/constants";
 import validate from "../../utils/validation";
 import lodash from "lodash";
+import { Client } from "pg";
+import { sendSMS } from "../twilio/sms";
 
 const defaultMsg = new Messages({});
-const db = connect.db;
+const pool = setup_pool();
 /** A function that gets us a string representation of an operator based on a string
  *
  * @param {string} operator
@@ -90,8 +92,20 @@ export async function retrieve(
             params
     );
 
+    const db = await get_db_client(pool);
+    if (!(db instanceof Client)) {
+        // use db as PoolClient
+        return new Result<any>({
+            data: [],
+            success: false,
+            msg: message.dbServer,
+            code: Errors.DB_SERVER,
+        });
+    }
+
     try {
         const result = await db.query(sql, params);
+        db.release();
 
         if (result.rows[0] == null) {
             return new Result({
@@ -140,8 +154,20 @@ export async function update(
             params
     );
 
+    const db = await get_db_client(pool);
+    if (!(db instanceof Client)) {
+        // use db as PoolClient
+        return new Result<any>({
+            data: [],
+            success: false,
+            msg: message.dbServer,
+            code: Errors.DB_SERVER,
+        });
+    }
+
     try {
         const result = await db.query(sql, params);
+        db.release();
 
         if (result.rows[0] != null) {
             return new Result({
@@ -189,8 +215,20 @@ export async function create(
             params
     );
 
+    const db = await get_db_client(pool);
+    if (!(db instanceof Client)) {
+        // use db as PoolClient
+        return new Result<any>({
+            data: [],
+            success: false,
+            msg: message.dbServer,
+            code: Errors.DB_SERVER,
+        });
+    }
+
     try {
         const result = await db.query(sql, params);
+        db.release();
 
         if (result.rows[0] == null) {
             console.log("\n!Nothing was inserted!\n");
@@ -279,8 +317,20 @@ export async function remove(
             params
     );
 
+    const db = await get_db_client(pool);
+    if (!(db instanceof Client)) {
+        // use db as PoolClient
+        return new Result<any>({
+            data: [],
+            success: false,
+            msg: message.dbServer,
+            code: Errors.DB_SERVER,
+        });
+    }
+
     try {
         const result = await db.query(sql, params);
+        db.release();
 
         if (result.rows[0] == null) {
             return new Result({

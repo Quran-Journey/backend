@@ -1,52 +1,33 @@
 require("dotenv");
-import https from "https";
-import fs from "fs";
-import express from "express";
-import { seedDatabase } from "./services/postgres/seed";
-import path from "path";
-import connect from "./services/postgres/connect";
-import AppRouter from "./routes/index";
+import { setup_pool } from "./services/postgres/connect";
+import { baseSetup } from "./server";
+import { sendSMS } from "./services/twilio/sms";
 
-const port = process.env.PORT || 3001;
-const app = express();
-const db = connect.db;
-const appRouter = new AppRouter(app);
-appRouter.route();
-// Serve static documentation files
-app.use(express.static(path.join(__dirname, "/docs")));
-app.route("/").get((req, res) => {
-    res.sendFile(path.join(__dirname + "/../docs/index.html"));
+const db = setup_pool();
+const server = baseSetup(db);
+
+// Handle SIGINT to close the server gracefully
+process.on("SIGINT", () => {
+    gracefulTermination();
 });
 
-if (process.env.NODE_ENV == "production") {
-    // Use SSL certificates for HTTPS
-    var privateKey = fs.readFileSync(
-        "/etc/letsencrypt/live/offlinequran.com/privkey.pem"
-    );
-    var certificate = fs.readFileSync(
-        "/etc/letsencrypt/live/offlinequran.com/cert.pem"
-    );
-    var chain = fs.readFileSync(
-        "/etc/letsencrypt/live/offlinequran.com/fullchain.pem"
-    );
-    const httpsOptions = {
-        cert: certificate,
-        key: privateKey,
-        ca: chain,
-    };
+// Handle SIGTERM to close the server gracefully
+process.on("SIGTERM", () => {
+    gracefulTermination();
+});
 
-    https.createServer(httpsOptions, app).listen(port, () => {
-        console.log("Serving on https");
-    });
-} else if (process.env.NODE_ENV == "development") {
-    // After setting up the process's port, we seed the database with mock data.
-    app.listen(port, async () => {
-        console.log("Listening on port " + port);
-        await seedDatabase(db, true);
-    });
-} else if (process.env.NODE_ENV == "staging") {
-    // Note: The database should be seeded externally (i.e. using a separate script)
-    app.listen(port, async () => {
-        console.log("Listening on port " + port);
+/**
+ * Gracefully terminates the server and the database pool.
+ */
+function gracefulTermination() {
+    console.log("Closing server...");
+    server.close(() => {
+        sendSMS("QJ Backend Server terminating.");
+        console.log("Server closed.");
+        // Terminate the database pool after the server is closed
+        db.end().then(() => {
+            console.log("Database pool terminated.");
+            process.exit(0);
+        });
     });
 }
