@@ -11,9 +11,9 @@ import mufasir from "./mufasir/mufasir";
 import surah from "./surah/surah";
 import verseInfo from "./verseInfo/verseInfo";
 import tafsir from "./tafsir/tafsir";
-import authentication from "./auth/auth";
+// import authentication from "./auth/auth";
 
-import AuthMiddleware from "../middleware/auth";
+// import AuthMiddleware from "../middleware/auth";
 
 class AppRouter {
     private app: Application;
@@ -25,7 +25,7 @@ class AppRouter {
     public route(): void {
         this.applyMiddleware();
         this.mountApiRoutes();
-        this.mountAuthenticationRoutes();
+        // this.mountAuthenticationRoutes();
     }
 
     private applyMiddleware(): void {
@@ -65,15 +65,15 @@ class AppRouter {
     }
 
     private apiRouteMiddleware(req: Request, res: Response, next: NextFunction): void {
-        if (req.method !== "GET") {
-            AuthMiddleware.authorize(req.cookies);
-        }
+        // if (req.method !== "GET") {
+        //     AuthMiddleware.authorize(req.cookies);
+        // }
         next();
     }
 
-    private mountAuthenticationRoutes(): void {
-        this.app.use("/auth", authentication);
-    }
+    // private mountAuthenticationRoutes(): void {
+    //     this.app.use("/auth", authentication);
+    // }
 }
 
 export default AppRouter;
