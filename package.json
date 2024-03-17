@@ -24,6 +24,7 @@
     "homepage": "https://github.com/osamaramihafez/QuranJourney#readme",
     "dependencies": {
         "@fakerjs/faker": "^3.0.0",
+        "aws-sdk": "^2.1543.0",
         "axios": "^0.24.0",
         "cookie-parser": "^1.4.6",
         "cors": "^2.8.5",
@@ -48,6 +49,7 @@
         "@types/faker": "^6.6.9",
         "@types/jest": "^29.5.11",
         "@types/lodash": "^4.14.202",
+        "@types/node": "^20.11.6",
         "@types/pg": "^8.10.9",
         "@types/pg-pool": "^2.0.6",
         "@types/selenium-webdriver": "^4.1.21",

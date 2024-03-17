@@ -12,6 +12,7 @@ import surah from "./surah/surah";
 import verseInfo from "./verseInfo/verseInfo";
 import tafsir from "./tafsir/tafsir";
 import authentication from "./auth/auth";
+import note from "./note/note";
 
 import AuthMiddleware from "../middleware/auth";
 
@@ -54,6 +55,7 @@ class AppRouter {
             word,
             verseInfo,
             tafsir,
+            note,
         ];
         apiRoutes.forEach((route) => {
             apiRouter.use(route);
