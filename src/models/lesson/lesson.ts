@@ -4,6 +4,7 @@ export class Lesson{
     startVerse?: number;
     endVerse?: number;
     source?: string;
+    document?: string;
     surahId?: number; // Assuming surahId is optional
 
     constructor(
@@ -12,6 +13,7 @@ export class Lesson{
         startVerse: number,
         endVerse: number,
         source: string,
+        document: string,
         surahId?: number
     ) {
         this.lessonId = lessonId;
@@ -19,6 +21,7 @@ export class Lesson{
         this.startVerse = startVerse;
         this.endVerse = endVerse;
         this.source = source;
+        this.document = document;
         this.surahId = surahId;
     }
 
