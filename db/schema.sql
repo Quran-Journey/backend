@@ -39,6 +39,7 @@ CREATE TABLE
         start_verse INTEGER,
         end_verse INTEGER,
         source TEXT NOT NULL,
+        document TEXT NOT NULL,
         surah_id INTEGER,
         FOREIGN KEY (surah_id) REFERENCES Surah(surah_id) ON DELETE CASCADE ON UPDATE CASCADE
     );
@@ -137,3 +138,13 @@ CREATE TABLE
         FOREIGN KEY (mufasir) REFERENCES Mufasir(mufasir_id) ON DELETE CASCADE ON UPDATE CASCADE,
         FOREIGN KEY (tafsir) REFERENCES Tafsir(tafsir_id) ON DELETE CASCADE ON UPDATE CASCADE
     );
+
+DROP TABLE IF EXISTS Note CASCADE;
+
+CREATE TABLE IF NOT EXISTS Note (
+    file_id SERIAL PRIMARY KEY,
+    file_name VARCHAR NOT NULL, 
+    file_size INTEGER NOT NULL, 
+    url TEXT NOT NULL, 
+    date_modified VARCHAR(30) NOT NULL
+);
