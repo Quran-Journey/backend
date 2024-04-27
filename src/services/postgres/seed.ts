@@ -59,6 +59,7 @@ export var seedData: SeedData = {
             1,
             3,
             "youtube.com/url_to_video",
+            "youtube.com/url_to_video",
             1
         ),
         new Lesson(
@@ -67,6 +68,7 @@ export var seedData: SeedData = {
             1,
             2,
             "facebook.com/url_to_video",
+            "youtube.com/url_to_video",
             1
         ),
     ],
