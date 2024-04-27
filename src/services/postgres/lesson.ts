@@ -29,9 +29,10 @@ export async function createLesson(data: Lesson): Promise<Result<Lesson>> {
         return invalid;
     }
     var sql =
-        "INSERT INTO Lesson (source, lesson_date, start_verse, end_verse) VALUES ($1, $2, $3, $4) RETURNING *;";
+        "INSERT INTO Lesson (source, lesson_date, document, start_verse, end_verse) VALUES ($1, $2, $3, $4, $5) RETURNING *;";
     var params = [
         data.source!,
+        data.document!,
         data.lessonDate!,
         data.startVerse!,
         data.endVerse!,

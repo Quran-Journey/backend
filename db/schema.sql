@@ -39,6 +39,7 @@ CREATE TABLE
         start_verse INTEGER,
         end_verse INTEGER,
         source TEXT NOT NULL,
+        document TEXT NOT NULL,
         surah_id INTEGER,
         FOREIGN KEY (surah_id) REFERENCES Surah(surah_id) ON DELETE CASCADE ON UPDATE CASCADE
     );
