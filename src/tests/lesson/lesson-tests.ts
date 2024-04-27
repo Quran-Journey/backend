@@ -41,6 +41,7 @@ export function lessonTests() {
         let newlesson = {
             lessonDate: moment(new Date()).format("YYYY-MM-DD"),
             source: "randomWebsite.com/url_to_video",
+            document: "randomWebsite.com/url_to_document",
             surahId: 1,
             startVerse: 1,
             endVerse: 2,
@@ -63,6 +64,7 @@ export function lessonTests() {
             1,
             5,
             "randomWebsite.com/url_to_video",
+            "randomWebsite.com/url_to_document",
             1
         );
         let resp1 = await apiGET(`/lesson/1`);

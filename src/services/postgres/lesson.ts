@@ -21,6 +21,7 @@ export async function createLesson(data: Lesson): Promise<Result<Lesson>> {
     var invalid: Result<any> = validate(data, {
         lessonDate: "date",
         source: "string",
+        document: "string",
         surahId: "string",
         startVerse: "integer",
         endVerse: "integer",
@@ -29,7 +30,7 @@ export async function createLesson(data: Lesson): Promise<Result<Lesson>> {
         return invalid;
     }
     var sql =
-        "INSERT INTO Lesson (source, lesson_date, document, start_verse, end_verse) VALUES ($1, $2, $3, $4, $5) RETURNING *;";
+        "INSERT INTO Lesson (source, document, lesson_date, start_verse, end_verse) VALUES ($1, $2, $3, $4, $5) RETURNING *;";
     var params = [
         data.source!,
         data.document!,
