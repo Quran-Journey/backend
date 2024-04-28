@@ -14,7 +14,7 @@ export class Lesson{
         endVerse: number,
         source: string,
         document: string,
-        surahId?: number
+        surahId: number
     ) {
         this.lessonId = lessonId;
         this.lessonDate = lessonDate;

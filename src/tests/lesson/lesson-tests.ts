@@ -94,7 +94,11 @@ export function lessonTests() {
 }
 
 export function checkLessonMatch(lessonA: Lesson, lessonB: Lesson) {
+    expect(lessonA.startVerse).toEqual(lessonB.startVerse);
+    expect(lessonA.endVerse).toEqual(lessonB.endVerse);
     expect(lessonA.source).toEqual(lessonB.source);
+    expect(lessonA.document).toEqual(lessonB.document);
+    expect(lessonA.surahId).toEqual(lessonB.surahId);
     expect(moment(lessonA.lessonDate).format("YYYY-MM-DD")).toEqual(
         moment(lessonB.lessonDate).format("YYYY-MM-DD")
     );

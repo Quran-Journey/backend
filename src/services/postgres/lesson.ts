@@ -22,21 +22,22 @@ export async function createLesson(data: Lesson): Promise<Result<Lesson>> {
         lessonDate: "date",
         source: "string",
         document: "string",
-        surahId: "string",
         startVerse: "integer",
         endVerse: "integer",
+        surahId: "string",
     });
     if (!invalid.success) {
         return invalid;
     }
     var sql =
-        "INSERT INTO Lesson (source, document, lesson_date, start_verse, end_verse) VALUES ($1, $2, $3, $4, $5) RETURNING *;";
+        "INSERT INTO Lesson (source, document, lesson_date, start_verse, end_verse, surah_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;";
     var params = [
         data.source!,
         data.document!,
         data.lessonDate!,
         data.startVerse!,
         data.endVerse!,
+        data.surahId!,
     ];
     var lessons: Result<Lesson> = await create(
         sql,
@@ -198,6 +199,8 @@ export async function updateLesson(data: {
     source: string;
     startVerse: number;
     endVerse: number;
+    surahId: number;
+    document: string;
 }): Promise<Result<Lesson>> {
     var invalid: Result<any> = validate(data, {
         lessonId: "integer",
@@ -205,18 +208,22 @@ export async function updateLesson(data: {
         source: "string",
         startVerse: "integer",
         endVerse: "integer",
+        surahId: "integer",
+        document: "string",
     });
     if (!invalid.success) {
         return invalid;
     }
     let sql =
-        "UPDATE Lesson SET source=$2, lesson_date=$3, start_verse=$4, end_verse=$5 WHERE lesson_id=$1";
+        "UPDATE Lesson SET source=$2, lesson_date=$3, start_verse=$4, end_verse=$5, surah_id=$6, document=$7 WHERE lesson_id=$1";
     var params = [
         data.lessonId,
         data.source,
         data.lessonDate,
         data.startVerse,
         data.endVerse,
+        data.surahId,
+        data.document,
     ];
     var lessons: Result<Lesson> = await update(
         sql,
